@@ -10,6 +10,8 @@
     <meta name="author" content="">
 
     <title>Semen Padang</title>
+    <link rel="icon" type="image/png" href="<?= base_url('img/SP_logo.png') ?>" />
+
 
     <!-- Custom fonts for this template-->
     <link href="<?= base_url(); ?>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

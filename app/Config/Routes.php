@@ -9,6 +9,12 @@ $routes->get('/', 'Landingpage::index');
 $routes->get('/lowongan', 'Landingpage::lowongan');
 // $routes->get('/welcome', 'Landingpage::index');
 
+// $routes->get('login', 'AuthController::login');       
+// $routes->post('login', 'AuthController::attemptLogin');
+
+// $routes->get('register', 'AuthController::register');
+// $routes->post('register', 'AuthController::attemptRegister');
+
 $routes->get('/profile', 'User::profil');
 $routes->get('/data-pribadi', 'User::dataPribadi');
 $routes->post('/data-pribadi/save', 'User::saveDataPribadi');
@@ -18,8 +24,6 @@ $routes->post('/data-akademik/save', 'User::saveDataAkademik');
 $routes->get('/api/provinsi', 'User::getState');
 $routes->get('/api/kota', 'User::getCities');
 $routes->get('/api/kotaDom', 'User::getCitiesDom');
-
-
 
 $routes->post('cv/uploads/(:num)', 'Upload::cv/$1');
 $routes->get('cv/delete/(:num)', 'Upload::deletecv/$1');

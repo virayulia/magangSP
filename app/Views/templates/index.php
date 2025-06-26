@@ -6,7 +6,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Magang PT Semen Padang</title>
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link rel="icon" type="image/png" href="<?= base_url('img/SP_logo.png') ?>" />
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Google fonts-->
@@ -69,18 +69,60 @@
        
         <?= $this->renderSection('content'); ?>
         <!-- Footer-->
-        <footer class="bg-black text-center py-5">
-            <div class="container px-5">
-                <div class="text-white-50 small">
-                    <div class="mb-2">&copy; Your Website 2023. All Rights Reserved.</div>
-                    <a href="#!">Privacy</a>
-                    <span class="mx-1">&middot;</span>
-                    <a href="#!">Terms</a>
-                    <span class="mx-1">&middot;</span>
-                    <a href="#!">FAQ</a>
-                </div>
+        <footer class="bg-light text-dark py-5 border-top">
+        <div class="container">
+            <div class="row">
+
+            <!-- Kiri: Informasi Perusahaan -->
+            <div class="col-md-6 mb-4">
+                <img src="<?= base_url('img/sp-black.png') ?>" alt="Logo" style="height: 40px;" class="mb-4">
+                <h5 class="fw-bold">PT Semen Padang</h5>
+                <p class="mb-1">Jalan Raya Indarung, Padang 25237 Sumatera Barat. Telp. (0751) 815-250 Fax. (0751) 815-590 www.semenpadang.co.id</p>
+                <p>Email: <a href="mailto:hrd@namaperusahaan.co.id" class="text-decoration-none">hrd@namaperusahaan.co.id</a></p>
             </div>
+
+            <!-- Tengah: Link Peserta -->
+            <div class="col-md-3 mb-3">
+                <h5 class="fw-bold">Peserta</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <a href="<?= base_url('lowongan') ?>" class="text-decoration-none text-dark">Cari Lowongan</a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="<?= base_url('perusahaan') ?>" class="text-decoration-none text-dark">Daftar Perusahaan</a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="<?= base_url('sertifikat') ?>" class="text-decoration-none text-dark">Cek Sertifikat</a>
+                    </li>
+                </ul>
+
+            </div>
+
+            <!-- Kanan: Tentang -->
+            <div class="col-md-3 mb-3">
+                <h5 class="fw-bold">Tentang</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <a href="<?= base_url('panduan') ?>" class="text-decoration-none text-dark">Panduan</a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="<?= base_url('informasi') ?>" class="text-decoration-none text-dark">Pusat Informasi</a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="<?= base_url('tentang') ?>" class="text-decoration-none text-dark">Tentang Kami</a>
+                    </li>
+                </ul>
+
+            </div>
+            </div>
+
+            <!-- Footer bawah -->
+            <div class="text-center small text-muted mt-4">
+            &copy; <?= date('Y') ?> PT Semen Padang. All rights reserved.
+            </div>
+        </div>
         </footer>
+
         <!-- Feedback Modal-->
         <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">

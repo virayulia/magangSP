@@ -12,10 +12,10 @@
     "slack": "https://codeigniterchat.slack.com"
   },
   "require": {
-    "php": "^7.4 || ^8.0",
-    "codeigniter4/framework": "^4.0",
+    "php": "^7.4 || ^8.2",
+    "codeigniter4/framework": "^4.6",
     "dompdf/dompdf": "^3.1",
-    "myth/auth": "^1.2",
+    "myth/auth": "dev-develop",
     "tecnickcom/tcpdf": "^6.9"
   },
   "require-dev": {

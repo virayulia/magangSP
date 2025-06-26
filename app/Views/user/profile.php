@@ -65,16 +65,12 @@ Swal.fire({
             <p class="text-muted"><?= esc($user_data->nisn_nim ?? 'Data belum diisi'); ?></p>
             <p><strong>Email</strong> </p>
             <p class="text-muted"><?= esc($user_data->email ?? 'Data belum diisi'); ?></p>
-            <!-- <p><strong>Tempat Lahir</strong></p>
-            <p class="text-muted"><?= esc($user_data->tempat_lahir ?? 'Data belum diisi'); ?></p>
-            <p><strong>Tanggal Lahir</strong></p>
-            <p class="text-muted"><?= esc($user_data->tanggal_lahir ?? 'Data belum diisi'); ?></p> -->
             </div>
             <div class="col-md-6">
             <p><strong>Jenis Kelamin</strong> </p>
-            <?php if (esc($user_data->jenis_kelamin === 'L')) :?>
+            <?php if ($user_data->jenis_kelamin === 'L') :?>
             <p class="text-muted">Laki-Laki</p>
-            <?php elseif (esc($user_data->jenis_kelamin === 'P')): ?>
+            <?php elseif ($user_data->jenis_kelamin === 'P'): ?>
             <p class="text-muted">Perempuan</p>
             <?php else: ?>
             <p class="text-muted">Data belum diisi</p>
