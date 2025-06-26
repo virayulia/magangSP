@@ -67,13 +67,17 @@ Swal.fire({
             <p class="text-muted"><?= esc($user_data->email ?? 'Data belum diisi'); ?></p>
             </div>
             <div class="col-md-6">
+            <?php 
+            $jk = isset($user_data->jenis_kelamin) ? $user_data->jenis_kelamin : null;
+            ?>
+
             <p><strong>Jenis Kelamin</strong> </p>
-            <?php if ($user_data->jenis_kelamin === 'L') :?>
-            <p class="text-muted">Laki-Laki</p>
-            <?php elseif ($user_data->jenis_kelamin === 'P'): ?>
-            <p class="text-muted">Perempuan</p>
+            <?php if ($jk === 'L') :?>
+                <p class="text-muted">Laki-Laki</p>
+            <?php elseif ($jk === 'P'): ?>
+                <p class="text-muted">Perempuan</p>
             <?php else: ?>
-            <p class="text-muted">Data belum diisi</p>
+                <p class="text-muted">Data belum diisi</p>
             <?php endif; ?>
             <p><strong>No Handphone</strong></p>
             <p class="text-muted"><?= esc($user_data->no_hp ?? 'Data belum diisi'); ?></p>
