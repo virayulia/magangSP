@@ -8,7 +8,7 @@
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Magang Semen Padang</title>
+    <title>Magang PT Semen Padang</title>
     <!-- Favicon-->
     <link rel="shortcut icon" href="<?= base_url('assets/img/SP_logo.png'); ?>" type="image/png">
     <!-- Bootstrap Icons-->

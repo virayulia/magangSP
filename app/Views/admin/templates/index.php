@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Semen Padang</title>
+    <title>Magang PT Semen Padang</title>
     <link rel="icon" type="image/png" href="<?= base_url('assets/img/SP_logo.png') ?>" />
 
     <!-- Font dan template CSS -->
