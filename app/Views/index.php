@@ -385,9 +385,9 @@ Swal.fire({
 </section>
 
 <!-- Portfolio -->
-<div id="portfolio" data-aos="fade-up" data-aos-delay="200">
+<!-- <div id="portfolio" data-aos="fade-up" data-aos-delay="200">
   <div class="container-fluid p-0">
-    <div class="row g-2"> <!-- Ganti g-0 ke g-2 biar ada jarak -->
+    <div class="row g-2"> 
       <?php for ($i = 1; $i <= 6; $i++) : ?>
         <div class="col-lg-4 col-md-6 col-12" data-aos="zoom-in" data-aos-delay="<?= 100 * $i ?>">
           <a class="portfolio-box d-block position-relative overflow-hidden" href="assets/img/portfolio/fullsize/<?= $i ?>.jpg" title="Dokumentasi">
@@ -399,7 +399,7 @@ Swal.fire({
       <?php endfor; ?>
     </div>
   </div>
-</div>
+</div> -->
 
 
 <!-- FAQ -->

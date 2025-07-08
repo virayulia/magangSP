@@ -58,9 +58,9 @@ $routes->group('', ['filter' => 'admin'], function($routes) {
     $routes->get('/admin', 'Admin::index');
 
     // Kelola Lowongan
-    $routes->get('/kelola-lowongan', 'LowonganController::index');
-    $routes->post('/periode/save', 'LowonganController::periodesave');
-    $routes->post('/periode/update/(:num)', 'LowonganController::update/$1');
+    $routes->get('/kelola-lowongan', 'Lowongan::index');
+    $routes->post('/periode/save', 'Lowongan::periodesave');
+    $routes->post('/periode/update/(:num)', 'Lowongan::update/$1');
 
     // Kelola Pendaftaran
     $routes->get('/manage-pendaftaran', 'Admin::index');

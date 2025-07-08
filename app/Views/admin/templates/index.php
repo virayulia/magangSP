@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>Semen Padang</title>
-    <link rel="icon" type="image/png" href="<?= base_url('img/SP_logo.png') ?>" />
+    <link rel="icon" type="image/png" href="<?= base_url('assets/img/SP_logo.png') ?>" />
 
     <!-- Font dan template CSS -->
     <link href="<?= base_url();?>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">

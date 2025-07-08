@@ -8,7 +8,7 @@ use App\Models\MagangModel;
 use App\Models\PeriodemagangModel;
 use Myth\Auth\Models\UserModel;
 
-class LowonganController extends BaseController
+class Lowongan extends BaseController
 {
     protected $periodemagangModel;
     protected $userModel;
