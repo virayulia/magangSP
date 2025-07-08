@@ -1,4 +1,6 @@
-<?php if (empty($pendaftar)): ?>
+<?php if (isset($error) && $error): ?>
+    <p class="text-danger"><?= $error ?></p>
+<?php elseif (empty($pendaftar)): ?>
     <p class="text-center text-muted">Belum ada pendaftar untuk unit ini pada periode ini.</p>
 <?php else: ?>
     <div>

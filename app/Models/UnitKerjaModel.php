@@ -7,12 +7,12 @@ use CodeIgniter\Model;
 class UnitKerjaModel extends Model
 {
     protected $table            = 'unit_kerja';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'unit_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['unit_kerja','departemen_id'];
+    protected $allowedFields    = ['unit_kerja','safety','active'];
 
     protected bool $allowEmptyInserts = false;
 

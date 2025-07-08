@@ -12,57 +12,57 @@ use App\Libraries\MY_TCPDF as TCPDF;
 class GeneratePDF extends BaseController
 {
     public function suratPenerimaan($id = null, $saveToFile = false)
-{
-    $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-    $pdf->SetCreator(PDF_CREATOR);
-    $pdf->SetAuthor('PT. Semen Padang');
-    $pdf->SetTitle('PDF Surat Penerimaan Magang');
-    $pdf->SetSubject('Surat Penerimaan Magang Semen Padang');
-    $pdf->SetKeywords('TCPDF, PDF, surat, semenpadang.online');
+    {
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('PT. Semen Padang');
+        $pdf->SetTitle('PDF Surat Penerimaan Magang');
+        $pdf->SetSubject('Surat Penerimaan Magang Semen Padang');
+        $pdf->SetKeywords('TCPDF, PDF, surat, semenpadang.online');
 
-    $pdf->SetHeaderData('', '', '', '');
-    $pdf->setPrintHeader(true);
-    $pdf->setPrintFooter(true);
+        $pdf->SetHeaderData('', '', '', '');
+        $pdf->setPrintHeader(true);
+        $pdf->setPrintFooter(true);
 
-    $pdf->SetMargins(20, 25, 20);
-    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-    $pdf->setFontSubsetting(true);
-    $pdf->SetFont('times', '', 11);
-    $pdf->AddPage();
+        $pdf->SetMargins(20, 25, 20);
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        $pdf->setFontSubsetting(true);
+        $pdf->SetFont('times', '', 11);
+        $pdf->AddPage();
 
-    // Load model dan data
-    $userModel = new \Myth\Auth\Models\UserModel();
-    $pendaftaranModel = new \App\Models\MagangModel();
+        // Load model dan data
+        $userModel = new \Myth\Auth\Models\UserModel();
+        $pendaftaranModel = new \App\Models\MagangModel();
 
-    $pendaftaran = $pendaftaranModel->find($id);
-    if (!$pendaftaran) {
-        return null;
+        $pendaftaran = $pendaftaranModel->find($id);
+        if (!$pendaftaran) {
+            return null;
+        }
+
+        $user = $userModel
+            ->select('users.*, instansi.nama_instansi, jurusan.nama_jurusan')
+            ->join('instansi', 'instansi.instansi_id = users.instansi_id', 'left')
+            ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id', 'left')
+            ->where('users.id', $pendaftaran['user_id'])
+            ->first();
+        $data['user_data'] = $user;
+        $data['pendaftaran'] = $pendaftaran;
+
+        $html = view('user/templateSuratPenerimaan', $data);
+        $pdf->writeHTML($html);
+
+        $fileName = 'surat-penerimaan-' . $user->fullname . '-' . date('YmdHis') . '.pdf';
+
+        if ($saveToFile) {
+            $filePath = WRITEPATH . 'uploads/' . $fileName;
+            $pdf->Output($filePath, 'F'); // Save to file
+            return $filePath;
+        } else {
+            $this->response->setContentType('application/pdf');
+            $pdf->Output($fileName, 'I'); // Show in browser
+            exit;
+        }
     }
-
-    $user = $userModel
-        ->select('users.*, instansi.nama_instansi, jurusan.nama_jurusan')
-        ->join('instansi', 'instansi.id = users.instansi_id', 'left')
-        ->join('jurusan', 'jurusan.id = users.jurusan', 'left')
-        ->where('users.id', $pendaftaran['user_id'])
-        ->first();
-    $data['user_data'] = $user;
-    $data['pendaftaran'] = $pendaftaran;
-
-    $html = view('user/templateSuratPenerimaan', $data);
-    $pdf->writeHTML($html);
-
-    $fileName = 'surat-penerimaan-' . $user->fullname . '-' . date('YmdHis') . '.pdf';
-
-    if ($saveToFile) {
-        $filePath = WRITEPATH . 'uploads/' . $fileName;
-        $pdf->Output($filePath, 'F'); // Save to file
-        return $filePath;
-    } else {
-        $this->response->setContentType('application/pdf');
-        $pdf->Output($fileName, 'I'); // Show in browser
-        exit;
-    }
-}
 
 // public function suratPenerimaan($id = null, $saveToFile = false)
 // {

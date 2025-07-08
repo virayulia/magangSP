@@ -16,6 +16,8 @@
 
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body id="page-top">
@@ -24,6 +26,15 @@
 
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
+                <?php if (session()->getFlashdata('error')) : ?>
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Akses Ditolak!',
+                            text: '<?= session('error') ?>',
+                        });
+                    </script>
+                <?php endif; ?>
                 <?= $this->include('admin/templates/topbar') ?>
                 <?= $this->renderSection('content') ?>
             </div>

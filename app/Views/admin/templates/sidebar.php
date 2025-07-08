@@ -57,6 +57,18 @@
 </div>
 <!-- Nav Item - Tables -->
 <li class="nav-item">
+    <a class="nav-link" href="/kelola-unit">
+        <i class="fas fa-fw fa-table"></i>
+        <span>Kelola Unit</span></a>
+</li>
+<!-- Nav Item - Tables -->
+<li class="nav-item">
+    <a class="nav-link" href="/kelola-kuota-unit">
+        <i class="fas fa-fw fa-table"></i>
+        <span>Kelola Kuota Unit</span></a>
+</li>
+<!-- Nav Item - Tables -->
+<li class="nav-item">
     <a class="nav-link" href="/kelola-kuota">
         <i class="fas fa-fw fa-table"></i>
         <span>Kelola Kuota</span></a>

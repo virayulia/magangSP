@@ -7,14 +7,18 @@ use CodeIgniter\Model;
 class InstansiModel extends Model
 {
     protected $table            = 'instansi';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'instansi_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nama_instansi','email'];
+    protected $allowedFields    = ['instansi_id','nama_instansi'];
 
     protected bool $allowEmptyInserts = false;
+    protected bool $updateOnlyChanged = true;
+
+    protected array $casts = [];
+    protected array $castHandlers = [];
 
     // Dates
     protected $useTimestamps = false;

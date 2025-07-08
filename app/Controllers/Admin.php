@@ -1,24 +1,32 @@
 <?php
 
 namespace App\Controllers;
+
+use App\Models\KuotaunitModel;
 use App\Models\MagangModel;
-use Myth\Auth\Models\UserModel;
+use App\Models\UnitKerjaModel;
+use App\Models\UserModel;
 
 class Admin extends BaseController
 {
     protected $magangModel;
     protected $userModel;
+    protected $unitKerjaModel;
+    protected $kuotaUnitModel;
 
     public function __construct()
     {
         $this->magangModel = new MagangModel();
         $this->userModel = new UserModel();
+        $this->unitKerjaModel = new UnitKerjaModel();
+        $this->kuotaUnitModel = new KuotaunitModel();
     }
 
     public function index(): string
     {
         $pendaftaran = $this->magangModel->select('magang.*, users.fullname, users.nisn_nim')
                                         ->join('users', 'users.id = magang.user_id')
+                                        ->where('magang.status_akhir =', 'pendaftaran')
                                         ->findAll();
 
         return view('admin/index', ['pendaftaran' => $pendaftaran]);
@@ -40,6 +48,51 @@ class Admin extends BaseController
         return view('admin/detail', [
             'pendaftaran' => $pendaftaran
         ]);
+    }
+
+    public function indexUnit(): string
+    {
+        // Ambil periode aktif saat ini
+        $unit = $this->unitKerjaModel->findAll();
+   
+        return view('admin/kelola_unit', ['unit' => $unit]);
+    }
+
+    public function updateUnit($id)
+    {
+        // Ambil periode aktif saat ini
+        $data = [
+            'unit_kerja'  => $this->request->getPost('unit_kerja'),
+            'safety' => $this->request->getPost('safety'),
+            'active' => $this->request->getPost('active'),
+        ];
+
+        $this->unitKerjaModel->update($id, $data);
+   
+        return redirect()->back()->with('success', 'Periode berhasil diperbarui.');
+    }
+
+    public function indexKuotaUnit(): string
+    {
+        // Ambil periode aktif saat ini
+        $unit = $this->unitKerjaModel->select('unit_kerja.*, kuota_unit.*')
+                    ->join('kuota_unit', 'kuota_unit.unit_id = unit_kerja.unit_id')
+                    ->findAll();
+   
+        return view('admin/kelola_kuota_unit', ['unit' => $unit]);
+    }
+
+    public function updateKelolaUnit($id)
+    {
+        // Ambil periode aktif saat ini
+        $data = [
+            'tingkat_pendidikan'  => $this->request->getPost('tingkat_pendidikan'),
+            'kuota' => $this->request->getPost('kuota'),
+        ];
+
+        $this->kuotaUnitModel->update($id, $data);
+   
+        return redirect()->back()->with('success', 'Periode berhasil diperbarui.');
     }
 
     public function indexKuota(): string
@@ -90,8 +143,6 @@ class Admin extends BaseController
             ->get()
             ->getRow();
 
-           
-
         // Jika tidak ada periode aktif, tampilkan periode bulan berjalan
         if (!$periode) {
             $firstDay = date('Y-m-01');
@@ -109,314 +160,73 @@ class Admin extends BaseController
    
         return view('admin/kelola_seleksi', $data);
     }
-    
-    // public function pendaftar()
-    // {
-    //     $request = \Config\Services::request();
-    //     $unitId = $request->getGet('unit_id');
-    //     $pendidikan = $request->getGet('pendidikan');
 
-    //     $db = \Config\Database::connect();
+    public function pendaftar()
+    {
+        $request = \Config\Services::request();
+        $unitId = $request->getGet('unit_id');
+        $pendidikan = $request->getGet('pendidikan');
 
-    //     // Ambil tanggal tutup terakhir
-    //     $lastPeriode = $db->table('periode_magang')
-    //         ->orderBy('tanggal_tutup', 'DESC')
-    //         ->limit(1)
-    //         ->get()
-    //         ->getRow();
-    //     if (!$lastPeriode) {
-    //         return 'Periode tidak ditemukan';
-    //     }
-    //     $startDate = $lastPeriode->tanggal_buka . ' 00:00:00';
-    //     $endDate   = $lastPeriode->tanggal_tutup . ' 23:59:59';
+        $db = \Config\Database::connect();
 
-    //     // Mapping manual
-    //     if (strtolower($pendidikan) == 'kuliah') {
-    //         $pendidikanList = ['d3', 'd4/s1', 's2'];
-    //     } else {
-    //         $pendidikanList = ['sma/smk sederajat'];
-    //     }
-    //     // Ambil pendaftar dari periode terbaru
-    //    $query = $db->table('magang')
-    //         ->select('magang.id as magang_id, magang.*, users.*, instansi.nama_instansi')
-    //         ->join('users', 'users.id = magang.user_id', 'left')
-    //         ->join('instansi','instansi.id = users.instansi_id','left')
-    //         ->where('magang.unit_id', $unitId)
-    //         ->whereIn('users.pendidikan', $pendidikanList)
-    //         ->where('magang.tanggal_pengajuan >=', $startDate)
-    //         ->where('magang.tanggal_pengajuan <=', $endDate)
-    //         ->where('magang.status_seleksi', NULL)
-    //         ->orderBy('tanggal_pengajuan','asc')
-    //         ->get();
+        // Ambil pendaftar yang cocok mapping pendidikan (persis seperti getSisaKuota)
+        $builder = $db->table('magang')
+                ->select('magang.magang_id as magang_id, magang.*, users.*, instansi.nama_instansi, jurusan.nama_jurusan as jurusan')
+                ->join('users', 'users.id = magang.user_id', 'left')
+                ->join('instansi', 'instansi.instansi_id = users.instansi_id', 'left')
+                ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id', 'left')
+                ->where('magang.unit_id', $unitId)
+                ->where('magang.status_akhir', 'pendaftaran')
+                ->where("
+                    CASE 
+                        WHEN users.tingkat_pendidikan = 'SMA/SMK' THEN 'SMA/SMK'
+                        WHEN users.tingkat_pendidikan IN ('D3', 'D4/S1', 'S2') THEN 'Perguruan Tinggi'
+                        ELSE users.tingkat_pendidikan
+                    END = '$pendidikan'
+                ", null, false)
+                ->orderBy('magang.tanggal_daftar', 'asc');
 
-    //     $data['pendaftar'] = $query->getResult();
-    //     // Hitung kuota yang tersedia
-    //     $kuota = $db->table('kuota_unit')
-    //         ->where('unit_id', $unitId)
-    //         ->where('tingkat_pendidikan', $pendidikan)
-    //         ->get()
-    //         ->getRow();
+        $pendaftar = $builder->get()->getResult();
 
-    //     $pendaftarCount = $db->table('magang')
-    //         ->join('users', 'users.id = magang.user_id')
-    //         ->where('magang.unit_id', $unitId)
-    //         ->where('users.pendidikan', $pendidikan)
-    //         ->where('magang.status_seleksi !=', 'ditolak')
-    //         ->where('magang.tanggal_selesai >', date('Y-m-d'))
-    //         ->countAllResults();
-
-    //     $data['kuota_tersedia'] = $kuota ? ($kuota->kuota - $pendaftarCount) : 0;
-        
-    //     return view('admin/modal_pendaftar', $data);
-    // }
-
-public function pendaftar()
-{
-    $request = \Config\Services::request();
-    $unitId = $request->getGet('unit_id');
-    $pendidikan = $request->getGet('pendidikan');
-
-    $db = \Config\Database::connect();
-
-    // Ambil periode aktif terakhir
-    $lastPeriode = $db->table('periode_magang')
-        ->orderBy('tanggal_tutup', 'DESC')
-        ->limit(1)
-        ->get()
-        ->getRow();
-
-    if (!$lastPeriode) {
-        return 'Periode tidak ditemukan';
-    }
-
-    $startDate = $lastPeriode->tanggal_buka . ' 00:00:00';
-    $endDate   = $lastPeriode->tanggal_tutup . ' 23:59:59';
-
-    // Mapping jenjang user (untuk filter pendaftar)
-    $pendidikanList = strtolower($pendidikan) === 'kuliah'
-        ? ['d3', 'd4/s1', 's2']
-        : ['sma/smk', 'sma/smk sederajat'];
-
-    // Ambil data pendaftar untuk periode aktif
-    $query = $db->table('magang')
-        ->select('magang.id as magang_id, magang.*, users.*, instansi.nama_instansi')
-        ->join('users', 'users.id = magang.user_id', 'left')
-        ->join('instansi','instansi.id = users.instansi_id','left')
-        ->where('magang.unit_id', $unitId)
-        ->whereIn('LOWER(users.pendidikan)', array_map('strtolower', $pendidikanList))
-        ->where('magang.status', 'pendaftar') // status pendaftar
-        ->where('magang.tanggal_pengajuan >=', $startDate)
-        ->where('magang.tanggal_pengajuan <=', $endDate)
-        ->orderBy('magang.tanggal_pengajuan', 'asc')
-        ->get();
-
-    $data['pendaftar'] = $query->getResult();
-
-    // Hitung sisa kuota berdasarkan hasil model getSisaKuota()
-    $allKuota = $this->magangModel->getSisaKuota();     // Mengambil seluruh kombinasi kuota
-
-    $sisa = 0;
-    foreach ($allKuota as $k) {
-        if ($k->unit_id == $unitId && strtolower($k->tingkat_pendidikan) == strtolower($pendidikan)) {
-            $sisa = $k->sisa_kuota;
-            break;
+        // Hitung sisa kuota (pakai getSisaKuota yang sudah ada)
+        $allKuota = $this->magangModel->getSisaKuota();
+        $sisa = 0;
+        foreach ($allKuota as $k) {
+            if ($k->unit_id == $unitId && strtolower($k->tingkat_pendidikan) == strtolower($pendidikan)) {
+                $sisa = $k->sisa_kuota;
+                break;
+            }
         }
+
+        return view('admin/modal_pendaftar', [
+            'pendaftar' => $pendaftar,
+            'kuota_tersedia' => $sisa,
+            'error' => null,
+        ]);
     }
 
-    $data['kuota_tersedia'] = $sisa;
+    public function terimaPendaftar($id = null)
+    {
+        if (!$id) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'ID tidak ditemukan.']);
+        }
 
-    return view('admin/modal_pendaftar', $data);
-}
+        $db = \Config\Database::connect();
 
-
-
-    // public function terimaPendaftar($id = null)
-    // {
-    //     if (!$id) {
-    //         return $this->response->setJSON(['status' => 'error', 'message' => 'ID tidak ditemukan.']);
-    //     }
-
-    //     $db = \Config\Database::connect();
-    //     $builder = $db->table('magang');
-
-    //     // Ambil data pendaftar
-    //     $pendaftar = $builder->where('id', $id)->get()->getRow();
-
-    //     if (!$pendaftar) {
-    //         return $this->response->setJSON(['status' => 'error', 'message' => 'Data pendaftar tidak ditemukan.']);
-    //     }
-
-    //     $user_id = $pendaftar->user_id;
-
-    //     // 1. Hitung tanggal mulai: tanggal 1 bulan depan
-    //     $today = new \DateTime();
-    //     $start = new \DateTime($today->format('Y-m-01'));
-    //     $start->modify('+1 month');
-
-    //     // 2. Geser jika bukan hari kerja (Senin–Jumat)
-    //     while (in_array($start->format('N'), [6, 7])) {
-    //         $start->modify('+1 day');
-    //     }
-
-    //     // 3. Hitung tanggal selesai dari durasi (dalam bulan)
-    //     $durasi = (int) $pendaftar->durasi;
-    //     $end = clone $start;
-    //     $end->modify("+$durasi month");
-
-    //     // Update data
-    //     $builder->where('id', $id)->update([
-    //         'status_seleksi'   => 'Diterima',
-    //         'tanggal_seleksi' => date('Y-m-d H:i:s'),
-    //         'tanggal_masuk'   => $start->format('Y-m-d'),
-    //         'tanggal_selesai' => $end->format('Y-m-d'),
-    //     ]);
-
-    //     // ===== Ambil email peserta dan instansi =====
-    //     $userBuilder = $db->table('user');
-    //     $user = $userBuilder->where('id', $pendaftar->user_id)->get()->getRow();
-    //     if (!$user) {
-    //         return $this->response->setJSON(['status' => 'error', 'message' => 'Data user tidak ditemukan.']);
-    //     }
-
-    //     $emailPeserta = $user->email;
-    //     $emailInstansi = $user->email_instansi ?? null;
-
-    //     // ===== Generate Surat Penerimaan (PDF) =====
-    //     helper('url');
-    //     $pdfController = new \App\Controllers\GeneratePDF();
-    //     $pdfPath = $pdfController->suratPenerimaan($id); // pastikan ini mengembalikan path file PDF
-
-    //     // ===== Kirim Email =====
-    //     $email = \Config\Services::email();
-    //     $email->setTo($emailPeserta);
-    //     if ($emailInstansi) {
-    //         $email->setCC($emailInstansi);
-    //     }
-
-    //     $email->setSubject('Penerimaan Magang di PT Semen Padang');
-    //     $email->setMessage(view('emails/penerimaan_magang', [
-    //         'nama' => $user->nama,
-    //         'unit' => $pendaftar->unit,
-    //         'tanggal_masuk' => $start->format('d F Y'),
-    //         'tanggal_selesai' => $end->format('d F Y'),
-    //     ]));
-
-    //     if (file_exists($pdfPath)) {
-    //         $email->attach($pdfPath);
-    //     }
-
-    //     if ($email->send()) {
-    //         return $this->response->setJSON(['status' => 'success', 'message' => 'Pendaftaran berhasil diterima dan email dikirim.']);
-    //     } else {
-    //         return $this->response->setJSON(['status' => 'warning', 'message' => 'Diterima, tapi gagal mengirim email.', 'debug' => $email->printDebugger()]);
-    //     }
-    // }
-
-public function terimaPendaftar($id = null)
-{
-    if (!$id) {
-        return $this->response->setJSON(['status' => 'error', 'message' => 'ID tidak ditemukan.']);
-    }
-
-    $db = \Config\Database::connect();
-
-    // Ambil data pendaftar + join unit kerja
-    $builder = $db->table('magang');
-    $builder->select('magang.*, unit_kerja.unit_kerja');
-    $builder->join('unit_kerja', 'unit_kerja.id = magang.unit_id', 'left');
-    $pendaftar = $builder->where('magang.id', $id)->get()->getRow();
-
-    if (!$pendaftar) {
-        return $this->response->setJSON(['status' => 'error', 'message' => 'Data pendaftar tidak ditemukan.']);
-    }
-
-    // Hitung tanggal mulai dan selesai magang
-    $today = new \DateTime();
-    $start = new \DateTime($today->format('Y-m-01'));
-    $start->modify('+2 month');
-    while (in_array($start->format('N'), [6, 7])) {
-        $start->modify('+1 day');
-    }
-
-    $durasi = (int) $pendaftar->durasi;
-    $end = clone $start;
-    $end->modify("+$durasi month");
-
-    // Update status dan tanggal
-    $db->table('magang')->where('id', $id)->update([
-        'status_seleksi'   => 'Diterima',
-        'tanggal_seleksi' => date('Y-m-d H:i:s'),
-        'tanggal_masuk'   => $start->format('Y-m-d'),
-        'tanggal_selesai' => $end->format('Y-m-d'),
-        'status'          => 'Diterima',
-    ]);
-
-    // Ambil data user
-    $user = $db->table('users')->where('id', $pendaftar->user_id)->get()->getRow();
-    if (!$user) {
-        return $this->response->setJSON(['status' => 'error', 'message' => 'Data user tidak ditemukan.']);
-    }
-
-    $emailPeserta = $user->email;
-    $emailInstansi = $user->email_instansi ?? null;
-
-    // ===== Kirim Email =====
-    $email = \Config\Services::email();
-    $email->setTo($emailPeserta);
-    if ($emailInstansi) {
-        $email->setCC($emailInstansi);
-    }
-
-    $email->setSubject('Penerimaan Magang di PT Semen Padang');
-    $email->setMessage(view('emails/penerimaan_magang', [
-        'nama'            => $user->fullname ?? $user->username,
-        'unit'            => $pendaftar->unit_kerja,
-        'tanggal_masuk'   => $start->format('d F Y'),
-        'tanggal_selesai' => $end->format('d F Y'),
-    ]));
-
-    if ($email->send()) {
-        return $this->response->setJSON(['status' => 'success', 'message' => 'Pendaftaran berhasil diterima dan email dikirim.']);
-    } else {
-        return $this->response->setJSON(['status' => 'warning', 'message' => 'Diterima, tapi gagal mengirim email.', 'debug' => $email->printDebugger()]);
-    }
-}
-
-public function terimaBanyak()
-{
-    $ids = $this->request->getPost('pendaftar_ids');
-
-    if (!$ids || !is_array($ids)) {
-        return $this->response->setJSON(['status' => 'error', 'message' => 'Tidak ada pendaftar yang dipilih.']);
-    }
-
-    $db = \Config\Database::connect();
-    $builder = $db->table('magang');
-    $pdfController = new \App\Controllers\GeneratePDF();
-    $email = \Config\Services::email();
-
-    $successCount = 0;
-    $failCount = 0;
-    $messages = [];
-
-    foreach ($ids as $id) {
-        // Ambil data pendaftar
-        $pendaftar = $builder
-            ->select('magang.*, unit_kerja.unit_kerja')
-            ->join('unit_kerja', 'unit_kerja.id = magang.unit_id', 'left')
-            ->where('magang.id', $id)
-            ->get()->getRow();
+        // Ambil data pendaftar + join unit kerja
+        $builder = $db->table('magang');
+        $builder->select('magang.*, unit_kerja.unit_kerja');
+        $builder->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id', 'left');
+        $pendaftar = $builder->where('magang.magang_id', $id)->get()->getRow();
 
         if (!$pendaftar) {
-            $failCount++;
-            $messages[] = "ID $id: Pendaftar tidak ditemukan.";
-            continue;
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Data pendaftar tidak ditemukan.']);
         }
 
-        // Hitung tanggal mulai dan selesai
+        // Hitung tanggal mulai dan selesai magang
         $today = new \DateTime();
         $start = new \DateTime($today->format('Y-m-01'));
-        $start->modify('+1 month');
+        $start->modify('+2 month');
         while (in_array($start->format('N'), [6, 7])) {
             $start->modify('+1 day');
         }
@@ -425,28 +235,26 @@ public function terimaBanyak()
         $end = clone $start;
         $end->modify("+$durasi month");
 
-        // Update status & tanggal
-        $db->table('magang')->where('id', $id)->update([
+        // Update status dan tanggal
+        $db->table('magang')->where('magang_id', $id)->update([
             'status_seleksi'   => 'Diterima',
             'tanggal_seleksi' => date('Y-m-d H:i:s'),
             'tanggal_masuk'   => $start->format('Y-m-d'),
             'tanggal_selesai' => $end->format('Y-m-d'),
-            'status'          => 'Diterima',
+            'status_akhir'    => 'proses',
         ]);
 
-        // Ambil user
+        // Ambil data user
         $user = $db->table('users')->where('id', $pendaftar->user_id)->get()->getRow();
         if (!$user) {
-            $failCount++;
-            $messages[] = "ID $id: Data user tidak ditemukan.";
-            continue;
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Data user tidak ditemukan.']);
         }
 
         $emailPeserta = $user->email;
         $emailInstansi = $user->email_instansi ?? null;
 
-        // Kirim Email
-        $email->clear(); // Reset sebelum mengirim email baru
+        // ===== Kirim Email =====
+        $email = \Config\Services::email();
         $email->setTo($emailPeserta);
         if ($emailInstansi) {
             $email->setCC($emailInstansi);
@@ -460,22 +268,108 @@ public function terimaBanyak()
             'tanggal_selesai' => $end->format('d F Y'),
         ]));
 
-
         if ($email->send()) {
-            $successCount++;
+            return $this->response->setJSON(['status' => 'success', 'message' => 'Pendaftaran berhasil diterima dan email dikirim.']);
         } else {
-            $failCount++;
-            $messages[] = "ID $id: Gagal kirim email.";
+            return $this->response->setJSON(['status' => 'warning', 'message' => 'Diterima, tapi gagal mengirim email.', 'debug' => $email->printDebugger()]);
         }
     }
 
-    return $this->response->setJSON([
-        'status' => 'success',
-        'message' => "$successCount berhasil diterima. $failCount gagal.",
-        'details' => $messages
-    ]);
-}
+    public function terimaBanyak()
+    {
+        $ids = $this->request->getPost('pendaftar_ids');
 
+        if (!$ids || !is_array($ids)) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Tidak ada pendaftar yang dipilih.']);
+        }
+
+        $db = \Config\Database::connect();
+        $builder = $db->table('magang');
+        $pdfController = new \App\Controllers\GeneratePDF();
+        $email = \Config\Services::email();
+
+        $successCount = 0;
+        $failCount = 0;
+        $messages = [];
+
+        foreach ($ids as $id) {
+            // Ambil data pendaftar
+            $pendaftar = $builder
+                ->select('magang.*, unit_kerja.unit_kerja')
+                ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id', 'left')
+                ->where('magang.magang_id', $id)
+                ->get()->getRow();
+
+            if (!$pendaftar) {
+                $failCount++;
+                $messages[] = "ID $id: Pendaftar tidak ditemukan.";
+                continue;
+            }
+
+            // Hitung tanggal mulai dan selesai
+            $today = new \DateTime();
+            $start = new \DateTime($today->format('Y-m-01'));
+            $start->modify('+2 month');
+            while (in_array($start->format('N'), [6, 7])) {
+                $start->modify('+1 day');
+            }
+
+            $durasi = (int) $pendaftar->durasi;
+            $end = clone $start;
+            $end->modify("+$durasi month");
+
+            // Update status & tanggal
+            $db->table('magang')->where('magang_id', $id)->update([
+                'status_seleksi'   => 'Diterima',
+                'tanggal_seleksi' => date('Y-m-d H:i:s'),
+                'tanggal_masuk'   => $start->format('Y-m-d'),
+                'tanggal_selesai' => $end->format('Y-m-d'),
+                'status_akhir'    => 'proses',
+            ]);
+
+            // Ambil user
+            $user = $db->table('users')->where('id', $pendaftar->user_id)->get()->getRow();
+            if (!$user) {
+                $failCount++;
+                $messages[] = "ID $id: Data user tidak ditemukan.";
+                continue;
+            }
+
+            $emailPeserta = $user->email;
+            $emailInstansi = $user->email_instansi ?? null;
+
+            // Kirim Email
+            $email->clear(); // Reset sebelum mengirim email baru
+            $email->setTo($emailPeserta);
+            if ($emailInstansi) {
+                $email->setCC($emailInstansi);
+            }
+
+            $email->setSubject('Penerimaan Magang di PT Semen Padang');
+            $email->setMailType('html');
+            $email->setMessage(view('emails/penerimaan_magang', [
+                'nama'            => $user->fullname ?? $user->username,
+                'unit'            => $pendaftar->unit_kerja,
+                'tanggal_masuk'   => $start->format('d F Y'),
+                'tanggal_selesai' => $end->format('d F Y'),
+            ]));
+
+
+
+            if ($email->send()) {
+                $successCount++;
+            } else {
+                $failCount++;
+                $messages[] = "ID $id: Gagal kirim email.";
+            }
+        }
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => "$successCount berhasil diterima. $failCount gagal.",
+            'details' => $messages
+        ]);
+    }
 
     public function tolakPendaftar($id = null)
     {
@@ -488,15 +382,16 @@ public function terimaBanyak()
         $db = \Config\Database::connect();
         $builder = $db->table('magang');
 
-        $data = $builder->where('id', $id)->get()->getRow();
+        $data = $builder->where('magang_id', $id)->get()->getRow();
         if (!$data) {
             log_message('error', 'Data magang dengan ID ' . $id . ' tidak ditemukan.');
             return $this->response->setJSON(['status' => 'error', 'message' => 'Data tidak ditemukan.']);
         }
 
-        $builder->where('id', $id)->update([
-            'status' => 'Ditolak',
-            'tanggal_seleksi' => date('Y-m-d H:i:s')
+        $builder->where('magang_id', $id)->update([
+            'status_seleksi' => 'Ditolak',
+            'tanggal_seleksi' => date('Y-m-d H:i:s'),
+            'status_akhir' => 'gagal'
         ]);
 
         log_message('debug', 'Pendaftaran dengan ID ' . $id . ' berhasil ditolak.');
@@ -528,8 +423,8 @@ public function terimaBanyak()
             $data = $builder
                 ->select('magang.*, users.email, users.email_instansi, users.fullname, users.username, unit_kerja.unit_kerja')
                 ->join('users', 'users.id = magang.user_id', 'left')
-                ->join('unit_kerja', 'unit_kerja.id = magang.unit_id', 'left')
-                ->where('magang.id', $id)
+                ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id', 'left')
+                ->where('magang.magang_id', $id)
                 ->get()
                 ->getRow();
 
@@ -540,9 +435,10 @@ public function terimaBanyak()
                 continue;
             }
 
-            $updated = $builder->where('id', $id)->update([
-                'status'   => 'Ditolak',
-                'tanggal_seleksi' => date('Y-m-d H:i:s')
+            $updated = $builder->where('magang_id', $id)->update([
+                'status_seleksi'   => 'Ditolak',
+                'tanggal_seleksi' => date('Y-m-d H:i:s'),
+                'status_akhir' => 'gagal'
             ]);
 
             if ($updated) {
@@ -557,8 +453,9 @@ public function terimaBanyak()
                 }
 
                 $email->setSubject('Hasil Seleksi Pendaftaran Magang di PT Semen Padang');
+                $email->setMailType('html');
                 $email->setMessage(view('emails/penolakan_magang', [
-                    'nama' => $data->fullname ?? $data->username,
+                    'nama' => $data->fullname ?? 'Saudara',
                     'unit' => $data->unit_kerja ?? 'Unit terkait',
                 ]));
 
@@ -584,11 +481,11 @@ public function terimaBanyak()
     public function indexBerkas(): string
     {
         
-        $data = $this->magangModel->select('magang.*, users.fullname, users.nisn_nim, users.cv, users.proposal, users.surat_permohonan')
+        $data = $this->magangModel->select('magang.*, users.fullname, users.nisn_nim, users.bpjs_kes, users.bpjs_tk, users.buktibpjs_tk')
                                         ->join('users', 'users.id = magang.user_id')
-                                        ->where('magang.validasi_berkas', 'Y')
-                                        ->where('magang.status !=', 'magang')
-                                        ->orderBy('tgl_validasi_berkas')
+                                        ->where('magang.status_validasi_berkas', 'Y')
+                                        ->where('magang.status_berkas_lengkap =', null)
+                                        ->orderBy('tanggal_validasi_berkas')
                                         ->findAll();
 
         return view('admin/kelola_kelengkapan', ['data' => $data]);
@@ -604,8 +501,8 @@ public function terimaBanyak()
         $data = $db->table('magang')
             ->select('magang.*, users.email, users.email_instansi, users.fullname, users.username, unit_kerja.unit_kerja')
             ->join('users', 'users.id = magang.user_id', 'left')
-            ->join('unit_kerja', 'unit_kerja.id = magang.unit_id', 'left')
-            ->where('magang.id', $id)
+            ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id', 'left')
+            ->where('magang.magang_id', $id)
             ->get()
             ->getRow();
 
@@ -615,17 +512,17 @@ public function terimaBanyak()
 
         // Siapkan data untuk update
         $updateData = [
-            'berkas_lengkap'       => $status,
-            'tgl_berkas_lengkap'   => date('Y-m-d H:i:s'),
-            'cttn_validasi_berkas' => $catatan
+            'status_berkas_lengkap'       => $status,
+            'tanggal_berkas_lengkap'   => date('Y-m-d H:i:s'),
+            'cttn_berkas_lengkap' => $catatan
         ];
 
         // Penyesuaian jika status valid
         if ($status !== 'N') {
-            $updateData['status'] = 'magang';
+            $updateData['status_akhir'] = 'proses';
         } else {
-            $updateData['validasi_berkas'] = NULL;
-            $updateData['tgl_validasi_berkas'] = NULL;
+            $updateData['status_validasi_berkas'] = NULL;
+            $updateData['tanggal_validasi_berkas'] = NULL;
         }
 
         // Lakukan update data
@@ -647,6 +544,7 @@ public function terimaBanyak()
         }
 
         $email->setSubject('Hasil Validasi Berkas Magang di PT Semen Padang');
+        $email->setMailType('html');
 
         if ($status === 'N') {
             // Jika berkas tidak valid
@@ -691,8 +589,8 @@ public function terimaBanyak()
         
         $data = $this->magangModel->select('magang.*,unit_kerja.unit_kerja, users.*')
                                         ->join('users', 'users.id = magang.user_id')
-                                        ->join('unit_kerja', 'magang.unit_id = unit_kerja.id')
-                                        ->where('magang.berkas_lengkap', 'v')
+                                        ->join('unit_kerja', 'magang.unit_id = unit_kerja.unit_id')
+                                        ->where('magang.status_berkas_lengkap', 'Y')
                                         ->findAll();
 
         return view('admin/kelola_magang', ['data' => $data]);

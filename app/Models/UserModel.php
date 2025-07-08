@@ -5,30 +5,31 @@ namespace App\Models;
 use CodeIgniter\Model;
 use Faker\Generator;
 use Myth\Auth\Authorization\GroupModel;
-use Myth\Auth\Entities\User;
+use Myth\Auth\Models\UserModel as MythUserModel;
+use App\Entities\User;
 
 /**
  * @method User|null first()
  */
-class UserModel extends Model
+class UserModel extends MythUserModel
 {
     protected $table          = 'users';
     protected $primaryKey     = 'id';
     protected $returnType     = 'App\Entities\User';
     protected $useSoftDeletes = true;
     protected $allowedFields  = [
-        'email', 'username', 'password_hash', 'reset_hash', 'reset_at', 'reset_expires', 'activate_hash',
+        'email', 'username', 'fullname','user_image','nisn_nim', 'no_hp','jenis_kelamin',
+        'alamat','province_id','city_id','domisili','provinceDom_id','cityDom_id', 'tingkat_pendidikan',
+        'instansi_id','jurusan_id','semester','nilai_ipk', 'rfid', 'cv','proposal','surat_permohonan',
+        'tanggal_surat','no_surat','nama_pimpinan','jabatan','email_instansi','bpjs_kes','bpjs_tk',
+        'buktibpjs_tk','ktp_kk',
+        'password_hash', 'reset_hash', 'reset_at', 'reset_expires', 'activate_hash',
         'status', 'status_message', 'active', 'force_pass_reset', 'permissions', 'deleted_at',
-         'fullname','user_image', 'nisn_nim', 'no_hp','tempat_lahir','tanggal_lahir','jenis_kelamin',
-         'alamat','domisili','pendidikan','instansi_id','email_instansi','jurusan','semester','nilai_ipk', 'rfid_no',
-         'cv','proposal','surat_permohonan','tanggal_surat','no_surat','nama_pimpinan','jabatan','bpjs_kes',
-         'bpjs_tk','buktibpjs_tk','ktp_kk','status_lamaran','province_id','city_id','provinceDom_id','cityDom_id'
-
     ];
     protected $useTimestamps   = true;
     protected $validationRules = [
         'email'         => 'required|valid_email|is_unique[users.email,id,{id}]',
-        'username'      => 'required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username,id,{id}]',
+        // 'username'      => 'required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username,id,{id}]',
         'password_hash' => 'required',
     ];
     protected $validationMessages = [];

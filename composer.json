@@ -2,8 +2,6 @@
   "name": "codeigniter4/appstarter",
   "description": "CodeIgniter4 starter app",
   "license": "MIT",
-  "minimum-stability": "beta",
-  "prefer-stable": true,
   "type": "project",
   "homepage": "https://codeigniter.com",
   "support": {
@@ -12,18 +10,21 @@
     "slack": "https://codeigniterchat.slack.com"
   },
   "require": {
-    "php": "^7.4 || ^8.2",
+    "php": "^8.2",
     "codeigniter4/framework": "^4.6",
-    "dompdf/dompdf": "^3.1",
     "myth/auth": "dev-develop",
-    "tecnickcom/tcpdf": "^6.9"
+    "tecnickcom/tcpdf": "^6.10"
   },
   "require-dev": {
     "fakerphp/faker": "^1.9",
     "mikey179/vfsstream": "^1.6",
-    "phpunit/phpunit": "^9.1"
+    "phpunit/phpunit": "^10.5.16"
   },
   "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Config\\": "app/Config/"
+    },
     "exclude-from-classmap": [
       "**/Database/Migrations/**"
     ]

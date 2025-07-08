@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class PeriodemagangModel extends Model
 {
     protected $table            = 'periode_magang';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'periode_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;

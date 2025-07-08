@@ -2,7 +2,6 @@
 
 namespace Config;
 
-use CodeIgniter\Config\BaseConfig;
 
 class Auth extends \Myth\Auth\Config\Auth
 {
@@ -16,7 +15,7 @@ class Auth extends \Myth\Auth\Config\Auth
      *
      * @var string
      */
-    public $defaultUserGroup;
+    public $defaultUserGroup= 'user';
 
     /**
      * --------------------------------------------------------------------
@@ -74,8 +73,8 @@ class Auth extends \Myth\Auth\Config\Auth
      * @var array
      */
     public $views = [
-        'login'           => 'App\Views\Auth\login',
-        'register'        => 'App\Views\Auth\register',
+        'login'           => 'App\Views\auth\custom_login',
+        'register'        => 'App\Views\auth\custom_register',
         'forgot'          => 'App\Views\Auth\forgot',
         'reset'           => 'App\Views\Auth\reset',
         'emailForgot'     => 'App\Views\Auth\emails\forgot',
@@ -101,8 +100,7 @@ class Auth extends \Myth\Auth\Config\Auth
      * @var string[]
      */
     public $validFields = [
-        'email',
-        'username',
+        'email'
     ];
 
     /**
@@ -186,7 +184,7 @@ class Auth extends \Myth\Auth\Config\Auth
      *
      * @var string|null Name of the ActivatorInterface class
      */
-    public $requireActivation = false;
+    public $requireActivation = 'Myth\Auth\Authentication\Activators\EmailActivator';
 
     /**
      * --------------------------------------------------------------------

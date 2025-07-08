@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class KuotaunitModel extends Model
 {
     protected $table            = 'kuota_unit';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'kuota_unit_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;

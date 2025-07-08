@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\MagangModel;
-use Myth\Auth\Models\UserModel;
+use App\Models\UserModel;
 
 
 class Magang extends BaseController
@@ -38,9 +38,19 @@ class Magang extends BaseController
         // Cek apakah user sudah pernah daftar magang di unit manapun dan statusnya belum ditolak
         $existing = $this->magangModel
             ->where('user_id', $userId)
-            ->whereIn('status', ['pendaftaran', 'magang', 'diterima']) // status belum ditolak
+            ->whereIn('status_akhir', ['pendaftaran', 'proses']) // status belum ditolak
             ->first();
+        
+        $db = \Config\Database::connect();
+        $today = date('Y-m-d');
 
+        $periode = $db->table('periode_magang')
+            ->where('tanggal_buka <=', $today)
+            ->where('tanggal_tutup >=', $today)
+            ->orderBy('tanggal_buka', 'DESC')
+            ->get()
+            ->getRow();
+        $periode_id = $periode->periode_id;
         if ($existing) {
             return redirect()->back()->with('error', 'Kamu sudah mendaftar magang. Tidak bisa daftar lagi.');
         }
@@ -50,8 +60,9 @@ class Magang extends BaseController
             'user_id' => $userId,
             'unit_id' => $unitId,
             'durasi' => $durasi,
-            'status' => 'pendaftaran',
-            'tanggal_pengajuan' => date('Y-m-d H:i:s'),
+            'periode_id' => $periode_id,
+            'status_akhir' => 'pendaftaran',
+            'tanggal_daftar' => date('Y-m-d H:i:s'),
             'created_at' => date('Y-m-d H:i:s'),
         ]);
 
@@ -74,7 +85,7 @@ class Magang extends BaseController
 
         // Update status konfirmasi dan tanggal konfirmasi
         $data = [
-            'konfirmasi_pendaftar' => 'Y',  // Status konfirmasi di-set menjadi 1
+            'status_konfirmasi' => 'Y',  // Status konfirmasi di-set menjadi 1
             'tanggal_konfirmasi' => date('Y-m-d H:i:s'),  // Tanggal konfirmasi adalah hari ini\
         ];
 
@@ -102,15 +113,15 @@ class Magang extends BaseController
         }
 
         $data = [
-            'validasi_berkas'     => 'Y',
-            'tgl_validasi_berkas' => date('Y-m-d H:i:s')
+            'status_validasi_berkas'     => 'Y',
+            'tanggal_validasi_berkas' => date('Y-m-d H:i:s')
         ];
 
         // Jika sebelumnya dinyatakan TIDAK lengkap, reset ulang
-        if ($pendaftaran['berkas_lengkap'] === 'N') {
-            $data['berkas_lengkap']        = null;
-            $data['tgl_berkas_lengkap']    = null;
-            $data['cttn_validasi_berkas']  = null;
+        if ($pendaftaran['status_berkas_lengkap'] === 'N') {
+            $data['status_berkas_lengkap']        = null;
+            $data['tanggal_berkas_lengkap']    = null;
+            $data['cttn_berkas_lengkap']  = null;
         }
 
         if ($this->magangModel->update($id, $data)) {
@@ -130,7 +141,7 @@ class Magang extends BaseController
         }
 
         // Ambil data user berdasarkan user_id dari tabel magang
-        $user = $this->userModel->join('instansi', 'instansi.id = users.instansi_id')
+        $user = $this->userModel->join('instansi', 'instansi.instansi_id = users.instansi_id')
                                 ->where('users.id', $magang['user_id'])
                                 ->select('users.*, instansi.nama_instansi as nama_instansi') // jika kamu butuh nama instansi
                                 ->first();

@@ -84,18 +84,18 @@
                                 <td><?= $tanggal_buka; ?></td>
                                 <td><?= $tanggal_tutup; ?></td>
                                 <td class="text-center">
-                                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal<?= $data['id']; ?>">
+                                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal<?= $data['periode_id']; ?>">
                                         Edit
                                     </button>
                                 </td>
                             </tr>
                             <!-- Modal Edit Periode -->
-                            <div class="modal fade" id="editModal<?= $data['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<?= $data['id']; ?>" aria-hidden="true">
+                            <div class="modal fade" id="editModal<?= $data['periode_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<?= $data['periode_id']; ?>" aria-hidden="true">
                             <div class="modal-dialog" role="document">
-                                <form action="<?= base_url('periode/update/' . $data['id']); ?>" method="post">
+                                <form action="<?= base_url('periode/update/' . $data['periode_id']); ?>" method="post">
                                 <div class="modal-content">
                                     <div class="modal-header bg-warning text-white">
-                                    <h5 class="modal-title" id="editModalLabel<?= $data['id']; ?>">Edit Periode Magang</h5>
+                                    <h5 class="modal-title" id="editModalLabel<?= $data['periode_id']; ?>">Edit Periode Magang</h5>
                                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -103,12 +103,12 @@
                                     
                                     <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="tanggal_buka_<?= $data['id']; ?>">Tanggal Buka</label>
-                                        <input type="date" class="form-control" name="tanggal_buka" id="tanggal_buka_<?= $data['id']; ?>" value="<?= esc($data['tanggal_buka']); ?>" required>
+                                        <label for="tanggal_buka_<?= $data['periode_id']; ?>">Tanggal Buka</label>
+                                        <input type="date" class="form-control" name="tanggal_buka" id="tanggal_buka_<?= $data['periode_id']; ?>" value="<?= esc($data['tanggal_buka']); ?>" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tanggal_tutup_<?= $data['id']; ?>">Tanggal Tutup</label>
-                                        <input type="date" class="form-control" name="tanggal_tutup" id="tanggal_tutup_<?= $data['id']; ?>" value="<?= esc($data['tanggal_tutup']); ?>" required>
+                                        <label for="tanggal_tutup_<?= $data['periode_id']; ?>">Tanggal Tutup</label>
+                                        <input type="date" class="form-control" name="tanggal_tutup" id="tanggal_tutup_<?= $data['periode_id']; ?>" value="<?= esc($data['tanggal_tutup']); ?>" required>
                                     </div>
                                     </div>
 
@@ -122,10 +122,6 @@
                             </div>
 
                         <?php endforeach; ?>
-                    <?php else : ?>
-                        <tr>
-                            <td colspan="7" class="text-center">Belum ada data pendaftaran.</td>
-                        </tr>
                     <?php endif; ?>
                 </tbody>
             </table>

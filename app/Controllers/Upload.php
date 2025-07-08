@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
-use Myth\Auth\Models\UserModel;
+use App\Models\UserModel;
 
 class Upload extends BaseController
 {
@@ -223,6 +223,7 @@ class Upload extends BaseController
         $pimpinan = $this->request->getPost('pimpinan');
         $jabatan = $this->request->getPost('jabatan');
         $email_instansi = $this->request->getPost('email_instansi');
+        $judul_penelitian = $this->request->getPost('judul_penelitian');
 
         if ($file && $file->isValid() && !$file->hasMoved()) {
             $jenisBerkas = 'surat';

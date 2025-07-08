@@ -11,8 +11,8 @@ class MY_TCPDF extends TCPDF
     public function Header()
     {
         // Logo
-        $logoSIG = ROOTPATH . 'public/img/SIG_logo.png';  
-        $logoSP  = ROOTPATH . 'public/img/SP_logo2.png';
+        $logoSIG = ROOTPATH . 'public/assets/img/SIG_logo.png';  
+        $logoSP  = ROOTPATH . 'public/assets/img/SP_logo2.png';
 
         // Ukuran logo
         $logoWidth = 15; // width dalam satuan mm
@@ -35,7 +35,7 @@ class MY_TCPDF extends TCPDF
 
         // Logo kiri bawah
         $this->Image(
-            FCPATH . 'img/go-beyond-lg.png', // Ganti dengan path sesuai
+            FCPATH . 'assets/img/go-beyond-lg.png', // Ganti dengan path sesuai
             10,      // X posisi (10mm dari kiri)
             $yPos,   // Y posisi
             20       // Lebar gambar

@@ -64,12 +64,12 @@
 </head>
 <body>
     <div class="header">
-        <img src="<?= base_url('/img/SP_logo.png') ?>" alt="Logo" class="logo">
+        <img src="<?= base_url('/assets/img/SP_logo.png') ?>" alt="Logo" class="logo">
         <div class="judul">TANDA PENGENAL PKL / PENELITIAN</div>
     </div>
 <hr style="height: 3px; background-color: #000; border: none;">
     <div class="content">
-        <img src="<?= base_url('/uploads/profile/' . $user->user_image) ?>" alt="Foto" class="foto">
+        <img src="<?= base_url('/uploads/user_image/' . $user->user_image) ?>" alt="Foto" class="foto">
 
         <div class="data"> 
             <p><b>Nama</b>: <?= esc($user->fullname) ?></p>

@@ -7,17 +7,23 @@ use CodeIgniter\Model;
 class MagangModel extends Model
 {
     protected $table            = 'magang';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'magang_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['unit_id','user_id','durasi','tanggal_pengajuan','status_seleksi','tanggal_seleksi', 'validasi_berkas',
-                                    'tgl_validasi_berkas','cttn_validasi_berkas','konfirmasi_pendaftar','tanggal_konfirmasi',
-                                    'berkas_lengkap','tgl_berkas_lengkap','pembimbing_id','tanggal_masuk','tanggal_selesai',
-                                    'status','created_at'];
+    protected $allowedFields    = ['user_id','unit_id','periode_id','durasi','tanggal_daftar',
+                                    'status_seleksi', 'tanggal_seleksi','status_konfirmasi','tanggal_konfirmasi',
+                                    'status_validasi_berkas','tanggal_validasi_berkas','status_berkas_lengkap',
+                                    'tanggal_berkas_lengkap','pembimbing_id', 'tanggal_masuk','tanggal_selesai',
+                                    'status_akhir'
+                                    ];
 
     protected bool $allowEmptyInserts = false;
+    protected bool $updateOnlyChanged = true;
+
+    protected array $casts = [];
+    protected array $castHandlers = [];
 
     // Dates
     protected $useTimestamps = false;
@@ -46,59 +52,64 @@ class MagangModel extends Model
     public function getSisaKuota()
     {
         $builder = $this->db->query("
-            SELECT 
+           SELECT 
                 ku.unit_id,
                 uk.unit_kerja,
                 ku.tingkat_pendidikan,
                 ku.kuota,
 
-                -- Jumlah yang diterima/magang
+                -- Jumlah diterima (status_akhir = proses)
                 IFNULL(jumlah_diterima.jumlah, 0) AS jumlah_diterima_atau_magang,
 
-                -- Jumlah pendaftar
+                -- Jumlah pendaftar (status_akhir = pendaftaran)
                 IFNULL(jumlah_pendaftar.jumlah, 0) AS jumlah_pendaftar,
 
-                -- Sisa kuota = kuota - diterima/magang
+                -- Sisa kuota
                 (ku.kuota - IFNULL(jumlah_diterima.jumlah, 0)) AS sisa_kuota
 
             FROM 
                 kuota_unit ku
             JOIN 
-                unit_kerja uk ON ku.unit_id = uk.id
+                unit_kerja uk ON ku.unit_id = uk.unit_id
 
-            -- Subquery untuk jumlah diterima/magang
+            -- Subquery untuk jumlah diterima (status proses)
             LEFT JOIN (
                 SELECT 
                     mg.unit_id,
                     CASE
-                        WHEN LOWER(u.pendidikan) = 'sma/smk' THEN 'sma/smk'
-                        WHEN LOWER(u.pendidikan) IN ('d3', 'd4/s1', 's2') THEN 'kuliah'
-                    END AS tingkat_pendidikan,
+                        WHEN u.tingkat_pendidikan = 'SMA/SMK' THEN 'SMA/SMK'
+                        WHEN u.tingkat_pendidikan IN ('D3', 'D4/S1', 'S2') THEN 'Perguruan Tinggi'
+                        ELSE u.tingkat_pendidikan
+                    END AS tingkat_pendidikan_mapped,
                     COUNT(*) AS jumlah
                 FROM magang mg
                 JOIN users u ON mg.user_id = u.id
-                WHERE mg.status IN ('diterima', 'magang','berkas valid','konfirmasi')
-                GROUP BY mg.unit_id, tingkat_pendidikan
-            ) AS jumlah_diterima ON jumlah_diterima.unit_id = ku.unit_id 
-                                AND jumlah_diterima.tingkat_pendidikan = LOWER(ku.tingkat_pendidikan)
+                WHERE mg.status_akhir = 'proses'
+                GROUP BY mg.unit_id, tingkat_pendidikan_mapped
+            ) AS jumlah_diterima 
+                ON jumlah_diterima.unit_id = ku.unit_id 
+                AND jumlah_diterima.tingkat_pendidikan_mapped = ku.tingkat_pendidikan
 
-            -- Subquery untuk jumlah pendaftar
+            -- Subquery untuk jumlah pendaftar (status pendaftaran)
             LEFT JOIN (
                 SELECT 
                     mg.unit_id,
                     CASE
-                        WHEN LOWER(u.pendidikan) = 'sma/smk' THEN 'sma/smk'
-                        WHEN LOWER(u.pendidikan) IN ('d3', 'd4/s1', 's2') THEN 'kuliah'
-                    END AS tingkat_pendidikan,
+                        WHEN u.tingkat_pendidikan = 'SMA/SMK' THEN 'SMA/SMK'
+                        WHEN u.tingkat_pendidikan IN ('D3', 'D4/S1', 'S2') THEN 'Perguruan Tinggi'
+                        ELSE u.tingkat_pendidikan
+                    END AS tingkat_pendidikan_mapped,
                     COUNT(*) AS jumlah
                 FROM magang mg
                 JOIN users u ON mg.user_id = u.id
-                WHERE mg.status = 'pendaftar'
-                GROUP BY mg.unit_id, tingkat_pendidikan
-            ) AS jumlah_pendaftar ON jumlah_pendaftar.unit_id = ku.unit_id 
-                                AND jumlah_pendaftar.tingkat_pendidikan = LOWER(ku.tingkat_pendidikan)
+                WHERE mg.status_akhir = 'pendaftaran'
+                GROUP BY mg.unit_id, tingkat_pendidikan_mapped
+            ) AS jumlah_pendaftar 
+                ON jumlah_pendaftar.unit_id = ku.unit_id 
+                AND jumlah_pendaftar.tingkat_pendidikan_mapped = ku.tingkat_pendidikan
 
             ORDER BY uk.unit_kerja, ku.tingkat_pendidikan;
+
 
         ");
         return $builder->getResult();

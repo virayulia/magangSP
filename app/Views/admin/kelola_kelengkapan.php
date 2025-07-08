@@ -23,9 +23,9 @@
                         <tr>
                             <th>Nama</th>
                             <th>NIM</th>
-                            <th>CV</th>
-                            <th>Proposal</th>
-                            <th>Surat Permohonan</th>
+                            <th>BPJS Kes</th>
+                            <th>BPJS TK</th>
+                            <th>Pembayaran BPJS TK</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -35,22 +35,22 @@
                                 <tr>
                                     <td><?= esc($item['fullname']) ?></td>
                                     <td><?= esc($item['nisn_nim']) ?></td>
-                                    <td><?= $item['cv'] ? '<a href="'.base_url('uploads/cv/'.$item['cv']).'" target="_blank">Lihat</a>' : 'Belum Ada' ?></td>
-                                    <td><?= $item['proposal'] ? '<a href="'.base_url('uploads/proposal/'.$item['proposal']).'" target="_blank">Lihat</a>' : 'Belum Ada' ?></td>
-                                    <td><?= $item['surat_permohonan'] ? '<a href="'.base_url('uploads/surat/'.$item['surat_permohonan']).'" target="_blank">Lihat</a>' : 'Belum Ada' ?></td>
+                                    <td><?= $item['bpjs_kes'] ? '<a href="'.base_url('uploads/bpjs_kes/'.$item['bpjs_kes']).'" target="_blank">Lihat</a>' : 'Belum Ada' ?></td>
+                                    <td><?= $item['bpjs_tk'] ? '<a href="'.base_url('uploads/bpjs_tk/'.$item['bpjs_tk']).'" target="_blank">Lihat</a>' : 'Belum Ada' ?></td>
+                                    <td><?= $item['buktibpjs_tk'] ? '<a href="'.base_url('uploads/buktibpjs_tk/'.$item['buktibpjs_tk']).'" target="_blank">Lihat</a>' : 'Belum Ada' ?></td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#validasiModal<?= $item['id'] ?>">Validasi</button>
+                                        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#validasiModal<?= $item['magang_id'] ?>">Validasi</button>
                                     </td>
                                 </tr>
 
                                 <!-- Modal Validasi -->
-                                <div class="modal fade" id="validasiModal<?= $item['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="validasiModalLabel<?= $item['id'] ?>" aria-hidden="true">
+                                <div class="modal fade" id="validasiModal<?= $item['magang_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="validasiModalLabel<?= $item['magang_id'] ?>" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
-                                        <form action="<?= base_url('/manage-kelengkapan-berkas/valid/'.$item['id']) ?>" method="post">
+                                        <form action="<?= base_url('/manage-kelengkapan-berkas/valid/'.$item['magang_id']) ?>" method="post">
                                             <?= csrf_field() ?>
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="validasiModalLabel<?= $item['id'] ?>">Validasi Berkas - <?= esc($item['fullname']) ?></h5>
+                                                    <h5 class="modal-title" id="validasiModalLabel<?= $item['magang_id'] ?>">Validasi Berkas - <?= esc($item['fullname']) ?></h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -79,15 +79,6 @@
                                 </div>
                                 <!-- End Modal -->
                             <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td class="text-center text-muted">-</td>
-                                <td class="text-center text-muted">-</td>
-                                <td class="text-center text-muted">-</td>
-                                <td class="text-center text-muted">-</td>
-                                <td class="text-center text-muted">-</td>
-                                <td class="text-center text-muted">Belum ada berkas pendaftar yang bisa divalidasi.</td>
-                            </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>

@@ -1,12 +1,16 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\MagangModel;
+
+use App\Controllers\BaseController;
+use CodeIgniter\HTTP\ResponseInterface;
+use App\Models\UserModel;
 use App\Models\InstansiModel;
+use App\Models\MagangModel;
 use App\Models\JurusanModel;
-use App\Models\ProvincesModel;
+use App\Models\ProvinceModel;
 use App\Models\RegenciesModel;
-use Myth\Auth\Models\UserModel;
+
 
 class User extends BaseController
 {
@@ -26,90 +30,16 @@ class User extends BaseController
         $this->instansiModel = new InstansiModel();
         $this->magangModel = new MagangModel();
         $this->jurusanModel = new JurusanModel();
-        $this->provincesModel = new ProvincesModel();
+        $this->provincesModel = new ProvinceModel();
         $this->regenciesModel = new RegenciesModel();
 
     }
-    
-    public function index(): string
-    {
-        return view('user/index');
-    }
-    
-    public function pendaftaran(): string
-    {
-        return view('user/pendaftaran');
-    }
-
-    // public function savedaftar()
-    // {
-    //     $userId = user_id(); // ambil ID user login
-    //     $userModel = new UserModel();
-    //     $pendaftaranModel = new MagangModel();
-
-    //     // Update data diri ke tabel users
-    //     $userModel->update($userId, [
-    //         'fullname'              => $this->request->getPost('nama'),
-    //         'nim'               => $this->request->getPost('nim'),
-    //         'nik'               => $this->request->getPost('nik'),
-    //         'no_hp'             => $this->request->getPost('no_hp'),
-    //         'jurusan'           => $this->request->getPost('jurusan'),
-    //         'fakultas'          => $this->request->getPost('fakultas'),
-    //         'universitas'       => $this->request->getPost('universitas'),
-    //         'semester'          => $this->request->getPost('semester'),
-    //     ]);
-
-    //     // Validasi file upload
-    //     $validationRule = [
-    //         'cv'                  => 'uploaded[cv]|mime_in[cv,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document]|max_size[cv,2048]',
-    //         'proposal' => 'uploaded[proposal]|mime_in[proposal,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document]|max_size[proposal,2048]',
-    //         'surat_permohonanpt' => 'uploaded[surat_permohonanpt]|mime_in[surat_permohonanpt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document]|max_size[surat_permohonanpt,2048]',
-    //     ];
-
-    //     if (!$this->validate($validationRule)) {
-    //         return redirect()->back()->withInput()->with('error', 'Upload file gagal. Pastikan format pdf/doc/docx dan ukuran maksimal 2MB.');
-    //     }
-
-    //     // Upload file cv, proposal, dan surat permohonan
-    //     $cv = $this->request->getFile('cv');
-    //     $proposal = $this->request->getFile('proposal');
-    //     $suratPermohonan = $this->request->getFile('surat_permohonanpt');
-
-    //     $cvName = $cv->getRandomName();
-    //     $proposalName = $proposal->getRandomName();
-    //     $suratPermohonanName = $suratPermohonan->getRandomName();
-
-    //     $cv->move('uploads/cv', $cvName);
-    //     $proposal->move('uploads/proposal', $proposalName);
-    //     $suratPermohonan->move('uploads/surat', $suratPermohonanName);
-
-    //     $dataPendaftaran = [
-    //         'user_id'             => $userId,
-    //         'jenis_program'       => $this->request->getPost('jenis_pengajuan'),
-    //         'tanggal_pengajuan'   => $this->request->getPost('tanggal_pengajuan'),
-    //         'tanggal_daftar'      => date('Y-m-d H:i:s'),
-    //         'lama_pelaksanaan'    => $this->request->getPost('lama_pelaksanaan'),
-    //         'cv'                  => $cvName,
-    //         'proposal'            => $proposalName,
-    //         'surat_permohonanpt'  => $suratPermohonanName,
-    //     ];
-        
-    //     // Simpan dan cek apakah berhasil
-    //     if (!$pendaftaranModel->insert($dataPendaftaran)) {
-    //         // Kalau GAGAL, tampilkan error
-    //         dd($pendaftaranModel->errors());
-    //     }
-        
-    //     // Kalau berhasil, lanjut redirect
-    //     return redirect()->to('/')->with('success', 'Pendaftaran berhasil dikirim.');
-    // }
-
     public function profil()
     {
-        $userId = session()->get('user_id'); 
+        $userId = user_id();
         $data['user_data'] = $this->userModel
-            ->join('instansi', 'instansi.id = users.instansi_id','left')
-            ->join('jurusan', 'jurusan.id = users.jurusan','left')
+            ->join('instansi', 'instansi.instansi_id = users.instansi_id','left')
+            ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id','left')
             ->join('provinces AS province_ktp', 'province_ktp.id = users.province_id', 'left')
             ->join('provinces AS province_dom', 'province_dom.id = users.provinceDom_id', 'left')
             ->join('regencies AS city_ktp', 'city_ktp.id = users.city_id', 'left')
@@ -125,15 +55,14 @@ class User extends BaseController
                         city_dom.type AS tipe_kota_domisili')
             ->where('users.id', $userId)
             ->first();
-       // dd($data);
         return view('user/profile', $data);
     }
 
     public function dataPribadi()
     {
-        $userId = session()->get('user_id'); 
+        $userId = user()?->id; ; 
         $data['user_data'] = $this->userModel
-            ->join('instansi', 'instansi.id = users.instansi_id','left')
+            ->join('instansi', 'instansi.instansi_id = users.instansi_id','left')
             ->select('users.*, instansi.nama_instansi')
             ->where('users.id', $userId)
             ->first();
@@ -145,13 +74,15 @@ class User extends BaseController
         $data['listState'] =$this->provincesModel->select('id,province')
                                                 ->orderBy('id')
                                                 ->findAll();
+        $data['listCity'] =[];
+        if(!empty($data['user_data']->province_id)){
         $data['listCity'] = $this->regenciesModel->where('province_id', $data['user_data']->province_id)->findAll();
+        }
         $data['listCityDom'] = [];
 
         if (!empty($data['user_data']->provinceDom_id)) {
             $data['listCityDom'] = $this->regenciesModel->where('province_id', $data['user_data']->provinceDom_id)->findAll();
         }
-                                               
         return view('user/profile-edit', $data);
     }
 
@@ -206,60 +137,60 @@ class User extends BaseController
     }
 
     public function saveDataPribadi()
-{
-    $userId = user_id();
-    $this->userModel->setValidationRule('email', "required|valid_email|is_unique[users.email,id,{$userId}]");
+    {
+        $userId = user_id();
+        $this->userModel->setValidationRule('email', "required|valid_email|is_unique[users.email,id,{$userId}]");
 
-    $data = [
-        'fullname'      => $this->request->getPost('fullname'),
-        'nisn_nim'      => $this->request->getPost('nisn_nim'),
-        'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
-        'email'         => $this->request->getPost('email'),
-        'no_hp'         => $this->request->getPost('no_hp'),
-        'alamat'        => $this->request->getPost('alamat'),
-        'province_id'   => $this->request->getPost('state_id'),
-        'city_id'       => $this->request->getPost('city_id'),
-        'domisili'      => $this->request->getPost('domisili'),
-        'provinceDom_id'=> $this->request->getPost('stateDom_id'),
-        'cityDom_id'    => $this->request->getPost('cityDom_id'),
-    ];
+        $data = [
+            'fullname'      => $this->request->getPost('fullname'),
+            'nisn_nim'      => $this->request->getPost('nisn_nim'),
+            'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
+            'email'         => $this->request->getPost('email'),
+            'no_hp'         => $this->request->getPost('no_hp'),
+            'alamat'        => $this->request->getPost('alamat'),
+            'province_id'   => $this->request->getPost('state_id'),
+            'city_id'       => $this->request->getPost('city_id'),
+            'domisili'      => $this->request->getPost('domisili'),
+            'provinceDom_id'=> $this->request->getPost('stateDom_id'),
+            'cityDom_id'    => $this->request->getPost('cityDom_id'),
+        ];
 
-    // Tangani upload foto
-    $foto = $this->request->getFile('foto');
-    if ($foto && $foto->isValid() && !$foto->hasMoved()) {
-        // Validasi ekstensi dan ukuran
-        $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-        if (!in_array($foto->getMimeType(), $allowedTypes)) {
-            return redirect()->back()->with('error', 'Format gambar tidak valid. Hanya JPG, JPEG, PNG.')->withInput();
+        // Tangani upload foto
+        $foto = $this->request->getFile('foto');
+        if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+            // Validasi ekstensi dan ukuran
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            if (!in_array($foto->getMimeType(), $allowedTypes)) {
+                return redirect()->back()->with('error', 'Format gambar tidak valid. Hanya JPG, JPEG, PNG.')->withInput();
+            }
+            if ($foto->getSize() > 2 * 1024 * 1024) {
+                return redirect()->back()->with('error', 'Ukuran gambar maksimal 2MB.')->withInput();
+            }
+
+            // Rename nama file
+            $fullname = strtolower(preg_replace('/\s+/', '', $this->request->getPost('fullname')));
+            $newName = $fullname . '-profile.' . $foto->getExtension();
+
+            // Pindahkan file ke folder uploads/profile/
+            $foto->move(ROOTPATH . 'public/uploads/profile', $newName);
+
+            // Masukkan nama file ke dalam array data
+            $data['user_image'] = $newName;
         }
-        if ($foto->getSize() > 2 * 1024 * 1024) {
-            return redirect()->back()->with('error', 'Ukuran gambar maksimal 2MB.')->withInput();
+
+        if (!$this->userModel->validate($data)) {
+            return redirect()->back()->with('error', implode('<br>', $this->userModel->errors()))->withInput();
         }
 
-        // Rename nama file
-        $fullname = strtolower(preg_replace('/\s+/', '', $this->request->getPost('fullname')));
-        $newName = $fullname . '-profile.' . $foto->getExtension();
+        
+        $result = $this->userModel->update($userId, $data);
 
-        // Pindahkan file ke folder uploads/profile/
-        $foto->move(ROOTPATH . 'public/uploads/profile', $newName);
+        if (!$result) {
+            return redirect()->back()->with('error', 'Gagal memperbarui data.');
+        }
 
-        // Masukkan nama file ke dalam array data
-        $data['user_image'] = $newName;
+        return redirect()->to('/profile')->with('success', 'Data berhasil diperbarui.');
     }
-
-    if (!$this->userModel->validate($data)) {
-        return redirect()->back()->with('error', implode('<br>', $this->userModel->errors()))->withInput();
-    }
-
-    
-    $result = $this->userModel->update($userId, $data);
-
-    if (!$result) {
-        return redirect()->back()->with('error', 'Gagal memperbarui data.');
-    }
-
-    return redirect()->to('/profile')->with('success', 'Data berhasil diperbarui.');
-}
 
     public function saveDataAkademik()
     {
@@ -300,54 +231,22 @@ class User extends BaseController
         return redirect()->to('/profile')->with('success', 'Data berhasil diperbarui.');
     }
 
-
-
-    // public function konfirmasi()
-    // {
-    //     // Ambil data pendaftaran berdasarkan id
-    //     $request = service('request');
-    //     $id = $request->getPost('magang_id');
-    //     $pendaftaran = $this->magangModel->find($id);
-
-    //     // Cek jika data pendaftaran ditemukan
-    //     if (!$pendaftaran) {
-    //         // Jika tidak ditemukan, tampilkan error atau redirect
-    //         return redirect()->back()->with('error', 'Data pendaftaran tidak ditemukan.');
-    //     }
-
-    //     // Update status konfirmasi dan tanggal konfirmasi
-    //     $data = [
-    //         'konfirmasi_pendaftar' => 'Y',  // Status konfirmasi di-set menjadi 1
-    //         'tanggal_konfirmasi' => date('Y-m-d H:i:s'),  // Tanggal konfirmasi adalah hari ini\
-    //     ];
-
-    //     // Update data pendaftaran
-    //     if ($this->magangModel->update($id, $data)) {
-    //         // Jika berhasil, redirect dengan pesan sukses
-    //         return redirect()->to('/status-lamaran')->with('success', 'Pendaftaran berhasil dikonfirmasi.');
-    //     } else {
-    //         // Jika gagal, tampilkan pesan error
-    //         return redirect()->back()->with('error', 'Terjadi kesalahan saat mengkonfirmasi pendaftaran.');
-    //     }
- 
-    // }
-
-    public function statusLamaran()
+        public function statusLamaran()
     {
-        $userId = session()->get('user_id'); // Ambil ID pengguna dari session
+        $userId = user_id(); // Ambil ID pengguna dari session
 
         // Ambil data profil pengguna
          $data['user_data'] = $this->userModel
-            ->join('instansi', 'instansi.id = users.instansi_id','left')
-            ->join('jurusan', 'jurusan.id = users.jurusan','left')
+            ->join('instansi', 'instansi.instansi_id = users.instansi_id','left')
+            ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id','left')
             ->select('users.*, instansi.nama_instansi, jurusan.nama_jurusan')
             ->where('users.id', $userId)
             ->first();
 
         // Ambil data pendaftaran terkait pengguna
         $data['pendaftaran'] = $this->magangModel->where('user_id', $userId)
-                                                ->join('unit_kerja','unit_kerja.id = magang.unit_id')
-                                                ->select('magang.id as magang_id, magang.*, unit_kerja.*')
+                                                ->join('unit_kerja','unit_kerja.unit_id = magang.unit_id')
+                                                ->select('magang.magang_id as magang_id, magang.*, unit_kerja.*')
                                                 ->first();
 
         // Muat tampilan profil
@@ -370,23 +269,29 @@ class User extends BaseController
         ]);
     }
 
-public function pelaksanaan()
+    public function pelaksanaan()
     {
-        $userId = session()->get('user_id'); // Ambil ID pengguna dari session
+        $userId = user_id();
 
-        // Ambil data profil pengguna
-         $data['user_data'] = $this->userModel
-            ->join('instansi', 'instansi.id = users.instansi_id','left')
-            ->join('jurusan', 'jurusan.id = users.jurusan','left')
+        // Ambil data profil
+        $userData = $this->userModel
+            ->join('instansi', 'instansi.instansi_id = users.instansi_id', 'left')
+            ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id', 'left')
             ->select('users.*, instansi.nama_instansi, jurusan.nama_jurusan')
             ->where('users.id', $userId)
             ->first();
 
-            return view('user/pelaksanaan', [
-            'user_data' => $data['user_data'], 
-            
+        // Ambil data pendaftaran user (pastikan sesuai nama tabel kamu)
+        $pendaftaran = $this->magangModel
+            ->where('user_id', $userId)
+            ->orderBy('tanggal_daftar', 'desc')
+            ->first();
+
+        // Kalau sudah lulus, tampilkan view pelaksanaan normal
+        return view('user/pelaksanaan', [
+            'user_data' => $userData,
+            'pendaftaran' => $pendaftaran
         ]);
     }
-   
 
 }

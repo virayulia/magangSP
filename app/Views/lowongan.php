@@ -1,27 +1,40 @@
-<?= $this->extend('templates/index'); ?>
+<?php $this->setVar('force_scrolled', true); ?>
+<?= $this->extend('template'); ?>
 <?= $this->section('content'); ?>
-<?php if (session()->getFlashdata('success')): ?>
-  <style>
-    .hero-section {
-      background: linear-gradient(to right, #f0f4ff, #ffffff);
-      padding: 80px 0;
+<style>
+    .select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    padding: 4px 10px 4px 10px; /* Tambah padding kiri-kanan */
+    margin-top: 4px;
+    margin-right: 4px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
     }
-    .job-card {
-      border: 1px solid #dee2e6;
-      border-radius: 12px;
-      padding: 20px;
-      background-color: #fff;
-      margin-bottom: 20px;
+
+    .select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice__remove {
+    position: relative;
+    margin-right: 6px; /* Jarak X dengan teks */
+    left: 0; /* pastikan tidak geser */
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: bold;
+    cursor: pointer;
     }
-    .footer {
-      background-color: #f8f9fa;
-      padding: 40px 0;
-    }
-    .faq-section {
-      background: #f8f9fc;
-      padding: 60px 0;
+
+    .select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice__remove:hover {
+    color: white;
     }
 </style>
+<?php if (session()->getFlashdata('success')): ?>
 <script>
 Swal.fire({
     icon: 'success',
@@ -40,7 +53,7 @@ Swal.fire({
 });
 </script>
 <?php endif; ?>
-<section class="masthead hero-section" style="padding-top: 140px;">
+<section class="page-section bg-light" style="padding-top: 140px;">
     <div class="container text-center">
         <h1 class="mb-4">Temukan kesempatan magang di berbagai unit di perusahaan <span class="text-primary">PT Semen Padang</span></h1>
         <p class="lead">Bergabung dengan PT Semen Padang Hari Ini dan Temukan Pengalaman yang Paling Sesuai untuk Anda</p>
@@ -48,29 +61,21 @@ Swal.fire({
 </section>
 
 <!-- Job Filter Section -->
-<section class="masthead py-5">
+<section class="page-section bg-white py-5">
 <div class="container">
-  <div class="row mb-4">
-      <div class="col-md-4 mb-2"><input type="text" class="form-control" placeholder="Unit Kerja"></div>
-      <div class="col-md-3 mb-2"><input type="text" class="form-control" placeholder="Jenjang Pendidikan"></div>
-      <div class="col-md-3 mb-2"><input type="text" class="form-control" placeholder="Jurusan"></div>
-      <div class="col-md-2 mb-2">
-      <button class="btn btn-primary w-100">Cari</button>
-      </div>
-  </div>
-<!-- <form method="GET" action="<?= base_url('cari') ?>">
+<form method="GET" action="<?= base_url('/lowongan') ?>">
   <div class="row mb-4">
     <div class="col-md-4 mb-2">
-      <select class="form-control select2" name="unit_kerja[]" multiple="multiple" data-placeholder="Pilih Unit Kerja">
+    <select class="form-control select2" data-placeholder="Pilih Unit Kerja" name="unit_kerja[]" multiple>
         <?php foreach ($list_unit_kerja as $unit): ?>
-            <option value="<?= $unit['unit_kerja'] ?>"><?= $unit['unit_kerja'] ?></option>
+          <option value="<?= $unit['unit_kerja'] ?>"><?= $unit['unit_kerja'] ?></option>
         <?php endforeach; ?>
       </select>
     </div>
 
     <div class="col-md-3 mb-2">
-      <select class="form-control select2" name="pendidikan[]" multiple="multiple" data-placeholder="Pilih Jenjang Pendidikan">
-        <option value="SMA/SMK Sederajat">SMA/SMK Sederajat</option>
+      <select class="form-control select2" data-placeholder="Pilih Jenjang Pendidikan" name="pendidikan[]" multiple>
+        <option value="SMA/SMK">SMA/SMK Sederajat</option>
         <option value="D3">D3</option>
         <option value="D4/S1">D4/S1</option>
         <option value="S2">S2</option>
@@ -78,9 +83,9 @@ Swal.fire({
     </div>
 
     <div class="col-md-3 mb-2">
-      <select class="form-control select2" name="jurusan[]" multiple="multiple" data-placeholder="Pilih Jurusan">
+      <select class="form-control select2" data-placeholder="Pilih Jurusan" name="jurusan[]" multiple>
         <?php foreach ($list_jurusan as $jrs): ?>
-            <option value="<?= $jrs['nama_jurusan'] ?>"><?= $jrs['nama_jurusan'] ?></option>
+          <option value="<?= $jrs['nama_jurusan'] ?>"><?= $jrs['nama_jurusan'] ?></option>
         <?php endforeach; ?>
       </select>
     </div>
@@ -89,32 +94,27 @@ Swal.fire({
       <button type="submit" class="btn btn-primary w-100">Cari</button>
     </div>
   </div>
-</form> -->
-
-
+</form>
 <?php if ($periode): ?>
+    <div class="row">
+    <?php if (count($data_unit) > 0): ?>
     <div class="row">
     <?php foreach ($data_unit as $unit): ?>
         <div class="col-md-4">
             <div class="card shadow-sm border-0 mb-4">
                 <div class="card-body">
-                    <div class="mb-3">
-                        <!-- <img src="/img/sp-black.png" alt="Logo Semen Padang" style="height: 50px;"> -->
-                    </div>
-                    <!-- <h6 class="text-muted mb-1">PT Semen Padang</h6> -->
-                    <h5 class="fw-bold mb-2"><?= esc($unit['unit_kerja']) ?></h5>
-                    <?php if(!is_null($unit['jurusan'])): ?>
-                    <p class="text-muted mb-2"><?= esc($unit['jurusan']) ?></p>
+                    <h5 class="fw-bold mb-2"><?= esc($unit->unit_kerja) ?></h5>
+                    <?php if (!is_null($unit->jurusan)): ?>
+                    <p class="text-muted mb-2"><?= esc($unit->jurusan) ?></p>
                     <?php else : ?>
                     <p class="text-muted mb-2">Semua Jurusan</p>
                     <?php endif; ?>
-                    <p class="text-muted mb-1">Tingkat : <?= esc($unit['tingkat_pendidikan']) ?></p>
-                    <p><strong><?= $unit['tersedia'] ?> Posisi</strong></p>
+                    <p class="text-muted mb-1">Tingkat : <?= esc($unit->tingkat_pendidikan) ?></p>
+                    <p><strong><?= $unit->sisa_kuota ?> Posisi</strong></p>
                     <div class="mb-2">
-                        <span class="badge <?= $unit['tersedia'] > 0 ? 'bg-success' : 'bg-secondary' ?>">
-                            <?= $unit['tersedia'] > 0 ? 'Tersedia' : 'Penuh' ?>
+                        <span class="badge <?= $unit->sisa_kuota > 0 ? 'bg-success' : 'bg-secondary' ?>">
+                            <?= $unit->sisa_kuota > 0 ? 'Tersedia' : 'Penuh' ?>
                         </span>
-                        <!-- <span class="badge bg-light text-dark">Onsite</span> -->
                     </div>
                     <hr>
 
@@ -125,7 +125,7 @@ Swal.fire({
                             class="btn btn-outline-primary w-100 btn-daftar"
                             data-bs-toggle="modal"
                             data-bs-target="#modalPendaftaran"
-                            data-unit-id="<?= $unit['id'] ?>"
+                            data-unit-id="<?= $unit->unit_id ?>"
                             >
                             Daftar Sekarang <i class="bi bi-arrow-right"></i>
                             </button>
@@ -134,12 +134,9 @@ Swal.fire({
                                 Lengkapi Profil <i class="bi bi-exclamation-circle"></i>
                             </button>
                         <?php endif; ?>
-
                       <?php else : ?>
-                            <!-- Kalau belum login -->
                             <a href="/pendaftaran" class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#loginModal">Daftar Sekarang <i class="bi bi-arrow-right"></i></a>
 
-                            <!-- Modal -->
                             <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content rounded-3">
@@ -156,15 +153,21 @@ Swal.fire({
                                 </div>
                             </div>
                             </div>
-                        <?php endif; ?>
+                      <?php endif; ?>
                 </div>
             </div>
         </div>
     <?php endforeach; ?>
+     </div>
+  <?php else: ?>
+    <div class="alert alert-info text-center">
+      <strong>Data Lowongan Tidak Ada</strong>
+    </div>
+  <?php endif; ?>
 <?php else: ?>
 <div class="alert alert-warning text-center">
         <strong>Pendaftaran Magang PT Semen Padang Belum Dibuka Saat Ini.</strong><br>
-        Silakan cek kembali pada minggu ke-dua setiap bulannya.
+        Silakan cek kembali pada minggu ke-pertama setiap bulannya.
     </div>
 <?php endif; ?>
 </div>
@@ -258,44 +261,39 @@ Swal.fire({
 <?php endif ?>
 
 <script>
-  $(document).ready(function() {
     $('.select2').select2({
-      width: '100%',
-      tags: true,
-      allowClear: true,
-      placeholder: function(){
-        $(this).data('placeholder');
-      }
+    
+    width: '100%',
+    allowClear: true,
+    placeholder: function(){
+        return $(this).data('placeholder');
+    }
+    });
+
+  let selectedUnitId = null;
+
+  document.querySelectorAll('.btn-daftar').forEach(button => {
+    button.addEventListener('click', function () {
+      selectedUnitId = this.getAttribute('data-unit-id');
     });
   });
-</script>
-<script>
-let selectedUnitId = null;
 
-document.querySelectorAll('.btn-daftar').forEach(button => {
-  button.addEventListener('click', function () {
-    selectedUnitId = this.getAttribute('data-unit-id');
+  document.getElementById('btnKonfirmasiDaftar').addEventListener('click', function () {
+    const durasi = document.getElementById('durasiSelect').value;
+    if (!durasi) {
+      alert('Silakan pilih durasi magang.');
+      return;
+    }
+
+    document.getElementById('durasiHidden').value = durasi;
+    document.getElementById('unitIdHidden').value = selectedUnitId;
+
+    const modalPendaftaran = bootstrap.Modal.getInstance(document.getElementById('modalPendaftaran'));
+    modalPendaftaran.hide();
+
+    const modalKonfirmasi = new bootstrap.Modal(document.getElementById('modalKonfirmasi'));
+    modalKonfirmasi.show();
   });
-});
-
-document.getElementById('btnKonfirmasiDaftar').addEventListener('click', function () {
-  const durasi = document.getElementById('durasiSelect').value;
-  if (!durasi) {
-    alert('Silakan pilih durasi magang.');
-    return;
-  }
-
-  document.getElementById('durasiHidden').value = durasi;
-  document.getElementById('unitIdHidden').value = selectedUnitId;
-
-  const modalPendaftaran = bootstrap.Modal.getInstance(document.getElementById('modalPendaftaran'));
-  modalPendaftaran.hide();
-
-  const modalKonfirmasi = new bootstrap.Modal(document.getElementById('modalKonfirmasi'));
-  modalKonfirmasi.show();
-});
 </script>
-
-
 </section>
-<?= $this->endSection();?>
+<?= $this->endSection(); ?>

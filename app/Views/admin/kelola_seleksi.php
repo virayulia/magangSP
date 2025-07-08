@@ -49,11 +49,6 @@
 
 
                     <?php endforeach; ?>
-                    <?php if (empty($kuota_unit)): ?>
-                        <tr>
-                            <td colspan="6" class="text-center text-muted">Tidak ada data kuota unit.</td>
-                        </tr>
-                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
@@ -61,7 +56,7 @@
 </div>
 <!-- Modal (letakkan di luar foreach dan hanya satu!) -->
 <div class="modal fade" id="modalPendaftar" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalTitle">Daftar Pendaftar</h5>
@@ -85,9 +80,11 @@ function loadPendaftar(unitId, pendidikan, unitKerja) {
 
     // Ambil konten pendaftar via fetch
     fetch(`/manage-seleksi/pendaftar?unit_id=${unitId}&pendidikan=${pendidikan}`)
-        .then(response => response.text())
-        .then(data => {
-            $('#pendaftarContent').html(data);
+    .then(response => response.text())
+    .then(data => {
+        const el = document.getElementById('pendaftarContent');
+        if (el) {
+            el.innerHTML = data;
 
             // Inisialisasi DataTable
             const table = document.getElementById('tablePendaftar');
@@ -104,12 +101,16 @@ function loadPendaftar(unitId, pendidikan, unitKerja) {
                 });
             }
 
-            // Inisialisasi ulang handler checkbox
             initKuotaHandler();
-        })
-        .catch(() => {
-            $('#pendaftarContent').html('<p class="text-danger">Gagal memuat data.</p>');
-        });
+        }
+    })
+    .catch(() => {
+        const el = document.getElementById('pendaftarContent');
+        if (el) {
+            el.innerHTML = '<p class="text-danger">Gagal memuat data.</p>';
+        }
+    });
+
 }
 
 

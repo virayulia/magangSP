@@ -7,14 +7,18 @@ use CodeIgniter\Model;
 class JurusanModel extends Model
 {
     protected $table            = 'jurusan';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'jurusan_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nama_jurusan'];
+    protected $allowedFields    = ['jurusan_id','nama_jurusan'];
 
     protected bool $allowEmptyInserts = false;
+    protected bool $updateOnlyChanged = true;
+
+    protected array $casts = [];
+    protected array $castHandlers = [];
 
     // Dates
     protected $useTimestamps = false;

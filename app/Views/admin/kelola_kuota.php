@@ -44,11 +44,6 @@
 
 
                     <?php endforeach; ?>
-                    <?php if (empty($kuota_unit)): ?>
-                        <tr>
-                            <td colspan="6" class="text-center text-muted">Tidak ada data kuota unit.</td>
-                        </tr>
-                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

@@ -30,7 +30,7 @@ Swal.fire({
             </button>
         </li>
     </ul>
-
+    <?php if (!empty($pendaftaran)): ?>
     <div class="tab-content" id="lamaranTabContent">
         <div class="tab-pane fade show active" id="pelaksanaan" role="tabpanel">
             <p class="text-muted">Panduan dan tugas penting yang perlu kamu selesaikan sebelum memulai magang:</p>
@@ -79,7 +79,7 @@ Swal.fire({
                     </div>
 
                     <div class="text-center">
-                        <img src="<?= base_url('img/safety-induction.jpg') ?>" alt="QR Safety Induction" class="img-fluid" style="max-width: 150px;">
+                        <img src="<?= base_url('assets/img/safety-induction.jpg') ?>" alt="QR Safety Induction" class="img-fluid" style="max-width: 150px;">
                         <p class="text-muted mt-2"><small>Scan QR untuk mengakses langsung dari perangkat lain</small></p>
                     </div>
 
@@ -97,6 +97,9 @@ Swal.fire({
             </div>
         </div>
     </div>
+    <?php else: ?>
+    <div class="alert alert-warning">Kamu belum lulus seleksi atau belum melengkapi berkas, sehingga belum bisa mengakses informasi pelaksanaan magang.</div>
+    <?php endif; ?>
 </div>
 
 <?= $this->endSection(); ?>

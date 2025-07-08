@@ -37,13 +37,13 @@
                                 <tr>
                                     <td><?= $no++; ?></td>
                                     <td><?= esc($data['fullname']); ?></td>
-                                    <td><?= esc($data['tanggal_pengajuan']); ?></td>
+                                    <td><?= esc($data['tanggal_daftar']); ?></td>
                                     <td>
                                         <?php 
-                                        if (is_null($data['tgl_validasi_berkas'])) {
+                                        if (is_null($data['tanggal_validasi_berkas'])) {
                                             echo "Pendaftaran";
                                         } else {
-                                            if ($data['validasi_berkas'] === 'Y') {
+                                            if ($data['status_validasi_berkas'] === 'Y') {
                                                 echo "Berkas Valid";
                                             } else {
                                                 echo "Berkas Tidak Valid";
@@ -52,14 +52,11 @@
                                         ?>
                                     </td>
                                     <td class="text-center">
-                                        <a href="<?= base_url('detail-pendaftaran/' . $data['id']); ?>" class="btn btn-info btn-sm">Detail</a>
+                                        <a href="<?= base_url('detail-pendaftaran/' . $data['magang_id']); ?>" class="btn btn-info btn-sm">Detail</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
-                        <?php else : ?>
-                            <tr>
-                                <td colspan="5" class="text-center">Belum ada data pendaftaran.</td>
-                            </tr>
+                        
                         <?php endif; ?>
                     </tbody>
                 </table>
@@ -67,5 +64,4 @@
         </div>
     </div>
 </div>
-
 <?= $this->endSection(); ?>
