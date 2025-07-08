@@ -25,7 +25,7 @@
                 <p class="text-muted small">Silakan masuk untuk melanjutkan</p>
               </div>
 
-              <?= view('App\Views\Auth\_message_block') ?>
+              <?= view('auth/_message_block') ?>
 
               <!-- Form -->
               <form action="<?= url_to('login'); ?>" method="post">
