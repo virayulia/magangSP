@@ -13,15 +13,24 @@
 </style>
 
 <div class="container-fluid">
-    <?php $session = \Config\Services::session(); ?>
-    <?php if ($session->getFlashdata('success')): ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <?= $session->getFlashdata('success'); ?>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    <?php endif; ?>
+<?php $session = \Config\Services::session(); ?>
+<?php if ($session->getFlashdata('success')): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <?= $session->getFlashdata('success'); ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php endif; ?>
+
+<?php if ($session->getFlashdata('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= $session->getFlashdata('error') ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Tutup">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php endif; ?>
 <h1 class="h3 mb-4 text-gray-800">Validasi Kelengkapan Berkas</h1>
     <div class="card shadow mb-4">
         <div class="card-body">

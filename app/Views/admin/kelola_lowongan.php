@@ -12,6 +12,15 @@
         </button>
     </div>
 <?php endif; ?>
+
+<?php if ($session->getFlashdata('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= $session->getFlashdata('error') ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Tutup">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php endif; ?>
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Kelola Lowongan</h1>
     <!-- <p class="mb-4">Berikut adalah data tangg</p> -->

@@ -13,6 +13,15 @@
     </div>
 <?php endif; ?>
 
+<?php if ($session->getFlashdata('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= $session->getFlashdata('error') ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Tutup">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php endif; ?>
+
     <h1 class="h3 mb-2 text-gray-800">Kelola Jurusan Unit</h1>
 
     <div class="card shadow mb-4">

@@ -75,6 +75,14 @@ $routes->group('', ['filter' => 'user'], function($routes) {
 $routes->group('', ['filter' => 'admin'], function($routes) {
     $routes->get('/admin', 'Admin::index');
 
+    // Kelola Users
+    $routes->get('/manage-user', 'DataUser::index');
+    $routes->get('/manage-user/delete/(:num)', 'DataUser::delete/$1');
+    $routes->get('/manage-user-admin', 'DataUser::indexAdmin');
+    $routes->get('/manage-user-admin/delete/(:num)', 'DataUser::deleteAdmin/$1');
+    $routes->post('/manage-user-admin/saveAdmin', 'DataUser::saveAdmin');
+    $routes->post('/manage-user-admin/updateAdmin/(:num)', 'DataUser::updateAdmin/$1');
+
     // Kelola Lowongan
     $routes->get('/kelola-lowongan', 'Lowongan::index');
     $routes->post('/periode/save', 'Lowongan::periodesave');

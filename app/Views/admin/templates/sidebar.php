@@ -83,7 +83,7 @@
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="/manage-user">Data User</a>
-            <a class="collapse-item" href="/manage-user">Data Admin</a>
+            <a class="collapse-item" href="/manage-user-admin">Data Admin</a>
         </div>
     </div>
 </li>
