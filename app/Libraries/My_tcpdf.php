@@ -25,8 +25,7 @@ class MY_TCPDF extends TCPDF
         $this->Image($logoSP, $pageWidth - 5 - $logoWidth, 5, $logoWidth); 
         // (x=lebar halaman - margin kanan - lebar gambar, y=10)
     }
-
-
+    
     // Page footer
     public function Footer()
     {
