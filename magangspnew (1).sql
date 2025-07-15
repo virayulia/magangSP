@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 08 Jul 2025 pada 05.33
+-- Waktu pembuatan: 15 Jul 2025 pada 09.09
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -41,7 +41,8 @@ CREATE TABLE `auth_activation_attempts` (
 
 INSERT INTO `auth_activation_attempts` (`id`, `ip_address`, `user_agent`, `token`, `created_at`) VALUES
 (1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'e11ed8e23863dbbe6876df46690cec2e', '2025-07-07 03:37:51'),
-(2, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'fe60487fd747d584c1566cb82fb4f620', '2025-07-07 23:20:25');
+(2, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'fe60487fd747d584c1566cb82fb4f620', '2025-07-07 23:20:25'),
+(3, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'ff2a2ea4c99d2670e985e6d2170ea033', '2025-07-08 04:03:19');
 
 -- --------------------------------------------------------
 
@@ -91,7 +92,6 @@ CREATE TABLE `auth_groups_users` (
 
 INSERT INTO `auth_groups_users` (`group_id`, `user_id`) VALUES
 (1, 1),
-(2, 2),
 (2, 4),
 (2, 7);
 
@@ -137,7 +137,29 @@ INSERT INTO `auth_logins` (`id`, `ip_address`, `email`, `user_id`, `date`, `succ
 (20, '::1', 'virayukia1234@gmail.com', 4, '2025-07-08 01:46:32', 1),
 (21, '::1', 'bordirmotif@gmail.com', 1, '2025-07-08 01:47:06', 1),
 (22, '::1', 'iqda.maulana@gmail.com', NULL, '2025-07-08 02:03:24', 0),
-(23, '::1', 'iqda.maulana@gmail.com', 7, '2025-07-08 02:03:37', 1);
+(23, '::1', 'iqda.maulana@gmail.com', 7, '2025-07-08 02:03:37', 1),
+(24, '::1', 'bordirmotif@gmail.com', 1, '2025-07-08 03:56:22', 1),
+(25, '::1', 'kuronekochann123@gmail.com', 8, '2025-07-08 04:03:33', 1),
+(26, '::1', 'kuronekochann123@gmail.com', 8, '2025-07-08 04:10:14', 1),
+(27, '::1', 'virayukia1234@gmail.com', 4, '2025-07-08 04:11:07', 1),
+(28, '::1', 'bordirmotif@gmail.com', 1, '2025-07-08 04:11:34', 1),
+(29, '::1', 'bordirmotif@gmail.com', 1, '2025-07-08 04:12:48', 1),
+(30, '::1', 'virayukia1234@gmail.com', 4, '2025-07-08 04:13:44', 1),
+(31, '::1', 'virayukia1234@gmail.com', 4, '2025-07-10 02:45:01', 1),
+(32, '::1', 'virayukia1234@gmail.com', NULL, '2025-07-10 08:55:40', 0),
+(33, '::1', 'virayukia1234@gmail.com', NULL, '2025-07-10 08:57:06', 0),
+(34, '::1', 'virayukia1234@gmail.com', 4, '2025-07-10 09:07:00', 1),
+(35, '::1', 'bordirmotif@gmail.com', 1, '2025-07-14 01:33:32', 1),
+(36, '::1', 'virayukia1234@gmail.com', 4, '2025-07-14 01:50:48', 1),
+(37, '::1', 'bordirmotif@gmail.com', 1, '2025-07-14 07:35:30', 1),
+(38, '::1', 'virayukia1234@gmail.com', 4, '2025-07-14 21:59:05', 1),
+(39, '::1', 'bordirmotif@gmail.com', 1, '2025-07-15 01:30:01', 1),
+(40, '::1', 'bordirmotif@gmail.com', 1, '2025-07-15 01:39:20', 1),
+(41, '::1', 'virayukia1234@gmail.com', 4, '2025-07-15 02:42:04', 1),
+(42, '::1', 'virayukia1234@gmail.com', 4, '2025-07-15 04:18:51', 1),
+(43, '::1', 'iqda.maulana@gmail.com', NULL, '2025-07-15 11:51:03', 0),
+(44, '::1', 'iqda.maulana@gmail.com', 7, '2025-07-15 11:51:54', 1),
+(45, '::1', 'virayukia1234@gmail.com', 4, '2025-07-15 13:41:36', 1);
 
 -- --------------------------------------------------------
 
@@ -165,6 +187,18 @@ CREATE TABLE `auth_reset_attempts` (
   `token` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `auth_reset_attempts`
+--
+
+INSERT INTO `auth_reset_attempts` (`id`, `email`, `ip_address`, `user_agent`, `token`, `created_at`) VALUES
+(1, 'virayukia1234@gmail.com', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'f0b918019aaaf6f9cc0981b3e9c5df1d', '2025-07-15 12:03:52'),
+(2, 'virayukia1234@gmail.com', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'f0b918019aaaf6f9cc0981b3e9c5df1d', '2025-07-15 12:07:27'),
+(3, 'virayukia1234@gmail.com', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'f0b918019aaaf6f9cc0981b3e9c5df1d', '2025-07-15 12:07:46'),
+(4, 'virayukia1234@gmail.com', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'f0b918019aaaf6f9cc0981b3e9c5df1d', '2025-07-15 12:08:50'),
+(5, 'virayukia1234@gmail.com', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'f0b918019aaaf6f9cc0981b3e9c5df1d', '2025-07-15 13:40:34'),
+(6, 'virayukia1234@gmail.com', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', '6786ce0fea674702639be7eb502abc94', '2025-07-15 13:41:24');
 
 -- --------------------------------------------------------
 
@@ -199,17 +233,22 @@ CREATE TABLE `auth_users_permissions` (
 
 CREATE TABLE `instansi` (
   `instansi_id` int(11) NOT NULL,
-  `nama_instansi` varchar(255) NOT NULL
+  `nama_instansi` varchar(255) NOT NULL,
+  `tingkat` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `instansi`
 --
 
-INSERT INTO `instansi` (`instansi_id`, `nama_instansi`) VALUES
-(1, 'Universitas Andalas'),
-(2, 'Universitas Negeri Padang'),
-(3, 'Politeknik Negeri Padang');
+INSERT INTO `instansi` (`instansi_id`, `nama_instansi`, `tingkat`) VALUES
+(1, 'Universitas Andalas', 'pt'),
+(3, 'Politeknik Negeri Padang', 'pt'),
+(4, 'SMK N 2 Padang', 'smk'),
+(5, 'SMK Negeri 6 Pekanbaru', 'smk'),
+(6, 'SMK SMTI Padang', 'smk'),
+(7, 'Universitas Brawijaya', ''),
+(8, 'Universitas Negeri Padang', '');
 
 -- --------------------------------------------------------
 
@@ -230,7 +269,8 @@ INSERT INTO `jurusan` (`jurusan_id`, `nama_jurusan`) VALUES
 (1, 'Teknik Industri'),
 (2, 'Sistem Informasi'),
 (3, 'Manajemen'),
-(4, 'Akuntansi');
+(4, 'Akuntansi'),
+(5, 'Teknik Komputer');
 
 -- --------------------------------------------------------
 
@@ -252,7 +292,10 @@ INSERT INTO `jurusan_unit` (`jurusan_unit_id`, `kuota_unit_id`, `jurusan_id`) VA
 (1, 1, 1),
 (2, 2, 1),
 (3, 3, 2),
-(4, 4, 2);
+(4, 4, 2),
+(5, 1, 2),
+(6, 6, 3),
+(8, 6, 2);
 
 -- --------------------------------------------------------
 
@@ -272,10 +315,11 @@ CREATE TABLE `kuota_unit` (
 --
 
 INSERT INTO `kuota_unit` (`kuota_unit_id`, `unit_id`, `tingkat_pendidikan`, `kuota`) VALUES
-(1, 1, 'SMA/SMK', 1),
+(1, 1, 'SMK', 3),
 (2, 1, 'Perguruan Tinggi', 2),
-(3, 2, 'SMA/SMK', 2),
-(4, 2, 'Perguruan Tinggi', 2);
+(3, 2, 'SMK', 2),
+(4, 2, 'Perguruan Tinggi', 2),
+(6, 3, 'Perguruan Tinggi', 3);
 
 -- --------------------------------------------------------
 
@@ -299,6 +343,7 @@ CREATE TABLE `magang` (
   `status_berkas_lengkap` varchar(50) DEFAULT NULL,
   `tanggal_berkas_lengkap` datetime DEFAULT NULL,
   `cttn_berkas_lengkap` varchar(50) DEFAULT NULL,
+  `tanggal_setujui_pernyataan` date DEFAULT NULL,
   `pembimbing_id` int(11) DEFAULT NULL,
   `tanggal_masuk` date DEFAULT NULL,
   `tanggal_selesai` date DEFAULT NULL,
@@ -309,8 +354,8 @@ CREATE TABLE `magang` (
 -- Dumping data untuk tabel `magang`
 --
 
-INSERT INTO `magang` (`magang_id`, `user_id`, `unit_id`, `periode_id`, `durasi`, `tanggal_daftar`, `status_seleksi`, `tanggal_seleksi`, `status_konfirmasi`, `tanggal_konfirmasi`, `status_validasi_berkas`, `tanggal_validasi_berkas`, `status_berkas_lengkap`, `tanggal_berkas_lengkap`, `cttn_berkas_lengkap`, `pembimbing_id`, `tanggal_masuk`, `tanggal_selesai`, `status_akhir`) VALUES
-(3, 4, 1, 1, 2, '2025-07-07 08:47:27', 'Diterima', '2025-07-07 14:39:00', 'Y', '2025-07-07 21:46:50', 'Y', '2025-07-07 22:05:52', 'Y', '2025-07-07 22:09:55', NULL, NULL, '2025-09-01', '2025-11-01', 'proses');
+INSERT INTO `magang` (`magang_id`, `user_id`, `unit_id`, `periode_id`, `durasi`, `tanggal_daftar`, `status_seleksi`, `tanggal_seleksi`, `status_konfirmasi`, `tanggal_konfirmasi`, `status_validasi_berkas`, `tanggal_validasi_berkas`, `status_berkas_lengkap`, `tanggal_berkas_lengkap`, `cttn_berkas_lengkap`, `tanggal_setujui_pernyataan`, `pembimbing_id`, `tanggal_masuk`, `tanggal_selesai`, `status_akhir`) VALUES
+(3, 4, 1, 1, 2, '2025-07-07 08:47:27', 'Diterima', '2025-07-07 14:39:00', 'Y', '2025-07-14 03:54:58', 'Y', '2025-07-15 03:17:46', 'Y', '2025-07-15 03:18:00', NULL, '2025-07-14', NULL, '2025-09-01', '2025-11-01', 'proses');
 
 -- --------------------------------------------------------
 
@@ -360,20 +405,24 @@ CREATE TABLE `pembimbing` (
 CREATE TABLE `penelitian` (
   `penelitian_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `unit_id` int(11) NOT NULL,
+  `unit_id` int(11) DEFAULT NULL,
   `judul_penelitian` varchar(255) NOT NULL,
   `tanggal_daftar` datetime NOT NULL,
   `tanggal_masuk` date DEFAULT NULL,
   `tanggal_selesai` date DEFAULT NULL,
-  `status_akhir` varchar(50) NOT NULL
+  `status_akhir` varchar(50) NOT NULL,
+  `deskripsi` text NOT NULL,
+  `dosen_pembimbing` varchar(255) NOT NULL,
+  `bidang` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `penelitian`
 --
 
-INSERT INTO `penelitian` (`penelitian_id`, `user_id`, `unit_id`, `judul_penelitian`, `tanggal_daftar`, `tanggal_masuk`, `tanggal_selesai`, `status_akhir`) VALUES
-(3, 7, 0, 'Pengembangan Terbaru', '2025-07-07 00:00:00', NULL, NULL, '');
+INSERT INTO `penelitian` (`penelitian_id`, `user_id`, `unit_id`, `judul_penelitian`, `tanggal_daftar`, `tanggal_masuk`, `tanggal_selesai`, `status_akhir`, `deskripsi`, `dosen_pembimbing`, `bidang`) VALUES
+(11, 4, NULL, 'Penelitian', '2025-07-15 11:42:02', '2025-08-04', NULL, 'pendaftaran', 'Meneliti semen', 'Dani', 'Teknologi Semen'),
+(12, 7, NULL, 'Penelitian', '2025-07-15 11:52:27', '2025-08-11', NULL, 'pendaftaran', 'Deskripsi', 'Danu', 'Lingkungan');
 
 -- --------------------------------------------------------
 
@@ -393,7 +442,7 @@ CREATE TABLE `periode_magang` (
 --
 
 INSERT INTO `periode_magang` (`periode_id`, `tanggal_buka`, `tanggal_tutup`, `keterangan`) VALUES
-(1, '2025-07-02', '2025-07-08', '');
+(1, '2025-07-02', '2025-07-15', '');
 
 -- --------------------------------------------------------
 
@@ -985,6 +1034,22 @@ INSERT INTO `regencies` (`id`, `province_id`, `regency`, `type`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `soal_safety`
+--
+
+CREATE TABLE `soal_safety` (
+  `soal_id` int(11) NOT NULL,
+  `pertanyaan` varchar(255) NOT NULL,
+  `opsi_a` varchar(255) NOT NULL,
+  `opsi_b` varchar(255) NOT NULL,
+  `opsi_c` varchar(255) NOT NULL,
+  `opsi_d` varchar(255) NOT NULL,
+  `jawaban_benar` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `unit_kerja`
 --
 
@@ -1002,7 +1067,8 @@ CREATE TABLE `unit_kerja` (
 
 INSERT INTO `unit_kerja` (`unit_id`, `unit_kerja`, `pimpinan_id`, `safety`, `active`) VALUES
 (1, 'TPM Officer', 1, 1, 1),
-(2, 'Capex', 1, 0, 1);
+(2, 'Capex', 1, 0, 1),
+(3, 'SDM', 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1063,9 +1129,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `email`, `username`, `fullname`, `user_image`, `nisn_nim`, `no_hp`, `jenis_kelamin`, `alamat`, `province_id`, `city_id`, `domisili`, `provinceDom_id`, `cityDom_id`, `tingkat_pendidikan`, `instansi_id`, `jurusan_id`, `semester`, `nilai_ipk`, `rfid_no`, `cv`, `proposal`, `surat_permohonan`, `tanggal_surat`, `no_surat`, `nama_pimpinan`, `jabatan`, `email_instansi`, `bpjs_kes`, `bpjs_tk`, `buktibpjs_tk`, `ktp_kk`, `password_hash`, `reset_hash`, `reset_at`, `reset_expires`, `activate_hash`, `status`, `status_message`, `active`, `force_pass_reset`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'bordirmotif@gmail.com', 'Admin', 'Admin Master', 'vira.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$10$bswnrdHFrT0fWw85p0RZseTxnyHxFnQnWDTnci3p0K1NzU3r2RWcm', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-07-03 16:06:28', NULL, NULL),
-(2, 'kuronekochann123@gmail.com', NULL, 'Abdul Khairi', 'default.svg', '1911521003', '08999549000', 'L', 'Jl. Bandes Binuang RT 02/ RW 02, Kelurahan Binuang Kampung Dalam, Binuang Kampung Dalam, Pauh', 13, 1371, NULL, NULL, NULL, 'D4/S1', 1, 2, 6, 3.56, NULL, 'abdul-khairi-cv-4103.pdf', 'abdul-khairi-proposal-5919.pdf', 'abdul-khairi-surat-permohonan-2973.pdf', '2025-05-01', '7686218', 'Ahmad', 'Kepala Departemen', 'universitasAndlas@gmail.com', NULL, NULL, NULL, 'abdul-khairi-ktp-kk-8321.pdf', '$2y$10$03ejEhFzejBFl8f.6WnUOe2Q08M9uV/Ljp6E5rZ1EK58ZrsuzjOZq', NULL, NULL, NULL, '75e10f2f2c4819842f06430a62ebb672', NULL, NULL, 0, 0, '2025-07-07 03:15:11', '2025-07-07 03:15:11', NULL),
-(4, 'virayukia1234@gmail.com', NULL, 'Arisa Maharani', 'arisa-maharani-user_image-3193.jpg', '1911521003', '08999549000', 'P', 'Jl. Bandes Binuang RT 02/ RW 02, Kelurahan Binuang Kampung Dalam, Binuang Kampung Dalam, Pauh', 13, 1371, NULL, NULL, NULL, 'D4/S1', 2, 2, 6, 3.65, NULL, 'arisa-maharani-cv-7278.pdf', 'arisa-maharani-proposal-9966.pdf', 'arisa-maharani-surat-permohonan-6888.pdf', '2025-05-01', '7686218', 'Ahmad', 'Kepala Departemen', 'universitasAndlas@gmail.com', NULL, NULL, NULL, 'arisa-maharani-ktp-kk-4096.pdf', '$2y$10$P7gP5JRk7X7CuPt8Ti4GsuL/nW8p/nDTV7trj.zg9b7jnm0tC/NQu', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-07-07 03:37:09', '2025-07-07 03:37:52', NULL),
-(7, 'iqda.maulana@gmail.com', NULL, 'Iqda Maulana', 'iqda-maulana-user_image-6474.jpg', '1911521004', '089991232323', 'L', 'Jl. Bandes Binuang RT 02/ RW 02, Kelurahan Binuang Kampung Dalam, Binuang Kampung Dalam, Pauh', 13, 1371, NULL, NULL, NULL, 'D4/S1', 1, 3, 7, 3.54, NULL, 'iqda-maulana-cv-8179.pdf', 'iqda-maulana-proposal-8224.pdf', 'iqda-maulana-surat-permohonan-8066.pdf', '2025-07-07', '1212/XII/2025', 'Ahmad', 'Kepala Departemen', 'universitasAndlas@gmail.com', NULL, NULL, NULL, 'iqda-maulana-ktp-kk-2171.pdf', '$2y$10$/D572H5Ax6fGsjnt/ul2zuu1hDUnt93541MvKw0fuDQzkwTVnNctq', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-07-07 23:19:20', '2025-07-07 23:20:25', NULL);
+(4, 'virayukia1234@gmail.com', NULL, 'Arisa Maharani', 'arisa-maharani-user_image-3193.jpg', '1911521003', '08999549000', 'P', 'Jl. Bandes Binuang RT 02/ RW 02, Kelurahan Binuang Kampung Dalam, Binuang Kampung Dalam, Pauh', 13, 1371, NULL, NULL, NULL, 'D4/S1', 1, 2, 6, 3.65, NULL, 'arisamaharani-cv-4638.pdf', 'arisa-maharani-proposal-9966.pdf', 'arisa-maharani-surat-permohonan-6888.pdf', '2025-05-01', '7686218', 'Ahmad', 'Kepala Departemen', 'universitasAndlas@gmail.com', 'arisamaharani-bpjs-kes-5461.pdf', 'arisamaharani-bpjs-tk-2906.pdf', 'arisamaharani-buktibpjs-tk-2806.pdf', 'arisa-maharani-ktp-kk-4096.pdf', '$2y$10$6B1e75ynCaNRnxrh3aOCXO7.niLJ3SljZXBCrvPuWN/ta.To6wg1W', NULL, '2025-07-15 13:41:25', NULL, NULL, NULL, NULL, 1, 0, '2025-07-07 03:37:09', '2025-07-15 13:41:25', NULL),
+(7, 'iqda.maulana@gmail.com', NULL, 'Iqda Maulana', 'iqda-maulana-user_image-6474.jpg', '1911521004', '089991232323', 'L', 'Jl. Bandes Binuang RT 02/ RW 02, Kelurahan Binuang Kampung Dalam, Binuang Kampung Dalam, Pauh', 13, 1371, NULL, NULL, NULL, 'D4/S1', 1, 3, 7, 3.54, NULL, 'iqda-maulana-cv-8179.pdf', 'iqda-maulana-proposal-8224.pdf', 'iqda-maulana-surat-permohonan-8066.pdf', '2025-07-07', '1212/XII/2025', 'Ahmad', 'Kepala Departemen', 'universitasAndlas@gmail.com', NULL, NULL, NULL, 'iqda-maulana-ktp-kk-2171.pdf', '$2y$10$P7gP5JRk7X7CuPt8Ti4GsuL/nW8p/nDTV7trj.zg9b7jnm0tC/NQu', '99c2055c4558669eff09bee6dc506cee', NULL, '2025-07-15 12:59:02', NULL, NULL, NULL, 1, 0, '2025-07-07 23:19:20', '2025-07-15 11:59:02', NULL);
 
 --
 -- Indexes for dumped tables
@@ -1199,6 +1264,12 @@ ALTER TABLE `regencies`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `soal_safety`
+--
+ALTER TABLE `soal_safety`
+  ADD PRIMARY KEY (`soal_id`);
+
+--
 -- Indeks untuk tabel `unit_kerja`
 --
 ALTER TABLE `unit_kerja`
@@ -1220,7 +1291,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `auth_activation_attempts`
 --
 ALTER TABLE `auth_activation_attempts`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `auth_groups`
@@ -1232,7 +1303,7 @@ ALTER TABLE `auth_groups`
 -- AUTO_INCREMENT untuk tabel `auth_logins`
 --
 ALTER TABLE `auth_logins`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT untuk tabel `auth_permissions`
@@ -1244,7 +1315,7 @@ ALTER TABLE `auth_permissions`
 -- AUTO_INCREMENT untuk tabel `auth_reset_attempts`
 --
 ALTER TABLE `auth_reset_attempts`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `auth_tokens`
@@ -1256,25 +1327,25 @@ ALTER TABLE `auth_tokens`
 -- AUTO_INCREMENT untuk tabel `instansi`
 --
 ALTER TABLE `instansi`
-  MODIFY `instansi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `instansi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `jurusan`
 --
 ALTER TABLE `jurusan`
-  MODIFY `jurusan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `jurusan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `jurusan_unit`
 --
 ALTER TABLE `jurusan_unit`
-  MODIFY `jurusan_unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `jurusan_unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `kuota_unit`
 --
 ALTER TABLE `kuota_unit`
-  MODIFY `kuota_unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `kuota_unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `magang`
@@ -1298,7 +1369,7 @@ ALTER TABLE `pembimbing`
 -- AUTO_INCREMENT untuk tabel `penelitian`
 --
 ALTER TABLE `penelitian`
-  MODIFY `penelitian_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `penelitian_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `periode_magang`
@@ -1307,16 +1378,22 @@ ALTER TABLE `periode_magang`
   MODIFY `periode_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT untuk tabel `soal_safety`
+--
+ALTER TABLE `soal_safety`
+  MODIFY `soal_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT untuk tabel `unit_kerja`
 --
 ALTER TABLE `unit_kerja`
-  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
