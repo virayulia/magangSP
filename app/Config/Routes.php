@@ -12,9 +12,22 @@ $routes->get('/lowongan', 'Home::lowongan');
 
 $routes->get('login', 'Auth::login');
 $routes->post('login', 'Auth::attemptLogin');
+$routes->post('logout', 'Auth::logout');
+
 $routes->get('register', 'Auth::register');
 $routes->post('register/process', 'Auth::attemptRegister');
 $routes->get('/api/kota', 'Auth::getCities');
+$routes->get('/get-instansi', 'Auth::getInstansi');
+
+$routes->get('active-account', 'Auth::activateAccount');
+$routes->get('resend-activate-account', 'Auth::resendActivateAccount');
+
+$routes->get('forgot', 'Auth::forgotPassword');
+$routes->post('forgot', 'Auth::attemptForgot');
+$routes->get('reset-password', 'Auth::resetPassword');
+$routes->post('reset-password', 'Auth::attemptReset');
+
+
 
 // ==========================
 // Group untuk User
@@ -33,6 +46,11 @@ $routes->group('', ['filter' => 'user'], function($routes) {
     $routes->post('magang/konfirmasi', 'Magang::konfirmasi');
     $routes->post('magang/validasi-berkas', 'Magang::validasiBerkas');
     $routes->get('cetak-tanda-pengenal/(:num)', 'Magang::cetakTandaPengenal/$1');
+    $routes->get('magang/surat-pernyataan', 'Magang::suratPernyataan');
+    $routes->post('magang/setujui-surat-pernyataan', 'Magang::setujuiPernyataan');
+
+    $routes->post('penelitian/daftar', 'Penelitian::daftar');
+
 
     // Upload routes
     $routes->post('cv/uploads/(:num)', 'Upload::cv/$1');
@@ -61,20 +79,44 @@ $routes->group('', ['filter' => 'admin'], function($routes) {
     $routes->get('/kelola-lowongan', 'Lowongan::index');
     $routes->post('/periode/save', 'Lowongan::periodesave');
     $routes->post('/periode/update/(:num)', 'Lowongan::update/$1');
+    
+    // Kelola Instansi
+    $routes->get('/kelola-instansi', 'Instansi::index');
+    $routes->post('/instansi/save', 'Instansi::save');
+    $routes->post('/instansi/update/(:num)', 'Instansi::update/$1');
+    $routes->post('/instansi/delete/(:num)', 'Instansi::delete/$1');
+    // Kelola Jurusan
+    $routes->get('/kelola-jurusan', 'Jurusan::index');
+    $routes->post('/jurusan/save', 'Jurusan::save');
+    $routes->post('/jurusan/update/(:num)', 'Jurusan::update/$1');
+    $routes->post('/jurusan/delete/(:num)', 'Jurusan::delete/$1');
 
-    // Kelola Pendaftaran
+    // Kelola Pendaftaran Magang
     $routes->get('/manage-pendaftaran', 'Admin::index');
+
+    //Kelola Penelitian
+    $routes->get('/manage-penelitian', 'Penelitian::index');
 
     // Kelola Unit
     $routes->get('/kelola-unit', 'Admin::indexUnit');
     $routes->post('/kelola-unit/update/(:num)', 'Admin::updateUnit/$1');
+    $routes->post('/unit/save', 'Unitkerja::save');
 
     // Kelola Kuota Unit
+    $routes->get('/kuota-unit', 'KuotaUnit::index');
+    $routes->post('/kuota-unit/save', 'KuotaUnit::save');
     $routes->get('/kelola-kuota-unit', 'Admin::indexKuotaUnit');
     $routes->post('/kelola-kuota-unit/update/(:num)', 'Admin::updateKelolaUnit/$1');
 
+    //Kelola Jurusan Unit
+    $routes->get('jurusan-unit', 'JurusanUnit::index');
+    $routes->post('jurusan-unit/save', 'JurusanUnit::save');
+    $routes->post('jurusan-unit/addJurusan', 'JurusanUnit::addJurusan');
+    $routes->post('jurusan-unit/deleteJurusan/(:num)', 'JurusanUnit::deleteJurusan/$1');
+    // $routes->post('jurusan-unit/delete/(:num)', 'JurusanUnit::delete/$1');
+
     // Kelola Kuota
-    $routes->get('/kelola-kuota', 'Admin::indexKuota');
+    // $routes->get('/kelola-kuota', 'Admin::indexKuota');
 
     // Kelola Seleksi
     $routes->get('/manage-seleksi', 'Admin::indexSeleksi');
@@ -86,7 +128,8 @@ $routes->group('', ['filter' => 'admin'], function($routes) {
 
     // Kelola Kelengkapan Berkas
     $routes->get('/manage-kelengkapan-berkas', 'Admin::indexBerkas');
-    $routes->post('/manage-kelengkapan-berkas/valid/(:num)', 'Admin::validasiBerkas/$1');
+    $routes->post('/manage-kelengkapan-berkas/valid/(:num)', 'Admin::valid/$1');
+    $routes->post('/manage-kelengkapan-berkas/tidakValid/(:num)', 'Admin::tidakValid/$1');
 
     // Kelola Magang
     $routes->get('/manage-magang', 'Admin::indexMagang');

@@ -228,89 +228,28 @@ class Auth extends Controller
         return $this->response->setJSON(['data' => $data]);
     }
 
+    public function getInstansi()
+    {
+        $kelompok = $this->request->getGet('kelompok'); // 'smk' atau 'pt'
+
+        $model = new InstansiModel();
+
+
+        if ($kelompok === 'smk') {
+            $data = $model->where('tingkat', $kelompok)->findAll();
+        } else {
+            $data = $model->where('tingkat', $kelompok)->findAll();
+        }
+
+        return $this->response->setJSON($data);
+    }
+
     /**
      * Attempt to register a new user.
      *
      * @return RedirectResponse
      */
-    // public function attemptRegister()
-    // {
-    //     // Check if registration is allowed
-    //     if (! $this->config->allowRegistration) {
-    //         return redirect()
-    //             ->back()
-    //             ->withInput()
-    //             ->with('error', lang('Auth.registerDisabled'));
-    //     }
-
-    //     $users = model(UserModel::class);
-
-    //     // Validate basics first since some password rules rely on these fields
-    //     $rules = config('Validation')->registrationRules ?? [
-    //         'username' => 'required|alpha_numeric_space|min_length[3]|max_length[30]|is_unique[users.username]',
-    //         'email'    => 'required|valid_email|is_unique[users.email]',
-    //     ];
-
-    //     if (! $this->validate($rules)) {
-    //         return redirect()
-    //             ->back()
-    //             ->withInput()
-    //             ->with('errors', $this->validator->getErrors());
-    //     }
-
-    //     // Validate passwords since they can only be validated properly here
-    //     $rules = [
-    //         'password'     => 'required|strong_password',
-    //         'pass_confirm' => 'required|matches[password]',
-    //     ];
-
-    //     if (! $this->validate($rules)) {
-    //         return redirect()
-    //             ->back()
-    //             ->withInput()
-    //             ->with('errors', $this->validator->getErrors());
-    //     }
-
-    //     // Save the user
-    //     $allowedPostFields = array_merge(['password'], $this->config->validFields, $this->config->personalFields);
-    //     $user              = new User($this->request->getPost($allowedPostFields));
-
-    //     $this->config->requireActivation === null ? $user->activate() : $user->generateActivateHash();
-
-    //     // Ensure default group gets assigned if set
-    //     if (! empty($this->config->defaultUserGroup)) {
-    //         $users = $users->withGroup($this->config->defaultUserGroup);
-    //     }
-
-    //     if (! $users->save($user)) {
-    //         return redirect()
-    //             ->back()
-    //             ->withInput()
-    //             ->with('errors', $users->errors());
-    //     }
-
-    //     if ($this->config->requireActivation !== null) {
-    //         $activator = service('activator');
-    //         $sent      = $activator->send($user);
-
-    //         if (! $sent) {
-    //             return redirect()
-    //                 ->back()
-    //                 ->withInput()
-    //                 ->with('error', $activator->error() ?? lang('Auth.unknownError'));
-    //         }
-
-    //         // Success!
-    //         return redirect()
-    //             ->route('login')
-    //             ->with('message', lang('Auth.activationSuccess'));
-    //     }
-
-    //     // Success!
-    //     return redirect()
-    //         ->route('login')
-    //         ->with('message', lang('Auth.registerSuccess'));
-    // }
+   
 
     public function attemptRegister()
     {
@@ -328,7 +267,6 @@ class Auth extends Controller
         $rules = config('Validation')->registrationRules ?? [
             // 'username' => 'required|alpha_numeric_space|min_length[3]|max_length[30]|is_unique[users.username]',
             'email'    => 'required|valid_email|is_unique[users.email]',
-            'program'  => 'required'
         ];
 
         if (! $this->validate($rules)) {
@@ -359,9 +297,7 @@ class Auth extends Controller
         $proposalName = $this->_uploadFile('proposal', 'uploads/proposal', $fullname, 'proposal');
         $suratName = $this->_uploadFile('surat_permohonan', 'uploads/surat_permohonan', $fullname, 'surat-permohonan');
         $ktpName = $this->_uploadFile('ktp_kk', 'uploads/ktp_kk', $fullname, 'ktp-kk');
-        $bpjsKesName = $this->_uploadFile('bpjs_kes', 'uploads/bpjs_kes', $fullname, 'bpjs-kes');
-        $bpjsTkName = $this->_uploadFile('bpjs_tk', 'uploads/bpjs_tk', $fullname, 'bpjs-tk');
-        $buktiBpjsName = $this->_uploadFile('bukti_bayar_bpjs', 'uploads/bukti_bpjs', $fullname, 'bukti-bpjs-tk');
+       
         
         // Data user
         $allowedPostFields = array_merge(['password'], $this->config->validFields, $this->config->personalFields);
@@ -376,6 +312,9 @@ class Auth extends Controller
             'alamat' => $this->request->getPost('alamat'),
             'province_id' => $this->request->getPost('provinsi'),
             'city_id' => $this->request->getPost('kota'),
+            'domisili' => $this->request->getPost('domisili'),
+            'provinceDom_id' => $this->request->getPost('provinsiDom'),
+            'cityDom_id' => $this->request->getPost('kotaDom'),
             'instansi_id' => $this->request->getPost('instansi'),
             'jurusan_id' => $this->request->getPost('jurusan'),
             'tingkat_pendidikan' => $this->request->getPost('jenjang_pendidikan'),
@@ -390,9 +329,6 @@ class Auth extends Controller
             'jabatan' => $this->request->getPost('jabatan'),
             'email_instansi' => $this->request->getPost('email_instansi'),
             'ktp_kk' => $ktpName,
-            'bpjs_kes' => $bpjsKesName,
-            'bpjs_tk' => $bpjsTkName,
-            'buktibpjs_tk' => $buktiBpjsName,
         ]);
 
         $user = new User($userData);
@@ -411,17 +347,6 @@ class Auth extends Controller
                 ->with('errors', $users->errors());
         }
 
-        $userId = $users->getInsertID();
-
-        // Kalau penelitian, simpan ke tabel penelitian
-        if ($this->request->getPost('program') == 'penelitian') {
-            $penelitianData = [
-                'user_id' => $userId,
-                'judul_penelitian' => $this->request->getPost('judul_penelitian'),
-                'tanggal_daftar' => date('Y-m-d')
-            ];
-            $this->penelitianModel->insert($penelitianData);
-        }
 
         if ($this->config->requireActivation !== null) {
             $activator = service('activator');
@@ -587,7 +512,7 @@ class Auth extends Controller
         $rules = [
             'token'        => 'required',
             'email'        => 'required|valid_email',
-            'password'     => 'required|strong_password',
+            'password'     => 'required|required|min_length[8]|regex_match[/(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+/]',
             'pass_confirm' => 'required|matches[password]',
         ];
 

@@ -9,17 +9,36 @@
 
     <p>Dengan hormat,</p>
 
-    <p>Bersama ini kami sampaikan bahwa berkas pendaftaran magang Anda <strong>belum memenuhi kelengkapan atau validitas yang disyaratkan</strong>.</p>
+    <p>
+    Bersama email ini kami informasikan bahwa berkas pendaftaran magang Anda <strong>belum memenuhi kelengkapan atau validitas yang disyaratkan</strong>.
+    </p>
 
     <p><strong>Catatan dari tim validasi:</strong><br>
     <?= nl2br(esc($catatan)); ?></p>
 
-    <p>Mohon untuk segera melakukan perbaikan dan melengkapi berkas Anda agar dapat melanjutkan proses pendaftaran. Jika ada pertanyaan lebih lanjut, silakan hubungi kami melalui kontak yang tersedia.</p>
+    <p>
+    Mohon untuk segera memperbaiki dan melengkapi berkas Anda agar dapat melanjutkan ke tahap selanjutnya dalam proses pendaftaran magang.
+    </p>
+
+    <p>
+    Untuk memperbarui dokumen, silakan klik tombol di bawah ini:
+    </p>
+
+    <p style="text-align: center;">
+        <a href="<?= base_url('/profile?tab=dokumen') ?>" style="background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+            Perbarui Dokumen
+        </a>
+    </p>
+
+    <p>
+    Apabila terdapat pertanyaan lebih lanjut, silakan menghubungi kami melalui kontak resmi yang tersedia.
+    </p>
 
     <br>
-    <p>Terima kasih atas perhatian dan kerja samanya.</p>
+    <p>Terima kasih atas perhatian dan kerja sama Anda.</p>
 
     <p>Hormat kami,</p>
     <p><strong>Tim Rekrutmen Magang<br>PT Semen Padang</strong></p>
+
 </body>
 </html>

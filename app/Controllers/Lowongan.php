@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\MagangModel;
 use App\Models\PeriodemagangModel;
-use Myth\Auth\Models\UserModel;
+use App\Models\UserModel;
 
 class Lowongan extends BaseController
 {

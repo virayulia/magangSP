@@ -12,20 +12,62 @@
         </div>
     <?php endif; ?>
 
-<h1 class="h3 mb-4 text-gray-800">Kelola Kuota Unit</h1>
+<h1 class="h3 mb-4 text-gray-800">Kelola Unit</h1>
 
 <div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Daftar Unit dan Kuota</h6>
-    </div>
     <div class="card-body">
         <div class="table-responsive">
+            <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#modalTambahUnit">
+                <i class="fas fa-plus"></i> Tambah Unit Kerja
+            </button>
+
+            <!-- Modal Tambah Instansi -->
+            <div class="modal fade" id="modalTambahUnit" tabindex="-1" role="dialog" aria-labelledby="modalTambahUnitLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <form action="<?= base_url('unit/save') ?>" method="post">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title" id="modalTambahUnitLabel">Tambah Unit Kerja</h5>
+                                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="unit_kerja">Unit Kerja</label>
+                                    <input type="text" class="form-control" id="unit_kerja" name="unit_kerja" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="safety">Safety</label>
+                                    <select name="safety" id="safety" class="form-control" required>
+                                        <option value="1">APD</option>
+                                        <option value="0">Non APD</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="active">Active</label>
+                                    <select name="active" id="active" class="form-control" required>
+                                        <option value="1">Active</option>
+                                        <option value="0">Non active</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead class="thead-light">
                     <tr>
                         <th>No</th>
                         <th>Unit Kerja</th>
-                        <th>Safety</th>
+                        <th>Safety(APD)</th>
                         <th>Active</th>
                         <th>Action</th>
                     </tr>
@@ -36,9 +78,9 @@
                             <td><?= $no++; ?></td>
                             <td><?= esc($item['unit_kerja']); ?></td>
                             <?php if($item['safety'] == 1): ?>
-                                <td>Lapangan</td>
+                                <td>Pakai</td>
                             <?php else : ?>
-                                <td>Non Lapangan</td>
+                                <td>Tidak Pakai</td>
                             <?php endif; ?>
                             <?php if($item['active'] == 1): ?>
                                 <td>Aktif</td>

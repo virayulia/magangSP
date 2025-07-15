@@ -53,8 +53,11 @@ class Admin extends BaseController
     public function indexUnit(): string
     {
         // Ambil periode aktif saat ini
-        $unit = $this->unitKerjaModel->findAll();
-   
+       $unit = $this->unitKerjaModel
+                    ->orderBy('active', 'DESC')
+                    ->orderBy('unit_kerja', 'ASC')
+                    ->findAll();
+                
         return view('admin/kelola_unit', ['unit' => $unit]);
     }
 
@@ -581,6 +584,132 @@ class Admin extends BaseController
 
         return redirect()->back()->with('success', 'Validasi berhasil disimpan dan email telah dikirim.');
     }
+
+    public function valid($id)
+    {
+        $catatan = $this->request->getPost('catatan');
+
+        $db = \Config\Database::connect();
+        $data = $db->table('magang')
+            ->select('magang.*, users.email, users.email_instansi, users.fullname, users.username, unit_kerja.unit_kerja')
+            ->join('users', 'users.id = magang.user_id', 'left')
+            ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id', 'left')
+            ->where('magang.magang_id', $id)
+            ->get()
+            ->getRow();
+
+        if (!$data) {
+            return redirect()->back()->with('error', 'Data magang tidak ditemukan.');
+        }
+
+        // Update data
+        $updateData = [
+            'status_berkas_lengkap'    => 'Y',
+            'tanggal_berkas_lengkap'   => date('Y-m-d H:i:s'),
+            'cttn_berkas_lengkap'      => $catatan,
+            'status_akhir'             => 'proses'
+        ];
+
+        $this->magangModel->update($id, $updateData);
+
+        // Kirim email
+        $email = \Config\Services::email();
+        $toEmail = $data->email;
+        $ccEmail = $data->email_instansi;
+
+        if (!empty($toEmail)) {
+            $email->setTo($toEmail);
+
+            if (!empty($ccEmail) && filter_var($ccEmail, FILTER_VALIDATE_EMAIL)) {
+                $email->setCC($ccEmail);
+            }
+        }
+
+        $email->setSubject('Hasil Validasi Berkas Magang di PT Semen Padang');
+        $email->setMailType('html');
+
+        $email->setMessage(view('emails/berkas_valid', [
+            'nama' => $data->fullname ?? $data->username,
+            'unit' => $data->unit_kerja ?? 'Unit terkait',
+        ]));
+
+        // Generate PDF
+        $generatePDF = new \App\Controllers\GeneratePDF();
+        $pdfPath = $generatePDF->suratPenerimaan($id, true);
+
+        if ($pdfPath && file_exists($pdfPath)) {
+            $email->attach($pdfPath);
+        }
+
+        if (!$email->send()) {
+            log_message('error', "Gagal kirim email validasi berkas ID $id: " . print_r($email->printDebugger(), true));
+        }
+
+        if (!empty($pdfPath) && file_exists($pdfPath)) {
+            unlink($pdfPath);
+        }
+
+        return redirect()->back()->with('success', 'Validasi berhasil disimpan dan email telah dikirim.');
+    }
+
+    public function tidakValid($id)
+    {
+        $catatan = $this->request->getPost('catatan');
+
+        $db = \Config\Database::connect();
+        $data = $db->table('magang')
+            ->select('magang.*, users.email, users.email_instansi, users.fullname, users.username, unit_kerja.unit_kerja')
+            ->join('users', 'users.id = magang.user_id', 'left')
+            ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id', 'left')
+            ->where('magang.magang_id', $id)
+            ->get()
+            ->getRow();
+
+        if (!$data) {
+            return redirect()->back()->with('error', 'Data magang tidak ditemukan.');
+        }
+
+        // Update data
+        $updateData = [
+            'status_berkas_lengkap'      => 'N',
+            'tanggal_berkas_lengkap'     => date('Y-m-d H:i:s'),
+            'cttn_berkas_lengkap'        => $catatan,
+            'status_validasi_berkas'     => NULL,
+            'tanggal_validasi_berkas'    => NULL
+        ];
+
+        $this->magangModel->update($id, $updateData);
+
+        // Kirim email
+        $email = \Config\Services::email();
+        $toEmail = $data->email;
+        $ccEmail = $data->email_instansi;
+
+        if (!empty($toEmail)) {
+            $email->setTo($toEmail);
+
+            if (!empty($ccEmail) && filter_var($ccEmail, FILTER_VALIDATE_EMAIL)) {
+                $email->setCC($ccEmail);
+            }
+        }
+
+        $email->setSubject('Hasil Validasi Berkas Magang di PT Semen Padang');
+        $email->setMailType('html');
+
+        $email->setMessage(view('emails/berkas_tidak_valid', [
+            'nama'    => $data->fullname ?? $data->username,
+            'unit'    => $data->unit_kerja ?? 'Unit terkait',
+            'catatan' => $catatan
+        ]));
+
+        if (!$email->send()) {
+            log_message('error', "Gagal kirim email validasi berkas ID $id: " . print_r($email->printDebugger(), true));
+        }
+
+        return redirect()->back()->with('success', 'Validasi tidak valid berhasil disimpan dan email telah dikirim.');
+    }
+
+
 
 
 

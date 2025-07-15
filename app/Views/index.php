@@ -88,9 +88,15 @@ Swal.fire({
         <h1 class="text-white font-weight-bold">
           Magang <br>PT Semen Padang
         </h1>
+        <?php if(logged_in()): ?>
+          <a class="btn btn-primary btn-xl mt-2" href="/lowongan" data-aos="zoom-in" data-aos-delay="600">
+          Daftar Sekarang
+        </a>
+        <?php else: ?>
         <a class="btn btn-primary btn-xl mt-2" href="/register" data-aos="zoom-in" data-aos-delay="600">
           Daftar Sekarang
         </a>
+        <?php endif; ?>
       </div>
     </div>
   </div>
@@ -116,7 +122,7 @@ Swal.fire({
               Program Magang di PT Semen Padang dirancang sebagai sarana pembelajaran langsung bagi pelajar dan mahasiswa untuk mengaplikasikan pengetahuan yang telah diperoleh selama studi ke dunia kerja nyata.
               <br><br> Melalui program ini, peserta magang akan mendapatkan pengalaman praktis di lingkungan industri, serta pemahaman yang lebih mendalam tentang proses kerja di perusahaan manufaktur terkemuka. 
               <br><br>Program ini juga menjadi jembatan untuk mengembangkan keterampilan profesional serta memperluas wawasan karier peserta.            </p>
-            <a href="/register" class="btn btn-primary">Daftar Sekarang</a>
+            <a href="/lowongan" class="btn btn-outline-danger w-100 btn-daftar">Daftar Magang</a>
           </div>
         </div>
       </div>
@@ -130,13 +136,80 @@ Swal.fire({
               Program Penelitian PT Semen Padang ditujukan bagi mahasiswa dan dosen yang ingin melakukan penelitian akademik di lingkungan perusahaan.
               <br><br>Program ini mendukung penyusunan karya ilmiah seperti skripsi, tesis, maupun penelitian lainnya yang relevan dengan bidang industri semen dan operasional perusahaan. 
               <br><br>Dengan membuka akses terhadap data dan informasi yang diperlukan, PT Semen Padang memberikan kontribusi nyata dalam mendukung pengembangan ilmu pengetahuan dan teknologi di tingkat perguruan tinggi.            </p>
-            <a href="/register" class="btn btn-primary">Daftar Sekarang</a>
+            <?php if (logged_in()) : ?>
+              <!-- <a href="/penelitian" class="btn btn-primary">Daftar Penelitian</a> -->
+              <button
+              class="btn btn-outline-danger w-100 btn-daftar"
+              data-bs-toggle="modal"
+              data-bs-target="#modalPendaftaranPenelitian"
+              >
+              Daftar Penelitian <i class="bi bi-arrow-right"></i>
+              </button>
+            <?php else : ?>
+                  <a href="/pendaftaran" class="btn btn-outline-danger w-100" data-bs-toggle="modal" data-bs-target="#loginModal">Daftar Penelitian <i class="bi bi-arrow-right"></i></a>
+            <?php endif; ?>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+<!-- modal login -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-3">
+      <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel">Peringatan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body text-center">
+          <p>Anda harus login terlebih dahulu untuk mendaftar.</p>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+          <a href="<?= base_url('/login'); ?>" class="btn btn-danger rounded-pill px-4">Login</a>
+      </div>
+      </div>
+  </div>
+</div>
+<!-- modal pendaftaran penelitian -->
+<div class="modal fade" id="modalPendaftaranPenelitian" tabindex="-1" aria-labelledby="modalPenelitianLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalPenelitianLabel">Pendaftaran Penelitian</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <form action="/penelitian/daftar" method="post">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="judul" class="form-label">Judul Penelitian</label>
+            <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul penelitian" required>
+          </div>
+          <div class="mb-3">
+            <label for="tanggal_mulai" class="form-label">Tanggal Mulai Penelitian</label>
+            <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" required>
+          </div>
+          <div class="mb-3">
+            <label for="deskripsi" class="form-label">Deskripsi Singkat</label>
+            <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" placeholder="Tuliskan ringkasan topik atau metode penelitian"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="dosen_pembimbing" class="form-label">Nama Dosen Pembimbing</label>
+            <input type="text" class="form-control" id="dosen_pembimbing" name="dosen_pembimbing" placeholder="Opsional">
+          </div>
+          <div class="mb-3">
+            <label for="bidang" class="form-label">Bidang Penelitian</label>
+            <input type="text" class="form-control" id="bidang" name="bidang" placeholder="Contoh: Teknologi Semen, Lingkungan, dll">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary w-100">Kirim Pendaftaran</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 
 <!-- Services -->
 <section class="page-section" id="services">
@@ -158,10 +231,8 @@ Swal.fire({
 
           <div class="col-md-3 mb-2">
             <select class="form-control select2" data-placeholder="Pilih Jenjang Pendidikan" name="pendidikan[]" multiple>
-              <option value="SMA/SMK">SMA/SMK Sederajat</option>
-              <option value="D3">D3</option>
-              <option value="D4/S1">D4/S1</option>
-              <option value="S2">S2</option>
+              <option value="SMK">SMK</option>
+              <option value="Perguruan Tinggi">Perguruan Tinggi</option>
             </select>
           </div>
 
@@ -194,7 +265,7 @@ Swal.fire({
                     <p class="text-muted mb-2">Semua Jurusan</p>
                     <?php endif; ?>
                     <p class="text-muted mb-1">Tingkat : <?= esc($unit->tingkat_pendidikan) ?></p>
-                    <p><strong><?= $unit->sisa_kuota ?> Posisi</strong></p>
+                    <p><strong><?= $unit->sisa_kuota ?> Posisi</strong> <small class="text-muted"><?= $unit->jumlah_pendaftar?> pendaftar</small></p>
                     <div class="mb-2">
                         <span class="badge <?= $unit->sisa_kuota > 0 ? 'bg-success' : 'bg-secondary' ?>">
                             <?= $unit->sisa_kuota > 0 ? 'Tersedia' : 'Penuh' ?>
@@ -206,7 +277,7 @@ Swal.fire({
                       <?php if (logged_in()) : ?>
                           <?php if ($isProfilComplite) : ?>
                             <button
-                            class="btn btn-outline-primary w-100 btn-daftar"
+                            class="btn btn-outline-danger w-100 btn-daftar"
                             data-bs-toggle="modal"
                             data-bs-target="#modalPendaftaran"
                             data-unit-id="<?= $unit->unit_id ?>"
@@ -219,7 +290,7 @@ Swal.fire({
                             </button>
                         <?php endif; ?>
                       <?php else : ?>
-                            <a href="/pendaftaran" class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#loginModal">Daftar Sekarang <i class="bi bi-arrow-right"></i></a>
+                            <a href="/pendaftar an" class="btn btn-outline-danger w-100" data-bs-toggle="modal" data-bs-target="#loginModal">Daftar Sekarang <i class="bi bi-arrow-right"></i></a>
 
                             <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
@@ -232,7 +303,7 @@ Swal.fire({
                                     <p>Anda harus login terlebih dahulu untuk mendaftar.</p>
                                 </div>
                                 <div class="modal-footer d-flex justify-content-center">
-                                    <a href="<?= base_url('/login'); ?>" class="btn btn-primary rounded-pill px-4">Login</a>
+                                    <a href="<?= base_url('/login'); ?>" class="btn btn-danger rounded-pill px-4">Login</a>
                                 </div>
                                 </div>
                             </div>
@@ -245,7 +316,11 @@ Swal.fire({
      </div>
   <?php else: ?>
     <div class="alert alert-info text-center">
-      <strong>Data Lowongan Tidak Ada</strong>
+        <?php if ($filterByUserJurusan): ?>
+            <strong>Tidak ada lowongan yang sesuai jurusan Anda saat ini.</strong>
+        <?php else: ?>
+            <strong>Data Lowongan Tidak Ada</strong>
+        <?php endif; ?>
     </div>
   <?php endif; ?>
 <?php else: ?>
@@ -412,34 +487,66 @@ Swal.fire({
     <div class="accordion accordion-flush mt-5" id="faqAccordion">
       <?php
       $faqs = [
-        "Siapa saja yang bisa mendaftar program magang di PT Semen Padang?",
-        "Apakah program ini terbuka untuk mahasiswa dari luar Sumatera Barat?",
-        "Bagaimana cara mendaftar magang atau penelitian di PT Semen Padang?",
-        "Apakah peserta magang akan mendapatkan uang saku atau fasilitas lain?",
-        "Berapa lama durasi magang di PT Semen Padang?",
-        "Apakah bisa memilih unit/divisi tempat magang?",
-        "Apakah program penelitian juga membutuhkan proposal?",
-        "Apakah akan ada pembimbing selama magang atau penelitian?",
-        "Kapan pendaftaran dibuka?",
-        "Apakah saya akan mendapat sertifikat setelah menyelesaikan magang?",
+        [
+          "question" => "Siapa saja yang bisa mendaftar program magang di PT Semen Padang?",
+          "answer" => "Program magang terbuka untuk <strong>pelajar tingkat SMK</strong>, serta <strong>mahasiswa aktif</strong> dari perguruan tinggi negeri maupun swasta yang sedang menjalani masa studi."
+        ],
+        [
+          "question" => "Apakah program ini terbuka untuk mahasiswa dari luar Sumatera Barat?",
+          "answer" => "Ya, program magang dan penelitian ini terbuka untuk peserta dari <strong>seluruh Indonesia</strong>, selama memenuhi persyaratan dan dapat hadir secara langsung di lokasi kerja."
+        ],
+        [
+          "question" => "Bagaimana cara mendaftar magang atau penelitian di PT Semen Padang?",
+          "answer" => "Pendaftaran dilakukan melalui website ini dengan mengisi formulir pendaftaran dan melampirkan dokumen yang diminta, seperti:<br>• Surat pengantar dari institusi<br>• CV<br>• KTP<br>• Proposal (untuk program penelitian)"
+        ],
+        [
+          "question" => "Apakah peserta magang akan mendapatkan uang saku atau fasilitas lain?",
+          "answer" => "Saat ini, program magang bersifat <strong>non-paid (tidak berbayar)</strong>. Namun, peserta akan mendapatkan <strong>pengalaman kerja langsung</strong>, <strong>sertifikat magang</strong>, serta <strong>bimbingan dari mentor profesional</strong>."
+        ],
+        [
+          "question" => "Berapa lama durasi magang di PT Semen Padang?",
+          "answer" => "Durasi magang bervariasi tergantung kebutuhan peserta dan persetujuan dari pihak PT Semen Padang, biasanya berkisar antara <strong>1 hingga 6 bulan</strong>."
+        ],
+        [
+          "question" => "Apakah bisa memilih unit/divisi tempat magang?",
+          "answer" => "Ya, peserta dapat memilih unit/divisi . Namun, penempatan akhir akan <strong>disesuaikan dengan kebutuhan perusahaan</strong> dan latar belakang pendidikan peserta."
+        ],
+        [
+          "question" => "Apakah program penelitian juga membutuhkan proposal?",
+          "answer" => "Ya, untuk mengikuti program penelitian, peserta wajib mengirimkan <strong>proposal penelitian</strong> yang menjelaskan <strong>topik, tujuan, dan metode</strong>, agar dapat ditinjau oleh tim terkait."
+        ],
+        [
+          "question" => "Apakah akan ada pembimbing selama magang atau penelitian?",
+          "answer" => "Tentu. Setiap peserta akan ditempatkan di bawah <strong>bimbingan mentor</strong> dari PT Semen Padang yang akan mendampingi selama masa magang atau pelaksanaan penelitian."
+        ],
+        [
+          "question" => "Kapan pendaftaran dibuka?",
+          "answer" => "Pendaftaran dibuka secara <strong>berkala pada awal bulan</strong>. Silakan cek halaman Beranda website ini atau Media Sosial PT Semen Padang untuk informasi periode pendaftaran terbaru."
+        ],
+        [
+          "question" => "Apakah saya akan mendapat sertifikat setelah menyelesaikan magang?",
+          "answer" => "Ya, peserta yang menyelesaikan program dengan baik akan mendapatkan <strong>sertifikat resmi</strong> dari PT Semen Padang sebagai bukti partisipasi."
+        ]
       ];
+
+
       $i = 1;
-      foreach ($faqs as $key => $q) :
+      foreach ($faqs as $key => $faq) :
       ?>
         <div class="accordion-item bg-dark border-0" data-aos="fade-up" data-aos-delay="<?= 100 * ($key + 1) ?>">
           <h2 class="accordion-header" id="flush-heading<?= $i ?>">
             <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?= $i ?>" aria-expanded="false" aria-controls="flush-collapse<?= $i ?>">
-              <?= $q ?>
+              <?= $faq["question"] ?>
             </button>
           </h2>
           <div id="flush-collapse<?= $i ?>" class="accordion-collapse collapse" aria-labelledby="flush-heading<?= $i ?>" data-bs-parent="#faqAccordion">
             <div class="accordion-body text-white-50">
-              <!-- Kamu bisa custom jawabannya di sini -->
-              Jawaban detail sesuai kebutuhan.
+              <?= $faq["answer"] ?>
             </div>
           </div>
         </div>
       <?php $i++; endforeach; ?>
+
     </div>
   </div>
 </section>
@@ -452,6 +559,9 @@ Swal.fire({
     easing: 'ease-in-out',
     once: true,
   });
+
+
 </script>
+
 
 <?= $this->endSection(); ?>

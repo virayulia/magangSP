@@ -12,7 +12,8 @@ class PenelitianModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id','unit_id','judul_penelitian','tanggal_daftar','status_seleksi'];
+    protected $allowedFields    = ['user_id','unit_id','judul_penelitian','tanggal_daftar','status_seleksi', 'tanggal_masuk',
+                                    'deskripsi', 'dosen_pembimbing','bidang' ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

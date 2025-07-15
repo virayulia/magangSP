@@ -96,8 +96,10 @@ Swal.fire({
     icon: 'success',
     title: 'Sukses',
     text: '<?= session()->getFlashdata('success') ?>',
-    timer: 2000,
-    showConfirmButton: false
+    confirmButtonText: 'OK',
+    showConfirmButton: true,
+    allowOutsideClick: false, 
+    allowEscapeKey: false
 });
 </script>
 <?php elseif (session()->getFlashdata('error')): ?>
@@ -114,12 +116,12 @@ Swal.fire({
 <ul class="nav nav-tabs profile-tabs mb-4" id="lamaranTab" role="tablist">
     <li class="nav-item" role="presentation">
         <button class="nav-link active" id="status-lamaran-tab" data-bs-toggle="tab" data-bs-target="#status-lamaran" type="button" role="tab">
-            Status Lamaran
+            Pendaftaran Magang
         </button>
     </li>
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="histori-lamaran-tab" data-bs-toggle="tab" data-bs-target="#histori-lamaran" type="button" role="tab">
-            Histori Lamaran
+            Histori Pendaftaran
         </button>
     </li>
 </ul>
@@ -287,26 +289,32 @@ Swal.fire({
                             <?php if ($pendaftaran['status_berkas_lengkap'] === 'N'): ?>
                                 <div class="alert alert-warning">
                                     ❌ Berkas yang Anda lampirkan sebelumnya <strong>belum lengkap atau tidak sesuai</strong>.<br>
-                                    Mohon lengkapi dokumen Anda melalui menu <strong><a href="/profile">Profil</a></strong> dan lakukan validasi ulang.<br><br>
-                                    Jika tidak dilengkapi sebelum <strong><?= format_tanggal_indonesia(date('d M Y', strtotime('-3 days', strtotime($pendaftaran['tanggal_masuk'])))) ?></strong>, maka kesempatan ini akan dianggap <strong>gugur</strong>.
+                                    Mohon lengkapi dokumen Anda melalui menu <strong><a href="/profile?tab=dokumen">Profil</a></strong> dan lakukan validasi ulang.<br><br>
+                                    Jika tidak dilengkapi sebelum <strong><?= format_tanggal_indonesia(date('d M Y', strtotime('+7 days', strtotime($pendaftaran['tanggal_konfirmasi'])))) ?></strong>, maka kesempatan ini akan dianggap <strong>gugur</strong>.
                                 </div>
                             <?php else: ?>
                                 <br><br>
                                 <div class="info-card">
-                                    Mohon lengkapi dokumen persyaratan Anda melalui menu <strong><a href="/profile">Profil</a></strong> selambat-lambatnya pada tanggal <strong><?= format_tanggal_indonesia(date('d M Y', strtotime('-3 days', strtotime($pendaftaran['tanggal_masuk'])))) ?></strong>.<br><br>
+                                    Mohon segera melengkapi dokumen persyaratan Anda melalui menu <strong><a href="/profile?tab=dokumen">Profil</a></strong> selambat-lambatnya pada tanggal <strong><?= format_tanggal_indonesia(date('d M Y', strtotime('+7 days', strtotime($pendaftaran['tanggal_konfirmasi'])))) ?></strong>.<br><br>
                                     Dokumen yang wajib dilengkapi:
                                     <ul class="mb-2 mt-1">
                                         <li>BPJS Ketenagakerjaan</li>
                                         <li>Bukti Pembayaran BPJS Ketenagakerjaan</li>
                                     </ul>
-                                    Jika dokumen belum lengkap hingga batas waktu tersebut, maka kesempatan ini akan dianggap <strong>gugur</strong>.
+                                    Setelah melengkapi seluruh dokumen, jangan lupa untuk menekan tombol <strong>Validasi Berkas Lengkap</strong> agar dokumen Anda dapat diverifikasi oleh tim kami.<br><br>
+                                    Apabila dokumen tidak dilengkapi hingga batas waktu yang ditentukan, maka kesempatan Anda akan dianggap <strong>gugur</strong>.
                                 </div>
                             <?php endif; ?>
-                                <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#validasiBerkasModal">
+                            <?php 
+                            $isBpjsFilled = !empty($user_data->bpjs_tk) && !empty($user_data->buktibpjs_tk);
+                            ?>
+                                <button class="btn btn-primary mt-3" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="<?= $isBpjsFilled ? '#validasiBerkasModal' : '' ?>" 
+                                        <?= $isBpjsFilled ? '' : 'disabled' ?>>
                                     Validasi Berkas Lengkap
                                 </button>
                             
-
                             <!-- Modal Validasi Berkas -->
                             <div class="modal fade" id="validasiBerkasModal" tabindex="-1" aria-labelledby="validasiBerkasModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
@@ -317,13 +325,23 @@ Swal.fire({
                                         </div>
                                         <form action="<?= base_url('magang/validasi-berkas') ?>" method="post">
                                             <div class="modal-body">
-                                                <p>Dengan ini, saya menyatakan bahwa seluruh dokumen yang saya unggah sebagai syarat administrasi magang adalah benar, sah, dan sesuai dengan keadaan sebenarnya.</p>
-                                                <p>Apabila di kemudian hari ditemukan ketidaksesuaian atau ketidakbenaran atas dokumen yang saya berikan, saya bersedia menerima segala konsekuensi sesuai ketentuan yang berlaku.</p>
+                                                <p>
+                                                    Dengan ini, saya menyatakan bahwa seluruh dokumen yang saya unggah sebagai syarat administrasi magang adalah benar, sah, dan sesuai dengan keadaan sebenarnya.
+                                                </p>
+                                                <p>
+                                                    Apabila di kemudian hari ditemukan ketidaksesuaian atau ketidakbenaran atas dokumen yang saya berikan, saya bersedia menerima segala konsekuensi sesuai ketentuan yang berlaku.
+                                                </p>
+                                                <p>
+                                                    Saya juga menyatakan memberikan persetujuan penuh kepada PT Semen Padang untuk menggunakan, menyimpan, dan memproses data pribadi serta dokumen yang saya serahkan, termasuk namun tidak terbatas pada data identitas, riwayat pendidikan, serta dokumen pendukung lainnya, untuk keperluan administrasi, evaluasi, dan kegiatan lain yang berkaitan dengan proses magang.
+                                                </p>
+                                                <p>
+                                                    Pernyataan ini saya buat dengan sebenar-benarnya dan saya memahami bahwa data pribadi saya akan dikelola sesuai dengan ketentuan yang berlaku, termasuk Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi.
+                                                </p>
 
                                                 <div class="form-check mt-3">
                                                     <input class="form-check-input" type="checkbox" name="setuju_berkas" id="setuju_berkas" required>
                                                     <label class="form-check-label" for="setuju_berkas">
-                                                        Saya menyetujui pernyataan di atas dan menyatakan bahwa berkas saya telah lengkap.
+                                                        Saya menyetujui seluruh pernyataan di atas dan menyatakan bahwa berkas saya telah lengkap.
                                                     </label>
                                                 </div>
 
@@ -337,6 +355,7 @@ Swal.fire({
                                     </div>
                                 </div>
                             </div>
+
 
                         <?php endif; ?>
                     </div>

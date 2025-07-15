@@ -140,50 +140,266 @@ Swal.fire({
 
         <!-- Dokumen -->
         <div class="tab-pane fade" id="dokumen" role="tabpanel">
-            <div class="card p-4 shadow-sm rounded-4">
-                <h5 class="fw-bold mb-3">Kelengkapan Dokumen</h5>
-                <p class="text-muted mb-4">Lengkapi dokumen untuk mempermudah proses pendaftaran magang. <br><small class="text-danger">*Wajib diisi</small></p>
+            <div class="tab-pane fade show non-active" id="dokumen" role="tabpanel">
+                <div class="card p-4 shadow">
+                    <h5 class="fw-bold text-uppercase mb-3">
+                        Kelengkapan Dokumen
+                    </h5>
+                    <p class="text-muted mb-4">Lengkapi dokumen untuk mempermudah proses pendaftaran magang.
+                        <br><small class="text-danger">*Wajib diisi</small>
+                    </p>
 
-                <?php 
-                $docs = [
-                    ['cv', 'Curriculum Vitae', true],
-                    ['proposal', 'Proposal', false],
-                    ['surat_permohonan', 'Surat Permohonan', true],
-                    ['ktp_kk', 'KTP/KK', false],
-                    ['bpjs_kes', 'BPJS Kesehatan', false],
-                    ['bpjs_tk', 'BPJS Ketenagakerjaan', false],
-                    ['buktibpjs_tk', 'Bukti Pembayaran BPJS TK', false],
-                ];
-                foreach ($docs as [$field, $label, $wajib]) :
-                    $is_uploaded = !empty($user_data->$field);
-                    $uploadId = ucfirst($field) . "File";
-                ?>
-                <div class="border rounded p-3 mb-3 bg-light">
-                    <h6 class="fw-semibold mb-2"><?= $label ?><?= $wajib ? '<span class="text-danger">*</span>' : '' ?></h6>
-                    <?php if ($is_uploaded): ?>
+                    <!-- CV -->
+                    <div class="border rounded p-3 mb-3 shadow-sm">
+                        <h6 class="fw-semibold text-uppercase mb-2">Curriculum Vitae<span class="text-danger">*</span></h6>
                         <div class="d-flex justify-content-between align-items-center">
-                            <div><i class="bi bi-file-earmark-text me-2"></i><?= esc($user_data->$field) ?></div>
-                            <div>
-                                <a href="<?= base_url('uploads/' . $field . '/' . $user_data->$field) ?>" target="_blank" class="btn btn-sm btn-outline-info">Lihat</a>
-                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmDelete<?= ucfirst($field) ?>(<?= $user_data->id ?>)">Delete</button>
+                            <?php if (!empty($user_data->cv)): ?>
+                                <div>
+                                    <i class="bi bi-file-earmark-text me-2"></i> <?= esc($user_data->cv) ?>
+                                </div>
+                                <div>
+                                    <a href="<?= base_url('uploads/cv/' . $user_data->cv) ?>" target="_blank" class="btn btn-primary btn-sm me-2">Lihat file</a>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDeleteCV(<?= $user_data->id ?>)">Delete</button>                            
+                                </div>
+                            <?php else: ?>
+                                <div class="text-muted">Dokumen belum diupload</div>
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById('cvFile').click();">Upload file</button>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <input type="file" name="cv" id="cvFile" style="display:none;" onchange="uploadCV(this)">
+                        <div id="uploadMessage" class="mt-2"></div>
+                    </div>
+
+                    <!-- Proposal -->
+                    <div class="border rounded p-3 mb-3 shadow-sm">
+                        <h6 class="fw-semibold text-uppercase mb-2">Proposal</h6>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <?php if (!empty($user_data->proposal)): ?>
+                                <div>
+                                    <i class="bi bi-file-earmark-text me-2"></i> <?= esc($user_data->proposal) ?>
+                                </div>
+                                <div>
+                                    <a href="<?= base_url('uploads/proposal/' . $user_data->proposal) ?>" target="_blank" class="btn btn-primary btn-sm me-2">Lihat file</a>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDeleteProposal(<?= $user_data->id ?>)">Delete</button>                            
+                                </div>
+                            <?php else: ?>
+                                <div class="text-muted">Dokumen belum diupload</div>
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById('proposalFile').click();">Upload file</button>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <input type="file" name="proposal" id="proposalFile" style="display:none;" onchange="uploadProposal(this)">
+                        <div id="uploadMessageProposal" class="mt-2"></div>
+                    </div>
+
+                    <!-- Surat Permohonan -->
+                    <div class="border rounded p-3 mb-3 shadow-sm">
+                        <h6 class="fw-semibold text-uppercase mb-2">Surat Permohonan<span class="text-danger">*</span></h6>
+                        <?php if (!empty($user_data->surat_permohonan)): ?>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <i class="bi bi-file-earmark-text me-2"></i> <?= esc($user_data->surat_permohonan) ?>
+                                </div>
+                                <div>
+                                    <a href="<?= base_url('uploads/surat_permohonan/' . $user_data->surat_permohonan) ?>" target="_blank" class="btn btn-primary btn-sm me-2">Lihat file</a>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDeleteSurat(<?= $user_data->id ?>)">Delete</button>  
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-4">
+                                    <p class="mb-1 fw-bold">No. Surat</p>
+                                    <p class="text-muted"><?= esc($user_data->no_surat) ?></p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="mb-1 fw-bold">Tanggal Surat</p>
+                                    <p class="text-muted"><?= esc(date('d-m-Y', strtotime($user_data->tanggal_surat))) ?></p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="mb-1 fw-bold">Pimpinan</p>
+                                    <p class="text-muted"><?= esc($user_data->nama_pimpinan) ?></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p class="mb-1 fw-bold">Jabatan</p>
+                                    <p class="text-muted"><?= esc($user_data->jabatan) ?></p>
+                                </div>
+                                <div class="col-md-8">
+                                    <p class="mb-1 fw-bold">Email Kaprodi/Kepala Sekolah</p>
+                                    <p class="text-muted"><?= esc($user_data->email_instansi) ?></p>
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="text-muted">Dokumen belum diupload</div>
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploadSuratModal">
+                                        Upload file
+                                    </button>                                
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <!-- KTP/KK -->
+                    <div class="border rounded p-3 mb-3 shadow-sm">
+                        <h6 class="fw-semibold text-uppercase mb-2">KTP/KK</h6>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <?php if (!empty($user_data->ktp_kk)): ?>
+                                <div>
+                                    <i class="bi bi-file-earmark-text me-2"></i> <?= esc($user_data->ktp_kk) ?>
+                                </div>
+                                <div>
+                                    <a href="<?= base_url('uploads/ktp-kk/' . $user_data->ktp_kk) ?>" target="_blank" class="btn btn-primary btn-sm me-2">Lihat file</a>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDeleteKTP(<?= $user_data->id ?>)">Delete</button>                            
+                                </div>
+                            <?php else: ?>
+                                <div class="text-muted">Dokumen belum diupload</div>
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById('ktpFile').click();">Upload file</button>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <input type="file" name="ktp_kk" id="ktpFile" style="display:none;" onchange="uploadKTPKK(this)">
+                    </div>
+
+                    <!-- BPJS Kesehatan -->
+                    <div class="border rounded p-3 mb-3 shadow-sm">
+                        <h6 class="fw-semibold text-uppercase mb-2">BPJS Kesehatan</h6>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <?php if (!empty($user_data->bpjs_kes)): ?>
+                                <div>
+                                    <i class="bi bi-file-earmark-text me-2"></i> <?= esc($user_data->bpjs_kes) ?>
+                                </div>
+                                <div>
+                                    <a href="<?= base_url('uploads/bpjs_kes/' . $user_data->bpjs_kes) ?>" target="_blank" class="btn btn-primary btn-sm me-2">Lihat file</a>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDeleteBPJSKes(<?= $user_data->id ?>)">Delete</button>                            
+                                </div>
+                            <?php else: ?>
+                                <div class="text-muted">Dokumen belum diupload</div>
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById('bpjs_kesFile').click();">Upload file</button>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <input type="file" name="bpjs_kes" id="bpjs_kesFile" style="display:none;" onchange="uploadBPJSKes(this)">
+                    </div>
+
+                    <!-- BPJS TK -->
+                    <div class="border rounded p-3 mb-3 shadow-sm">
+                        <h6 class="fw-semibold text-uppercase mb-2">BPJS Ketenagakerjaan</h6>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <?php if (!empty($user_data->bpjs_tk)): ?>
+                                <div>
+                                    <i class="bi bi-file-earmark-text me-2"></i> <?= esc($user_data->bpjs_tk) ?>
+                                </div>
+                                <div>
+                                    <a href="<?= base_url('uploads/bpjs_tk/' . $user_data->bpjs_tk) ?>" target="_blank" class="btn btn-primary btn-sm me-2">Lihat file</a>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDeleteBPJSTK(<?= $user_data->id ?>)">Delete</button>                            
+                                </div>
+                            <?php else: ?>
+                                <div class="text-muted">Dokumen belum diupload</div>
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById('bpjs_tkFile').click();">Upload file</button>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <input type="file" name="bpjs_tk" id="bpjs_tkFile" style="display:none;" onchange="uploadBPJSTK(this)">
+                    </div>
+
+                    <!-- Bukti BPJS TK -->
+                    <div class="border rounded p-3 mb-3 shadow-sm">
+                        <h6 class="fw-semibold text-uppercase mb-2">Bukti Pembayaran BPJS Ketenagakerjaan</h6>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <?php if (!empty($user_data->buktibpjs_tk)): ?>
+                                <div>
+                                    <i class="bi bi-file-earmark-text me-2"></i> <?= esc($user_data->buktibpjs_tk) ?>
+                                </div>
+                                <div>
+                                    <a href="<?= base_url('uploads/buktibpjs_tk/' . $user_data->buktibpjs_tk) ?>" target="_blank" class="btn btn-primary btn-sm me-2">Lihat file</a>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDeleteBuktiBPJSTK(<?= $user_data->id ?>)">Delete</button>                            
+                                </div>
+                            <?php else: ?>
+                                <div class="text-muted">Dokumen belum diupload</div>
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById('buktibpjs_tkFile').click();">Upload file</button>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <input type="file" name="buktibpjs_tk" id="buktibpjs_tkFile" style="display:none;" onchange="uploadBuktiBPJSTK(this)">
+                    </div>
+
+                    <!-- Modal Upload Surat Permohonan -->
+                    <div class="modal fade" id="uploadSuratModal" tabindex="-1" aria-labelledby="uploadSuratModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content rounded">
+                                <form id="uploadSuratForm" enctype="multipart/form-data">
+                                    <div class="modal-header border-0">
+                                        <h5 class="modal-title" id="uploadSuratModalLabel">Upload Surat Permohonan</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="file_surat" class="form-label">File Surat (PDF)</label>
+                                            <input type="file" class="form-control" name="file_surat" id="file_surat" accept="application/pdf" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="no_surat" class="form-label">No. Surat</label>
+                                            <input type="text" class="form-control" name="no_surat" id="no_surat" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="tanggal_surat" class="form-label">Tanggal Surat</label>
+                                            <input type="date" class="form-control" name="tanggal_surat" id="tanggal_surat" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="pimpinan" class="form-label">Nama Pimpinan</label>
+                                            <input type="text" class="form-control" name="pimpinan" id="pimpinan" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="jabatan" class="form-label">Jabatan Pimpinan</label>
+                                            <input type="text" class="form-control" name="jabatan" id="jabatan" required>
+                                        </div>
+                                        <label for="email_instansi" class="form-label">
+                                            Email Kaprodi/Kepala Sekolah
+                                        </label>
+                                        <input type="email" class="form-control" name="email_instansi" id="email_instansi" required>
+                                    </div>
+                                    <div class="modal-footer border-0">
+                                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                    <?php else: ?>
-                        <div class="text-muted">Dokumen belum diupload</div>
-                        <button type="button" class="btn btn-sm btn-primary mt-2" onclick="document.getElementById('<?= $uploadId ?>').click();">Upload file</button>
-                        <input type="file" name="<?= $field ?>" id="<?= $uploadId ?>" style="display:none;" onchange="upload<?= ucfirst($field) ?>(this)">
-                    <?php endif; ?>
+                    </div>
                 </div>
-                <?php endforeach; ?>
-
             </div>
         </div>
+
     </div>
 </div>
 
 <!-- End Tab Data Profil -->
-
+</body>
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var tabParam = urlParams.get('tab');
+
+        if (tabParam) {
+            var triggerEl = document.querySelector('button[data-bs-target="#' + tabParam + '"]');
+            if (triggerEl) {
+                var tab = new bootstrap.Tab(triggerEl);
+                tab.show();
+            }
+        }
+    });
+</script>
+<script>
+
     function uploadCV(input) {
         if (input.files.length === 0) return;
 
@@ -228,7 +444,7 @@ Swal.fire({
     function confirmDeleteCV(userId) {
         Swal.fire({
             title: 'Yakin ingin menghapus?',
-            text: "Dok umen CV akan dihapus permanen.",
+            text: "Dokumen CV akan dihapus permanen.",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',

@@ -36,45 +36,67 @@ class Home extends BaseController
             ->get()
             ->getRow();
 
-        // Ambil filter dari GET
         $unitDipilih      = $this->request->getGet('unit_kerja') ?? [];
         $pendidikanDipilih = $this->request->getGet('pendidikan') ?? [];
         $jurusanDipilih   = $this->request->getGet('jurusan') ?? [];
 
-        // Ambil data kuota (query dasar)
+        // Kuota data (pastikan sudah tambahkan kuota_unit_id di SELECT)
         $kuotaData = $this->magangModel->getSisaKuota();
 
-        // Filter manual
+        // Ambil semua jurusan_unit sekaligus
+        $allJurusanUnit = $db->table('jurusan_unit ju')
+            ->select('ju.kuota_unit_id, j.nama_jurusan')
+            ->join('jurusan j', 'ju.jurusan_id = j.jurusan_id')
+            ->get()
+            ->getResult();
+
+        // Kelompokkan jurusan per kuota_unit_id
+        $jurusanMap = [];
+        foreach ($allJurusanUnit as $row) {
+            $jurusanMap[$row->kuota_unit_id][] = $row->nama_jurusan;
+        }
+
         $filteredData = [];
+        $filterByUserJurusan = false;
+        $userJurusan = null;
+
+        if (logged_in()) {
+            $user = $db->table('users')
+                ->where('id', user_id())
+                ->get()
+                ->getRow();
+            if ($user) {
+                $userJurusan = $user->jurusan_id;
+            }
+        }
 
         if (!empty($kuotaData)) {
             foreach ($kuotaData as $item) {
                 $match = true;
 
-                // Cek filter unit kerja
+                // Filter unit kerja
                 if (!empty($unitDipilih) && !in_array($item->unit_kerja, $unitDipilih)) {
                     $match = false;
                 }
 
-                // Cek filter tingkat pendidikan
+                // Filter pendidikan
                 if (!empty($pendidikanDipilih) && !in_array($item->tingkat_pendidikan, $pendidikanDipilih)) {
                     $match = false;
                 }
 
-                // Cek jurusan di jurusanMap
-                $builder = $db->table('jurusan_unit')
-                    ->select('jurusan.nama_jurusan')
-                    ->join('jurusan', 'jurusan.jurusan_id = jurusan_unit.jurusan_id')
-                    ->where('jurusan_unit.kuota_unit_id', $item->unit_id)
-                    ->get();
-
-                $jurusanList = array_map(fn($row) => $row->nama_jurusan, $builder->getResult());
+                // Jurusan list dari map
+                $jurusanList = $jurusanMap[$item->kuota_unit_id] ?? [];
 
                 if (!empty($jurusanDipilih)) {
-                    // Kalau jurusan tidak ada yang match, skip
                     if (empty(array_intersect($jurusanDipilih, $jurusanList))) {
                         $match = false;
                     }
+                } elseif ($userJurusan) {
+                    $userJurusanNama = $this->jurusanModel->find($userJurusan)['nama_jurusan'] ?? '';
+                    if (!in_array($userJurusanNama, $jurusanList)) {
+                        $match = false;
+                    }
+                    $filterByUserJurusan = true;
                 }
 
                 if ($match) {
@@ -85,7 +107,6 @@ class Home extends BaseController
             }
         }
 
-        // Data unit kerja & jurusan untuk select filter
         $list_unitKerja = $this->unitKerjaModel->findAll();
         $jurusan        = $this->jurusanModel->findAll();
 
@@ -100,8 +121,10 @@ class Home extends BaseController
             'unitDipilih'      => $unitDipilih,
             'pendidikanDipilih'=> $pendidikanDipilih,
             'jurusanDipilih'   => $jurusanDipilih,
+            'filterByUserJurusan' => $filterByUserJurusan,
         ]);
     }
+    
     public function tentang_kami(): string
     {
         return view('tentang_kami');
@@ -115,7 +138,7 @@ class Home extends BaseController
         return view('auth/register');
     }
 
-   public function lowongan(): string
+    public function lowongan(): string
     {
         $db = \Config\Database::connect();
         $today = date('Y-m-d');
@@ -128,45 +151,67 @@ class Home extends BaseController
             ->get()
             ->getRow();
 
-        // Ambil filter dari GET
         $unitDipilih      = $this->request->getGet('unit_kerja') ?? [];
         $pendidikanDipilih = $this->request->getGet('pendidikan') ?? [];
         $jurusanDipilih   = $this->request->getGet('jurusan') ?? [];
 
-        // Ambil data kuota (query dasar)
+        // Kuota data (pastikan sudah tambahkan kuota_unit_id di SELECT)
         $kuotaData = $this->magangModel->getSisaKuota();
 
-        // Filter manual
+        // Ambil semua jurusan_unit sekaligus
+        $allJurusanUnit = $db->table('jurusan_unit ju')
+            ->select('ju.kuota_unit_id, j.nama_jurusan')
+            ->join('jurusan j', 'ju.jurusan_id = j.jurusan_id')
+            ->get()
+            ->getResult();
+
+        // Kelompokkan jurusan per kuota_unit_id
+        $jurusanMap = [];
+        foreach ($allJurusanUnit as $row) {
+            $jurusanMap[$row->kuota_unit_id][] = $row->nama_jurusan;
+        }
+
         $filteredData = [];
+        $filterByUserJurusan = false;
+        $userJurusan = null;
+
+        if (logged_in()) {
+            $user = $db->table('users')
+                ->where('id', user_id())
+                ->get()
+                ->getRow();
+            if ($user) {
+                $userJurusan = $user->jurusan_id;
+            }
+        }
 
         if (!empty($kuotaData)) {
             foreach ($kuotaData as $item) {
                 $match = true;
 
-                // Cek filter unit kerja
+                // Filter unit kerja
                 if (!empty($unitDipilih) && !in_array($item->unit_kerja, $unitDipilih)) {
                     $match = false;
                 }
 
-                // Cek filter tingkat pendidikan
+                // Filter pendidikan
                 if (!empty($pendidikanDipilih) && !in_array($item->tingkat_pendidikan, $pendidikanDipilih)) {
                     $match = false;
                 }
 
-                // Cek jurusan di jurusanMap
-                $builder = $db->table('jurusan_unit')
-                    ->select('jurusan.nama_jurusan')
-                    ->join('jurusan', 'jurusan.jurusan_id = jurusan_unit.jurusan_id')
-                    ->where('jurusan_unit.kuota_unit_id', $item->unit_id)
-                    ->get();
-
-                $jurusanList = array_map(fn($row) => $row->nama_jurusan, $builder->getResult());
+                // Jurusan list dari map
+                $jurusanList = $jurusanMap[$item->kuota_unit_id] ?? [];
 
                 if (!empty($jurusanDipilih)) {
-                    // Kalau jurusan tidak ada yang match, skip
                     if (empty(array_intersect($jurusanDipilih, $jurusanList))) {
                         $match = false;
                     }
+                } elseif ($userJurusan) {
+                    $userJurusanNama = $this->jurusanModel->find($userJurusan)['nama_jurusan'] ?? '';
+                    if (!in_array($userJurusanNama, $jurusanList)) {
+                        $match = false;
+                    }
+                    $filterByUserJurusan = true;
                 }
 
                 if ($match) {
@@ -177,7 +222,6 @@ class Home extends BaseController
             }
         }
 
-        // Data unit kerja & jurusan untuk select filter
         $list_unitKerja = $this->unitKerjaModel->findAll();
         $jurusan        = $this->jurusanModel->findAll();
 
@@ -192,8 +236,10 @@ class Home extends BaseController
             'unitDipilih'      => $unitDipilih,
             'pendidikanDipilih'=> $pendidikanDipilih,
             'jurusanDipilih'   => $jurusanDipilih,
+            'filterByUserJurusan' => $filterByUserJurusan,
         ]);
     }
+
 
 
     private function isProfilComplite(): bool
@@ -206,11 +252,12 @@ class Home extends BaseController
         // Cek kelengkapan field, sesuaikan dengan field pada tabel kamu
         if (!$user) return false;
 
-        $requiredFields = ['fullname', 'alamat', 'nisn_nim','no_hp', 'cv', 'surat_permohonan','tingkat_pendidikan','jurusan_id','instansi_id']; // Tambahkan sesuai kebutuhan
-        if ($user->tingkat_pendidikan !== 'SMA/SMK') {
-            $requiredFields[] = 'proposal';
+        $requiredFields = ['fullname', 'nisn_nim', 'email','jenis_kelamin','alamat','no_hp', 'province_id','city_id',
+        'tingkat_pendidikan', 'instansi_id','jurusan_id','semester', 
+        'surat_permohonan', 'tanggal_surat','no_surat','nama_pimpinan','jabatan','email_instansi']; // Tambahkan sesuai kebutuhan
+       if ($user->tingkat_pendidikan !== 'SMK') {
+            $requiredFields = array_merge($requiredFields, ['proposal', 'cv','nilai_ipk']);
         }
-
         foreach ($requiredFields as $field) {
             if (empty($user->$field)) {
                 return false;
@@ -219,4 +266,37 @@ class Home extends BaseController
 
         return true;
     }
+
+    private function getIncompleteFields(): array
+    {
+        $userId = user_id();
+        $db = \Config\Database::connect();
+
+        $user = $db->table('users')->where('id', $userId)->get()->getRow();
+
+        if (!$user) {
+            return ['user_not_found'];
+        }
+
+        $requiredFields = [
+            'fullname', 'nisn_nim', 'email', 'jenis_kelamin', 'alamat', 'no_hp',
+            'province_id', 'city_id', 'tingkat_pendidikan', 'instansi_id', 'jurusan_id',
+            'semester', 'surat_permohonan', 'tanggal_surat', 'no_surat',
+            'nama_pimpinan', 'jabatan', 'email_instansi'
+        ];
+
+        if ($user->tingkat_pendidikan !== 'SMK') {
+            $requiredFields = array_merge($requiredFields, ['proposal', 'cv', 'nilai_ipk']);
+        }
+
+        $missingFields = [];
+        foreach ($requiredFields as $field) {
+            if (empty($user->$field)) {
+                $missingFields[] = $field;
+            }
+        }
+
+        return $missingFields;
+    }
+
 }

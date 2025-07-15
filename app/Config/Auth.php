@@ -75,8 +75,8 @@ class Auth extends \Myth\Auth\Config\Auth
     public $views = [
         'login'           => 'App\Views\auth\custom_login',
         'register'        => 'App\Views\auth\custom_register',
-        'forgot'          => 'App\Views\Auth\forgot',
-        'reset'           => 'App\Views\Auth\reset',
+        'forgot'          => 'App\Views\Auth\custom_forgot',
+        'reset'           => 'App\Views\Auth\custom_reset',
         'emailForgot'     => 'App\Views\Auth\emails\forgot',
         'emailActivation' => 'App\Views\Auth\emails\activation',
     ];

@@ -35,32 +35,88 @@ Swal.fire({
         <div class="tab-pane fade show active" id="pelaksanaan" role="tabpanel">
             <p class="text-muted">Panduan dan tugas penting yang perlu kamu selesaikan sebelum memulai magang:</p>
 
+
             <!-- Surat Pernyataan -->
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">📝 Surat Pernyataan</h5>
-                    <p>Unduh, isi, dan unggah kembali surat pernyataan berikut sebagai salah satu syarat pelaksanaan magang.</p>
-
-                    <a href="<?= base_url('template/surat-pernyataan.pdf') ?>" class="btn btn-outline-primary mb-3" download>
-                        <i class="bi bi-download"></i> Unduh Template Surat Pernyataan
-                    </a>
-
-                    <!-- Status Unggah -->
-                    <?php if (!empty($pendaftaran['file_pernyataan'])): ?>
-                        <div class="alert alert-success p-2">
-                            ✅ Surat pernyataan telah diunggah pada <strong><?= date('d M Y', strtotime($pendaftaran['tgl_upload_pernyataan'])) ?></strong>.
-                        </div>
-                    <?php endif; ?>
-
-                    <form action="<?= base_url('magang/upload-surat-pernyataan') ?>" method="post" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="file_pernyataan" class="form-label">Unggah Surat Pernyataan (PDF)</label>
-                            <input class="form-control" type="file" name="file_pernyataan" id="file_pernyataan" accept="application/pdf" required>
-                        </div>
-                        <button type="submit" class="btn btn-success">Unggah Surat</button>
-                    </form>
-                </div>
+            <!-- Tombol Buka Surat Pernyataan -->
+<div class="card shadow-sm mb-4">
+    <div class="card-body ">
+        <h5 class="card-title">📝 Surat Pernyataan</h5>
+        
+        
+        <?php if (!empty($pendaftaran['tanggal_setujui_pernyataan'])): ?>
+            <p>Anda telah menyetujui Surat Pernyataan, berikut bukti persetujuan Anda.</p>
+            <div class="alert alert-success p-3 text-center">
+                <h5>✅ Terima Kasih!</h5>
+                <p>Berikut bukti persetujuan Anda:</p>
+                <ul class="list-unstyled mb-0">
+                    <li><strong>Nama:</strong> <?= esc(user()->fullname) ?></li>
+                    <li><strong>Tahun Pernyataan:</strong> <?= date('Y') ?></li>
+                    <li><strong>Tanggal Pernyataan:</strong> <?= date('d M Y', strtotime($pendaftaran['tanggal_setujui_pernyataan'])) ?></li>
+                </ul>
             </div>
+        <?php else: ?>
+            <p>Klik tombol di bawah ini untuk membaca dan menyetujui surat pernyataan.</p>
+            <a href="<?= base_url('magang/surat-pernyataan') ?>" class="btn btn-primary">Baca & Setujui Surat Pernyataan</a>
+        <?php endif; ?>
+    </div>
+</div>
+
+<!-- Modal Surat Pernyataan -->
+<div class="modal fade" id="modalPernyataan" tabindex="-1" aria-labelledby="modalPernyataanLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <form action="<?= base_url('magang/setuju-surat-pernyataan') ?>" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalPernyataanLabel">Surat Pernyataan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Yang bertanda tangan di bawah ini:</p>
+                    <ul>
+                        <li><strong>Nama:</strong> <?= esc(user()->fullname) ?></li>
+                        <li><strong>NISN/NIM:</strong> <?= esc(user()->nisn_nim) ?></li>
+                        <li><strong>Perguruan Tinggi/Sekolah:</strong> <?= esc($user_data->nama_instansi ?? '-') ?></li>
+                        <li><strong>Alamat sesuai KTP:</strong> <?= esc(user()->alamat ?? '-') ?></li>
+                    </ul>
+                    <p>Dengan ini menyatakan bahwa saya adalah mahasiswa/siswa yang melakukan Kerja Praktek/Penelitian di Unit <?= $pendaftaran['unit_kerja']; ?> 
+                    PT Semen Padang sejak Tanggal <?= $pendaftaran['tanggal_masuk'];?> sampai dengan <?= $pendaftaran['tanggal_selesai']; ?></p>
+                    <p>Saya menyatakan hal-hal sebagai berikut:</p>
+                    <ol>
+                        <strong><li>Kepatuhan terhadap Peraturan Perusahaan dan K3</li></strong>
+                        <ul>
+                            <li>Saya akan mematuhi semua peraturan dan tata tertib yang berlaku di PT Semen Padang, serta menjaga nama baik Perguruan TInggi/Sekolah dan Perusahaan.</li>
+                            <li>Selama melaksanakan Kerja Praktek/Penelitian di area kerja PT Semen Padang (Produksi, Pemeliharaan, Tambang, SP Inventory, dan SHE), saya akan memakai sepatu safety, helm warna biru dengan tali pengaman, serta rompi scotlight/safety vest sesuai dengan standar keselamatan kerja.</li>
+                        </ul>
+                        <strong><li>Tanggung Jawab dan Perawatan Fasilitas Perusahaan</li></strong>
+                        <ul>
+                            <li>Saya akan melaksanakan tugas dan tanggung jawab yang diberikan dengan penuh tanggung jawab.</li>
+                            <li>Saya akan menjaga kondisi barang, peralatan dan fasilitas milik Perusahaan agar tetap dalam keadaan yang baik dan berfungsi dengan optimal.</li>
+                        </ul>
+                        <strong><li>Kerahasiaan Data dan Informasi</li></strong>
+                        <ul>
+                            <li>Saya memahami bahwa semua data dan informasi yang diperoleh selama kegiatan Kerja Praktek/Penelitian adalah sepenuhnya milik PT Semen Padang</li>
+                            <li>Saya berkomitmen untuk menjaga kerahasiaan data dan informasi milik PT Semen Padang, serta tidak akan memberikan dan/atau menyebarkannya kepada pihak yang tidak berkepentingan atau pihat lain yang dapat memanfaatkan data tersebut untuk kepentingan pribadi/kelompok yang dapat atau berpotensi merugikan PT Semen Padang.</li>
+                            <li>Seluruh data dan informasi yang diterima dari PT Semen Padang hanya akan digunakan untuk keperluan penulisan hasil Kerja Praktek/Penelitian dan tidak akan dipublikasikan secara umum atau digunakan untuk kepentingan lain tanpa izin dari PT Semen Padang.</li>
+                            <li>Pernyataan mengenai kerahasiaan data dan informasi ini tetap berlaku dan mengikat meskipun periode Kerja Praktek/Penelitian telah berakhir. Untuk penggunaan data dan informasi yang akan dipublikasikan atau digunakan dikemudian hari, saya akan memperoleh persetujuan ulang dari PT Semen Padang.</li>
+                        </ul>
+                        <strong><li>Sanksi</li></strong>
+                        <ul>
+                            <li>Saya bersedia dikenakan sanksi sesuai peraturan yang berlaku dan akan bertanggung jawab secara hukum apabila melakukan pelanggaran pada poin 1, 2 dan 3 diatas. Saya siap menanggung biaya kerusakan atau kerugian yang ditimbulkan oleh pelanggaran tersebut.</li>
+                        </ul>
+                    </ol>
+                    <p>Demikian surat pernyataan ini saya buat dengan sebenar-benarnya tanpa adanya tekanan dari pihak manapun.</p>
+                    <p><strong>Padang, <?= date('d M Y') ?></strong></p>
+                    <p><em>Yang membuat pernyataan</em></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Setujui & Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 
             <!-- Safety Induction -->
             <div class="card shadow-sm mb-4">

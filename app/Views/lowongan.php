@@ -40,8 +40,10 @@ Swal.fire({
     icon: 'success',
     title: 'Sukses',
     text: '<?= session()->getFlashdata('success') ?>',
-    timer: 2000,
-    showConfirmButton: false
+    confirmButtonText: 'OK',
+    showConfirmButton: true,
+    allowOutsideClick: false, 
+    allowEscapeKey: false
 });
 </script>
 <?php elseif (session()->getFlashdata('error')): ?>
@@ -75,10 +77,8 @@ Swal.fire({
 
     <div class="col-md-3 mb-2">
       <select class="form-control select2" data-placeholder="Pilih Jenjang Pendidikan" name="pendidikan[]" multiple>
-        <option value="SMA/SMK">SMA/SMK Sederajat</option>
-        <option value="D3">D3</option>
-        <option value="D4/S1">D4/S1</option>
-        <option value="S2">S2</option>
+        <option value="SMK">SMK</option>
+        <option value="Perguruan Tinggi">Perguruan Tinggi</option>
       </select>
     </div>
 
@@ -110,7 +110,7 @@ Swal.fire({
                     <p class="text-muted mb-2">Semua Jurusan</p>
                     <?php endif; ?>
                     <p class="text-muted mb-1">Tingkat : <?= esc($unit->tingkat_pendidikan) ?></p>
-                    <p><strong><?= $unit->sisa_kuota ?> Posisi</strong></p>
+                    <p><strong><?= $unit->sisa_kuota ?> Posisi</strong>  <small class="text-muted"><?= $unit->jumlah_pendaftar?> pendaftar</small></p>
                     <div class="mb-2">
                         <span class="badge <?= $unit->sisa_kuota > 0 ? 'bg-success' : 'bg-secondary' ?>">
                             <?= $unit->sisa_kuota > 0 ? 'Tersedia' : 'Penuh' ?>
@@ -122,7 +122,7 @@ Swal.fire({
                       <?php if (logged_in()) : ?>
                           <?php if ($isProfilComplite) : ?>
                             <button
-                            class="btn btn-outline-primary w-100 btn-daftar"
+                            class="btn btn-outline-danger w-100 btn-daftar"
                             data-bs-toggle="modal"
                             data-bs-target="#modalPendaftaran"
                             data-unit-id="<?= $unit->unit_id ?>"
@@ -135,7 +135,7 @@ Swal.fire({
                             </button>
                         <?php endif; ?>
                       <?php else : ?>
-                            <a href="/pendaftaran" class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#loginModal">Daftar Sekarang <i class="bi bi-arrow-right"></i></a>
+                            <a href="/pendaftaran" class="btn btn-outline-danger w-100" data-bs-toggle="modal" data-bs-target="#loginModal">Daftar Sekarang <i class="bi bi-arrow-right"></i></a>
 
                             <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
@@ -148,7 +148,7 @@ Swal.fire({
                                     <p>Anda harus login terlebih dahulu untuk mendaftar.</p>
                                 </div>
                                 <div class="modal-footer d-flex justify-content-center">
-                                    <a href="<?= base_url('/login'); ?>" class="btn btn-primary rounded-pill px-4">Login</a>
+                                    <a href="<?= base_url('/login'); ?>" class="btn btn-danger rounded-pill px-4">Login</a>
                                 </div>
                                 </div>
                             </div>
@@ -161,7 +161,11 @@ Swal.fire({
      </div>
   <?php else: ?>
     <div class="alert alert-info text-center">
-      <strong>Data Lowongan Tidak Ada</strong>
+        <?php if ($filterByUserJurusan): ?>
+            <strong>Tidak ada lowongan yang sesuai jurusan Anda saat ini.</strong>
+        <?php else: ?>
+            <strong>Data Lowongan Tidak Ada</strong>
+        <?php endif; ?>
     </div>
   <?php endif; ?>
 <?php else: ?>

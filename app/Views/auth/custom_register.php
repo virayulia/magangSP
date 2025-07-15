@@ -150,7 +150,7 @@
               </div>
               <div class="mb-2">
                 <label class="required-star">Alamat Lengkap (Sesuai KTP)</label>
-                <textarea name="alamat" class="form-control" rows="2" required></textarea>
+                <textarea name="alamat" class="form-control" rows="3" required></textarea>
               </div>
               <div class="mb-2">
                 <label class="required-star">Provinsi</label>
@@ -162,16 +162,33 @@
                 </select>
                 <div id="provinsiError" class="text-danger small mt-1"></div>
               </div>
-
-              <div class="mb-3">
+              <div class="mb-2">
                 <label class="required-star">Kota/Kabupaten</label>
                 <select name="kota" id="kota" class="form-select" required>
                     <option value="" disabled hidden>Pilih Kota/Kabupaten</option>
                 </select>
                 <div id="kotaError" class="text-danger small mt-1"></div>
               </div>
-
-              <div class="mb-3">
+              <div class="mb-2">
+                <label>Alamat Lengkap Domisili</label>
+                <textarea name="domisili" class="form-control" rows="3"></textarea>
+              </div>
+              <div class="mb-2">
+                <label>Provinsi Domisili</label>
+                <select name="provinsiDom" id="provinsiDom" class="form-select" >
+                    <option value="" disabled selected hidden>Pilih Provinsi Domisili</option>
+                    <?php foreach ($provinsi as $p) : ?>
+                    <option value="<?= $p['id']; ?>"><?= $p['province']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="mb-2">
+                <label>Kota/Kabupaten Domisili</label>
+                <select name="kotaDom" id="kotaDom" class="form-select">
+                    <option value="" disabled hidden>Pilih Kota/Kabupaten Domisili</option>
+                </select>
+              </div>
+              <div class="mb-2">
                 <label class="required-star">Foto</label>
                 <input type="file" name="user_image" class="form-control" accept="image/*" required>
               </div>
@@ -180,65 +197,67 @@
 
             <!-- Step 2 -->
             <div class="form-step d-none" id="form-step-2">
-              <div class="mb-2">
-                <label class="required-star">Asal Kampus/Sekolah</label>
-                <select name="instansi" id="instansi" class="form-select" required>
-                  <option value="" disabled selected hidden>Pilih Instansi</option>
-                  <?php foreach($instansi as $item) : ?>
-                    <option value="<?= $item['instansi_id']?>"><?= $item['nama_instansi'] ?></option>
-                    <?php endforeach; ?>
-                </select>
-              </div>
+                <div class="mb-2">
+                    <label class="required-star">Jenjang Pendidikan</label>
+                    <select name="jenjang_pendidikan" id="jenjang-pendidikan" class="form-select" required>
+                        <option value="" disabled selected hidden>Pilih</option>
+                        <option value="SMK">SMK</option>
+                        <option value="D3">D3</option>
+                        <option value="D4/S1">D4/S1</option>
+                        <option value="S2">S2</option>
+                    </select>
+                </div>
 
-              <div class="mb-2">
-                <label class="required-star">Jurusan</label>
-                <select name="jurusan" id="jurusan" class="form-select" required>
-                  <option value="" disabled selected hidden>Pilih Jurusan</option>
-                  <?php foreach($jurusan as $item) : ?>
-                  <option value="<?= $item['jurusan_id'] ?>"><?= $item['nama_jurusan'] ?></option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
-              <div class="mb-2">
-                <label class="required-star">Jenjang Pendidikan</label>
-                <select name="jenjang_pendidikan" id="jenjang-pendidikan" class="form-select" required>
-                  <option value="" disabled selected hidden>Pilih</option>
-                  <option value="SMA/SMK">SMA/SMK Sederajat</option>
-                  <option value="D3">D3</option>
-                  <option value="D4/S1">D4/S1</option>
-                  <option value="S2">S2</option>
-                </select>
-              </div>
-              <div class="mb-3" id="group-semester">
-                <label class="required-star">Semester</label>
-                <input type="number" name="semester" class="form-control" min="1">
-              </div>
-              <div class="mb-3">
-                <label class="required-star">Nilai/IPK</label>
-                <input type="number" name="nilai_ipk" class="form-control" step="0.01" min="1" required>
-                <small class="text-muted" id="help-nilai">Gunakan titik (.) sebagai pemisah desimal, contoh: 3.50</small>
-              </div>
+                <!-- Field lain disembunyikan dulu -->
+                <div id="other-fields" style="display: none;">
+                    <div class="mb-2">
+                        <label class="required-star" id="labelInstansi">Asal Instansi</label>
+                        <select name="instansi" id="instansi" class="form-select" required>
+                            <option value="" disabled selected hidden>Pilih Instansi</option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label class="required-star">Jurusan</label>
+                        <select name="jurusan" id="jurusan" class="form-select" required>
+                            <option value="" disabled selected hidden>Pilih Jurusan</option>
+                            <?php foreach($jurusan as $item): ?>
+                                <option value="<?= $item['jurusan_id'] ?>"><?= $item['nama_jurusan'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="required-star" id="labelSemester">Semester</label>
+                        <input type="number" name="semester" class="form-control" min="1" required>
+                    </div>
+                    <div class="mb-3" id="group-nilai">
+                        <label class="required-star" >Nilai/IPK</label>
+                        <input type="number" name="nilai_ipk" class="form-control" step="0.01" min="1" required>
+                        <small class="text-muted" id="help-nilai">Gunakan titik (.) sebagai pemisah desimal, contoh: 3.50</small>
+                    </div>
+                </div>
 
-              <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep(2)">Kembali</button>
-              <button type="button" class="btn btn-primary w-100" onclick="nextStep(2)">Lanjut</button>
+                <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep(2)">Kembali</button>
+                <button type="button" class="btn btn-primary w-100" onclick="nextStep(2)">Lanjut</button>
             </div>
+
 
             <!-- Step 3 -->
             <div class="form-step d-none" id="form-step-3">
 
-              <div class="mb-3">
-                  <label class="required-star">CV</label>
-                  <input type="file" name="cv" class="form-control" required>
-              </div>
-
-              <div class="mb-3">
-                  <label>Proposal (wajib jika mahasiswa)</label>
-                  <input type="file" name="proposal" class="form-control">
+              <div id="pt-fields">
+                  <div class="mb-3">
+                      <label class="required-star">CV</label>
+                      <input type="file" name="cv" class="form-control" accept="application/pdf" required>
+                  </div>
+                  <div class="mb-3">
+                      <label class="required-star">Proposal</label>
+                      <input type="file" name="proposal" class="form-control" accept="application/pdf"required>
+                  </div>
               </div>
 
               <div class="mb-3">
                   <label class="required-star">Surat Permohonan</label>
-                  <input type="file" name="surat_permohonan" class="form-control" required>
+                  <input type="file" name="surat_permohonan" class="form-control" accept="application/pdf" required>
               </div>
               <div class="row">
                   <div class="col-md-6 mb-3">
@@ -258,45 +277,14 @@
                       <input type="text" name="jabatan" class="form-control" required>
                   </div>
                   <div class="col-12 mb-3">
-                      <label class="required-star">Email Instansi (untuk balasan)</label>
+                      <label class="required-star" id="labelEmail">Email Instansi (untuk balasan)</label>
                       <input type="email" name="email_instansi" class="form-control" required>
                   </div>
               </div>
-
               <div class="mb-3">
                   <label class="required-star">KTP/KK</label>
-                  <input type="file" name="ktp_kk" class="form-control" required>
+                  <input type="file" name="ktp_kk" class="form-control" accept="application/pdf,image/jpeg,image/png" required>
               </div>
-
-              <div class="mb-3">
-                  <label>BPJS Kesehatan (opsional)</label>
-                  <input type="file" name="bpjs_kes" class="form-control">
-              </div>
-
-              <div class="mb-3">
-                  <label>BPJS TK (boleh diisi nanti)</label>
-                  <input type="file" name="bpjs_tk" class="form-control">
-              </div>
-
-              <div class="mb-3">
-                  <label>Bukti Bayar BPJS TK (boleh diisi nanti)</label>
-                  <input type="file" name="bukti_bayar_bpjs" class="form-control">
-              </div>
-
-              <div class="mb-3">
-                  <label>Pilih Program <span class="text-danger">*</span></label>
-                  <select name="program" id="program" class="form-select" required>
-                      <option value="">Pilih Program</option>
-                      <option value="magang">Magang</option>
-                      <option value="penelitian">Penelitian</option>
-                  </select>
-              </div>
-
-              <div id="judulPenelitianDiv" style="display: none;" class="mb-3">
-                  <label>Judul Penelitian</label>
-                  <input type="text" name="judul_penelitian" class="form-control">
-              </div>
-
               <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep(3)">Kembali</button>
               <button type="submit" class="btn btn-success w-100">Simpan & Daftar</button>
             </div>
@@ -311,30 +299,92 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const pendidikan = document.getElementById('jenjang-pendidikan');
-        const groupSemester = document.getElementById('group-semester');
-        const helpNilai = document.getElementById('help-nilai');
+document.addEventListener('DOMContentLoaded', function () {
+    const pendidikan = document.getElementById('jenjang-pendidikan');
+    const otherFields = document.getElementById('other-fields');
+    const labelInstansi = document.getElementById('labelInstansi');
+    const groupNilai = document.getElementById('group-nilai');
+    const nilaiInput = document.querySelector('input[name="nilai_ipk"]');
+    const labelSemester = document.getElementById('labelSemester');
+    const instansiSelect = document.getElementById('instansi');
 
-        function toggleFields() {
-            const isSMA = pendidikan.value === 'SMA/SMK';
+    // Elemen Step 3
+    const cvField = document.querySelector('input[name="cv"]');
+    const proposalField = document.querySelector('input[name="proposal"]');
+    const cvGroup = cvField.closest('.mb-3');
+    const proposalGroup = proposalField.closest('.mb-3');
+    const labelEmail = document.getElementById('labelEmail');
 
-            // Sembunyikan/tampilkan semester
-            groupSemester.style.display = isSMA ? 'none' : 'block';
 
-            // Ubah label dan helper untuk nilai/IPK
-            helpNilai.textContent = isSMA
-                ? 'Gunakan titik (.) sebagai pemisah desimal, contoh: 85.00'
-                : 'Gunakan titik (.) sebagai pemisah desimal, contoh: 3.50';
+    function toggleFields() {
+        const value = pendidikan.value;
+        if (!value) {
+            otherFields.style.display = 'none';
+            return;
         }
 
-        // Inisialisasi saat halaman dimuat
-        toggleFields();
+        // Tampilkan field lain di step 2
+        otherFields.style.display = 'block';
 
-        // Event saat pendidikan diubah
-        pendidikan.addEventListener('change', toggleFields);
-    });
+        if (value === 'SMK') {
+            labelInstansi.textContent = 'Asal Sekolah';
+            groupNilai.style.display = 'none';
+            labelSemester.textContent = 'Kelas';
+            nilaiInput.removeAttribute('required');
+
+            // Step 3: hide CV & Proposal, remove required
+            cvGroup.style.display = 'none';
+            proposalGroup.style.display = 'none';
+            cvField.removeAttribute('required');
+            proposalField.removeAttribute('required');
+            labelEmail.textContent = 'Email Kepala Sekolah';
+
+
+        } else {
+            labelInstansi.textContent = 'Asal Kampus';
+            groupNilai.style.display = 'block';
+            labelSemester.textContent = 'Semester';
+            nilaiInput.setAttribute('required', 'required');
+
+            // Step 3: show CV & Proposal, add required ke CV
+            cvGroup.style.display = 'block';
+            cvField.setAttribute('required', 'required');
+            proposalGroup.style.display = 'block';
+            labelEmail.textContent = 'Email Ketua Program Studi';
+        }
+
+        // Panggil AJAX untuk instansi
+        getInstansi(value);
+    }
+
+    function getInstansi(jenjang) {
+        instansiSelect.innerHTML = '<option value="" disabled selected hidden>Loading...</option>';
+        let kelompok = (jenjang === 'SMK') ? 'smk' : 'pt';
+
+        $.ajax({
+            url: '/get-instansi',
+            type: 'GET',
+            data: { kelompok: kelompok },
+            success: function(response) {
+                instansiSelect.innerHTML = '<option value="" disabled selected hidden>Pilih Instansi</option>';
+                response.forEach(function(item) {
+                    const option = document.createElement('option');
+                    option.value = item.instansi_id;
+                    option.textContent = item.nama_instansi;
+                    instansiSelect.appendChild(option);
+                });
+            },
+            error: function() {
+                instansiSelect.innerHTML = '<option value="" disabled selected hidden>Gagal load instansi</option>';
+            }
+        });
+    }
+
+    pendidikan.addEventListener('change', toggleFields);
+});
+
 </script>
+
 <script>
 function nextStep(current) {
   let currentStep = document.getElementById('form-step-' + current);
@@ -434,7 +484,7 @@ function nextStep(current) {
   }
 
   $(document).ready(function() {
-    $('#provinsi, #instansi, #jurusan').select2({
+    $('#provinsi, #instansi, #jurusan, #provinsiDom, #kotaDom').select2({
         theme: 'bootstrap4',
         width: '100%',
         placeholder: function(){
@@ -444,6 +494,9 @@ function nextStep(current) {
     });
     $('#provinsi').on('change', function () {
         $('#kota').val(null).trigger('change');
+    });
+    $('#provinsiDom').on('change', function () {
+        $('#kotaDom').val(null).trigger('change');
     });
     $('#kota').select2({
         theme: 'bootstrap4',
@@ -457,6 +510,29 @@ function nextStep(current) {
             data: function (params) {
                 return {
                     provinsi: $('#provinsi').val(), // ini sudah benar
+                    searchTerm: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data.data
+                };
+            },
+            cache: true
+        }
+    });
+    $('#kotaDom').select2({
+        theme: 'bootstrap4',
+        width: '100%',
+        placeholder: 'Pilih Kota',
+        allowClear: true,
+        ajax: {
+            url: '<?= base_url(); ?>/api/kota',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    provinsi: $('#provinsiDom').val(), // ini sudah benar
                     searchTerm: params.term
                 };
             },

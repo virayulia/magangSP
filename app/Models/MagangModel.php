@@ -16,7 +16,7 @@ class MagangModel extends Model
                                     'status_seleksi', 'tanggal_seleksi','status_konfirmasi','tanggal_konfirmasi',
                                     'status_validasi_berkas','tanggal_validasi_berkas','status_berkas_lengkap',
                                     'tanggal_berkas_lengkap','pembimbing_id', 'tanggal_masuk','tanggal_selesai',
-                                    'status_akhir'
+                                    'status_akhir', 'tanggal_setujui_pernyataan', 'cttn_berkas_lengkap'
                                     ];
 
     protected bool $allowEmptyInserts = false;
@@ -53,6 +53,7 @@ class MagangModel extends Model
     {
         $builder = $this->db->query("
            SELECT 
+                ku.kuota_unit_id,
                 ku.unit_id,
                 uk.unit_kerja,
                 ku.tingkat_pendidikan,

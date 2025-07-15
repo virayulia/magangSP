@@ -52,7 +52,7 @@ class Magang extends BaseController
             ->getRow();
         $periode_id = $periode->periode_id;
         if ($existing) {
-            return redirect()->back()->with('error', 'Kamu sudah mendaftar magang. Tidak bisa daftar lagi.');
+            return redirect()->back()->with('error', 'Anda telah berhasil mendaftar magang. Saat ini, Anda tidak dapat melakukan pendaftaran kembali.');
         }
 
         // Simpan pendaftaran baru
@@ -66,7 +66,7 @@ class Magang extends BaseController
             'created_at' => date('Y-m-d H:i:s'),
         ]);
 
-        return redirect()->to('/lowongan')->with('success', 'Pendaftaran berhasil dikirim.');
+        return redirect()->to('/lowongan')->with('success', 'Pendaftaran berhasil dikirim. Silahkan pantau Pendaftaran Anda di Menu Profil - Pendaftaran Magang.');
     }
 
 
@@ -92,7 +92,7 @@ class Magang extends BaseController
         // Update data pendaftaran
         if ($this->magangModel->update($id, $data)) {
             // Jika berhasil, redirect dengan pesan sukses
-            return redirect()->to('/status-lamaran')->with('success', 'Pendaftaran berhasil dikonfirmasi.');
+            return redirect()->to('/status-lamaran')->with('success', 'Pendaftaran berhasil dikonfirmasi! Selanjutnya, mohon lengkapi berkas Anda dan lakukan validasi untuk melanjutkan proses.');
         } else {
             // Jika gagal, tampilkan pesan error
             return redirect()->back()->with('error', 'Terjadi kesalahan saat mengkonfirmasi pendaftaran.');
@@ -125,7 +125,7 @@ class Magang extends BaseController
         }
 
         if ($this->magangModel->update($id, $data)) {
-            return redirect()->to('/status-lamaran')->with('success', 'Validasi berhasil. Kami menghargai komitmen Anda dalam melengkapi dokumen dengan benar.');
+            return redirect()->to('/status-lamaran')->with('success', 'Validasi berhasil. Kami menghargai komitmen Anda dalam melengkapi dokumen dengan benar. Selanjutnya, silahkan cek email dan website ini secara berkala untuk info validasi berkas Anda.');
         } else {
             return redirect()->back()->with('error', 'Terjadi kesalahan saat mengkonfirmasi pendaftaran.');
         }
@@ -154,6 +154,49 @@ class Magang extends BaseController
             'user' => $user,
         ]);
     }
+
+    public function suratPernyataan()
+    {
+        $userId = user_id();
+
+        // Ambil data profil
+        $userData = $this->userModel
+            ->join('instansi', 'instansi.instansi_id = users.instansi_id', 'left')
+            ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id', 'left')
+            ->select('users.*, instansi.nama_instansi, jurusan.nama_jurusan')
+            ->where('users.id', $userId)
+            ->first();
+
+        // Ambil data pendaftaran user (pastikan sesuai nama tabel kamu)
+        $pendaftaran = $this->magangModel
+            ->where('user_id', $userId)
+            ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id')
+            ->orderBy('tanggal_daftar', 'desc')
+            ->first();
+
+        // Kalau sudah lulus, tampilkan view pelaksanaan normal
+        return view('user/surat_pernyataan', [
+            'user_data' => $userData,
+            'pendaftaran' => $pendaftaran
+        ]);
+    }
+
+    public function setujuiPernyataan()
+    {
+    $db = \Config\Database::connect();
+    $builder = $db->table('magang');
+
+    $userId = user()->id; // Pastikan sesuai field user kamu
+    $tanggal = date('Y-m-d');
+
+    // Update data pendaftaran
+    $builder->where('user_id', $userId)
+        ->update([
+            'tanggal_setujui_pernyataan' => $tanggal
+        ]);
+
+    return redirect()->to(base_url('pelaksanaan'))->with('message', 'Surat pernyataan berhasil disetujui.');
+}
 
 
 

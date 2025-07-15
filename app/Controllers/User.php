@@ -252,7 +252,7 @@ class User extends BaseController
         // Muat tampilan profil
         $db = \Config\Database::connect();
         $today = date('Y-m-d');
-//  dd($data);
+        //  dd($data);
         // Ambil periode aktif
         $periode = $db->table('periode_magang')
             ->where('tanggal_buka <=', $today) // sudah dibuka
@@ -284,6 +284,7 @@ class User extends BaseController
         // Ambil data pendaftaran user (pastikan sesuai nama tabel kamu)
         $pendaftaran = $this->magangModel
             ->where('user_id', $userId)
+            ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id')
             ->orderBy('tanggal_daftar', 'desc')
             ->first();
 

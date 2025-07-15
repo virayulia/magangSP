@@ -71,11 +71,11 @@
               </div>
               <?php endif; ?>
               <!-- Bikin halaman forgotnya -->
-              <!-- <?php if ($config->activeResetter): ?>
+              <?php if ($config->activeResetter): ?>
               <div class="text-center mt-2">
                 <a class="small text-muted" href="<?= url_to('forgot') ?>"><?=lang('Auth.forgotYourPassword')?></a>
               </div>
-              <?php endif; ?> -->
+              <?php endif; ?>
             </div>
           </div>
         </div>

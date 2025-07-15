@@ -205,7 +205,7 @@
                         <?php $pendidikan = $user_data->tingkat_pendidikan ?? ''; ?>
                             <select class="form-select" name="pendidikan" id="pendidikan" required>
                                 <option value="" disabled <?= $pendidikan === '' ? 'selected' : '' ?>>Tingkat Pendidikan</option>
-                                <option value="SMA/SMK" <?= $pendidikan === 'SMA/SMK' ? 'selected' : '' ?>>SMA/SMK Sederajat</option>
+                                <option value="SMK" <?= $pendidikan === 'SMK' ? 'selected' : '' ?>>SMK</option>
                                 <option value="D3" <?= $pendidikan === 'D3' ? 'selected' : '' ?>>D3</option>
                                 <option value="D4/S1" <?= $pendidikan === 'D4/S1' ? 'selected' : '' ?>>D4/S1</option>
                                 <option value="S2" <?= $pendidikan === 'S2' ? 'selected' : '' ?>>S2</option>
@@ -283,7 +283,7 @@
         const helpNilai = document.getElementById('help-nilai');
 
         function toggleFields() {
-            const isSMA = pendidikan.value === 'SMA/SMK';
+            const isSMA = pendidikan.value === 'SMK';
 
             // Ganti label instansi
             labelInstansi.innerHTML = isSMA ? 'Sekolah <span class="text-danger">*</span>' : 'Perguruan Tinggi <span class="text-danger">*</span>';
