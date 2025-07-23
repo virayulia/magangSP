@@ -494,24 +494,26 @@ class MagangController extends BaseController
     {
         $db = \Config\Database::connect();
 
-        // Ambil data nilai maksimal per peserta (per magang_id)
-        $builder = $db->table('jawaban_safety')
-            ->select('jawaban_safety.magang_id, MAX(nilai) as nilai_maksimal, MAX(created_at) as tanggal_terakhir, MAX(percobaan_ke) as percobaan_terakhir')
-            ->groupBy('magang_id');
-
-        $subquery = $builder->getCompiledSelect();
-
-        // Gabungkan dengan data peserta
-       $hasil = $db->table("($subquery) as max_hasil")
-            ->join('magang', 'magang.magang_id = max_hasil.magang_id')
+        $hasil = $db->table('jawaban_safety')
+            ->select('
+                users.fullname,
+                users.nisn_nim,
+                unit_kerja.unit_kerja,
+                jawaban_safety.magang_id,
+                MAX(jawaban_safety.nilai) as nilai_maksimal,
+                MAX(jawaban_safety.created_at) as tanggal_terakhir,
+                MAX(jawaban_safety.percobaan_ke) as percobaan_terakhir,
+                (CASE WHEN MAX(jawaban_safety.nilai) >= 70 THEN "Lulus" ELSE "Tidak Lulus" END) as status
+            ')
+            ->join('magang', 'magang.magang_id = jawaban_safety.magang_id')
             ->join('users', 'users.id = magang.user_id')
             ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id')
-            ->select('users.fullname, users.nisn_nim, unit_kerja.unit_kerja, max_hasil.*')
-            ->select('(CASE WHEN max_hasil.nilai_maksimal >= 70 THEN "Lulus" ELSE "Tidak Lulus" END) as status', false)
+            ->groupBy('jawaban_safety.magang_id')
             ->get()->getResult();
 
         return view('admin/kelola_safety', ['hasil' => $hasil]);
     }
+
 
 
     public function pesertaMagang()
