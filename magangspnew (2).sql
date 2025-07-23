@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 15 Jul 2025 pada 09.09
+-- Waktu pembuatan: 23 Jul 2025 pada 04.48
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -42,7 +42,8 @@ CREATE TABLE `auth_activation_attempts` (
 INSERT INTO `auth_activation_attempts` (`id`, `ip_address`, `user_agent`, `token`, `created_at`) VALUES
 (1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'e11ed8e23863dbbe6876df46690cec2e', '2025-07-07 03:37:51'),
 (2, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'fe60487fd747d584c1566cb82fb4f620', '2025-07-07 23:20:25'),
-(3, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'ff2a2ea4c99d2670e985e6d2170ea033', '2025-07-08 04:03:19');
+(3, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'ff2a2ea4c99d2670e985e6d2170ea033', '2025-07-08 04:03:19'),
+(4, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'de24688fb7181a3d455e8fe6563e1645', '2025-07-21 10:27:52');
 
 -- --------------------------------------------------------
 
@@ -62,7 +63,8 @@ CREATE TABLE `auth_groups` (
 
 INSERT INTO `auth_groups` (`id`, `name`, `description`) VALUES
 (1, 'admin', 'Administrator'),
-(2, 'user', 'Regular User');
+(2, 'user', 'Regular User'),
+(4, 'pembimbing', 'Pembimbing Unit');
 
 -- --------------------------------------------------------
 
@@ -93,7 +95,8 @@ CREATE TABLE `auth_groups_users` (
 INSERT INTO `auth_groups_users` (`group_id`, `user_id`) VALUES
 (1, 1),
 (2, 4),
-(2, 7);
+(2, 21),
+(4, 23);
 
 -- --------------------------------------------------------
 
@@ -159,7 +162,60 @@ INSERT INTO `auth_logins` (`id`, `ip_address`, `email`, `user_id`, `date`, `succ
 (42, '::1', 'virayukia1234@gmail.com', 4, '2025-07-15 04:18:51', 1),
 (43, '::1', 'iqda.maulana@gmail.com', NULL, '2025-07-15 11:51:03', 0),
 (44, '::1', 'iqda.maulana@gmail.com', 7, '2025-07-15 11:51:54', 1),
-(45, '::1', 'virayukia1234@gmail.com', 4, '2025-07-15 13:41:36', 1);
+(45, '::1', 'virayukia1234@gmail.com', 4, '2025-07-15 13:41:36', 1),
+(46, '::1', 'kuronekochann123@gmail.com', NULL, '2025-07-15 15:25:52', 0),
+(47, '::1', 'kuronekochann123@gmail.com', NULL, '2025-07-15 15:26:02', 0),
+(48, '::1', 'kuronekochann123@gmail.com', NULL, '2025-07-15 15:26:14', 0),
+(49, '::1', 'bordirmotif@gmail.com', 1, '2025-07-15 15:26:21', 1),
+(50, '::1', 'kuronekochann123@gmail.com', NULL, '2025-07-15 15:37:19', 0),
+(51, '::1', 'kuronekochann1234@gmail.com', NULL, '2025-07-15 15:37:55', 0),
+(52, '::1', 'kuronekochann123@gmail.com', NULL, '2025-07-15 15:38:38', 0),
+(53, '::1', 'bordirmotif@gmail.com', 1, '2025-07-15 15:39:25', 1),
+(54, '::1', 'kuronekochann123@gmail.com', NULL, '2025-07-15 15:47:37', 0),
+(55, '::1', 'kuronekochann123@gmail.com', NULL, '2025-07-15 15:47:53', 0),
+(56, '::1', 'kuronekochann123@gmail.com', NULL, '2025-07-15 15:48:45', 0),
+(57, '::1', 'kuronekochann1234@gmail.com', 15, '2025-07-15 15:54:19', 1),
+(58, '::1', 'virayukia1234@gmail.com', 4, '2025-07-17 16:34:21', 1),
+(59, '::1', 'iqda.maulana@gmail.com', NULL, '2025-07-17 16:44:07', 0),
+(60, '::1', 'iqda.maulana@gmail.com', NULL, '2025-07-17 16:44:22', 0),
+(61, '::1', 'bordirmotif@gmail.com', 1, '2025-07-17 16:45:22', 1),
+(62, '::1', 'bordirmotif@gmail.com', 1, '2025-07-18 09:07:40', 1),
+(63, '::1', 'bordirmotif@gmail.com', 1, '2025-07-20 17:42:34', 1),
+(64, '::1', 'bordirmotif@gmail.com', 1, '2025-07-20 17:49:41', 1),
+(65, '::1', 'bordirmotif@gmail.com', 1, '2025-07-20 17:49:43', 1),
+(66, '::1', 'virayukia1234@gmail.com', NULL, '2025-07-20 18:07:33', 0),
+(67, '::1', 'virayukia1234@gmail.com', 4, '2025-07-20 18:07:43', 1),
+(68, '::1', 'virayukia1234@gmail.com', 4, '2025-07-20 18:47:45', 1),
+(69, '::1', 'bordirmotif@gmail.com', 1, '2025-07-21 01:54:53', 1),
+(70, '::1', 'kuronekochann123@gmail.com', NULL, '2025-07-21 03:45:27', 0),
+(71, '::1', 'kuronekochann123@gmail.com', 20, '2025-07-21 03:45:49', 1),
+(72, '::1', 'virayukia1234@gmail.com', 4, '2025-07-21 08:31:04', 1),
+(73, '::1', 'bordirmotif@gmail.com', 1, '2025-07-21 09:00:22', 1),
+(74, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-21 10:39:44', 1),
+(75, '::1', 'virayukia1234@gmail.com', 4, '2025-07-21 14:09:50', 1),
+(76, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-21 14:10:13', 1),
+(77, '::1', 'virayukia1234@gmail.com', 4, '2025-07-21 20:17:17', 1),
+(78, '::1', 'virayukia1234@gmail.com', 4, '2025-07-21 20:26:59', 1),
+(79, '::1', 'virayukia1234@gmail.com', 4, '2025-07-21 23:34:51', 1),
+(80, '::1', 'bordirmotif@gmail.com', 1, '2025-07-22 01:49:14', 1),
+(81, '::1', 'virayukia1234@gmail.com', 4, '2025-07-22 02:00:08', 1),
+(82, '::1', 'virayukia1234@gmail.com', 4, '2025-07-22 02:04:03', 1),
+(83, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-22 02:22:53', 1),
+(84, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-22 08:39:56', 1),
+(85, '::1', 'bordirmotif@gmail.com', 1, '2025-07-22 08:40:35', 1),
+(86, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-22 09:54:31', 1),
+(87, '::1', 'bordirmotif@gmail.com', 1, '2025-07-22 14:00:18', 1),
+(88, '::1', 'virayukia1234@gmail.com', 4, '2025-07-22 14:37:48', 1),
+(89, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-22 15:17:07', 1),
+(90, '::1', 'virayukia1234@gmail.com', 4, '2025-07-22 15:49:10', 1),
+(91, '::1', 'bordirmotif@gmail.com', 1, '2025-07-22 19:58:59', 1),
+(92, '::1', 'NUR.ANITA@sig.id', 23, '2025-07-22 22:29:26', 1),
+(93, '::1', 'nur.anita@gmail.com', NULL, '2025-07-22 22:31:26', 0),
+(94, '::1', 'NUR.ANITA@sig.id', 23, '2025-07-22 22:31:38', 1),
+(95, '::1', 'NUR.ANITA@sig.id', 23, '2025-07-23 03:52:11', 1),
+(96, '::1', 'NUR.ANITA@sig.id', 23, '2025-07-23 04:05:22', 1),
+(97, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-23 05:18:44', 1),
+(98, '::1', 'bordirmotif@gmail.com', 1, '2025-07-23 09:34:02', 1);
 
 -- --------------------------------------------------------
 
@@ -242,13 +298,52 @@ CREATE TABLE `instansi` (
 --
 
 INSERT INTO `instansi` (`instansi_id`, `nama_instansi`, `tingkat`) VALUES
-(1, 'Universitas Andalas', 'pt'),
-(3, 'Politeknik Negeri Padang', 'pt'),
-(4, 'SMK N 2 Padang', 'smk'),
-(5, 'SMK Negeri 6 Pekanbaru', 'smk'),
+(1, 'Universitas Putra Indonesia', 'pt'),
+(2, 'Universitas Malikussaleh', 'pt'),
+(3, 'Universitas Negeri Padang', 'pt'),
+(4, 'Universitas Jambi', 'pt'),
+(5, 'Universitas Andalas', 'pt'),
 (6, 'SMK SMTI Padang', 'smk'),
-(7, 'Universitas Brawijaya', ''),
-(8, 'Universitas Negeri Padang', '');
+(7, 'Universitas Bung Hatta', 'pt'),
+(8, 'SMK Negeri 2 Solok', 'smk'),
+(9, 'Universitas  Dharma Andalas', 'pt'),
+(10, 'Universitas Riau', 'pt'),
+(11, 'Politeknik Negeri Padang', 'pt'),
+(12, 'Institut Teknologi  Sumatera', 'pt'),
+(13, 'SMK Negeri 1 Guguk', 'smk'),
+(14, 'Universitas Lancang Kuning', 'pt'),
+(15, 'Universitas Indonesia', 'pt'),
+(16, 'Institut Teknologi Padang', 'pt'),
+(17, 'Politeknik ATI Padang', 'pt'),
+(18, 'Universitas Ahmad Dahlan', 'pt'),
+(19, 'SMK Negeri 1 Padang', 'smk'),
+(20, 'SMK Negeri 3 Padang', 'smk'),
+(21, 'SMK Negeri 2 Sawahlunto', 'smk');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `jawaban_safety`
+--
+
+CREATE TABLE `jawaban_safety` (
+  `jawaban_id` int(11) NOT NULL,
+  `magang_id` int(11) NOT NULL,
+  `nilai` int(11) NOT NULL,
+  `percobaan_ke` tinyint(4) NOT NULL,
+  `tanggal_ujian` date NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `jawaban_safety`
+--
+
+INSERT INTO `jawaban_safety` (`jawaban_id`, `magang_id`, `nilai`, `percobaan_ke`, `tanggal_ujian`, `created_at`) VALUES
+(1, 4, 20, 1, '2025-07-22', '2025-07-22 11:59:51'),
+(2, 4, 36, 2, '2025-07-22', '2025-07-22 13:40:47'),
+(3, 4, 92, 3, '2025-07-22', '2025-07-22 13:49:31'),
+(4, 3, 84, 1, '2025-07-22', '2025-07-22 14:39:31');
 
 -- --------------------------------------------------------
 
@@ -266,11 +361,26 @@ CREATE TABLE `jurusan` (
 --
 
 INSERT INTO `jurusan` (`jurusan_id`, `nama_jurusan`) VALUES
-(1, 'Teknik Industri'),
-(2, 'Sistem Informasi'),
-(3, 'Manajemen'),
-(4, 'Akuntansi'),
-(5, 'Teknik Komputer');
+(1, 'Akuntansi'),
+(2, 'Manajemen'),
+(3, 'Teknik Kimia'),
+(4, 'Kimia'),
+(5, 'Teknik Kimia Industri'),
+(6, 'Teknik Elektro'),
+(7, 'Teknik Elekronika Industri'),
+(8, 'Teknik Mesin'),
+(9, 'Fisika'),
+(10, 'Teknik Manufaktur'),
+(11, 'Teknik Lingkungan'),
+(12, 'Statistika'),
+(13, 'Manajemen Logistik Industri'),
+(14, 'Teknologi Industri'),
+(15, 'Teknik Permesinan'),
+(16, 'Geologi Pertambangan'),
+(17, 'Teknik Industri'),
+(18, 'Administrasi Perkantoran'),
+(19, 'Listrik'),
+(20, 'Pemasaran');
 
 -- --------------------------------------------------------
 
@@ -289,13 +399,29 @@ CREATE TABLE `jurusan_unit` (
 --
 
 INSERT INTO `jurusan_unit` (`jurusan_unit_id`, `kuota_unit_id`, `jurusan_id`) VALUES
-(1, 1, 1),
-(2, 2, 1),
-(3, 3, 2),
-(4, 4, 2),
-(5, 1, 2),
-(6, 6, 3),
-(8, 6, 2);
+(1, 1, 17),
+(2, 1, 18),
+(3, 1, 2),
+(4, 2, 17),
+(5, 3, 8),
+(6, 3, 17),
+(7, 4, 8),
+(8, 4, 17),
+(9, 5, 19),
+(10, 6, 19),
+(11, 7, 8),
+(12, 8, 8),
+(13, 9, 2),
+(14, 9, 18),
+(15, 10, 2),
+(16, 10, 18),
+(17, 10, 20),
+(18, 11, 2),
+(19, 11, 20),
+(20, 11, 18),
+(21, 12, 2),
+(22, 12, 20),
+(23, 12, 18);
 
 -- --------------------------------------------------------
 
@@ -315,11 +441,98 @@ CREATE TABLE `kuota_unit` (
 --
 
 INSERT INTO `kuota_unit` (`kuota_unit_id`, `unit_id`, `tingkat_pendidikan`, `kuota`) VALUES
-(1, 1, 'SMK', 3),
-(2, 1, 'Perguruan Tinggi', 2),
-(3, 2, 'SMK', 2),
-(4, 2, 'Perguruan Tinggi', 2),
-(6, 3, 'Perguruan Tinggi', 3);
+(1, 1, 'SMK', 2),
+(2, 1, 'Perguruan Tinggi', 3),
+(3, 2, 'SMK', 5),
+(4, 2, 'Perguruan Tinggi', 4),
+(5, 3, 'SMK', 5),
+(6, 3, 'Perguruan Tinggi', 7),
+(7, 4, 'SMK', 5),
+(8, 4, 'Perguruan Tinggi', 7),
+(9, 5, 'SMK', 2),
+(10, 7, 'SMK', 2),
+(11, 8, 'SMK', 2),
+(12, 8, 'Perguruan Tinggi', 5),
+(13, 9, 'SMK', 2),
+(14, 9, 'Perguruan Tinggi', 2),
+(15, 10, 'SMK', 2),
+(16, 10, 'Perguruan Tinggi', 3),
+(17, 11, 'SMK', 2),
+(18, 11, 'Perguruan Tinggi', 3),
+(19, 12, 'Perguruan Tinggi', 18),
+(20, 13, 'SMK', 2),
+(21, 14, 'Perguruan Tinggi', 6),
+(22, 15, 'Perguruan Tinggi', 2),
+(23, 16, 'SMK', 5),
+(24, 16, 'Perguruan Tinggi', 4),
+(25, 17, 'SMK', 9),
+(26, 17, 'Perguruan Tinggi', 9),
+(27, 18, 'Perguruan Tinggi', 7),
+(28, 19, 'Perguruan Tinggi', 15),
+(29, 20, 'Perguruan Tinggi', 4),
+(30, 22, 'SMK', 5),
+(31, 22, 'Perguruan Tinggi', 10),
+(32, 23, 'Perguruan Tinggi', 5),
+(33, 24, 'Perguruan Tinggi', 4),
+(34, 25, 'SMK', 8),
+(35, 25, 'Perguruan Tinggi', 7),
+(36, 26, 'Perguruan Tinggi', 10),
+(37, 27, 'Perguruan Tinggi', 10),
+(38, 28, 'Perguruan Tinggi', 10),
+(39, 29, 'SMK', 2),
+(40, 29, 'Perguruan Tinggi', 2),
+(41, 30, 'SMK', 7),
+(42, 30, 'Perguruan Tinggi', 8),
+(43, 31, 'SMK', 7),
+(44, 31, 'Perguruan Tinggi', 8),
+(45, 32, 'SMK', 7),
+(46, 32, 'Perguruan Tinggi', 8),
+(47, 33, 'SMK', 7),
+(48, 33, 'Perguruan Tinggi', 8),
+(49, 34, 'SMK', 6),
+(50, 34, 'Perguruan Tinggi', 8),
+(51, 35, 'SMK', 2),
+(52, 36, 'Perguruan Tinggi', 4),
+(53, 37, 'SMK', 2),
+(54, 37, 'Perguruan Tinggi', 5),
+(55, 38, 'SMK', 3),
+(56, 39, 'SMK', 2),
+(57, 39, 'Perguruan Tinggi', 3),
+(58, 40, 'Perguruan Tinggi', 5),
+(59, 41, 'Perguruan Tinggi', 4),
+(60, 42, 'SMK', 12),
+(61, 42, 'Perguruan Tinggi', 12),
+(62, 43, 'Perguruan Tinggi', 9),
+(63, 44, 'SMK', 2),
+(64, 44, 'Perguruan Tinggi', 3),
+(65, 45, 'SMK', 2),
+(66, 45, 'Perguruan Tinggi', 3),
+(67, 46, 'SMK', 3),
+(68, 46, 'Perguruan Tinggi', 4),
+(69, 48, 'SMK', 5),
+(70, 48, 'Perguruan Tinggi', 3),
+(71, 49, 'SMK', 5),
+(72, 49, 'Perguruan Tinggi', 3),
+(73, 50, 'SMK', 3),
+(74, 50, 'Perguruan Tinggi', 3),
+(75, 51, 'SMK', 2),
+(76, 51, 'Perguruan Tinggi', 3),
+(77, 52, 'SMK', 2),
+(78, 52, 'Perguruan Tinggi', 2),
+(79, 53, 'SMK', 3),
+(80, 53, 'Perguruan Tinggi', 2),
+(81, 54, 'Perguruan Tinggi', 5),
+(82, 55, 'SMK', 2),
+(83, 55, 'Perguruan Tinggi', 3),
+(84, 56, 'Perguruan Tinggi', 2),
+(85, 57, 'Perguruan Tinggi', 1),
+(86, 58, 'Perguruan Tinggi', 1),
+(87, 59, 'SMK', 7),
+(88, 59, 'Perguruan Tinggi', 7),
+(89, 60, 'Perguruan Tinggi', 2),
+(90, 61, 'SMK', 2),
+(91, 61, 'Perguruan Tinggi', 2),
+(92, 62, 'SMK', 2);
 
 -- --------------------------------------------------------
 
@@ -344,7 +557,7 @@ CREATE TABLE `magang` (
   `tanggal_berkas_lengkap` datetime DEFAULT NULL,
   `cttn_berkas_lengkap` varchar(50) DEFAULT NULL,
   `tanggal_setujui_pernyataan` date DEFAULT NULL,
-  `pembimbing_id` int(11) DEFAULT NULL,
+  `alasan_batal` varchar(150) DEFAULT NULL,
   `tanggal_masuk` date DEFAULT NULL,
   `tanggal_selesai` date DEFAULT NULL,
   `status_akhir` varchar(50) NOT NULL
@@ -354,8 +567,9 @@ CREATE TABLE `magang` (
 -- Dumping data untuk tabel `magang`
 --
 
-INSERT INTO `magang` (`magang_id`, `user_id`, `unit_id`, `periode_id`, `durasi`, `tanggal_daftar`, `status_seleksi`, `tanggal_seleksi`, `status_konfirmasi`, `tanggal_konfirmasi`, `status_validasi_berkas`, `tanggal_validasi_berkas`, `status_berkas_lengkap`, `tanggal_berkas_lengkap`, `cttn_berkas_lengkap`, `tanggal_setujui_pernyataan`, `pembimbing_id`, `tanggal_masuk`, `tanggal_selesai`, `status_akhir`) VALUES
-(3, 4, 1, 1, 2, '2025-07-07 08:47:27', 'Diterima', '2025-07-07 14:39:00', 'Y', '2025-07-14 03:54:58', 'Y', '2025-07-15 03:17:46', 'Y', '2025-07-15 03:18:00', NULL, '2025-07-14', NULL, '2025-09-01', '2025-11-01', 'proses');
+INSERT INTO `magang` (`magang_id`, `user_id`, `unit_id`, `periode_id`, `durasi`, `tanggal_daftar`, `status_seleksi`, `tanggal_seleksi`, `status_konfirmasi`, `tanggal_konfirmasi`, `status_validasi_berkas`, `tanggal_validasi_berkas`, `status_berkas_lengkap`, `tanggal_berkas_lengkap`, `cttn_berkas_lengkap`, `tanggal_setujui_pernyataan`, `alasan_batal`, `tanggal_masuk`, `tanggal_selesai`, `status_akhir`) VALUES
+(3, 4, 1, 1, 2, '2025-07-07 08:47:27', 'Diterima', '2025-07-22 05:35:32', 'Y', '2025-07-14 03:54:58', 'Y', '2025-07-15 03:17:46', 'Y', '2025-07-15 03:18:00', NULL, '2025-07-14', 'Tidak Masuk', '2025-07-22', '2025-07-22', 'batal'),
+(4, 21, 3, 1, 2, '2025-07-22 02:26:52', 'Diterima', '2025-07-22 05:38:10', 'Y', '2025-07-22 05:45:35', 'Y', '2025-07-22 06:13:29', 'Y', '2025-07-22 06:14:00', NULL, '2025-07-22', NULL, '2025-09-01', '2025-07-31', 'magang');
 
 -- --------------------------------------------------------
 
@@ -391,7 +605,7 @@ CREATE TABLE `pembimbing` (
   `pembimbing_id` int(11) NOT NULL,
   `nama` varchar(150) NOT NULL,
   `jabatan` varchar(100) NOT NULL,
-  `no_hp` varchar(15) NOT NULL,
+  `no_hp` varchar(15) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
   `unit_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -427,6 +641,37 @@ INSERT INTO `penelitian` (`penelitian_id`, `user_id`, `unit_id`, `judul_peneliti
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `penilaian`
+--
+
+CREATE TABLE `penilaian` (
+  `penilaian_id` int(11) NOT NULL,
+  `magang_id` int(11) NOT NULL,
+  `nilai_disiplin` int(11) NOT NULL,
+  `nilai_kerajinan` int(11) NOT NULL,
+  `nilai_tingkahlaku` int(11) NOT NULL,
+  `nilai_kerjasama` int(11) NOT NULL,
+  `nilai_kreativitas` int(11) NOT NULL,
+  `nilai_kemampuankerja` int(11) NOT NULL,
+  `nilai_tanggungjawab` int(11) NOT NULL,
+  `nilai_penyerapan` int(11) NOT NULL,
+  `catatan` varchar(255) DEFAULT NULL,
+  `tgl_penilaian` datetime NOT NULL,
+  `approve_kaunit` tinyint(1) NOT NULL,
+  `tgl_disetujui` datetime DEFAULT NULL,
+  `approve_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `penilaian`
+--
+
+INSERT INTO `penilaian` (`penilaian_id`, `magang_id`, `nilai_disiplin`, `nilai_kerajinan`, `nilai_tingkahlaku`, `nilai_kerjasama`, `nilai_kreativitas`, `nilai_kemampuankerja`, `nilai_tanggungjawab`, `nilai_penyerapan`, `catatan`, `tgl_penilaian`, `approve_kaunit`, `tgl_disetujui`, `approve_by`) VALUES
+(1, 4, 89, 88, 88, 88, 89, 90, 90, 95, NULL, '2025-07-23 04:43:47', 1, '2025-07-23 05:17:34', 23);
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `periode_magang`
 --
 
@@ -442,7 +687,7 @@ CREATE TABLE `periode_magang` (
 --
 
 INSERT INTO `periode_magang` (`periode_id`, `tanggal_buka`, `tanggal_tutup`, `keterangan`) VALUES
-(1, '2025-07-02', '2025-07-15', '');
+(1, '2025-07-02', '2025-07-22', '');
 
 -- --------------------------------------------------------
 
@@ -1047,6 +1292,37 @@ CREATE TABLE `soal_safety` (
   `jawaban_benar` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `soal_safety`
+--
+
+INSERT INTO `soal_safety` (`soal_id`, `pertanyaan`, `opsi_a`, `opsi_b`, `opsi_c`, `opsi_d`, `jawaban_benar`) VALUES
+(1, 'Yang merupakan definisi BAHAYA adalah', 'Tindakan-tindakan yang tidak aman dan berbahaya bagi para pekerja.', 'Sumber atau keadaan yang berpotensi terjadinya kerugian dalam bentuk cidera atau kerusakan harta benda.', 'Kondisi-kondisi yang tidak aman dan berbahaya bagi para pekerja.', 'Tersandung kabel lalu terjatuh', 'b'),
+(2, 'Yang harus diperhatikan dalam penanganan bahan mudah terbakar adalah', 'Memastikan bahan mudah terbakar dalam keadaan penuh', 'Pastikan bahan mudah terbakar dan bisa terbakar mempunyai izin', 'Pastikan bahan mudah dan bisa terbakar ditempatkan jauh dari sumber nyala', 'Pekerjaan panas bisa dilakukan dimana saja tidak hanya di workshop', 'c'),
+(3, 'Kecepatan maksimal kendaraan untuk area pabrik dan emplasement adalah ... (km/jam)', '30 dan 40', '25 dan 40', '20 dan 30', '35 dan 45', 'b'),
+(4, 'Pemilahan Sampah menurut Warna Tempat Sampahnya ini benar kecuali', 'Sampah Organik – Hijau', 'Sampah Lain-lain – Biru', 'Limbah B3- Kuning', 'Sampah Anorganik - Merah', 'c'),
+(5, 'Berikut ini adalah tanggung jawab seorang Pengawas pekerjaan di lapangan, kecuali', 'Melaksanakan pekerjaan yang beresiko tanpa menyediakan pengendalian bahayanya yang memadai', 'Memastikan anggota kelompok kerja telah menggunakan Alat Pelindung Diri yang sesuai', 'Memastikan semua anggota dalam pengawasannya akan selamat dan tidak terpapar oleh bahaya apapun', 'Harus menyiapkan perencanaan pekerjaan dengan memperhatikan keselamatan sebelum memulai pekerjaan', 'a'),
+(6, 'Seorang operator sedang membersihkan bagian atas konveyor material saat mesin masih berjalan. Dia hampir tersandung kabel listrik yang tergeletak di dekatnya. Kejadian ini termasuk dalam kategori', 'Kondisi tidak aman', 'Hampir celaka (Nearmiss)', 'Tindakan tidak aman', 'Kecelakaan', 'b'),
+(7, 'Berikut adalah salah satu hierarki pengendalian bahaya yang menjadi pembatas antara risiko ke manusia dan merupakan upaya terakhir dari urutan pencegahan kecelakaan. Hierarki kontrol safety tersebut adalah', 'Engineering', 'Administrasi', 'Alat Pelindung Diri (APD)', 'Substitusi', 'c'),
+(8, 'Dibawah ini merupakan hal-hal yang harus dilakukan sebelum memasuki confined space/ruang terbatas, kecuali', 'Memeriksa kondisi cuaca di luar ruangan', 'Memastikan peralatan pelindung diri sudah terpasang dengan benar', 'Mengkonfirmasi izin masuk dari atasan', 'Memastikan jalur keluar masuk confined space aman', 'a'),
+(9, 'Tujuan dari Safety Induction/Induksi Keselamatan adalah', 'Mengkomunikasikan bahaya-bahaya keselamatan dan kesehatan kerja umum di lingkungan PT Semen Padang', 'Untuk mengetahui profil perusahaan', 'Untuk mengetahui prosedur kerja', 'Memahami proses produksi', 'a'),
+(10, 'Untuk bekerja di ketinggian lebih dari 1,8 meter maka pekerja wajib menggunakan', 'full body harness double lanyard', 'Seat harness', 'full body harness', 'safety belt', 'a'),
+(11, 'Rata-rata pekerja yang terjatuh dari ketinggian dikarenakan oleh', 'Tidak tersedianya pengaman yang cukup untuk mencegah jatuh', 'Alat pelindung diri yang dipakai tidak layak pakai', 'Kelalaian pekerja tidak memakai alat pelindung diri', 'A, B, C benar', 'd'),
+(12, 'Pekerja yang akan mengoperasikan alat angkat angkut wajib memiliki', 'Surat Izin Operator', 'Surat Izin Mengemudi', 'Surat Izin Bekerja', 'Surat Izin Masuk Pabrik', 'a'),
+(13, 'Scaffolding/perancah yang telah diinspeksi oleh inspektor scaffolding dan diberi tanda tag hijau, menunjukan bahwa scaffolding tersebut', 'Sudah layak digunakan', 'Belum bisa digunakan', 'Perlu perbaikan segera', 'Segera dihentikan pendiriannya', 'a'),
+(14, 'Bila anda menggunakan peralatan kerja, anda harus memastikan alat tersebut', 'Alat harus bisa menyala', 'Alat harus dalam kondisi baru', 'Perlengkapan dalam kondisi ber merk', 'Dalam kondisi aman dan sudah dilakukan inspeksi', 'd'),
+(15, 'Setiap bagian mesin yang bergerak harus selalu dalam keadaan terlindungi dari potensi tersentuh, sehingga dibutuhkan pengaman mesin yang berfungsi untuk', 'Menghindari agar mesin tidak dilintasi oleh pekerja', 'Mengurangi risiko, semua mesin harus dipastikan memiliki pelindung untuk mencegah masuknya seluruh atau bagian tubuh kita ke jalur bagian yang berbahaya', 'Melindungi mesin dari faktor fisik lingkungan agar tidak mudah rusak', 'Memenuhi SOP dalam menjalankan mesin bergerak', 'b'),
+(16, 'Untuk menghindari kecelakaan kerja terhadap personil yang berada di lokasi atau area kerja pada saat dilakukan aktivitas perbaikan, pemeliharaan dan untuk memutus sumber energi yang tersimpan atau yang dihasilkan oleh peralatan tersebut melalui tahapan is', 'LOTOTO', 'Hasp Lock', 'Lock Box', 'Pad Lock', 'a'),
+(17, 'Dibawah ini cara yang benar ketika menemukan kecelakaan kerja, kecuali', 'Mengecek respon kesadaran korban dengan memanggil', 'Memastikan kondisi aman dari segala aspek bahaya', 'Berteriak dan melaporkan kejadian segera', 'Langsung mengangkat korban tanpa keahlian', 'd'),
+(18, 'Ketika terjadi keadaan darurat yang harus dilakukan oleh pekerja adalah', 'Melakukan panggilan darurat (emergency call)', 'Melarikan diri dan mencari pintu darurat', 'Mencari tempat yang aman', 'Semua Benar', 'd'),
+(19, 'Warna helm khusus untuk kontraktor adalah', 'Biru', 'Kuning', 'Putih', 'Merah', 'b'),
+(20, 'Saat akan melakukan pekerjaan di tempat-tempat berbahaya, harus mendapatkan', 'Form HIRADC', 'Surat izin masuk pabrik', 'Izin kerja berbahaya', 'Surat keterangan kesehatan', 'c'),
+(21, 'Dibawah ini yang merupakan komitmen manajemen dalam bidang keselamatan dan kesehatan kerja, kecuali', 'Menyediakan kondisi lingkungan kerja yang sehat, selamat dan aman', 'Membuat proses produksi menjadi menyenangkan', 'Menjalankan bisnis kami dengan tujuan zero fatality', 'Mematuhi persyaratan dan peraturan perundang-undangan yang berlaku', 'b'),
+(22, 'Prosedur LOTOTO merupakan prosedur penguncian secara sistematis dimana sarana untuk menjalankan mesin dimatikan dan dikunci. Tujuan dari LOTOTO tersebut adalah', 'Memastikan fungsi gembok sesuai dengan warna yang digunakan', 'Untuk memastikan alat tersebut dapat digerakkan dengan bantuan seseorang ataupun bisa digerakkan secara otomatis', 'Memastikan peralatan tersebut bisa sewaktu-waktu dapat dijalankan dengan baik oleh pekerja', 'Untuk memastikan bahwa peralatan tersebut tidak dapat dijalankan oleh seseorang ataupun berjalan sendiri akibat adanya energi yang masih tersisa', 'd'),
+(23, 'Penting bagi pekerja untuk melaporkan insiden atau kecelakaan, hal ini perlu dilakukan agar', 'Untuk memperoleh kompensasi finansial', 'Untuk menghindari sangsi dari manajemen', 'Untuk mencegah kecelakaan serupa terjadi di masa depan', 'Untuk menghindari bertanggung jawab atas kejadian tersebut', 'c'),
+(24, 'Bekerja menggunakan peralatan listrik atau bekerja di dekat peralatan/instalasi listrik sebelum memulai pekerjaan harus dilakukan inspeksi terlebih dahulu yang dilakukan oleh', 'Pekerja yang akan melakukan pekerjaan', 'Managemen K3 dari PT Semen Padang', 'Kontraktor yang bertanggung jawab di area tersebut', 'Petugas yang ditunjuk manajemen PT Semen Padang dan memiliki keahlian khusus dibidang K3 listrik', 'd'),
+(25, 'Dibawah ini yang merupakan sumber bahaya adalah', 'Kondisi Tidak Aman & Tindakan Tidak Aman', 'Kondisi-kondisi yang tidak aman dan berbahaya bagi para pekerja', 'Akibat gangguan kesehatan, kerusakan property atau bahkan kematian', 'Tindakan-tindakan yang tidak aman dan berbahaya bagi para pekerja', 'a');
+
 -- --------------------------------------------------------
 
 --
@@ -1056,19 +1332,101 @@ CREATE TABLE `soal_safety` (
 CREATE TABLE `unit_kerja` (
   `unit_id` int(11) NOT NULL,
   `unit_kerja` varchar(150) NOT NULL,
-  `pimpinan_id` int(11) NOT NULL,
-  `safety` tinyint(1) NOT NULL,
-  `active` tinyint(1) NOT NULL
+  `nama_pimpinan` varchar(100) DEFAULT NULL,
+  `email_pimpinan` varchar(150) DEFAULT NULL,
+  `safety` tinyint(1) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL,
+  `catatan` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `unit_kerja`
 --
 
-INSERT INTO `unit_kerja` (`unit_id`, `unit_kerja`, `pimpinan_id`, `safety`, `active`) VALUES
-(1, 'TPM Officer', 1, 1, 1),
-(2, 'Capex', 1, 0, 1),
-(3, 'SDM', 0, 0, 1);
+INSERT INTO `unit_kerja` (`unit_id`, `unit_kerja`, `nama_pimpinan`, `email_pimpinan`, `safety`, `active`, `catatan`) VALUES
+(1, 'Bisnis Inkubasi Non Semen', 'Akhmayanda Nasution', 'akhmayanda.nasution@sig.id', 0, 1, NULL),
+(2, 'Bisnis Inkubasi Non Semen/Workshop', 'Febi Rieldi', 'febi.rieldi@sig.id', 1, 1, NULL),
+(3, 'Bisnis Inkubasi Non Semen/Bengkel', 'Febi Rieldi', 'febi.rieldi@sig.id', 1, 1, NULL),
+(4, 'Bisnis Inkubasi Non Semen/Bengkel', 'Febi Rieldi', 'febi.rieldi@sig.id', 1, 1, NULL),
+(5, 'Staf Internal Audit', 'Nurma Yanti', 'nurma.yanti@sig.id', NULL, 1, NULL),
+(6, 'Staff of Portofolio', 'Athari Adi Putra', NULL, NULL, 1, NULL),
+(7, 'Unit  Penjualan Eksport', 'Nanda Kurniawan', 'nanda.kurniawan@sig.id', 0, 1, NULL),
+(8, 'Unit  Penjualan Sumbar', 'Nanda Kurniawan', 'nanda.kurniawan@sig.id', NULL, 1, NULL),
+(9, 'Unit  Penjualan', 'Nanda Kurniawan', 'nanda.kurniawan@sig.id', 0, 1, NULL),
+(10, 'Unit Oudbound Inventory', 'Suryadi Wizar', 'suryadi.wizar@sig.id', 0, 1, NULL),
+(11, 'Unit  Pengadaan', 'Yogi Khairi H', 'yogi.hasibuan@sig.id', 0, 1, NULL),
+(12, 'Unit SP Inventory', 'Hamdi Ayussa', 'hamdi.ayussa@sig.id', 1, 1, NULL),
+(13, 'Unit Keamanan', 'Wahyudi', NULL, 0, 1, NULL),
+(14, 'Unit CSR', NULL, NULL, 0, 1, NULL),
+(15, 'Unit Hukum', 'Oxivia', 'oxivia@sig.id', 0, 1, NULL),
+(16, 'Unit Humas & Kesekretariatan', 'Ilham Akbar', 'ilham.akbar@sig.id', 0, 1, NULL),
+(17, 'Unit ICT', 'Roni Mahmudi', 'roni.mahmudi@sig.id', 0, 1, NULL),
+(18, 'Unit Perencanaan & Evaluasi Produksi', 'Agrian Pebi', 'agrian.pebi@sig.id', 1, 1, NULL),
+(19, 'Unit Quality Control', 'Ike Evi Wiyana', 'ike.wiyana@sig.id', 1, 1, NULL),
+(20, 'Staff AFR', 'Musytaqim Nasra', 'musytaqim.nasra@sig.id', 1, 1, NULL),
+(21, 'Unit Penunjang Produksi', 'Suryat Handoko', 'suryat.handoko@sig.id', NULL, 1, NULL),
+(22, 'Unit Operasi Tambang', 'Hendri Priparis', 'hendri.priparis@sig.id', 1, 1, '(tidak) Adm Perkantoran'),
+(23, 'Unit Perencanaan dan Pengawasan Tambang', 'Berva Lindo', 'berva.lindo@sig.id', 1, 1, NULL),
+(24, 'Unit Produksi Bahan Baku', 'Ricky Aprinaldo', 'ricky.aprinaldo@sig.id', 1, 1, NULL),
+(25, 'Unit WHRPG & Utilitas', 'Harri Kurniawan', 'harri.kurniawan@sig.id', 1, 1, NULL),
+(26, 'Unit Produksi Terak 1', 'Alfein Rahmad', 'alfein.rahmad@sig.id', 1, 1, NULL),
+(27, 'Unit Produksi Terak 2', 'Ujang Friatna', 'ujang.friatna@sig.id', 1, 1, NULL),
+(28, 'Unit Produksi Semen', 'Titut Eryanto', 'titut.eryanto@sig.id', 1, 1, NULL),
+(29, 'Unit Pabrik Kantong', 'Syafriado', 'syafriado@sig.id', 1, 1, '(tidak) manajemen dan adm perkantoran'),
+(30, 'Unit Pemeliharaan Mesin 1', 'Endi Alta', 'endi.alta@sig.id', 1, 1, NULL),
+(31, 'Unit Pemeliharaan Mesin 2', 'Irwan Kartadi P', 'irwan.putra@sig.id', 1, 1, NULL),
+(32, 'Unit Pemeliharaan Elins 1', 'Zulvawarman', 'zulvawarman@sig.id', 1, 1, NULL),
+(33, 'Unit Pemeliharaan Elins 2', 'Santoro', 'santoro@sig.id', 1, 1, NULL),
+(34, 'Unit of Maint Reliability', 'Dani Darma Putra', 'dani.putra@sig.id', 1, 1, NULL),
+(35, 'Unit  Capex', 'Rausyan Fikri', 'rausyan.fikri@sig.id', 0, 1, NULL),
+(36, 'Unit Site Engineering', 'Andra Novendri', 'andra.novendri@sig.id', 1, 1, NULL),
+(37, 'Unit Project Management', 'Rahman Ikhlas', 'rahman.ikhlas@sig.id', 1, 1, NULL),
+(38, 'Unit Perencanaan Suku Cadang', 'Azet Putra', 'azet.putra@sig.id', 1, 1, NULL),
+(39, 'TPM Officer', 'Hernes', 'hernes@sig.id', 0, 1, NULL),
+(40, 'Unit Produksi Mesin & Teknikal Support', 'Rendy Fahlevi', 'rendy.fahlevi@sig.id', 1, 1, NULL),
+(41, 'Unit Produksi BIP & Aplikas', 'Yelmi Arya Putra', 'yelmi.putra@sig.id', 1, 1, '(tidak)manajemen,adm perkantoran'),
+(42, 'Unit Quality Assurance', 'Febri Maulana', 'febri.maulana@sig.id', 1, 1, NULL),
+(43, 'Unit SHE', 'Asrining Sari', 'asrining.sari@sig.id', 1, 1, NULL),
+(44, 'Unit Operasional SDM', 'Nur Anita Rahmawati', 'nur.anita@sig.id', 0, 1, NULL),
+(45, 'Unit Operasional SDM/Diklat', 'Siska Ayu Soraya', 'siska.soraya@sig.id', 0, 1, NULL),
+(46, 'Unit Sarana Umum', 'Deni Zen', 'deni.zen@sig.id', 0, 1, NULL),
+(47, 'Unit GRC', 'M Irwan Prasetyo', 'irwan.prasetyo@sig.id', NULL, 1, NULL),
+(48, 'Unit Akuntansi', 'Rahmat Novriyan', 'rahmat.novriyan@sig.id', 0, 1, NULL),
+(49, 'Unit Keuangan', 'Ruky Hendra', 'ruky.hendra@sig.id', 0, 1, NULL),
+(50, 'Unit Kinerja & Anggaran', 'Yulia Hidayati', 'yulia.hidayati@sig.id', 0, 1, NULL),
+(51, 'Unit Sistem Manajemen', 'Nelvi Irawati', 'nelvi.irawati@sig.id', 0, 1, NULL),
+(52, 'Unit Packing Plant', 'Palman', 'palman@sig.id', 0, 1, NULL),
+(53, 'Unit of Operational Transportation', 'Suryadi Wizar', 'suryadi.wizar@sig.id', 0, 1, NULL),
+(54, 'Unit of Operational Logistik', 'Suryadi Wizar', 'suryadi.wizar@sig.id', 0, 1, NULL),
+(55, 'Unit of Port Operation & Maintenance/TL Bayur', 'Very Harjanto', 'very.harjanto@sig.id', 1, 1, '(tidak), manajemen dan adm perkantoran'),
+(56, 'Yayasann Igasar', 'Ridwan Muchtar', 'ridwan.muchtar@sig.id', 0, 1, NULL),
+(57, 'Dana Pensiun SP', 'R Nicko Yuda K', 'nicko.yuda@sig.id', 0, 1, NULL),
+(58, 'PT Polma Sepa', NULL, NULL, 0, 1, NULL),
+(59, 'KKSP', 'Faisal Arif', 'faisal.arif@sig.id', 0, 1, '(pakai) teknik kendaraan Ringan'),
+(60, 'PT Pasoka Sumber Karya', 'Erick Reza Alandri', 'erick.alandri@sig.id', 0, 1, NULL),
+(61, 'LAZ Semen Padang', NULL, NULL, 0, 1, NULL),
+(62, 'FKIK', NULL, NULL, 0, 1, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `unit_user`
+--
+
+CREATE TABLE `unit_user` (
+  `unit_user_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `unit_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `unit_user`
+--
+
+INSERT INTO `unit_user` (`unit_user_id`, `user_id`, `unit_id`, `created_at`) VALUES
+(3, 22, 2, '2025-07-22 21:57:01'),
+(4, 23, 3, '2025-07-22 21:58:44');
 
 -- --------------------------------------------------------
 
@@ -1081,6 +1439,7 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `username` varchar(30) DEFAULT NULL,
   `fullname` varchar(200) DEFAULT NULL,
+  `eselon` tinyint(2) DEFAULT NULL,
   `user_image` varchar(255) NOT NULL DEFAULT 'default.svg',
   `nisn_nim` varchar(100) DEFAULT NULL,
   `no_hp` varchar(15) DEFAULT NULL,
@@ -1127,10 +1486,11 @@ CREATE TABLE `users` (
 -- Dumping data untuk tabel `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `username`, `fullname`, `user_image`, `nisn_nim`, `no_hp`, `jenis_kelamin`, `alamat`, `province_id`, `city_id`, `domisili`, `provinceDom_id`, `cityDom_id`, `tingkat_pendidikan`, `instansi_id`, `jurusan_id`, `semester`, `nilai_ipk`, `rfid_no`, `cv`, `proposal`, `surat_permohonan`, `tanggal_surat`, `no_surat`, `nama_pimpinan`, `jabatan`, `email_instansi`, `bpjs_kes`, `bpjs_tk`, `buktibpjs_tk`, `ktp_kk`, `password_hash`, `reset_hash`, `reset_at`, `reset_expires`, `activate_hash`, `status`, `status_message`, `active`, `force_pass_reset`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'bordirmotif@gmail.com', 'Admin', 'Admin Master', 'vira.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$10$bswnrdHFrT0fWw85p0RZseTxnyHxFnQnWDTnci3p0K1NzU3r2RWcm', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-07-03 16:06:28', NULL, NULL),
-(4, 'virayukia1234@gmail.com', NULL, 'Arisa Maharani', 'arisa-maharani-user_image-3193.jpg', '1911521003', '08999549000', 'P', 'Jl. Bandes Binuang RT 02/ RW 02, Kelurahan Binuang Kampung Dalam, Binuang Kampung Dalam, Pauh', 13, 1371, NULL, NULL, NULL, 'D4/S1', 1, 2, 6, 3.65, NULL, 'arisamaharani-cv-4638.pdf', 'arisa-maharani-proposal-9966.pdf', 'arisa-maharani-surat-permohonan-6888.pdf', '2025-05-01', '7686218', 'Ahmad', 'Kepala Departemen', 'universitasAndlas@gmail.com', 'arisamaharani-bpjs-kes-5461.pdf', 'arisamaharani-bpjs-tk-2906.pdf', 'arisamaharani-buktibpjs-tk-2806.pdf', 'arisa-maharani-ktp-kk-4096.pdf', '$2y$10$6B1e75ynCaNRnxrh3aOCXO7.niLJ3SljZXBCrvPuWN/ta.To6wg1W', NULL, '2025-07-15 13:41:25', NULL, NULL, NULL, NULL, 1, 0, '2025-07-07 03:37:09', '2025-07-15 13:41:25', NULL),
-(7, 'iqda.maulana@gmail.com', NULL, 'Iqda Maulana', 'iqda-maulana-user_image-6474.jpg', '1911521004', '089991232323', 'L', 'Jl. Bandes Binuang RT 02/ RW 02, Kelurahan Binuang Kampung Dalam, Binuang Kampung Dalam, Pauh', 13, 1371, NULL, NULL, NULL, 'D4/S1', 1, 3, 7, 3.54, NULL, 'iqda-maulana-cv-8179.pdf', 'iqda-maulana-proposal-8224.pdf', 'iqda-maulana-surat-permohonan-8066.pdf', '2025-07-07', '1212/XII/2025', 'Ahmad', 'Kepala Departemen', 'universitasAndlas@gmail.com', NULL, NULL, NULL, 'iqda-maulana-ktp-kk-2171.pdf', '$2y$10$P7gP5JRk7X7CuPt8Ti4GsuL/nW8p/nDTV7trj.zg9b7jnm0tC/NQu', '99c2055c4558669eff09bee6dc506cee', NULL, '2025-07-15 12:59:02', NULL, NULL, NULL, 1, 0, '2025-07-07 23:19:20', '2025-07-15 11:59:02', NULL);
+INSERT INTO `users` (`id`, `email`, `username`, `fullname`, `eselon`, `user_image`, `nisn_nim`, `no_hp`, `jenis_kelamin`, `alamat`, `province_id`, `city_id`, `domisili`, `provinceDom_id`, `cityDom_id`, `tingkat_pendidikan`, `instansi_id`, `jurusan_id`, `semester`, `nilai_ipk`, `rfid_no`, `cv`, `proposal`, `surat_permohonan`, `tanggal_surat`, `no_surat`, `nama_pimpinan`, `jabatan`, `email_instansi`, `bpjs_kes`, `bpjs_tk`, `buktibpjs_tk`, `ktp_kk`, `password_hash`, `reset_hash`, `reset_at`, `reset_expires`, `activate_hash`, `status`, `status_message`, `active`, `force_pass_reset`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'bordirmotif@gmail.com', 'Admin', 'Admin Master', NULL, 'vira.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$10$bswnrdHFrT0fWw85p0RZseTxnyHxFnQnWDTnci3p0K1NzU3r2RWcm', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-07-03 16:06:28', '2025-07-20 21:54:18', NULL),
+(4, 'virayukia1234@gmail.com', NULL, 'Arisa Maharani', NULL, 'arisa-maharani-user_image-3193.jpg', '1911521003', '08999549000', 'P', 'Jl. Bandes Binuang RT 02/ RW 02, Kelurahan Binuang Kampung Dalam, Binuang Kampung Dalam, Pauh', 13, 1371, NULL, NULL, NULL, 'D4/S1', 1, 1, 6, 3.65, NULL, 'arisamaharani-cv-4638.pdf', 'arisa-maharani-proposal-9966.pdf', 'arisa-maharani-surat-permohonan-6888.pdf', '2025-05-01', '7686218', 'Ahmad', 'Kepala Departemen', 'universitasAndlas@gmail.com', 'arisamaharani-bpjs-kes-5461.pdf', 'arisamaharani-bpjs-tk-2906.pdf', 'arisamaharani-buktibpjs-tk-2806.pdf', 'arisa-maharani-ktp-kk-4096.pdf', '$2y$10$6B1e75ynCaNRnxrh3aOCXO7.niLJ3SljZXBCrvPuWN/ta.To6wg1W', NULL, '2025-07-15 13:41:25', NULL, NULL, NULL, NULL, 1, 0, '2025-07-07 03:37:09', '2025-07-21 08:33:25', NULL),
+(21, 'kuronekochann123@gmail.com', NULL, 'Vira Yulia', NULL, 'virayuliaa-profile.jpg', '19115210033', '0812759960964', 'L', 'Jl. Bandes Binuang RT 02/ RW 02, Kelurahan Binuang Kampung Dalam, Binuang Kampung Dalam, Pauh', 13, 1371, '', NULL, NULL, 'SMK', 5, 4, 12, NULL, NULL, 'vira-yulia-cv-2430.pdf', 'vira-yulia-proposal-8004.pdf', 'vira-yulia-surat-permohonan-4072.pdf', '2025-07-16', '1212/XI/2025', 'Ahmad', 'Kepala Departemen', 'virayukia1234@gmail.com', NULL, 'vira-yulia-bpjs-tk-1056.pdf', 'vira-yulia-buktibpjs-tk-3581.pdf', 'vira-yulia-ktp-kk-9158.pdf', '$2y$10$l4fyCfPv2rUfKU3g168Bs.TRqVUHUVy3tk7qqhj.kKWO12T6kmbsu', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-07-21 10:26:02', '2025-07-22 05:50:10', NULL),
+(23, 'NUR.ANITA@sig.id', 'anita', 'Nur Anita Rahmawati', 2, 'default.svg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$10$TyM/Oe.WO9T8J5kPhEeL6OE.0v5YgFQZzPpGmlipYq4yPL4bFwAci', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-07-22 21:58:44', '2025-07-22 21:58:44', NULL);
 
 --
 -- Indexes for dumped tables
@@ -1204,6 +1564,12 @@ ALTER TABLE `instansi`
   ADD PRIMARY KEY (`instansi_id`);
 
 --
+-- Indeks untuk tabel `jawaban_safety`
+--
+ALTER TABLE `jawaban_safety`
+  ADD PRIMARY KEY (`jawaban_id`);
+
+--
 -- Indeks untuk tabel `jurusan`
 --
 ALTER TABLE `jurusan`
@@ -1246,6 +1612,12 @@ ALTER TABLE `penelitian`
   ADD PRIMARY KEY (`penelitian_id`);
 
 --
+-- Indeks untuk tabel `penilaian`
+--
+ALTER TABLE `penilaian`
+  ADD PRIMARY KEY (`penilaian_id`);
+
+--
 -- Indeks untuk tabel `periode_magang`
 --
 ALTER TABLE `periode_magang`
@@ -1276,6 +1648,12 @@ ALTER TABLE `unit_kerja`
   ADD PRIMARY KEY (`unit_id`);
 
 --
+-- Indeks untuk tabel `unit_user`
+--
+ALTER TABLE `unit_user`
+  ADD PRIMARY KEY (`unit_user_id`);
+
+--
 -- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
@@ -1291,19 +1669,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `auth_activation_attempts`
 --
 ALTER TABLE `auth_activation_attempts`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `auth_groups`
 --
 ALTER TABLE `auth_groups`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `auth_logins`
 --
 ALTER TABLE `auth_logins`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT untuk tabel `auth_permissions`
@@ -1327,31 +1705,37 @@ ALTER TABLE `auth_tokens`
 -- AUTO_INCREMENT untuk tabel `instansi`
 --
 ALTER TABLE `instansi`
-  MODIFY `instansi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `instansi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT untuk tabel `jawaban_safety`
+--
+ALTER TABLE `jawaban_safety`
+  MODIFY `jawaban_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `jurusan`
 --
 ALTER TABLE `jurusan`
-  MODIFY `jurusan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `jurusan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT untuk tabel `jurusan_unit`
 --
 ALTER TABLE `jurusan_unit`
-  MODIFY `jurusan_unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `jurusan_unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT untuk tabel `kuota_unit`
 --
 ALTER TABLE `kuota_unit`
-  MODIFY `kuota_unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `kuota_unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT untuk tabel `magang`
 --
 ALTER TABLE `magang`
-  MODIFY `magang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `magang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
@@ -1372,28 +1756,40 @@ ALTER TABLE `penelitian`
   MODIFY `penelitian_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- AUTO_INCREMENT untuk tabel `penilaian`
+--
+ALTER TABLE `penilaian`
+  MODIFY `penilaian_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT untuk tabel `periode_magang`
 --
 ALTER TABLE `periode_magang`
-  MODIFY `periode_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `periode_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `soal_safety`
 --
 ALTER TABLE `soal_safety`
-  MODIFY `soal_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `soal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT untuk tabel `unit_kerja`
 --
 ALTER TABLE `unit_kerja`
-  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+
+--
+-- AUTO_INCREMENT untuk tabel `unit_user`
+--
+ALTER TABLE `unit_user`
+  MODIFY `unit_user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
