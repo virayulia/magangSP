@@ -18,8 +18,8 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto my-2 my-lg-0 d-flex align-items-center">
         <li class="nav-item"><a class="nav-link" href="/">Beranda</a></li>
-        <li class="nav-item"><a class="nav-link" href="/lowongan">Lowongan</a></li>
-        <li class="nav-item"><a class="nav-link" href="/tentang_kami">Tentang Kami</a></li>
+        <li class="nav-item"><a class="nav-link" href="/magang">Magang</a></li>
+        <li class="nav-item"><a class="nav-link" href="/tentang-kami">Tentang Kami</a></li>
         <?php if (!logged_in()) : ?>
             <li class="nav-item">
                 <a class="nav-link btn btn-danger rounded-pill ms-2 py-1 px-4" href="<?= site_url('login'); ?>">Sign In</a>
@@ -27,7 +27,7 @@
         <?php else : ?>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="<?= base_url('uploads/user_image/' . (user()->user_image ?? 'default.svg')); ?>" class="rounded-circle" width="30" height="30" alt="Profile">
+                    <img src="<?= base_url('uploads/user-image/' . (user()->user_image ?? 'default.svg')); ?>" class="rounded-circle" width="30" height="30" alt="Profile">
                     <span class="ms-2"><?= esc(user()->fullname); ?></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">

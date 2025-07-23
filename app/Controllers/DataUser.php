@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\UserModel;
 use App\Models\GroupModel;
 use App\Models\GroupsUsersModel;
+use App\Entities\User;
 
 class DataUser extends BaseController
 {
@@ -101,11 +102,10 @@ class DataUser extends BaseController
 
     public function saveAdmin()
     {
-        $users = model(\Myth\Auth\Models\UserModel::class);
-
         $validation = \Config\Services::validation();
 
         $rules = [
+            'fullname' => 'required',
             'username' => 'required|is_unique[users.username]',
             'email'    => 'required|valid_email|is_unique[users.email]',
             'password' => 'required|min_length[8]',
@@ -116,58 +116,74 @@ class DataUser extends BaseController
         }
 
         $userData = [
+            'fullname' => $this->request->getPost('fullname'),
             'username' => $this->request->getPost('username'),
             'email'    => $this->request->getPost('email'),
             'password' => $this->request->getPost('password'),
             'active'   => 1,
         ];
 
-        $user = new \Myth\Auth\Entities\User($userData);
-        $user->activate(); // Kalau mau langsung aktif
+        // Pakai entitas dari App\Entities
+        $user = new User($userData);
+        $user->activate();
 
-        if (!$users->withGroup('admin')->save($user)) {
-            return redirect()->back()->withInput()->with('errors', $users->errors());
+        if (!$this->userModel->save($user)) {
+            return redirect()->back()->withInput()->with('errors', $this->userModel->errors());
+        }
+
+        $userId = $this->userModel->getInsertID();
+        $group  = $this->groupModel->where('name', 'admin')->first();
+
+        if ($group) {
+            $this->groupsUsersModel->insert([
+                'user_id'  => $userId,
+                'group_id' => $group['id'],
+            ]);
         }
 
         session()->setFlashdata('success', 'Admin baru berhasil ditambahkan.');
         return redirect()->to(base_url('manage-user-admin'));
     }
 
-
     public function updateAdmin($id)
     {
-        $db = \Config\Database::connect();
         $validation = \Config\Services::validation();
 
         // Validasi
         $rules = [
-            'username' => "required|is_unique[users.username,id,{$id}]",
-            'email'    => "required|valid_email|is_unique[users.email,id,{$id}]",
+            'fullname' => 'required',
+            'username' => "required|is_unique[users.username,id,$id]",
+            'email'    => "required|valid_email|is_unique[users.email,id,$id]",
         ];
 
-        // Jika password diisi, validasi juga
         if ($this->request->getPost('password')) {
             $rules['password'] = 'min_length[8]';
         }
 
         if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
-        // Data yang akan diupdate
-        $data = [
-            'username' => $this->request->getPost('username'),
-            'email'    => $this->request->getPost('email'),
-            'active'   => 1,
-        ];
+        // Ambil user lama dulu
+        $user = $this->userModel->find($id);
+        if (!$user) {
+            return redirect()->back()->with('error', 'User tidak ditemukan.');
+        }
 
-        // Jika password diisi, update password
+        // Update data
+        $user->fullname = $this->request->getPost('fullname');
+        $user->username = $this->request->getPost('username');
+        $user->email    = $this->request->getPost('email');
+        $user->active   = 1;
+
+        // Kalau ada password baru
         if ($this->request->getPost('password')) {
-            $data['password_hash'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
+            $user->password = $this->request->getPost('password');
         }
 
-        // Update
-        $db->table('users')->where('id', $id)->update($data);
+        if (!$this->userModel->save($user)) {
+            return redirect()->back()->withInput()->with('errors', $this->userModel->errors());
+        }
 
         session()->setFlashdata('success', 'Admin berhasil diupdate.');
         return redirect()->to(base_url('manage-user-admin'));

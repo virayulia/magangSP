@@ -44,15 +44,15 @@ Swal.fire({
         
         
         <?php if (!empty($pendaftaran['tanggal_setujui_pernyataan'])): ?>
-            <p>Anda telah menyetujui Surat Pernyataan, berikut bukti persetujuan Anda.</p>
-            <div class="alert alert-success p-3 text-center">
-                <h5>✅ Terima Kasih!</h5>
-                <p>Berikut bukti persetujuan Anda:</p>
-                <ul class="list-unstyled mb-0">
-                    <li><strong>Nama:</strong> <?= esc(user()->fullname) ?></li>
-                    <li><strong>Tahun Pernyataan:</strong> <?= date('Y') ?></li>
-                    <li><strong>Tanggal Pernyataan:</strong> <?= date('d M Y', strtotime($pendaftaran['tanggal_setujui_pernyataan'])) ?></li>
-                </ul>
+            <div class="alert alert-success p-4 text-center">
+                <h5 class="mb-3">✅ Terima Kasih!</h5>
+                Anda telah menyetujui <strong>Surat Pernyataan</strong>. <br>
+               Persetujuan ini telah tercatat pada: <br>
+                <strong><?= format_tanggal_indonesia(date('d M Y', strtotime($pendaftaran['tanggal_setujui_pernyataan']))) ?></strong></p>
+
+                <a href="<?= base_url('magang/surat-pernyataan') ?>" target="_blank" >
+                    Lihat Surat Pernyataan
+                </a>
             </div>
         <?php else: ?>
             <p>Klik tombol di bawah ini untuk membaca dan menyetujui surat pernyataan.</p>
@@ -122,21 +122,16 @@ Swal.fire({
             <div class="card shadow-sm mb-4">
                 <div class="card-body">
                     <h5 class="card-title">🦺 Safety Induction</h5>
-                    <p>Pelajari prosedur keselamatan kerja dan ikuti tes berikut sebelum memulai magang:</p>
+                    <p>Harap mempelajari prosedur keselamatan kerja berikut ini. Anda akan mengikuti tes keselamatan kerja pada hari pertama pelaksanaan magang.</p>
 
                     <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
                         <a href="https://shorturl.at/0y7p7" class="btn btn-outline-info">
                             <i class="bi bi-info-circle"></i> Penjelasan Safety Induction
                         </a>
-
-                        <a href="https://forms.gle/zJRGSo9ZgVNhMFna9" class="btn btn-outline-warning">
+                   
+                        <a href="<?= base_url('safety-tes') ?>" class="btn btn-outline-warning">
                             <i class="bi bi-journal-check"></i> Ikuti Tes Safety Induction
                         </a>
-                    </div>
-
-                    <div class="text-center">
-                        <img src="<?= base_url('assets/img/safety-induction.jpg') ?>" alt="QR Safety Induction" class="img-fluid" style="max-width: 150px;">
-                        <p class="text-muted mt-2"><small>Scan QR untuk mengakses langsung dari perangkat lain</small></p>
                     </div>
 
                     <!-- Status Tes -->
@@ -144,11 +139,41 @@ Swal.fire({
                         <div class="alert alert-success mt-3">
                             ✅ Tes Safety Induction telah diselesaikan pada <strong><?= date('d M Y', strtotime($pendaftaran['tgl_safety_induction'])) ?></strong>.
                         </div>
-                    <?php else: ?>
-                        <div class="alert alert-warning mt-3">
-                            ⚠️ Tes Safety Induction belum diselesaikan. Silakan selesaikan sebelum tanggal pelaksanaan magang.
+                    <?php endif; ?>
+
+                    <!-- Riwayat Tes -->
+                    <?php if (!empty($riwayat_safety)): ?>
+                        <div class="mt-4">
+                            <h6>Riwayat Tes Safety Induction:</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Tanggal</th>
+                                            <th>Percobaan</th>
+                                            <th>Skor</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($riwayat_safety as $i => $r): ?>
+                                        <tr>
+                                            <td><?= $i + 1 ?></td>
+                                            <td><?= date('d M Y, H:i', strtotime($r['created_at'])) ?></td>
+                                            <td><?= $r['percobaan_ke'] ?></td>
+                                            <td><?= $r['nilai'] ?></td>
+                                            <td>
+                                                <?= $r['nilai'] >= 70 ? '<span class="badge bg-success">Lulus</span>' : '<span class="badge bg-danger">Tidak Lulus</span>' ?>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     <?php endif; ?>
+
                 </div>
             </div>
         </div>

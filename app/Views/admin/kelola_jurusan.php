@@ -36,7 +36,7 @@
                 <!-- Modal Tambah Jurusan -->
                 <div class="modal fade" id="modalTambahJurusan" tabindex="-1" role="dialog" aria-labelledby="modalTambahJurusanLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
-                        <form action="<?= base_url('jurusan/save') ?>" method="post">
+                        <form action="<?= base_url('admin/jurusan/save') ?>" method="post">
                             <div class="modal-content">
                                 <div class="modal-header bg-primary text-white">
                                     <h5 class="modal-title" id="modalTambahJurusanLabel">Tambah Jurusan</h5>
@@ -88,7 +88,7 @@
                                 <!-- Modal Edit Jurusan -->
                                 <div class="modal fade" id="editModal<?= $data['jurusan_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<?= $data['jurusan_id']; ?>" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
-                                        <form action="<?= base_url('jurusan/update/' . $data['jurusan_id']); ?>" method="post">
+                                        <form action="<?= base_url('admin/jurusan/update/' . $data['jurusan_id']); ?>" method="post">
                                             <div class="modal-content">
                                                 <div class="modal-header bg-warning text-white">
                                                     <h5 class="modal-title" id="editModalLabel<?= $data['jurusan_id']; ?>">Edit Jurusan</h5>

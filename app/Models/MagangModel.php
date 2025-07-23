@@ -16,7 +16,7 @@ class MagangModel extends Model
                                     'status_seleksi', 'tanggal_seleksi','status_konfirmasi','tanggal_konfirmasi',
                                     'status_validasi_berkas','tanggal_validasi_berkas','status_berkas_lengkap',
                                     'tanggal_berkas_lengkap','pembimbing_id', 'tanggal_masuk','tanggal_selesai',
-                                    'status_akhir', 'tanggal_setujui_pernyataan', 'cttn_berkas_lengkap'
+                                    'status_akhir', 'tanggal_setujui_pernyataan', 'cttn_berkas_lengkap', 'alasan_batal'
                                     ];
 
     protected bool $allowEmptyInserts = false;
@@ -78,14 +78,14 @@ class MagangModel extends Model
                 SELECT 
                     mg.unit_id,
                     CASE
-                        WHEN u.tingkat_pendidikan = 'SMA/SMK' THEN 'SMA/SMK'
+                        WHEN u.tingkat_pendidikan = 'SMK' THEN 'SMK'
                         WHEN u.tingkat_pendidikan IN ('D3', 'D4/S1', 'S2') THEN 'Perguruan Tinggi'
                         ELSE u.tingkat_pendidikan
                     END AS tingkat_pendidikan_mapped,
                     COUNT(*) AS jumlah
                 FROM magang mg
                 JOIN users u ON mg.user_id = u.id
-                WHERE mg.status_akhir = 'proses'
+                WHERE mg.status_akhir IN ('proses', 'magang')
                 GROUP BY mg.unit_id, tingkat_pendidikan_mapped
             ) AS jumlah_diterima 
                 ON jumlah_diterima.unit_id = ku.unit_id 
@@ -96,7 +96,7 @@ class MagangModel extends Model
                 SELECT 
                     mg.unit_id,
                     CASE
-                        WHEN u.tingkat_pendidikan = 'SMA/SMK' THEN 'SMA/SMK'
+                        WHEN u.tingkat_pendidikan = 'SMK' THEN 'SMK'
                         WHEN u.tingkat_pendidikan IN ('D3', 'D4/S1', 'S2') THEN 'Perguruan Tinggi'
                         ELSE u.tingkat_pendidikan
                     END AS tingkat_pendidikan_mapped,

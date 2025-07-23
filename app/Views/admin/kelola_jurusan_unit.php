@@ -34,7 +34,7 @@
                 <!-- Modal Tambah -->
                 <div class="modal fade" id="modalTambahJurusanUnit" tabindex="-1" role="dialog" aria-labelledby="modalTambahJurusanUnitLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
-                        <form action="<?= base_url('jurusan-unit/save') ?>" method="post">
+                        <form action="<?= base_url('admin/jurusan-unit/save') ?>" method="post">
                             <div class="modal-content">
                                 <div class="modal-header bg-primary text-white">
                                     <h5 class="modal-title" id="modalTambahJurusanUnitLabel">Tambah Jurusan Unit</h5>
@@ -137,7 +137,7 @@
                                                     <?php foreach ($ju['jurusans'] as $jurusan): ?>
                                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                                             <?= esc($jurusan['nama_jurusan']); ?>
-                                                            <form action="<?= base_url('jurusan-unit/deleteJurusan/' . $jurusan['jurusan_unit_id']); ?>" method="post" onsubmit="return confirm('Hapus jurusan ini?');">
+                                                            <form action="<?= base_url('admin/jurusan-unit/deleteJurusan/' . $jurusan['jurusan_unit_id']); ?>" method="post" onsubmit="return confirm('Hapus jurusan ini?');">
                                                                 <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                                                             </form>
                                                         </li>
@@ -145,7 +145,7 @@
                                                 </ul>
 
                                                 <h6>Tambah Jurusan Baru:</h6>
-                                                <form action="<?= base_url('jurusan-unit/addJurusan') ?>" method="post">
+                                                <form action="<?= base_url('admin/jurusan-unit/addJurusan') ?>" method="post">
                                                     <input type="hidden" name="kuota_unit_id" value="<?= $ju['kuota_unit_id']; ?>">
                                                     <div class="form-group">
                                                         <label for="jurusan_id_<?= $ju['kuota_unit_id']; ?>">Pilih Jurusan</label>

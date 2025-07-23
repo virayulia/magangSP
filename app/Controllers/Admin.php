@@ -607,7 +607,7 @@ class Admin extends BaseController
             'status_berkas_lengkap'    => 'Y',
             'tanggal_berkas_lengkap'   => date('Y-m-d H:i:s'),
             'cttn_berkas_lengkap'      => $catatan,
-            'status_akhir'             => 'proses'
+            'status_akhir'             => 'magang'
         ];
 
         $this->magangModel->update($id, $updateData);
@@ -719,7 +719,7 @@ class Admin extends BaseController
         $data = $this->magangModel->select('magang.*,unit_kerja.unit_kerja, users.*')
                                         ->join('users', 'users.id = magang.user_id')
                                         ->join('unit_kerja', 'magang.unit_id = unit_kerja.unit_id')
-                                        ->where('magang.status_berkas_lengkap', 'Y')
+                                        ->where('magang.status_akhir', 'magang')
                                         ->findAll();
 
         return view('admin/kelola_magang', ['data' => $data]);

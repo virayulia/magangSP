@@ -31,3 +31,22 @@ if (!function_exists('format_tanggal_singkat')) {
         return $tanggal_angka . ' ' . $bulan[$bulan_angka] . ' ' . $tahun;
     }
 }
+
+if (!function_exists('format_tanggal_indonesia_dengan_jam')) {
+    function format_tanggal_indonesia_dengan_jam($tanggal)
+    {
+        $bulan = [
+            1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+            'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
+
+        $timestamp = strtotime($tanggal);
+
+        $tanggal_angka = date('d', $timestamp);
+        $bulan_angka = (int)date('m', $timestamp);
+        $tahun = date('Y', $timestamp);
+        $jam = date('H:i', $timestamp); // Format jam:menit 24 jam
+
+        return $tanggal_angka . ' ' . $bulan[$bulan_angka] . ' ' . $tahun . ', ' . $jam;
+    }
+}

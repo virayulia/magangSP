@@ -3,14 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Surat Pernyataan Magang</title>
+    <link rel="shortcut icon" href="<?= base_url('assets/img/SP_logo.png'); ?>" type="image/png">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             line-height: 1.7;
-            padding: 30px;
+            padding: 50px 100px;
+        }
+        ul.informasi-mahasiswa {
+            list-style-type: none;
+            padding-left: 0;
+            margin-left: 0;
         }
         .footer {
             float: right;
+            padding-bottom: 30px;
         }
     </style>
 </head>
@@ -20,7 +28,7 @@
     KERJA PRAKTEK DAN PENELITIAN DI PT SEMEN PADANG</h3>
 
     <p>Yang bertanda tangan di bawah ini:</p>
-    <ul>
+    <ul class="informasi-mahasiswa">
         <li><strong>Nama:</strong> <?= esc(user()->fullname) ?></li>
         <li><strong>NISN/NIM:</strong> <?= esc(user()->nisn_nim) ?></li>
         <li><strong>Perguruan Tinggi/Sekolah:</strong> <?= esc($user_data->nama_instansi ?? '-') ?></li>
@@ -61,15 +69,23 @@
    
     <p>Demikian surat pernyataan ini saya buat dengan sebenar-benarnya tanpa adanya tekanan dari pihak manapun.</p>
     <div class="footer">
+   
+    <?php if(empty($pendaftaran['tanggal_setujui_pernyataan'])): ?>
     <p><strong>Padang, <?= format_tanggal_indonesia(date('d M Y')) ?></strong></p>
     <p><em>Yang membuat pernyataan</em></p>
-
     <form action="<?= base_url('magang/setujui-surat-pernyataan') ?>" method="post">
         <button type="submit" class="btn btn-success btn-approve">✅ Setujui & Simpan</button>
     </form>
+    <?php else:?>
+    <div style="text-align: right;">
+        <p>Padang, <?= date('d M Y', strtotime($pendaftaran['tanggal_setujui_pernyataan'])) ?></p>
+        <p><strong>Pernyataan ini telah disetujui secara digital oleh:</strong></p>
+        <p style="margin-top: 30px;"><strong><?= esc(user()->fullname) ?></strong></p>
+        <p><em>(Tertanda secara digital)</em></p>
     </div>
-
-    <div></div>
+    <?php endif; ?>
+    </div>
+    
 
 </body>
 </html>

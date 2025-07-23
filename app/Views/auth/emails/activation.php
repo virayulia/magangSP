@@ -1,9 +1,15 @@
-<p>This is activation email for your account on <?= site_url() ?>.</p>
+<p>Yth. Calon Peserta,</p>
 
-<p>To activate your account use this URL.</p>
+<p>Email ini dikirim sebagai bagian dari proses pendaftaran akun Anda pada <?= site_url() ?> Pusat Pendidikan dan Pelatihan PT Semen Padang.</p>
 
-<p><a href="<?= url_to('activate-account') . '?token=' . $hash ?>">Activate account</a>.</p>
+<p>Untuk mengaktifkan akun Anda, silakan klik tautan berikut:</p>
+
+<p><a href="<?= url_to('activate-account') . '?token=' . $hash ?>">Aktivasi Akun</a></p>
+
+<p>Jika Anda tidak merasa melakukan pendaftaran pada situs ini, silakan abaikan email ini. Akun Anda tidak akan diaktifkan tanpa konfirmasi melalui tautan di atas.</p>
 
 <br>
 
-<p>If you did not registered on this website, you can safely ignore this email.</p>
+<p>Hormat kami,  
+<br>Pusat Pendidikan dan Pelatihan  
+<br>PT Semen Padang</p>

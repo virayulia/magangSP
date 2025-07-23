@@ -111,7 +111,7 @@ Swal.fire({
 });
 </script>
 <?php endif; ?>
-<!-- Tabs Lamaran (New Age Bootstrap style) -->
+<!-- Tabs Lamaran -->
 <div class="profile-card">
 <ul class="nav nav-tabs profile-tabs mb-4" id="lamaranTab" role="tablist">
     <li class="nav-item" role="presentation">
@@ -137,8 +137,7 @@ Swal.fire({
             Belum ada lamaran.
         </div>
     <?php else : ?>
-        <!-- Progress Bar Pendaftaran -->
-<!-- Progress Bar Pendaftaran -->
+    <!-- Progress Bar Pendaftaran -->
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <h5 class="card-title mb-4">Progress Pendaftaran Magang</h5>
@@ -222,6 +221,8 @@ Swal.fire({
                                     Silakan lakukan konfirmasi penerimaan dalam waktu <strong>maksimal 3 hari</strong> sejak pengumuman ini. <br>   
                                     Jika tidak ada konfirmasi hingga batas waktu tersebut, maka kesempatan ini akan dianggap <strong>gugur</strong>. <br>
                                     Kami tunggu konfirmasi Anda, dan selamat bergabung! <br><br>
+                                    <strong>Silakan klik tombol <em>Konfirmasi</em> di bawah halaman ini untuk menyatakan bahwa Anda menerima tawaran magang ini.</strong><br><br>
+
                                     <?php if ($pendaftaran['safety'] == 1): ?>
                                         <div class="alert alert-warning mt-2">
                                             <strong>Perhatian:</strong> Unit kerja Anda mewajibkan kelengkapan alat pelindung diri (APD). <br>
@@ -234,7 +235,7 @@ Swal.fire({
                                         </div>
                                     <?php endif; ?>
 
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"  data-bs-target="#modalKonfirmasi">
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"  data-bs-target="#modalKonfirmasi">
                                         Konfirmasi Penerimaan
                                     </button>
                                 </div>
@@ -275,7 +276,6 @@ Swal.fire({
                     </div>
                 </div>     
                                 
-
                 <!-- Step 4: Pengumpulan Berkas -->
                 <div class="timeline-step">
                     <div class="circle <?= $step >= 4 ? ($step > 4 ? 'completed' : 'active') : '' ?>"></div>
@@ -290,6 +290,7 @@ Swal.fire({
                                 <div class="alert alert-warning">
                                     ❌ Berkas yang Anda lampirkan sebelumnya <strong>belum lengkap atau tidak sesuai</strong>.<br>
                                     Mohon lengkapi dokumen Anda melalui menu <strong><a href="/profile?tab=dokumen">Profil</a></strong> dan lakukan validasi ulang.<br><br>
+                                    Setelah melengkapi dokumen, silakan klik tombol <strong>Validasi Berkas Lengkap</strong> di bawah untuk mengajukan kembali.<br><br>
                                     Jika tidak dilengkapi sebelum <strong><?= format_tanggal_indonesia(date('d M Y', strtotime('+7 days', strtotime($pendaftaran['tanggal_konfirmasi'])))) ?></strong>, maka kesempatan ini akan dianggap <strong>gugur</strong>.
                                 </div>
                             <?php else: ?>
@@ -306,9 +307,10 @@ Swal.fire({
                                 </div>
                             <?php endif; ?>
                             <?php 
-                            $isBpjsFilled = !empty($user_data->bpjs_tk) && !empty($user_data->buktibpjs_tk);
-                            ?>
-                                <button class="btn btn-primary mt-3" 
+                                $isBpjsFilled = !empty($user_data->bpjs_tk) && !empty($user_data->buktibpjs_tk);
+                                $btnClass = $isBpjsFilled ? 'btn-danger' : 'btn-secondary'; // abu-abu jika tidak lengkap
+                                ?>
+                                <button class="btn <?= $btnClass ?> mt-3" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="<?= $isBpjsFilled ? '#validasiBerkasModal' : '' ?>" 
                                         <?= $isBpjsFilled ? '' : 'disabled' ?>>
@@ -398,7 +400,7 @@ Swal.fire({
                                 <br><br>
                                 Mohon untuk <strong>mencetak tanda pengenal magang</strong> dan <strong>membawanya</strong> saat hari pertama. Kamu bisa mencetaknya melalui tombol berikut:
                                 <br><br>
-                                <a href="<?= base_url('/cetak-tanda-pengenal/' . $pendaftaran['magang_id']) ?>" target="_blank" class="btn btn-primary">
+                                <a href="<?= base_url('/cetak-tanda-pengenal/' . $pendaftaran['magang_id']) ?>" target="_blank" class="btn btn-danger">
                                     Cetak Tanda Pengenal
                                 </a>
 
@@ -422,14 +424,51 @@ Swal.fire({
     </div>
 
     <?php endif; ?>
-
-    <!-- Histori Lamaran Tab -->
-    <div class="tab-pane fade" id="histori-lamaran" role="tabpanel">
-    <h4 class="fw-bold mb-3">Histori Pendaftaran</h4>
-    <p class="text-muted">Riwayat semua lamaran yang pernah diajukan.</p>
-    <a href="#" class="btn btn-outline-primary">Lihat Histori Pendaftaran</a>
     </div>
 </div>
+
+
+<!-- Histori Lamaran Tab -->
+<div class="tab-pane fade" id="histori-lamaran" role="tabpanel">
+    <h4 class="fw-bold mb-3">Histori Pendaftaran</h4>
+    <p class="text-muted">Riwayat semua lamaran yang pernah diajukan.</p>
+
+    <?php if (!empty($histori)) : ?>
+        <div class="d-flex flex-column gap-3">
+            <?php foreach ($histori as $riwayat) : ?>
+                <div class="card shadow-sm border-0">
+                    <div class="card-body d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="me-3">
+                            <h5 class="card-title mb-1"><?= esc($riwayat['unit_kerja']) ?></h5>
+                            <p class="text-muted mb-0 small">
+                                Tanggal Daftar: <?= date('d M Y', strtotime($riwayat['tanggal_daftar'])) ?>
+                            </p>
+                        </div>
+                        <span class="badge rounded-pill px-3 py-2 
+                            <?php
+                                switch ($riwayat['status_akhir']) {
+                                    case 'pendaftaran': echo 'bg-secondary'; break;
+                                    case 'proses': echo 'bg-warning text-dark'; break;
+                                    case 'magang': echo 'bg-success'; break;
+                                    case 'selesai': echo 'bg-primary'; break;
+                                    case 'ditolak': echo 'bg-danger'; break;
+                                    default: echo 'bg-light text-dark'; break;
+                                }
+                            ?>
+                        ">
+                            <?= ucfirst($riwayat['status_akhir']) ?>
+                        </span>
+                    </div>
+                </div>
+            <?php endforeach ?>
+        </div>
+    <?php else : ?>
+        <div class="alert alert-info mt-3">
+            Belum ada histori pendaftaran.
+        </div>
+    <?php endif ?>
+</div>
+
 </div>
 
                                 

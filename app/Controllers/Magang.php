@@ -183,20 +183,20 @@ class Magang extends BaseController
 
     public function setujuiPernyataan()
     {
-    $db = \Config\Database::connect();
-    $builder = $db->table('magang');
+        $db = \Config\Database::connect();
+        $builder = $db->table('magang');
 
-    $userId = user()->id; // Pastikan sesuai field user kamu
-    $tanggal = date('Y-m-d');
+        $userId = user()->id; // Pastikan sesuai field user kamu
+        $tanggal = date('Y-m-d');
 
-    // Update data pendaftaran
-    $builder->where('user_id', $userId)
-        ->update([
-            'tanggal_setujui_pernyataan' => $tanggal
-        ]);
+        // Update data pendaftaran
+        $builder->where('user_id', $userId)
+            ->update([
+                'tanggal_setujui_pernyataan' => $tanggal
+            ]);
 
-    return redirect()->to(base_url('pelaksanaan'))->with('message', 'Surat pernyataan berhasil disetujui.');
-}
+        return redirect()->to(base_url('pelaksanaan'))->with('message', 'Surat pernyataan berhasil disetujui.');
+    }
 
 
 

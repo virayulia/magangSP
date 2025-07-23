@@ -21,7 +21,7 @@
     </div>
 <?php endif; ?>
 
-<h1 class="h3 mb-4 text-gray-800">Kelola Unit</h1>
+<h1 class="h3 mb-4 text-gray-800">Kelola Unit Kerja</h1>
 
 <div class="card shadow mb-4">
     <div class="card-body">
@@ -33,7 +33,7 @@
             <!-- Modal Tambah Instansi -->
             <div class="modal fade" id="modalTambahUnit" tabindex="-1" role="dialog" aria-labelledby="modalTambahUnitLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <form action="<?= base_url('unit/save') ?>" method="post">
+                    <form action="<?= base_url('admin/unit/save') ?>" method="post">
                         <div class="modal-content">
                             <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title" id="modalTambahUnitLabel">Tambah Unit Kerja</h5>
@@ -46,6 +46,14 @@
                                 <div class="form-group">
                                     <label for="unit_kerja">Unit Kerja</label>
                                     <input type="text" class="form-control" id="unit_kerja" name="unit_kerja" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nama_pimpinan">Nama Pimpinan</label>
+                                    <input type="text" class="form-control" id="nama_pimpinan" name="nama_pimpinan" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email_pimpinan">Email Pimpinan</label>
+                                    <input type="text" class="form-control" id="email_pimpinan" name="email_pimpinan" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="safety">Safety</label>
@@ -72,10 +80,12 @@
                 </div>
             </div>
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead class="thead-light">
+                <thead class="thead-dark">
                     <tr>
                         <th>No</th>
                         <th>Unit Kerja</th>
+                        <th>Nama Pimpinan</th>
+                        <th>Email Pimpinan</th>
                         <th>Safety(APD)</th>
                         <th>Active</th>
                         <th>Action</th>
@@ -86,6 +96,8 @@
                         <tr>
                             <td><?= $no++; ?></td>
                             <td><?= esc($item['unit_kerja']); ?></td>
+                            <td><?= esc($item['nama_pimpinan']); ?></td>
+                            <td><?= esc($item['email_pimpinan']); ?></td>
                             <?php if($item['safety'] == 1): ?>
                                 <td>Pakai</td>
                             <?php else : ?>
@@ -105,7 +117,7 @@
                         <!-- Modal Edit Periode -->
                         <div class="modal fade" id="editModal<?= $item['unit_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<?= $item['unit_id']; ?>" aria-hidden="true">
                             <div class="modal-dialog" role="document">
-                                <form action="<?= base_url('kelola-unit/update/' . $item['unit_id']); ?>" method="post">
+                                <form action="<?= base_url('admin/kelola-unit/update/' . $item['unit_id']); ?>" method="post">
                                 <div class="modal-content">
                                     <div class="modal-header bg-warning text-white">
                                     <h5 class="modal-title" id="editModalLabel<?= $item['unit_id']; ?>">Edit Unit Kerja</h5>
@@ -118,6 +130,14 @@
                                         <div class="form-group">
                                             <label for="unit_kerja_<?= $item['unit_id']; ?>">Unit Kerja</label>
                                             <input type="text" class="form-control" name="unit_kerja" id="unit_kerja_<?= $item['unit_id']; ?>" value="<?= esc($item['unit_kerja']); ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="nama_pimpinan_<?= $item['unit_id']; ?>">Nama Pimpinan</label>
+                                            <input type="text" class="form-control" name="nama_pimpinan" id="nama_pimpinan_<?= $item['unit_id']; ?>" value="<?= esc($item['nama_pimpinan']); ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email_pimpinan_<?= $item['unit_id']; ?>">Email Pimpinan</label>
+                                            <input type="text" class="form-control" name="email_pimpinan" id="email_pimpinan_<?= $item['unit_id']; ?>" value="<?= esc($item['email_pimpinan']); ?>">
                                         </div>
                                         <div class="form-group">
                                             <label for="safety_<?= $item['unit_id']; ?>">Safety</label>

@@ -66,6 +66,25 @@ $uri = service('uri');
     font-weight: 600;
     box-shadow: 0 -2px 0 #dc3545 inset;
   }
+  .sidebar a {
+  text-decoration: none; /* Hilangkan garis bawah */
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  color: #333;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.sidebar a:hover {
+  background-color: #f0f0f0;
+}
+
+.sidebar a.active {
+  background-color: #e9ecef;
+  font-weight: 600;
+}
+
 </style>
 
 <div class="container-fluid" style="padding-top: 75px;">
@@ -78,7 +97,7 @@ $uri = service('uri');
           <div class="profile-card d-flex align-items-center">
             <!-- Foto Profil -->
             <div class="me-3">
-              <img src="<?= esc(base_url('/uploads/user_image/'. ($user_data->user_image ?? 'default.svg'))) ?>" alt="Foto Profil" class="rounded-circle shadow-sm" style="width: 100px; height: 100px; object-fit: cover;">
+              <img src="<?= esc(base_url('/uploads/user-image/'. ($user_data->user_image ?? 'default.svg'))) ?>" alt="Foto Profil" class="rounded-circle shadow-sm" style="width: 100px; height: 100px; object-fit: cover;">
             </div>
 
             <!-- Info -->
@@ -95,19 +114,19 @@ $uri = service('uri');
 
           <!-- Sidebar -->
           <div class="sidebar mt-4">
-            <a href="/profile" class="<?= ($uri->getSegment(1) === 'profile') ? 'active' : '' ?>">
+            <a href="profile" class="<?= ($uri->getSegment(1) === 'profile') ? 'active' : '' ?>">
               <i class="bi bi-file-earmark-text me-2"></i>
               <span>Profil</span>
             </a>
-            <a href="/status-lamaran" class="<?= ($uri->getSegment(1) === 'status-lamaran') ? 'active' : '' ?>">
+            <a href="status-lamaran" class="<?= ($uri->getSegment(1) === 'status-lamaran') ? 'active' : '' ?>">
               <i class="bi bi-list-check me-2"></i>
               <span>Pendaftaran Magang</span>
             </a>
-            <a href="/pelaksanaan" class="<?= ($uri->getSegment(1) === 'pelaksanaan') ? 'active' : '' ?>">
+            <a href="pelaksanaan" class="<?= ($uri->getSegment(1) === 'pelaksanaan') ? 'active' : '' ?>">
               <i class="bi bi-calendar-check me-2"></i>
               <span>Pelaksanaan Magang</span>
             </a>
-            <a href="#" class="<?= ($uri->getSegment(1) === 'sertifikat-magang') ? 'active' : '' ?>">
+            <a href="sertifikat-magang" class="<?= ($uri->getSegment(1) === 'sertifikat-magang') ? 'active' : '' ?>">
               <i class="bi bi-award me-2"></i>
               <span>Evaluasi Magang</span>
             </a>
@@ -120,7 +139,7 @@ $uri = service('uri');
               <span>Manual Pengguna</span>
             </a>
             <hr>
-            <a href="#" class="text-danger fw-semibold">
+            <a href="<?= url_to('logout'); ?>" class="text-danger fw-semibold">
               <i class="bi bi-box-arrow-right me-2"></i>
               <span>Keluar</span>
             </a>

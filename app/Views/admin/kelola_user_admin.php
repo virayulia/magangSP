@@ -11,7 +11,6 @@
         </button>
     </div>
 <?php endif; ?>
-
 <?php if ($session->getFlashdata('error')): ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <?= $session->getFlashdata('error') ?>
@@ -32,7 +31,7 @@
             <!-- Modal Tambah Admin -->
             <div class="modal fade" id="modalTambahAdmin" tabindex="-1" role="dialog" aria-labelledby="modalTambahAdminLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <form action="<?= base_url('manage-user-admin/saveAdmin') ?>" method="post">
+                    <form action="<?= base_url('admin/manage-user-admin/saveAdmin') ?>" method="post">
                         <?= csrf_field(); ?>
                         <div class="modal-content">
                             <div class="modal-header bg-primary text-white">
@@ -53,6 +52,10 @@
                                     </div>
                                 <?php endif ?>
 
+                                <div class="form-group">
+                                    <label>Nama Lengkap</label>
+                                    <input type="text" name="fullname" class="form-control" required value="<?= old('fullname'); ?>">
+                                </div>
                                 <div class="form-group">
                                     <label>Username</label>
                                     <input type="text" name="username" class="form-control" required value="<?= old('username'); ?>">
@@ -77,10 +80,11 @@
             </div>
 
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead class="thead-light">
+                <thead class="thead-dark">
                     <tr>
                         <th>No</th>
                         <th>Email</th>
+                        <th>Fullname</th>
                         <th>Username</th>
                         <th>Role</th>
                         <th>Status</th>
@@ -92,6 +96,7 @@
                         <tr>
                             <td><?= $no++; ?></td>
                             <td><?= esc($user->email) ?></td>
+                            <td><?= esc($user->fullname) ?></td>
                             <td><?= esc($user->username) ?></td>
                             <td><?= esc($user->role) ?></td>
                             <td>
@@ -105,7 +110,7 @@
                               <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalEditAdmin<?= $user->id ?>">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
-                              <a href="<?= base_url('manage-user-admin/delete/'.$user->id) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus user ini?')">
+                              <a href="<?= base_url('admin/manage-user-admin/delete/'.$user->id) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus user ini?')">
                                 <i class="fas fa-trash"></i> Hapus
                               </a>
                             </td>
@@ -114,7 +119,7 @@
                         <!-- Modal Edit Admin -->
                         <div class="modal fade" id="modalEditAdmin<?= $user->id ?>" tabindex="-1" aria-labelledby="modalEditAdminLabel<?= $user->id ?>" aria-hidden="true">
                             <div class="modal-dialog">
-                                <form action="<?= base_url('manage-user-admin/updateAdmin/' . $user->id) ?>" method="post">
+                                <form action="<?= base_url('admin/manage-user-admin/updateAdmin/' . $user->id) ?>" method="post">
                                     <?= csrf_field(); ?>
                                     <div class="modal-content">
                                         <div class="modal-header bg-warning text-white">
@@ -135,6 +140,10 @@
                                                 </div>
                                             <?php endif ?>
 
+                                            <div class="form-group">
+                                                <label>Nama Lengkap</label>
+                                                <input type="text" name="fullname" class="form-control" value="<?= esc($user->fullname) ?>" required>
+                                            </div>
                                             <div class="form-group">
                                                 <label>Username</label>
                                                 <input type="text" name="username" class="form-control" value="<?= esc($user->username) ?>" required>

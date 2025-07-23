@@ -30,8 +30,8 @@
         <div class="card-header py-3 d-flex justify-content-between">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered table-hover" width="100%" cellspacing="0">
-                    <thead class="thead-light">
+                <table class="table table-bordered table-hover" width="100%" cellspacing="0" >
+                    <thead class="thead-dark">
                         <tr>
                             <th>Nama Mahasiswa</th>
                             <th>Judul Penelitian</th>

@@ -14,6 +14,7 @@ use CodeIgniter\Filters\PerformanceMetrics;
 use CodeIgniter\Filters\SecureHeaders;
 
 use App\Filters\AdminFilter;
+use App\Filters\PembimbingFilter;
 use App\Filters\UserFilter;
 use Myth\Auth\Filters\LoginFilter;
 
@@ -42,6 +43,7 @@ class Filters extends BaseFilters
         'auth'          => LoginFilter::class,
         'admin'         => AdminFilter::class,
         'user'          => UserFilter::class,
+        'pembimbing'    => PembimbingFilter::class,
     ];
 
     /**

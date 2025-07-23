@@ -27,7 +27,7 @@
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead class="thead-light">
+                <thead class="thead-dark">
                     <tr>
                         <th>No</th>
                         <th>Unit Kerja</th>
@@ -85,7 +85,7 @@ function loadPendaftar(unitId, pendidikan, unitKerja) {
     $('#pendaftarContent').html('<p class="text-center">Memuat data...</p>');
 
     // Ambil konten pendaftar via fetch
-    fetch(`/manage-seleksi/pendaftar?unit_id=${unitId}&pendidikan=${pendidikan}`)
+    fetch(`manage-seleksi/pendaftar?unit_id=${unitId}&pendidikan=${pendidikan}`)
     .then(response => response.text())
     .then(data => {
         const el = document.getElementById('pendaftarContent');
@@ -191,7 +191,7 @@ function terimaBeberapa() {
 
     if (!confirm(`Yakin ingin menerima ${selected.length} pendaftar?`)) return;
 
-    fetch('/manage-seleksi/terima-banyak', {
+    fetch('manage-seleksi/terima-banyak', {
         method: 'POST',
         body: formData
     })
@@ -218,7 +218,7 @@ function tolakBeberapa() {
 
     if (!confirm(`Yakin ingin menolak ${selected.length} pendaftar?`)) return;
 
-    fetch('/manage-seleksi/tolak-banyak', {
+    fetch('manage-seleksi/tolak-banyak', {
         method: 'POST',
         body: formData
     })

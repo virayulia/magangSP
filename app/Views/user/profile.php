@@ -57,7 +57,7 @@ Swal.fire({
             <div class="card p-4 shadow-sm rounded-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="fw-bold mb-0">Data Pribadi</h5>
-                    <a href="/data-pribadi" class="text-muted" title="Edit"><i class="bi bi-pencil-square fs-5"></i></a>
+                    <a href="/profile/data-pribadi" class="text-muted" title="Edit"><i class="bi bi-pencil-square fs-5"></i></a>
                 </div>
                 <p class="text-muted mb-4">Pastikan data pribadi benar untuk mempermudah proses pendaftaran.</p>
 
@@ -115,7 +115,7 @@ Swal.fire({
             <div class="card p-4 shadow-sm rounded-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="fw-bold mb-0">Informasi Akademik</h5>
-                    <a href="/data-pribadi" class="text-muted" title="Edit"><i class="bi bi-pencil-square fs-5"></i></a>
+                    <a href="/profile/data-akademik" class="text-muted" title="Edit"><i class="bi bi-pencil-square fs-5"></i></a>
                 </div>
                 <p class="text-muted mb-4">Pastikan data akademik benar untuk mempermudah proses pendaftaran.</p>
 
@@ -123,16 +123,28 @@ Swal.fire({
                     <div class="col-md-6">
                         <p class="mb-1 fw-semibold">Tingkat Pendidikan</p>
                         <p class="text-muted"><?= esc($user_data->tingkat_pendidikan ?? 'Data belum diisi'); ?></p>
-                        <p class="mb-1 fw-semibold">Sekolah/Perguruan Tinggi</p>
-                        <p class="text-muted"><?= esc($user_data->nama_instansi ?? 'Data belum diisi'); ?></p>
-                        <p class="mb-1 fw-semibold">Jurusan</p>
-                        <p class="text-muted"><?= esc($user_data->nama_jurusan ?? 'Data belum diisi'); ?></p>
+                        <?php if($user_data->tingkat_pendidikan === 'SMK'):?>
+                            <p class="mb-1 fw-semibold">Sekolah</p>
+                            <p class="text-muted"><?= esc($user_data->nama_instansi ?? 'Data belum diisi'); ?></p>
+                        <?php else: ?>
+                            <p class="mb-1 fw-semibold">Perguruan Tinggi</p>
+                            <p class="text-muted"><?= esc($user_data->nama_instansi ?? 'Data belum diisi'); ?></p>
+                        <?php endif; ?> 
                     </div>
                     <div class="col-md-6">
-                        <p class="mb-1 fw-semibold">Semester</p>
-                        <p class="text-muted"><?= esc($user_data->semester ?? 'Data belum diisi'); ?></p>
-                        <p class="mb-1 fw-semibold">Nilai rata-rata/IPK</p>
+                        <p class="mb-1 fw-semibold">Jurusan</p>
+                        <p class="text-muted"><?= esc($user_data->nama_jurusan ?? 'Data belum diisi'); ?></p>
+                        <?php if($user_data->tingkat_pendidikan === 'SMK'):?>
+                            <p class="mb-1 fw-semibold">Kelas</p>
+                            <p class="text-muted"><?= esc($user_data->semester ?? 'Data belum diisi'); ?></p>
+                        <?php else: ?>
+                            <p class="mb-1 fw-semibold">Semester</p>
+                            <p class="text-muted"><?= esc($user_data->semester ?? 'Data belum diisi'); ?></p>
+                        <?php endif; ?> 
+                        <?php if($user_data->tingkat_pendidikan != 'SMK'): ?>
+                        <p class="mb-1 fw-semibold">IPK</p>
                         <p class="text-muted"><?= esc($user_data->nilai_ipk ?? 'Data belum diisi'); ?></p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -142,7 +154,7 @@ Swal.fire({
         <div class="tab-pane fade" id="dokumen" role="tabpanel">
             <div class="tab-pane fade show non-active" id="dokumen" role="tabpanel">
                 <div class="card p-4 shadow">
-                    <h5 class="fw-bold text-uppercase mb-3">
+                    <h5 class="fw-bold mb-3">
                         Kelengkapan Dokumen
                     </h5>
                     <p class="text-muted mb-4">Lengkapi dokumen untuk mempermudah proses pendaftaran magang.
@@ -151,7 +163,7 @@ Swal.fire({
 
                     <!-- CV -->
                     <div class="border rounded p-3 mb-3 shadow-sm">
-                        <h6 class="fw-semibold text-uppercase mb-2">Curriculum Vitae<span class="text-danger">*</span></h6>
+                        <h6 class="fw-semibold mb-2">Curriculum Vitae<span class="text-danger">*</span></h6>
                         <div class="d-flex justify-content-between align-items-center">
                             <?php if (!empty($user_data->cv)): ?>
                                 <div>
@@ -174,7 +186,7 @@ Swal.fire({
 
                     <!-- Proposal -->
                     <div class="border rounded p-3 mb-3 shadow-sm">
-                        <h6 class="fw-semibold text-uppercase mb-2">Proposal</h6>
+                        <h6 class="fw-semibold mb-2">Proposal</h6>
                         <div class="d-flex justify-content-between align-items-center">
                             <?php if (!empty($user_data->proposal)): ?>
                                 <div>
@@ -197,14 +209,14 @@ Swal.fire({
 
                     <!-- Surat Permohonan -->
                     <div class="border rounded p-3 mb-3 shadow-sm">
-                        <h6 class="fw-semibold text-uppercase mb-2">Surat Permohonan<span class="text-danger">*</span></h6>
+                        <h6 class="fw-semibold mb-2">Surat Permohonan<span class="text-danger">*</span></h6>
                         <?php if (!empty($user_data->surat_permohonan)): ?>
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <div>
                                     <i class="bi bi-file-earmark-text me-2"></i> <?= esc($user_data->surat_permohonan) ?>
                                 </div>
                                 <div>
-                                    <a href="<?= base_url('uploads/surat_permohonan/' . $user_data->surat_permohonan) ?>" target="_blank" class="btn btn-primary btn-sm me-2">Lihat file</a>
+                                    <a href="<?= base_url('uploads/surat-permohonan/' . $user_data->surat_permohonan) ?>" target="_blank" class="btn btn-primary btn-sm me-2">Lihat file</a>
                                     <button type="button" class="btn btn-danger btn-sm" onclick="confirmDeleteSurat(<?= $user_data->id ?>)">Delete</button>  
                                 </div>
                             </div>
@@ -246,7 +258,7 @@ Swal.fire({
 
                     <!-- KTP/KK -->
                     <div class="border rounded p-3 mb-3 shadow-sm">
-                        <h6 class="fw-semibold text-uppercase mb-2">KTP/KK</h6>
+                        <h6 class="fw-semibold mb-2">KTP/KK</h6>
                         <div class="d-flex justify-content-between align-items-center">
                             <?php if (!empty($user_data->ktp_kk)): ?>
                                 <div>
@@ -268,7 +280,7 @@ Swal.fire({
 
                     <!-- BPJS Kesehatan -->
                     <div class="border rounded p-3 mb-3 shadow-sm">
-                        <h6 class="fw-semibold text-uppercase mb-2">BPJS Kesehatan</h6>
+                        <h6 class="fw-semibold mb-2">BPJS Kesehatan</h6>
                         <div class="d-flex justify-content-between align-items-center">
                             <?php if (!empty($user_data->bpjs_kes)): ?>
                                 <div>
@@ -290,7 +302,7 @@ Swal.fire({
 
                     <!-- BPJS TK -->
                     <div class="border rounded p-3 mb-3 shadow-sm">
-                        <h6 class="fw-semibold text-uppercase mb-2">BPJS Ketenagakerjaan</h6>
+                        <h6 class="fw-semibold mb-2">BPJS Ketenagakerjaan</h6>
                         <div class="d-flex justify-content-between align-items-center">
                             <?php if (!empty($user_data->bpjs_tk)): ?>
                                 <div>
@@ -312,7 +324,7 @@ Swal.fire({
 
                     <!-- Bukti BPJS TK -->
                     <div class="border rounded p-3 mb-3 shadow-sm">
-                        <h6 class="fw-semibold text-uppercase mb-2">Bukti Pembayaran BPJS Ketenagakerjaan</h6>
+                        <h6 class="fw-semibold mb-2">Bukti Pembayaran BPJS Ketenagakerjaan</h6>
                         <div class="d-flex justify-content-between align-items-center">
                             <?php if (!empty($user_data->buktibpjs_tk)): ?>
                                 <div>
@@ -343,33 +355,33 @@ Swal.fire({
                                     </div>
                                     <div class="modal-body">
                                         <div class="mb-3">
-                                            <label for="file_surat" class="form-label">File Surat (PDF)</label>
+                                            <label for="file_surat" class="form-label">File Surat<span class="text-danger">*</span><span class="text-muted">(format : pdf, maksimal 2mb)</span></label>
                                             <input type="file" class="form-control" name="file_surat" id="file_surat" accept="application/pdf" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="no_surat" class="form-label">No. Surat</label>
-                                            <input type="text" class="form-control" name="no_surat" id="no_surat" required>
+                                            <label for="no_surat" class="form-label">No. Surat<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" name="no_surat" id="no_surat" placeholder="Masukkan Nomor Surat Permohonan" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="tanggal_surat" class="form-label">Tanggal Surat</label>
-                                            <input type="date" class="form-control" name="tanggal_surat" id="tanggal_surat" required>
+                                            <label for="tanggal_surat" class="form-label">Tanggal Surat<span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" name="tanggal_surat" id="tanggal_surat" placeholder="Masukkan Tanggal Surat Permohonan" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="pimpinan" class="form-label">Nama Pimpinan</label>
-                                            <input type="text" class="form-control" name="pimpinan" id="pimpinan" required>
+                                            <label for="pimpinan" class="form-label">Nama Pimpinan<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" name="pimpinan" id="pimpinan" placeholder="Masukkan Nama Pimpinan" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="jabatan" class="form-label">Jabatan Pimpinan</label>
-                                            <input type="text" class="form-control" name="jabatan" id="jabatan" required>
+                                            <label for="jabatan" class="form-label">Jabatan Pimpinan<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" name="jabatan" id="jabatan" placeholder="Masukkan Jabatan Pimpinan" required>
                                         </div>
                                         <label for="email_instansi" class="form-label">
-                                            Email Kaprodi/Kepala Sekolah
+                                            Email Kaprodi/Kepala Sekolah<span class="text-danger">*</span>
                                         </label>
-                                        <input type="email" class="form-control" name="email_instansi" id="email_instansi" required>
+                                        <input type="email" class="form-control" name="email_instansi" id="email_instansi" placeholder="Masukkan Email Kaprodi/Kepala Sekolah" required>
                                     </div>
                                     <div class="modal-footer border-0">
-                                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
                                     </div>
                                 </form>
                             </div>

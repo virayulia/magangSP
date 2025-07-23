@@ -1,11 +1,20 @@
-<p>Someone requested a password reset at this email address for <?= site_url() ?>.</p>
+<p>Yth. Pengguna,</p>
 
-<p>To reset the password use this code or URL and follow the instructions.</p>
+<p>Kami menerima permintaan pengaturan ulang kata sandi (reset password) untuk akun Anda yang terdaftar pada <?= site_url() ?> Pusat Pendidikan dan Pelatihan PT Semen Padang.</p>
 
-<p>Your Code: <?= $hash ?></p>
+<p>Silakan gunakan kode berikut atau klik tautan di bawah ini untuk melanjutkan proses pengaturan ulang kata sandi:</p>
 
-<p>Visit the <a href="<?= url_to('reset-password') . '?token=' . $hash ?>">Reset Form</a>.</p>
+<p><strong>Kode Reset Anda:</strong> <?= $hash ?></p>
+
+<p>Formulir Reset Password: <a href="<?= url_to('reset-password') . '?token=' . $hash ?>">Klik di sini</a></p>
 
 <br>
 
-<p>If you did not request a password reset, you can safely ignore this email.</p>
+<p>Jika Anda tidak mengajukan permintaan ini, abaikan email ini. Sistem tidak akan melakukan perubahan apa pun tanpa tindakan dari Anda.</p>
+
+<br>
+
+<p>Hormat kami,  
+<br>Pusat Pendidikan dan Pelatihan  
+<br>PT Semen Padang</p>
+

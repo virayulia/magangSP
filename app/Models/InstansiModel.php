@@ -12,7 +12,7 @@ class InstansiModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['instansi_id','nama_instansi'];
+    protected $allowedFields    = ['instansi_id','nama_instansi','tingkat'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

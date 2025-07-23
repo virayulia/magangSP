@@ -24,7 +24,7 @@ class UserModel extends MythUserModel
         'tanggal_surat','no_surat','nama_pimpinan','jabatan','email_instansi','bpjs_kes','bpjs_tk',
         'buktibpjs_tk','ktp_kk',
         'password_hash', 'reset_hash', 'reset_at', 'reset_expires', 'activate_hash',
-        'status', 'status_message', 'active', 'force_pass_reset', 'permissions', 'deleted_at',
+        'status', 'status_message', 'active', 'force_pass_reset', 'permissions', 'deleted_at', 'eselon'
     ];
     protected $useTimestamps   = true;
     protected $validationRules = [

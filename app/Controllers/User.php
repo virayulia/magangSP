@@ -231,7 +231,7 @@ class User extends BaseController
         return redirect()->to('/profile')->with('success', 'Data berhasil diperbarui.');
     }
 
-        public function statusLamaran()
+    public function statusLamaran()
     {
         $userId = user_id(); // Ambil ID pengguna dari session
 

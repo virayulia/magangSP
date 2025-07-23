@@ -107,20 +107,20 @@
 
           <form id="regForm" action="<?= site_url('register/process'); ?>" method="post" enctype="multipart/form-data">
             <?= csrf_field(); ?>
-
+            <p class="text-danger"> *Wajib diisi</p>
             <!-- Step 1 -->
             <div class="form-step" id="form-step-1">
               <div class="mb-2">
                 <label class="required-star">Nama Lengkap</label>
-                <input type="text" name="nama" class="form-control" required>
+                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Lengkap" value="<?= old('nama') ?>" required>
               </div>
               <div class="mb-2">
                 <label class="required-star">Email</label>
-                <input type="email" name="email" class="form-control" required>
+                <input type="email" name="email" class="form-control" placeholder="Masukkan Email" value="<?= old('email') ?>" required>
               </div>
               <div class="mb-2">
                 <label class="required-star">Password</label>
-                <input type="password" id="password" name="password" class="form-control" required minlength="8">
+                <input type="password" id="password" name="password" class="form-control" minlength="8" placeholder="Masukkan Password" required >
                 <div class="mt-1">
                   <div id="check-length" class="password-check invalid"><i class="bi bi-x-circle"></i> Minimal 8 karakter</div>
                   <div id="check-uppercase" class="password-check invalid"><i class="bi bi-x-circle"></i> Kombinasi huruf kapital dan huruf kecil</div>
@@ -129,35 +129,37 @@
               </div>
               <div class="mb-2">
                 <label class="required-star">Konfirmasi Password</label>
-                <input type="password" name="pass_confirm" class="form-control" required minlength="8">
+                <input type="password" name="pass_confirm" class="form-control" minlength="8" placeholder="Masukkan Konfirmasi Password" required >
                 <div id="confirmError" class="text-danger small mt-1"></div>
               </div>
               <div class="mb-2">
-                <label class="required-star">No HP</label>
-                <input type="text" name="no_hp" class="form-control" required>
+                <label class="required-star">No Handphone</label>
+                <input type="number" name="no_hp" class="form-control" placeholder="Masukkan No Handphone" value="<?= old('no_hp') ?>" required>
               </div>
               <div class="mb-2">
                 <label class="required-star">Jenis Kelamin</label>
                 <select name="jenis_kelamin" class="form-select" required>
-                  <option value="">Pilih</option>
-                  <option value="L">Laki-laki</option>
-                  <option value="P">Perempuan</option>
+                  <option value="" disabled <?= old('jenis_kelamin') === null ? 'selected' : '' ?>>Pilih Jenis Kelamin</option>
+                  <option value="L" <?= old('jenis_kelamin') === 'L' ? 'selected' : '' ?>>Laki-laki</option>
+                  <option value="P" <?= old('jenis_kelamin') === 'P' ? 'selected' : '' ?>>Perempuan</option>
                 </select>
               </div>
               <div class="mb-2">
                 <label class="required-star">NISN/NIM</label>
-                <input type="text" name="nisn_nim" class="form-control" required>
+                <input type="text" name="nisn_nim" class="form-control" placeholder="Masukkan Nomor Induk Mahasiswa/Nomor Induk Siswa Nasional" value="<?= old('nisn_nim') ?>" required>
               </div>
               <div class="mb-2">
                 <label class="required-star">Alamat Lengkap (Sesuai KTP)</label>
-                <textarea name="alamat" class="form-control" rows="3" required></textarea>
+                <textarea name="alamat" class="form-control" rows="3" placeholder="Masukkan Alamat Lengkap (Sesuai KTP)" required><?= old('alamat') ?></textarea>
               </div>
               <div class="mb-2">
                 <label class="required-star">Provinsi</label>
                 <select name="provinsi" id="provinsi" class="form-select" required>
-                    <option value="" disabled selected hidden>Pilih Provinsi</option>
+                    <option value="" disabled <?= old('provinsi') === null ? 'selected' : '' ?>>Pilih Provinsi</option>
                     <?php foreach ($provinsi as $p) : ?>
-                    <option value="<?= $p['id']; ?>"><?= $p['province']; ?></option>
+                        <option value="<?= $p['id']; ?>" <?= old('provinsi') == $p['id'] ? 'selected' : '' ?>>
+                            <?= $p['province']; ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
                 <div id="provinsiError" class="text-danger small mt-1"></div>
@@ -165,34 +167,34 @@
               <div class="mb-2">
                 <label class="required-star">Kota/Kabupaten</label>
                 <select name="kota" id="kota" class="form-select" required>
-                    <option value="" disabled hidden>Pilih Kota/Kabupaten</option>
+                    <option value="" disabled selected>Pilih Kota/Kabupaten</option>
                 </select>
                 <div id="kotaError" class="text-danger small mt-1"></div>
               </div>
               <div class="mb-2">
                 <label>Alamat Lengkap Domisili</label>
-                <textarea name="domisili" class="form-control" rows="3"></textarea>
+                <textarea name="domisili" class="form-control" rows="3" placeholder="Masukkan Alamat Lengkap Domisili"><?= old('domisili') ?></textarea>
               </div>
               <div class="mb-2">
                 <label>Provinsi Domisili</label>
                 <select name="provinsiDom" id="provinsiDom" class="form-select" >
-                    <option value="" disabled selected hidden>Pilih Provinsi Domisili</option>
+                    <option value="" disabled selected>Pilih Provinsi Domisili</option>
                     <?php foreach ($provinsi as $p) : ?>
-                    <option value="<?= $p['id']; ?>"><?= $p['province']; ?></option>
+                    <option value="<?= $p['id']; ?>" <?= old('provinsiDom') == $p['id'] ? 'selected' : '' ?>><?= $p['province']; ?></option>
                     <?php endforeach; ?>
                 </select>
               </div>
               <div class="mb-2">
                 <label>Kota/Kabupaten Domisili</label>
                 <select name="kotaDom" id="kotaDom" class="form-select">
-                    <option value="" disabled hidden>Pilih Kota/Kabupaten Domisili</option>
+                    <option value="" disabled selected>Pilih Kota/Kabupaten Domisili</option>
                 </select>
               </div>
               <div class="mb-2">
-                <label class="required-star">Foto</label>
-                <input type="file" name="user_image" class="form-control" accept="image/*" required>
+                <label class="required-star">Foto Profil<small class="text-muted">(format: jpg, jpeg, png, maksimal 2 MB)</small></label>
+                <input type="file" name="user_image" class="form-control" accept=".jpg,.jpeg,.png" required>
               </div>
-              <button type="button" class="btn btn-primary w-100" onclick="nextStep(1)">Lanjut</button>
+              <button type="button" class="btn btn-danger w-100" onclick="nextStep(1)">Lanjut</button>
             </div>
 
             <!-- Step 2 -->
@@ -200,44 +202,48 @@
                 <div class="mb-2">
                     <label class="required-star">Jenjang Pendidikan</label>
                     <select name="jenjang_pendidikan" id="jenjang-pendidikan" class="form-select" required>
-                        <option value="" disabled selected hidden>Pilih</option>
-                        <option value="SMK">SMK</option>
-                        <option value="D3">D3</option>
-                        <option value="D4/S1">D4/S1</option>
-                        <option value="S2">S2</option>
+                        <option value="" disabled selected>Pilih</option>
+                        <option value="SMK" <?= old('jenjang_pendidikan') == "SMK" ? 'selected' : '' ?>>SMK</option>
+                        <option value="D3" <?= old('jenjang_pendidikan') == "D3" ? 'selected' : '' ?>>D3</option>
+                        <option value="D4/S1" <?= old('jenjang_pendidikan') == "D4/S1" ? 'selected' : '' ?>>D4/S1</option>
+                        <option value="S2" <?= old('jenjang_pendidikan') == "S2" ? 'selected' : '' ?>>S2</option>
                     </select>
                 </div>
 
                 <!-- Field lain disembunyikan dulu -->
                 <div id="other-fields" style="display: none;">
+                    <!-- Asal Instansi -->
                     <div class="mb-2">
                         <label class="required-star" id="labelInstansi">Asal Instansi</label>
                         <select name="instansi" id="instansi" class="form-select" required>
-                            <option value="" disabled selected hidden>Pilih Instansi</option>
+                            <option value="" disabled selected>Pilih Instansi</option>
                         </select>
                     </div>
                     <div class="mb-2">
                         <label class="required-star">Jurusan</label>
                         <select name="jurusan" id="jurusan" class="form-select" required>
-                            <option value="" disabled selected hidden>Pilih Jurusan</option>
+                            <option value="" disabled selected>Pilih Jurusan</option>
                             <?php foreach($jurusan as $item): ?>
-                                <option value="<?= $item['jurusan_id'] ?>"><?= $item['nama_jurusan'] ?></option>
+                                <option value="<?= $item['jurusan_id'] ?>" <?= old('jurusan') == $item['jurusan_id'] ? 'selected' : '' ?>><?= $item['nama_jurusan'] ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3" id="group-kelas-semester">
                         <label class="required-star" id="labelSemester">Semester</label>
-                        <input type="number" name="semester" class="form-control" min="1" required>
+                        <select name="semester" id="semester" class="form-select" required>
+                            <!-- Options akan diganti lewat JS -->
+                        </select>
                     </div>
+                    <!-- Nilai/IPK -->
                     <div class="mb-3" id="group-nilai">
-                        <label class="required-star" >Nilai/IPK</label>
-                        <input type="number" name="nilai_ipk" class="form-control" step="0.01" min="1" required>
+                        <label class="required-star">IPK</label>
+                        <input type="number" name="nilai_ipk" id="nilai-ipk" class="form-control" step="0.01" min="1" max="4" value="<?= old('nilai_ipk') ?>" placeholder="Masukkan IPK" required>
                         <small class="text-muted" id="help-nilai">Gunakan titik (.) sebagai pemisah desimal, contoh: 3.50</small>
                     </div>
                 </div>
 
                 <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep(2)">Kembali</button>
-                <button type="button" class="btn btn-primary w-100" onclick="nextStep(2)">Lanjut</button>
+                <button type="button" class="btn btn-danger w-100" onclick="nextStep(2)">Lanjut</button>
             </div>
 
 
@@ -246,44 +252,44 @@
 
               <div id="pt-fields">
                   <div class="mb-3">
-                      <label class="required-star">CV</label>
-                      <input type="file" name="cv" class="form-control" accept="application/pdf" required>
+                      <label class="required-star">CV <small class="text-muted">(format : pdf, maksimal 2mb)</small></label>
+                      <input type="file" name="cv" class="form-control" accept=".pdf" required>
                   </div>
                   <div class="mb-3">
-                      <label class="required-star">Proposal</label>
-                      <input type="file" name="proposal" class="form-control" accept="application/pdf"required>
+                      <label class="required-star">Proposal <small class="text-muted">(format : pdf, maksimal 2mb)</small></label>
+                      <input type="file" name="proposal" class="form-control" accept=".pdf"required>
                   </div>
               </div>
 
               <div class="mb-3">
-                  <label class="required-star">Surat Permohonan</label>
-                  <input type="file" name="surat_permohonan" class="form-control" accept="application/pdf" required>
+                  <label class="required-star">Surat Permohonan <small class="text-muted">(format : pdf, maksimal 2mb)</small></label>
+                  <input type="file" name="surat_permohonan" class="form-control" accept=".pdf" required>
               </div>
               <div class="row">
                   <div class="col-md-6 mb-3">
-                      <label class="required-star">No Surat</label>
-                      <input type="text" name="no_surat" class="form-control" required>
+                      <label class="required-star">No Surat Permohonan</label>
+                      <input type="text" name="no_surat" class="form-control" placeholder="Masukkan No Surat Permohonan" required>
                   </div>
                   <div class="col-md-6 mb-3">
-                      <label class="required-star">Tanggal Surat</label>
+                      <label class="required-star">Tanggal Surat Permohonan</label>
                       <input type="date" name="tanggal_surat" class="form-control" required>
                   </div>
                   <div class="col-md-6 mb-3">
-                      <label class="required-star">Nama Pimpinan</label>
-                      <input type="text" name="nama_pimpinan" class="form-control" required>
+                      <label class="required-star">Nama Pimpinan <small class="text-muted">(yang menandatangani Surat Permohonan)</small></label>
+                      <input type="text" name="nama_pimpinan" class="form-control" placeholder="Masukkan Nama Pimpinan" required>
                   </div>
                   <div class="col-md-6 mb-3">
-                      <label class="required-star">Jabatan</label>
-                      <input type="text" name="jabatan" class="form-control" required>
+                      <label class="required-star">Jabatan Pimpinan <small class="text-muted">(yang menandatangani Surat Permohonan)</small></label>
+                      <input type="text" name="jabatan" class="form-control" placeholder="Masukkan Jabatan Pimpinan" required>
                   </div>
                   <div class="col-12 mb-3">
                       <label class="required-star" id="labelEmail">Email Instansi (untuk balasan)</label>
-                      <input type="email" name="email_instansi" class="form-control" required>
+                      <input type="email" name="email_instansi" class="form-control" placeholder="Masukkan Email" required>
                   </div>
               </div>
               <div class="mb-3">
-                  <label class="required-star">KTP/KK</label>
-                  <input type="file" name="ktp_kk" class="form-control" accept="application/pdf,image/jpeg,image/png" required>
+                  <label class="required-star">KTP/KK <small class="text-muted">(format : jpg, jpeg, png, pdf, maksimal 2mb)</small></label>
+                  <input type="file" name="ktp_kk" class="form-control" accept=".jpg,.jpeg,.png,.pdf" required>
               </div>
               <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep(3)">Kembali</button>
               <button type="submit" class="btn btn-success w-100">Simpan & Daftar</button>
@@ -299,6 +305,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+
 document.addEventListener('DOMContentLoaded', function () {
     const pendidikan = document.getElementById('jenjang-pendidikan');
     const otherFields = document.getElementById('other-fields');
@@ -307,6 +314,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const nilaiInput = document.querySelector('input[name="nilai_ipk"]');
     const labelSemester = document.getElementById('labelSemester');
     const instansiSelect = document.getElementById('instansi');
+    
 
     // Elemen Step 3
     const cvField = document.querySelector('input[name="cv"]');
@@ -314,59 +322,86 @@ document.addEventListener('DOMContentLoaded', function () {
     const cvGroup = cvField.closest('.mb-3');
     const proposalGroup = proposalField.closest('.mb-3');
     const labelEmail = document.getElementById('labelEmail');
-
+    const inputEmail = document.querySelector('input[name="email_instansi"]');
 
     function toggleFields() {
-        const value = pendidikan.value;
-        if (!value) {
-            otherFields.style.display = 'none';
-            return;
-        }
+    const value = pendidikan.value;
+    if (!value) {
+        otherFields.style.display = 'none';
+        return;
+    }
 
-        // Tampilkan field lain di step 2
-        otherFields.style.display = 'block';
+    // Tampilkan field lain di step 2
+    otherFields.style.display = 'block';
 
-        if (value === 'SMK') {
-            labelInstansi.textContent = 'Asal Sekolah';
-            groupNilai.style.display = 'none';
-            labelSemester.textContent = 'Kelas';
-            nilaiInput.removeAttribute('required');
+    // Reset opsi semester/kelas
+    const semesterSelect = document.getElementById('semester');
+    semesterSelect.innerHTML = '';
 
-            // Step 3: hide CV & Proposal, remove required
-            cvGroup.style.display = 'none';
-            proposalGroup.style.display = 'none';
-            cvField.removeAttribute('required');
-            proposalField.removeAttribute('required');
-            labelEmail.textContent = 'Email Kepala Sekolah';
+      if (value === 'SMK') {
+          labelInstansi.textContent = 'Asal Sekolah';
+          instansiSelect.options[0].textContent = 'Pilih Sekolah';
 
+          // Kelas: select kelas 11 dan 12
+          labelSemester.textContent = 'Kelas';
+          semesterSelect.innerHTML = `
+              <option value="" disabled selected>Pilih Kelas</option>
+              <option value="11">Kelas 11</option>
+              <option value="12">Kelas 12</option>
+          `;
 
-        } else {
-            labelInstansi.textContent = 'Asal Kampus';
-            groupNilai.style.display = 'block';
-            labelSemester.textContent = 'Semester';
-            nilaiInput.setAttribute('required', 'required');
+          // Sembunyikan IPK
+          groupNilai.style.display = 'none';
+          nilaiInput.removeAttribute('required');
 
-            // Step 3: show CV & Proposal, add required ke CV
-            cvGroup.style.display = 'block';
-            cvField.setAttribute('required', 'required');
-            proposalGroup.style.display = 'block';
-            labelEmail.textContent = 'Email Ketua Program Studi';
-        }
+          // Step 3: hide CV & Proposal
+          cvGroup.style.display = 'none';
+          proposalGroup.style.display = 'none';
+          cvField.removeAttribute('required');
+          proposalField.removeAttribute('required');
+          labelEmail.textContent = 'Email Kepala Sekolah';
+          inputEmail.placeholder = 'Masukkan Email Kepala Sekolah';
 
-        // Panggil AJAX untuk instansi
+      } else {
+          labelInstansi.textContent = 'Asal Kampus';
+          instansiSelect.options[0].textContent = 'Pilih Perguruan Tinggi';
+
+          // Semester: select dari semester 4–13
+          labelSemester.textContent = 'Semester';
+          semesterSelect.innerHTML = '<option value="" disabled selected>Pilih Semester</option>';
+          for (let i = 4; i <= 13; i++) {
+              const opt = document.createElement('option');
+              opt.value = i;
+              opt.textContent = `Semester ${i}`;
+              semesterSelect.appendChild(opt);
+          }
+
+          // Tampilkan IPK
+          groupNilai.style.display = 'block';
+          nilaiInput.setAttribute('required', 'required');
+
+          // Step 3: show CV & Proposal
+          cvGroup.style.display = 'block';
+          cvField.setAttribute('required', 'required');
+          proposalGroup.style.display = 'block';
+          labelEmail.textContent = 'Email Ketua Program Studi';
+          inputEmail.placeholder = 'Masukkan Ketua Program Studi';
+      }
+
         getInstansi(value);
     }
 
     function getInstansi(jenjang) {
-        instansiSelect.innerHTML = '<option value="" disabled selected hidden>Loading...</option>';
+        instansiSelect.innerHTML = '<option value="" disabled selected>Loading...</option>';
         let kelompok = (jenjang === 'SMK') ? 'smk' : 'pt';
+        let placeholder = (jenjang === 'SMK') ? 'Pilih Sekolah' : 'Pilih Perguruan Tinggi';
 
         $.ajax({
             url: '/get-instansi',
             type: 'GET',
             data: { kelompok: kelompok },
             success: function(response) {
-                instansiSelect.innerHTML = '<option value="" disabled selected hidden>Pilih Instansi</option>';
+                instansiSelect.innerHTML = `<option value="" disabled selected>${placeholder}</option>`;
                 response.forEach(function(item) {
                     const option = document.createElement('option');
                     option.value = item.instansi_id;
@@ -375,12 +410,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             },
             error: function() {
-                instansiSelect.innerHTML = '<option value="" disabled selected hidden>Gagal load instansi</option>';
+                instansiSelect.innerHTML = `<option value="" disabled selected>Gagal load ${placeholder.toLowerCase()}</option>`;
             }
         });
     }
 
+
     pendidikan.addEventListener('change', toggleFields);
+});
+
+document.getElementById('nilai-ipk').addEventListener('input', function () {
+    const val = this.value;
+    if (val.includes('.')) {
+        const decimal = val.split('.')[1];
+        if (decimal.length > 2) {
+            this.value = parseFloat(val).toFixed(2);
+        }
+    }
 });
 
 </script>
@@ -495,9 +541,6 @@ function nextStep(current) {
     $('#provinsi').on('change', function () {
         $('#kota').val(null).trigger('change');
     });
-    $('#provinsiDom').on('change', function () {
-        $('#kotaDom').val(null).trigger('change');
-    });
     $('#kota').select2({
         theme: 'bootstrap4',
         width: '100%',
@@ -520,6 +563,9 @@ function nextStep(current) {
             },
             cache: true
         }
+    });
+    $('#provinsiDom').on('change', function () {
+        $('#kotaDom').val(null).trigger('change');
     });
     $('#kotaDom').select2({
         theme: 'bootstrap4',
@@ -546,13 +592,6 @@ function nextStep(current) {
     });
   });
 
-  $('#program').on('change', function() {
-    if ($(this).val() === 'penelitian') {
-        $('#judulPenelitianDiv').show();
-    } else {
-        $('#judulPenelitianDiv').hide();
-    }
-  });
 </script>
 
 <?= $this->endSection(); ?>

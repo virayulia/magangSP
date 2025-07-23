@@ -35,7 +35,7 @@
             <!-- Modal tambah periode -->
              <div class="modal fade" id="modalTambahPeriode" tabindex="-1" role="dialog" aria-labelledby="modalTambahPeriodeLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <form action="<?= base_url('periode/save') ?>" method="post">
+                    <form action="<?= base_url('admin/periode/save') ?>" method="post">
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                         <h5 class="modal-title" id="modalTambahPeriodeLabel">Tambah Periode Magang</h5>
@@ -98,7 +98,7 @@
                             <!-- Modal Edit Periode -->
                             <div class="modal fade" id="editModal<?= $data['periode_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<?= $data['periode_id']; ?>" aria-hidden="true">
                             <div class="modal-dialog" role="document">
-                                <form action="<?= base_url('periode/update/' . $data['periode_id']); ?>" method="post">
+                                <form action="<?= base_url('admin/periode/update/' . $data['periode_id']); ?>" method="post">
                                 <div class="modal-content">
                                     <div class="modal-header bg-warning text-white">
                                     <h5 class="modal-title" id="editModalLabel<?= $data['periode_id']; ?>">Edit Periode Magang</h5>

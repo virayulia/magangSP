@@ -12,7 +12,7 @@ class UnitKerjaModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['unit_kerja','safety','active'];
+    protected $allowedFields    = ['unit_kerja','safety','active','nama_pimpinan','email_pimpinan'];
 
     protected bool $allowEmptyInserts = false;
 

@@ -88,22 +88,16 @@ Swal.fire({
         <h1 class="text-white font-weight-bold">
           Magang <br>PT Semen Padang
         </h1>
-        <?php if(logged_in()): ?>
-          <a class="btn btn-primary btn-xl mt-2" href="/lowongan" data-aos="zoom-in" data-aos-delay="600">
-          Daftar Sekarang
+        <a class="btn btn-danger btn-xl mt-2" href="#program" data-aos="zoom-in" data-aos-delay="600">
+          Daftar Program
         </a>
-        <?php else: ?>
-        <a class="btn btn-primary btn-xl mt-2" href="/register" data-aos="zoom-in" data-aos-delay="600">
-          Daftar Sekarang
-        </a>
-        <?php endif; ?>
       </div>
     </div>
   </div>
 </header>
 
 <!-- Program -->
-<section class="page-section bg-primary" id="about">
+<section class="page-section bg-primary" id="program">
   <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center" data-aos="fade-up">
       <div class="col-lg-8 text-center">
@@ -112,45 +106,61 @@ Swal.fire({
       </div>
     </div>
     <div class="row gx-4 gx-lg-5 mt-5 justify-content-center">
-      <!-- Card Magang -->
-      <div class="col-md-5 mb-4" data-aos="fade-right" data-aos-delay="300">
-        <div class="card h-100 text-center shadow-lg rounded-5">
-          <div class="card-body p-5">
-            <i class="bi bi-briefcase-fill fs-1 text-primary mb-3"></i>
-            <h5 class="h4 mb-2">Magang</h5>
-            <p class="text-muted mb-4 text-justify">
-              Program Magang di PT Semen Padang dirancang sebagai sarana pembelajaran langsung bagi pelajar dan mahasiswa untuk mengaplikasikan pengetahuan yang telah diperoleh selama studi ke dunia kerja nyata.
-              <br><br> Melalui program ini, peserta magang akan mendapatkan pengalaman praktis di lingkungan industri, serta pemahaman yang lebih mendalam tentang proses kerja di perusahaan manufaktur terkemuka. 
-              <br><br>Program ini juga menjadi jembatan untuk mengembangkan keterampilan profesional serta memperluas wawasan karier peserta.            </p>
-            <a href="/lowongan" class="btn btn-outline-danger w-100 btn-daftar">Daftar Magang</a>
-          </div>
-        </div>
+<!-- Card Magang -->
+<div class="col-md-5 mb-4" data-aos="fade-right" data-aos-delay="300">
+  <div class="card h-100 text-center shadow-lg rounded-5">
+    <div class="card-body p-5">
+      <i class="bi bi-briefcase-fill fs-1 text-primary mb-3"></i>
+      <h5 class="h4 mb-2">Magang</h5>
+      <p class="text-muted text-justify mb-2">
+        Program Magang di PT Semen Padang dirancang sebagai sarana pembelajaran langsung bagi pelajar dan mahasiswa untuk mengaplikasikan pengetahuan yang telah diperoleh selama studi ke dunia kerja nyata.
+        <br><br>Melalui program ini, peserta magang akan mendapatkan pengalaman praktis di lingkungan industri, serta pemahaman yang lebih mendalam tentang proses kerja di perusahaan manufaktur terkemuka. 
+        <br><br>Program ini juga menjadi jembatan untuk mengembangkan keterampilan profesional serta memperluas wawasan karier peserta.
+      </p>
+      <div class="text-start text-muted small mb-3">
+        <strong>Berkas yang perlu disiapkan:</strong>
+        <ul class="mb-0">
+          <li><strong>SMK:</strong> Surat permohonan dari sekolah, KTP/KK</li>
+          <li><strong>Perguruan Tinggi:</strong> CV, Proposal, Surat permohonan kampus (minimal ttd Kaprodi), KTP/KK</li>
+        </ul>
       </div>
-      <!-- Card Penelitian -->
-      <div class="col-md-5 mb-4" data-aos="fade-left" data-aos-delay="300">
-        <div class="card h-100 text-center shadow-lg rounded-5">
-          <div class="card-body p-5">
-            <i class="bi bi-journal-bookmark-fill fs-1 text-primary mb-3"></i>
-            <h5 class="h4 mb-2">Penelitian</h5>
-            <p class="text-muted mb-4 text-justify">
-              Program Penelitian PT Semen Padang ditujukan bagi mahasiswa dan dosen yang ingin melakukan penelitian akademik di lingkungan perusahaan.
-              <br><br>Program ini mendukung penyusunan karya ilmiah seperti skripsi, tesis, maupun penelitian lainnya yang relevan dengan bidang industri semen dan operasional perusahaan. 
-              <br><br>Dengan membuka akses terhadap data dan informasi yang diperlukan, PT Semen Padang memberikan kontribusi nyata dalam mendukung pengembangan ilmu pengetahuan dan teknologi di tingkat perguruan tinggi.            </p>
-            <?php if (logged_in()) : ?>
-              <!-- <a href="/penelitian" class="btn btn-primary">Daftar Penelitian</a> -->
-              <button
-              class="btn btn-outline-danger w-100 btn-daftar"
-              data-bs-toggle="modal"
-              data-bs-target="#modalPendaftaranPenelitian"
-              >
-              Daftar Penelitian <i class="bi bi-arrow-right"></i>
-              </button>
-            <?php else : ?>
-                  <a href="/pendaftaran" class="btn btn-outline-danger w-100" data-bs-toggle="modal" data-bs-target="#loginModal">Daftar Penelitian <i class="bi bi-arrow-right"></i></a>
-            <?php endif; ?>
-          </div>
-        </div>
+      <a href="/lowongan" class="btn btn-danger w-100 btn-daftar">Daftar Magang</a>
+    </div>
+  </div>
+</div>
+
+<!-- Card Penelitian -->
+<div class="col-md-5 mb-4" data-aos="fade-left" data-aos-delay="300">
+  <div class="card h-100 text-center shadow-lg rounded-5">
+    <div class="card-body p-5">
+      <i class="bi bi-journal-bookmark-fill fs-1 text-primary mb-3"></i>
+      <h5 class="h4 mb-2">Penelitian</h5>
+      <p class="text-muted text-justify mb-2">
+        Program Penelitian PT Semen Padang ditujukan bagi mahasiswa dan dosen yang ingin melakukan penelitian akademik di lingkungan perusahaan.
+        <br><br>Program ini mendukung penyusunan karya ilmiah seperti skripsi, tesis, maupun penelitian lainnya yang relevan dengan bidang industri semen dan operasional perusahaan. 
+        <br><br>Dengan membuka akses terhadap data dan informasi yang diperlukan, PT Semen Padang memberikan kontribusi nyata dalam mendukung pengembangan ilmu pengetahuan dan teknologi di tingkat perguruan tinggi.
+      </p>
+      <div class="text-start text-muted small mb-3"> <br>
+        <strong>Berkas yang perlu disiapkan:</strong>
+        <ul class="mb-0">
+          <li>CV</li>
+          <li>Proposal</li>
+          <li>Surat permohonan kampus (minimal ttd Kaprodi)</li>
+          <li>KTP/KK</li>
+        </ul>
       </div>
+
+      <?php if (logged_in()) : ?>
+        <button class="btn btn-danger w-100 btn-daftar" data-bs-toggle="modal" data-bs-target="#modalPendaftaranPenelitian">
+          Daftar Penelitian
+        </button>
+      <?php else : ?>
+        <a href="/register" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#loginModal">Daftar Penelitian</a>
+      <?php endif; ?>
+    </div>
+  </div>
+</div>
+
     </div>
   </div>
 </section>
@@ -218,7 +228,6 @@ Swal.fire({
     <hr class="divider" data-aos="fade-up" />
     <div class="row gx-4 gx-lg-5">
       <!-- Job Filter Section -->
-
       <form method="GET" action="<?= base_url('/lowongan') ?>">
         <div class="row mb-4">
           <div class="col-md-4 mb-2">
@@ -245,7 +254,7 @@ Swal.fire({
           </div>
 
           <div class="col-md-2 mb-2">
-            <button type="submit" class="btn btn-primary w-100">Cari</button>
+            <button type="submit" class="btn btn-danger w-100">Cari</button>
           </div>
         </div>
       </form>
@@ -253,82 +262,97 @@ Swal.fire({
       <?php if ($periode): ?>
     <div class="row">
     <?php if (count($data_unit) > 0): ?>
-    <div class="row">
-    <?php foreach ($data_unit as $unit): ?>
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-body">
-                    <h5 class="fw-bold mb-2"><?= esc($unit->unit_kerja) ?></h5>
-                    <?php if (!is_null($unit->jurusan)): ?>
-                    <p class="text-muted mb-2"><?= esc($unit->jurusan) ?></p>
-                    <?php else : ?>
-                    <p class="text-muted mb-2">Semua Jurusan</p>
-                    <?php endif; ?>
-                    <p class="text-muted mb-1">Tingkat : <?= esc($unit->tingkat_pendidikan) ?></p>
-                    <p><strong><?= $unit->sisa_kuota ?> Posisi</strong> <small class="text-muted"><?= $unit->jumlah_pendaftar?> pendaftar</small></p>
-                    <div class="mb-2">
-                        <span class="badge <?= $unit->sisa_kuota > 0 ? 'bg-success' : 'bg-secondary' ?>">
-                            <?= $unit->sisa_kuota > 0 ? 'Tersedia' : 'Penuh' ?>
-                        </span>
-                    </div>
-                    <hr>
-
-                    <p class="text-danger fw-semibold mb-3">Penutupan: <?= date('d M Y', strtotime($periode->tanggal_tutup)) ?></p>
-                      <?php if (logged_in()) : ?>
-                          <?php if ($isProfilComplite) : ?>
-                            <button
-                            class="btn btn-outline-danger w-100 btn-daftar"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modalPendaftaran"
-                            data-unit-id="<?= $unit->unit_id ?>"
-                            >
-                            Daftar Sekarang <i class="bi bi-arrow-right"></i>
-                            </button>
+        <div class="row">
+        <?php foreach ($data_unit as $unit): ?>
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-body">
+                        <h5 class="fw-bold mb-2"><?= esc($unit->unit_kerja) ?></h5>
+                        <?php if (!is_null($unit->jurusan)): ?>
+                        <p class="text-muted mb-2"><?= esc($unit->jurusan) ?></p>
                         <?php else : ?>
-                            <button class="btn btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#modalLengkapiProfil">
-                                Lengkapi Profil <i class="bi bi-exclamation-circle"></i>
-                            </button>
+                        <p class="text-muted mb-2">Semua Jurusan</p>
                         <?php endif; ?>
-                      <?php else : ?>
-                            <a href="/pendaftar an" class="btn btn-outline-danger w-100" data-bs-toggle="modal" data-bs-target="#loginModal">Daftar Sekarang <i class="bi bi-arrow-right"></i></a>
+                        <p class="text-muted mb-1">Tingkat : <?= esc($unit->tingkat_pendidikan) ?></p>
+                        <p><strong><?= $unit->sisa_kuota ?> Posisi</strong> <small class="text-muted"><?= $unit->jumlah_pendaftar?> pendaftar</small></p>
+                        <div class="mb-2">
+                            <span class="badge <?= $unit->sisa_kuota > 0 ? 'bg-success' : 'bg-secondary' ?>">
+                                <?= $unit->sisa_kuota > 0 ? 'Tersedia' : 'Penuh' ?>
+                            </span>
+                        </div>
+                        <hr>
 
-                            <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content rounded-3">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="loginModalLabel">Peringatan</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                        <p class="text-danger fw-semibold mb-3">Penutupan: <?= date('d M Y', strtotime($periode->tanggal_tutup)) ?></p>
+                          <?php if (logged_in()) : ?>
+                              <?php if ($isProfilComplite) : ?>
+                                <button
+                                class="btn btn-outline-danger w-100 btn-daftar"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalPendaftaran"
+                                data-unit-id="<?= $unit->unit_id ?>"
+                                >
+                                Daftar Sekarang <i class="bi bi-arrow-right"></i>
+                                </button>
+                            <?php else : ?>
+                                <button class="btn btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#modalLengkapiProfil">
+                                    Lengkapi Profil <i class="bi bi-exclamation-circle"></i>
+                                </button>
+                            <?php endif; ?>
+                          <?php else : ?>
+                                <a href="/pendaftar an" class="btn btn-outline-danger w-100" data-bs-toggle="modal" data-bs-target="#loginModal">Daftar Sekarang <i class="bi bi-arrow-right"></i></a>
+
+                                <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content rounded-3">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="loginModalLabel">Peringatan</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <p>Anda harus login terlebih dahulu untuk mendaftar.</p>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-center">
+                                        <a href="<?= base_url('/login'); ?>" class="btn btn-danger rounded-pill px-4">Login</a>
+                                    </div>
+                                    </div>
                                 </div>
-                                <div class="modal-body text-center">
-                                    <p>Anda harus login terlebih dahulu untuk mendaftar.</p>
                                 </div>
-                                <div class="modal-footer d-flex justify-content-center">
-                                    <a href="<?= base_url('/login'); ?>" class="btn btn-danger rounded-pill px-4">Login</a>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                      <?php endif; ?>
+                          <?php endif; ?>
+                    </div>
                 </div>
             </div>
-        </div>
-    <?php endforeach; ?>
-     </div>
-  <?php else: ?>
-    <div class="alert alert-info text-center">
-        <?php if ($filterByUserJurusan): ?>
-            <strong>Tidak ada lowongan yang sesuai jurusan Anda saat ini.</strong>
-        <?php else: ?>
-            <strong>Data Lowongan Tidak Ada</strong>
+        <?php endforeach; ?>
+        <!-- paginatoin -->
+        <?php if ($totalPages > 1): ?>
+            <nav class="d-flex justify-content-center">
+                <ul class="pagination">
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <li class="page-item <?= $i == $currentPage ? 'active' : '' ?>">
+                            <a class="page-link" href="?page=<?= $i ?><?= !empty($_SERVER['QUERY_STRING']) ? '&' . http_build_query(array_diff_key($_GET, ['page' => ''])) : '' ?>">
+                                <?= $i ?>
+                            </a>
+                        </li>
+                    <?php endfor; ?>
+                </ul>
+            </nav>
         <?php endif; ?>
-    </div>
-  <?php endif; ?>
-<?php else: ?>
-<div class="alert alert-warning text-center">
-        <strong>Pendaftaran Magang PT Semen Padang Belum Dibuka Saat Ini.</strong><br>
-        Silakan cek kembali pada minggu ke-pertama setiap bulannya.
-    </div>
-<?php endif; ?>
+        <!-- end pagination -->
+        </div>
+      <?php else: ?>
+        <div class="alert alert-info text-center">
+            <?php if ($filterByUserJurusan): ?>
+                <strong>Tidak ada lowongan yang sesuai jurusan Anda saat ini.</strong>
+            <?php else: ?>
+                <strong>Data Lowongan Tidak Ada</strong>
+            <?php endif; ?>
+        </div>
+      <?php endif; ?>
+    <?php else: ?>
+    <div class="alert alert-warning text-center">
+            <strong>Pendaftaran Magang PT Semen Padang Belum Dibuka Saat Ini.</strong><br>
+            Silakan cek kembali pada minggu ke-pertama setiap bulannya.
+        </div>
+    <?php endif; ?>
 </div>
 <?php if (logged_in()) : ?>
 <!-- Modal Pendaftaran -->

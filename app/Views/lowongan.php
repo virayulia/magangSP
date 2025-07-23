@@ -91,7 +91,7 @@ Swal.fire({
     </div>
 
     <div class="col-md-2 mb-2">
-      <button type="submit" class="btn btn-primary w-100">Cari</button>
+      <button type="submit" class="btn btn-danger w-100">Cari</button>
     </div>
   </div>
 </form>
@@ -158,6 +158,21 @@ Swal.fire({
             </div>
         </div>
     <?php endforeach; ?>
+        <!-- paginatoin -->
+        <?php if ($totalPages > 1): ?>
+            <nav class="d-flex justify-content-center">
+                <ul class="pagination">
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <li class="page-item <?= $i == $currentPage ? 'active' : '' ?>">
+                            <a class="page-link" href="?page=<?= $i ?><?= !empty($_SERVER['QUERY_STRING']) ? '&' . http_build_query(array_diff_key($_GET, ['page' => ''])) : '' ?>">
+                                <?= $i ?>
+                            </a>
+                        </li>
+                    <?php endfor; ?>
+                </ul>
+            </nav>
+        <?php endif; ?>
+        <!-- end pagination -->
      </div>
   <?php else: ?>
     <div class="alert alert-info text-center">
@@ -188,19 +203,40 @@ Swal.fire({
         <p class="mb-4">Silakan periksa kembali dokumen Anda sebelum mendaftar.</p>
 
         <form id="formPendaftaran">
+          <?php if (user()->tingkat_pendidikan !== 'SMK') : ?>
           <div class="mb-3">
             <label class="form-label fw-semibold">CV <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" value="<?= esc(user()->cv ?? '-') ?>" disabled>
+            <div class="d-flex align-items-center justify-content-between bg-light rounded px-3 py-2">
+              <span><?= esc(user()->cv ?? '-') ?></span>
+              <?php if (!empty(user()->cv)) : ?>
+                <a href="<?= base_url('uploads/cv/' . user()->cv) ?>" target="_blank" class="btn btn-outline-primary btn-sm ms-3">
+                  Lihat
+                </a>
+              <?php endif; ?>
+            </div>
           </div>
-          <?php if (user()->pendidikan !== 'SMA/SMK') : ?>
           <div class="mb-3">
             <label class="form-label fw-semibold">Proposal <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" value="<?= esc(user()->proposal ?? '-') ?>" disabled>
+            <div class="d-flex align-items-center justify-content-between bg-light rounded px-3 py-2">
+              <span><?= esc(user()->proposal ?? '-') ?></span>
+              <?php if (!empty(user()->proposal)) : ?>
+                <a href="<?= base_url('uploads/proposal/' . user()->proposal) ?>" target="_blank" class="btn btn-outline-primary btn-sm ms-3">
+                  Lihat
+                </a>
+              <?php endif; ?>
+            </div>
           </div>
           <?php endif; ?>
           <div class="mb-3">
             <label class="form-label fw-semibold">Surat Permohonan Kampus <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" value="<?= esc(user()->surat_permohonan ?? '-') ?>" disabled>
+            <div class="d-flex align-items-center justify-content-between bg-light rounded px-3 py-2">
+              <span><?= esc(user()->surat_permohonan ?? '-') ?></span>
+              <?php if (!empty(user()->surat_permohonan)) : ?>
+                <a href="<?= base_url('uploads/surat-permohonan/' . user()->surat_permohonan) ?>" target="_blank" class="btn btn-outline-primary btn-sm ms-3">
+                  Lihat
+                </a>
+              <?php endif; ?>
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label fw-semibold">Durasi Magang <span class="text-danger">*</span></label>

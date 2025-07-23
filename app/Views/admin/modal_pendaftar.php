@@ -9,7 +9,7 @@
 
     <form id="formTerimaPendaftar">
         <div class="table-responsive">
-            <table class="table table-bordered table-sm" id="tablePendaftar">
+           <table class="table table-bordered table-sm w-100" id="tablePendaftar">
                 <thead>
                     <tr>
                         <th colspan="11" style="text-align: left;">
@@ -24,7 +24,7 @@
                         <th>Nama</th>
                         <th>NISN/NIM</th>
                         <th>Jurusan</th>
-                        <th>Instansi</th>
+                        <th>Perguruan Tinggi/Sekolah</th>
                         <th>Durasi</th>
                         <th>CV</th>
                         <th>Proposal</th>
@@ -46,7 +46,7 @@
                             <td><?= esc($p->durasi); ?> bulan</td>
                             <td><?= $p->cv ? '<a href="'.base_url('uploads/cv/'.$p->cv).'" target="_blank">Lihat</a>' : '<span class="text-muted">-</span>'; ?></td>
                             <td><?= $p->proposal ? '<a href="'.base_url('uploads/proposal/'.$p->proposal).'" target="_blank">Lihat</a>' : '<span class="text-muted">-</span>'; ?></td>
-                            <td><?= $p->surat_permohonan ? '<a href="'.base_url('uploads/surat/'.$p->surat_permohonan).'" target="_blank">Lihat</a>' : '<span class="text-muted">-</span>'; ?></td>
+                            <td><?= $p->surat_permohonan ? '<a href="'.base_url('uploads/surat-permohonan/'.$p->surat_permohonan).'" target="_blank">Lihat</a>' : '<span class="text-muted">-</span>'; ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

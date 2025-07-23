@@ -16,7 +16,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= esc(user()->fullname); ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="<?= base_url(); ?>uploads/user_image/default.svg">
+                                    src="<?= base_url(); ?>uploads/user-image/default.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

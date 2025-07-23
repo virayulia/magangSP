@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Tanda Pengenal Magang</title>
+    <link rel="shortcut icon" href="<?= base_url('assets/img/SP_logo.png'); ?>" type="image/png">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -69,7 +71,7 @@
     </div>
 <hr style="height: 3px; background-color: #000; border: none;">
     <div class="content">
-        <img src="<?= base_url('/uploads/user_image/' . $user->user_image) ?>" alt="Foto" class="foto">
+        <img src="<?= base_url('/uploads/user-image/' . $user->user_image) ?>" alt="Foto" class="foto">
 
         <div class="data"> 
             <p><b>Nama</b>: <?= esc($user->fullname) ?></p>

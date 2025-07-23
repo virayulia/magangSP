@@ -35,8 +35,8 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="tableBerkas">
-                    <thead>
+                <table class="table table-bordered" id="dataTable">
+                    <thead class="table-dark">
                         <tr>
                             <th>Nama</th>
                             <th>NIM</th>
@@ -58,7 +58,7 @@
                                     <td>
                                         <?php if ($item['bpjs_kes']): ?>
                                             <input type="checkbox" class="form-check-input checkbox-berkas" data-id="<?= $id ?>" data-type="kes">
-                                            <a href="<?= base_url('uploads/bpjs_kes/'.$item['bpjs_kes']) ?>" target="_blank">Lihat</a>
+                                            <a href="<?= base_url('uploads/bpjs-kes/'.$item['bpjs_kes']) ?>" target="_blank">Lihat</a>
                                         <?php else: ?>
                                             Belum Ada
                                         <?php endif; ?>
@@ -68,7 +68,7 @@
                                     <td>
                                         <?php if ($item['bpjs_tk']): ?>
                                             <input type="checkbox" class="form-check-input checkbox-berkas" data-id="<?= $id ?>" data-type="tk">
-                                            <a href="<?= base_url('uploads/bpjs_tk/'.$item['bpjs_tk']) ?>" target="_blank">Lihat</a>
+                                            <a href="<?= base_url('uploads/bpjs-tk/'.$item['bpjs_tk']) ?>" target="_blank">Lihat</a>
                                         <?php else: ?>
                                             Belum Ada
                                         <?php endif; ?>
@@ -78,7 +78,7 @@
                                     <td>
                                         <?php if ($item['buktibpjs_tk']): ?>
                                             <input type="checkbox" class="form-check-input checkbox-berkas" data-id="<?= $id ?>" data-type="bukti">
-                                            <a href="<?= base_url('uploads/buktibpjs_tk/'.$item['buktibpjs_tk']) ?>" target="_blank">Lihat</a>
+                                            <a href="<?= base_url('uploads/buktibpjs-tk/'.$item['buktibpjs_tk']) ?>" target="_blank">Lihat</a>
                                         <?php else: ?>
                                             Belum Ada
                                         <?php endif; ?>
@@ -87,7 +87,7 @@
                                     <!-- Tombol aksi -->
                                     <td>
                                        <!-- Form untuk Approve -->
-                                        <form action="<?= base_url('/manage-kelengkapan-berkas/valid/'.$id) ?>" method="post" class="d-inline" onsubmit="return confirmApprove()">
+                                        <form action="<?= base_url('admin/manage-kelengkapan-berkas/valid/'.$id) ?>" method="post" class="d-inline" onsubmit="return confirmApprove()">
                                             <?= csrf_field() ?>
                                             <button type="submit" class="btn btn-secondary btn-approve" id="approve<?= $id ?>" disabled>Approve</button>
                                         </form>
@@ -100,7 +100,7 @@
                                         <!-- Modal -->
                                         <div class="modal fade" id="modalTolak<?= $id ?>" tabindex="-1" aria-labelledby="modalTolakLabel<?= $id ?>" aria-hidden="true">
                                             <div class="modal-dialog">
-                                                <form action="<?= base_url('/manage-kelengkapan-berkas/tidakValid/'.$id) ?>" method="post">
+                                                <form action="<?= base_url('admin/manage-kelengkapan-berkas/tidakValid/'.$id) ?>" method="post">
                                                     <?= csrf_field() ?>
                                                     <div class="modal-content">
                                                         <div class="modal-header">
