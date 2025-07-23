@@ -63,40 +63,72 @@ class JurusanUnitController extends BaseController
         $db = \Config\Database::connect();
 
         $kuota_unit_id = $this->request->getPost('kuota_unit_id');
-        $jurusan_id = $this->request->getPost('jurusan_id');
+        $jurusan_ids = $this->request->getPost('jurusan_id'); // ini array karena name="jurusan_id[]"
 
-        $db->table('jurusan_unit')->insert([
-            'kuota_unit_id' => $kuota_unit_id,
-            'jurusan_id'    => $jurusan_id
-        ]);
+        if (!$kuota_unit_id || !is_array($jurusan_ids)) {
+            return redirect()->back()->with('error', 'Data tidak lengkap.');
+        }
 
-        return redirect()->back()->with('success', 'Data berhasil ditambahkan.');
+        $inserted = 0;
+
+        foreach ($jurusan_ids as $jurusan_id) {
+            // Cek apakah kombinasi ini sudah ada di database
+            $exists = $db->table('jurusan_unit')
+                ->where('kuota_unit_id', $kuota_unit_id)
+                ->where('jurusan_id', $jurusan_id)
+                ->countAllResults();
+
+            if ($exists == 0) {
+                $db->table('jurusan_unit')->insert([
+                    'kuota_unit_id' => $kuota_unit_id,
+                    'jurusan_id'    => $jurusan_id
+                ]);
+                $inserted++;
+            }
+        }
+
+        if ($inserted > 0) {
+            return redirect()->back()->with('success', "$inserted jurusan unit berhasil ditambahkan.");
+        } else {
+            return redirect()->back()->with('error', 'Semua jurusan yang dipilih sudah pernah ditambahkan.');
+        }
     }
+
 
     public function addJurusan()
     {
         $db = \Config\Database::connect();
 
         $kuota_unit_id = $this->request->getPost('kuota_unit_id');
-        $jurusan_id = $this->request->getPost('jurusan_id');
+        $jurusan_ids = $this->request->getPost('jurusan_id'); // ini array karena name="jurusan_id[]"
 
-        // Cek duplikasi
-        $cek = $db->table('jurusan_unit')
-            ->where('kuota_unit_id', $kuota_unit_id)
-            ->where('jurusan_id', $jurusan_id)
-            ->countAllResults();
-
-        if ($cek > 0) {
-            return redirect()->to('admin/jurusan-unit')->with('success', 'Jurusan sudah terdaftar di unit ini.');
+        if (!$kuota_unit_id || !is_array($jurusan_ids)) {
+            return redirect()->back()->with('error', 'Data tidak lengkap.');
         }
 
-        // Insert
-        $db->table('jurusan_unit')->insert([
-            'kuota_unit_id' => $kuota_unit_id,
-            'jurusan_id' => $jurusan_id,
-        ]);
+        $inserted = 0;
 
-        return redirect()->back()->with('success', 'Jurusan berhasil ditambahkan.');
+        foreach ($jurusan_ids as $jurusan_id) {
+            // Cek apakah kombinasi ini sudah ada di database
+            $exists = $db->table('jurusan_unit')
+                ->where('kuota_unit_id', $kuota_unit_id)
+                ->where('jurusan_id', $jurusan_id)
+                ->countAllResults();
+
+            if ($exists == 0) {
+                $db->table('jurusan_unit')->insert([
+                    'kuota_unit_id' => $kuota_unit_id,
+                    'jurusan_id'    => $jurusan_id
+                ]);
+                $inserted++;
+            }
+        }
+
+        if ($inserted > 0) {
+            return redirect()->back()->with('success', "$inserted jurusan unit berhasil ditambahkan.");
+        } else {
+            return redirect()->back()->with('error', 'Semua jurusan yang dipilih sudah pernah ditambahkan.');
+        }
     }
 
     public function deleteJurusan($id)

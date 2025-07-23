@@ -62,7 +62,7 @@ Swal.fire({
                         <li class="list-group-item text-success">✅ Telah disetujui pada: <strong><?= date('d M Y H:i', strtotime($penilaian['tgl_disetujui'])) ?></strong></li>
                     </ul>
 
-                    <a href="<?= base_url('user/cetak-sertifikat') ?>" target="_blank" class="btn btn-success">
+                    <a href="<?= base_url('cetak-sertifikat') ?>" target="_blank" class="btn btn-success">
                         <i class="fas fa-file-pdf"></i> Unduh Sertifikat
                     </a>
                 </div>

@@ -130,6 +130,10 @@ $uri = service('uri');
               <i class="bi bi-award me-2"></i>
               <span>Evaluasi Magang</span>
             </a>
+            <a href="penelitian" class="<?= ($uri->getSegment(1) === 'penelitian') ? 'active' : '' ?>">
+              <i class="bi bi-list-check me-2"></i>
+              <span>Penelitian</span>
+            </a>
             <a href="#" class="<?= ($uri->getSegment(1) === 'lapor') ? 'active' : '' ?>">
               <i class="bi bi-chat-dots me-2"></i>
               <span>Lapor! (Support)</span>

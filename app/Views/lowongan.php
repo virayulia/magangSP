@@ -65,7 +65,7 @@ Swal.fire({
 <!-- Job Filter Section -->
 <section class="page-section bg-white py-5">
 <div class="container">
-<form method="GET" action="<?= base_url('/lowongan') ?>">
+<form method="GET" action="<?= base_url('/magang') ?>">
   <div class="row mb-4">
     <div class="col-md-4 mb-2">
     <select class="form-control select2" data-placeholder="Pilih Unit Kerja" name="unit_kerja[]" multiple>
@@ -177,9 +177,9 @@ Swal.fire({
   <?php else: ?>
     <div class="alert alert-info text-center">
         <?php if ($filterByUserJurusan): ?>
-            <strong>Tidak ada lowongan yang sesuai jurusan Anda saat ini.</strong>
+            <strong>Tidak ada posisi magang yang sesuai jurusan Anda saat ini.</strong>
         <?php else: ?>
-            <strong>Data Lowongan Tidak Ada</strong>
+            <strong>Data Posisi Magang Tidak Ada</strong>
         <?php endif; ?>
     </div>
   <?php endif; ?>

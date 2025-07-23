@@ -124,7 +124,7 @@ Swal.fire({
           <li><strong>Perguruan Tinggi:</strong> CV, Proposal, Surat permohonan kampus (minimal ttd Kaprodi), KTP/KK</li>
         </ul>
       </div>
-      <a href="/lowongan" class="btn btn-danger w-100 btn-daftar">Daftar Magang</a>
+      <a href="/magang" class="btn btn-danger w-100 btn-daftar">Daftar Magang</a>
     </div>
   </div>
 </div>
@@ -224,11 +224,11 @@ Swal.fire({
 <!-- Services -->
 <section class="page-section" id="services">
   <div class="container px-4 px-lg-5">
-    <h2 class="text-center mt-0" data-aos="fade-up">Lowongan</h2>
+    <h2 class="text-center mt-0" data-aos="fade-up">Magang</h2>
     <hr class="divider" data-aos="fade-up" />
     <div class="row gx-4 gx-lg-5">
       <!-- Job Filter Section -->
-      <form method="GET" action="<?= base_url('/lowongan') ?>">
+      <form method="GET" action="<?= base_url('/magang') ?>">
         <div class="row mb-4">
           <div class="col-md-4 mb-2">
           <select class="form-control select2" data-placeholder="Pilih Unit Kerja" name="unit_kerja[]" multiple>
@@ -341,9 +341,9 @@ Swal.fire({
       <?php else: ?>
         <div class="alert alert-info text-center">
             <?php if ($filterByUserJurusan): ?>
-                <strong>Tidak ada lowongan yang sesuai jurusan Anda saat ini.</strong>
+                <strong>Tidak ada posisi magang yang sesuai jurusan Anda saat ini.</strong>
             <?php else: ?>
-                <strong>Data Lowongan Tidak Ada</strong>
+                <strong>Data Posisi Magang Tidak Ada</strong>
             <?php endif; ?>
         </div>
       <?php endif; ?>

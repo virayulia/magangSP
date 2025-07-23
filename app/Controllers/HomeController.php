@@ -39,7 +39,7 @@ class HomeController extends BaseController
         $pendidikanDipilih = $this->request->getGet('pendidikan') ?? [];
         $jurusanDipilih    = $this->request->getGet('jurusan') ?? [];
         $page              = (int) ($this->request->getGet('page') ?? 1);
-        $perPage           = 6;
+        $perPage           = 9;
 
         $kuotaData = $this->magangModel->getSisaKuota();
 
@@ -131,7 +131,7 @@ class HomeController extends BaseController
         $pendidikanDipilih = $this->request->getGet('pendidikan') ?? [];
         $jurusanDipilih    = $this->request->getGet('jurusan') ?? [];
         $page              = (int) ($this->request->getGet('page') ?? 1);
-        $perPage           = 6;
+        $perPage           = 9;
 
         $kuotaData = $this->magangModel->getSisaKuota();
 

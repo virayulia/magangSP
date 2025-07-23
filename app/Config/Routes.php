@@ -195,8 +195,12 @@ $routes->group('', ['namespace' => 'App\Controllers\User','filter' => 'user'], f
     $routes->get('safety-tes', 'MagangController::safetyTes');
     $routes->post('safety/submit', 'MagangController::submitTes');
     $routes->get('sertifikat-magang', 'MagangController::sertifikatIndex');
+    $routes->get('cetak-sertifikat', 'MagangController::cetakSertifikat');
 
     //Penelitian
+    $routes->get('penelitian', 'PenelitianController::index');
+    $routes->post('penelitian/daftar', 'Penelitian::daftar');
+
 
 
     //Old

@@ -4,6 +4,7 @@ namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
+use App\Libraries\MY_TCPDF as TCPDF;
 use App\Models\UserModel;
 use App\Models\InstansiModel;
 use App\Models\MagangModel;
@@ -393,4 +394,75 @@ class MagangController extends BaseController
         ]);
     }
 
+
+    public function cetakSertifikat($saveToFile = false)
+    {
+        $userId = user_id();
+
+        // Ambil data user & penilaian
+        $user = $this->userModel->find($userId);
+        $magang = $this->magangModel->where('user_id', $userId)->first();
+        $penilaian = $this->penilaianModel->where('magang_id', $magang['magang_id'])->first();
+
+
+        if (!$penilaian || $penilaian['approve_kaunit'] != 1) {
+            return redirect()->back()->with('error', 'Sertifikat belum bisa diunduh.');
+        }
+
+        // Hitung nilai
+        $totalNilai = $penilaian['nilai_disiplin']
+            + $penilaian['nilai_kerajinan']
+            + $penilaian['nilai_tingkahlaku']
+            + $penilaian['nilai_kerjasama']
+            + $penilaian['nilai_kreativitas']
+            + $penilaian['nilai_kemampuankerja']
+            + $penilaian['nilai_tanggungjawab']
+            + $penilaian['nilai_penyerapan'];
+
+        $rataRata = round($totalNilai / 8, 2);
+
+        // Inisialisasi PDF
+        $pdf = new \TCPDF('P', PDF_UNIT, 'A4', true, 'UTF-8', false);
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('PT. Semen Padang');
+        $pdf->SetTitle('Sertifikat Magang');
+        $pdf->SetSubject('Sertifikat Magang');
+        $pdf->SetKeywords('TCPDF, PDF, sertifikat, semenpadang.online');
+
+        $pdf->SetHeaderData('', '', '', '');
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+
+        $pdf->SetMargins(20, 25, 20);
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        $pdf->SetFont('times', '', 12);
+        $pdf->AddPage();
+
+        // Data yang dikirim ke view
+        $data = [
+            'user' => $user,
+            'penilaian' => $penilaian,
+            'magang' => $magang,
+            'rataRata' => $rataRata,
+        ];
+
+        // Buat view HTML sertifikat
+        $html = view('user/sertifikat-pdf', $data);
+        $pdf->writeHTML($html);
+
+        $fileName = 'sertifikat-magang-' . url_title($user->fullname ?? $user->nama, '-', true) . '-' . date('YmdHis') . '.pdf';
+
+        if ($saveToFile) {
+            $filePath = WRITEPATH . 'uploads/' . $fileName;
+            $pdf->Output($filePath, 'F');
+            return $filePath;
+        } else {
+            $this->response->setContentType('application/pdf');
+            $pdf->Output($fileName, 'I');
+            exit;
+        }
     }
+
+
+
+}

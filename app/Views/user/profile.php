@@ -287,7 +287,7 @@ Swal.fire({
                                     <i class="bi bi-file-earmark-text me-2"></i> <?= esc($user_data->bpjs_kes) ?>
                                 </div>
                                 <div>
-                                    <a href="<?= base_url('uploads/bpjs_kes/' . $user_data->bpjs_kes) ?>" target="_blank" class="btn btn-primary btn-sm me-2">Lihat file</a>
+                                    <a href="<?= base_url('uploads/bpjs-kes/' . $user_data->bpjs_kes) ?>" target="_blank" class="btn btn-primary btn-sm me-2">Lihat file</a>
                                     <button type="button" class="btn btn-danger btn-sm" onclick="confirmDeleteBPJSKes(<?= $user_data->id ?>)">Delete</button>                            
                                 </div>
                             <?php else: ?>
@@ -309,7 +309,7 @@ Swal.fire({
                                     <i class="bi bi-file-earmark-text me-2"></i> <?= esc($user_data->bpjs_tk) ?>
                                 </div>
                                 <div>
-                                    <a href="<?= base_url('uploads/bpjs_tk/' . $user_data->bpjs_tk) ?>" target="_blank" class="btn btn-primary btn-sm me-2">Lihat file</a>
+                                    <a href="<?= base_url('uploads/bpjs-tk/' . $user_data->bpjs_tk) ?>" target="_blank" class="btn btn-primary btn-sm me-2">Lihat file</a>
                                     <button type="button" class="btn btn-danger btn-sm" onclick="confirmDeleteBPJSTK(<?= $user_data->id ?>)">Delete</button>                            
                                 </div>
                             <?php else: ?>
@@ -331,7 +331,7 @@ Swal.fire({
                                     <i class="bi bi-file-earmark-text me-2"></i> <?= esc($user_data->buktibpjs_tk) ?>
                                 </div>
                                 <div>
-                                    <a href="<?= base_url('uploads/buktibpjs_tk/' . $user_data->buktibpjs_tk) ?>" target="_blank" class="btn btn-primary btn-sm me-2">Lihat file</a>
+                                    <a href="<?= base_url('uploads/buktibpjs-tk/' . $user_data->buktibpjs_tk) ?>" target="_blank" class="btn btn-primary btn-sm me-2">Lihat file</a>
                                     <button type="button" class="btn btn-danger btn-sm" onclick="confirmDeleteBuktiBPJSTK(<?= $user_data->id ?>)">Delete</button>                            
                                 </div>
                             <?php else: ?>

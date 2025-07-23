@@ -17,7 +17,13 @@
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
 
-     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Select2 Bootstrap 4 theme -->
+    <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css" rel="stylesheet" />
+
+
 </head>
 
 <body id="page-top">
@@ -83,9 +89,24 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
 
+    <!-- Select2 JS  -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $.fn.modal.Constructor.prototype._enforceFocus = function() {};
+    </script>
+
     <!-- Inisialisasi DataTables -->
     <script>
+
         $(document).ready(function () {
+             $('.select2').select2({
+                theme: 'bootstrap4',
+                width: '100%',
+                placeholder: function(){
+                    $(this).data('placeholder');
+                },
+                allowClear: true
+            });
             $('#dataTable').DataTable({
                 language: {
                     search: "Cari:",

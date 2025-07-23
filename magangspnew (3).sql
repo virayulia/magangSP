@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 23 Jul 2025 pada 04.48
+-- Waktu pembuatan: 23 Jul 2025 pada 10.59
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -215,7 +215,11 @@ INSERT INTO `auth_logins` (`id`, `ip_address`, `email`, `user_id`, `date`, `succ
 (95, '::1', 'NUR.ANITA@sig.id', 23, '2025-07-23 03:52:11', 1),
 (96, '::1', 'NUR.ANITA@sig.id', 23, '2025-07-23 04:05:22', 1),
 (97, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-23 05:18:44', 1),
-(98, '::1', 'bordirmotif@gmail.com', 1, '2025-07-23 09:34:02', 1);
+(98, '::1', 'bordirmotif@gmail.com', 1, '2025-07-23 09:34:02', 1),
+(99, '::1', 'virayukia1234@gmail.com', 4, '2025-07-23 14:48:29', 1),
+(100, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-23 15:15:09', 1),
+(101, '::1', 'virayukia1234@gmail.com', 4, '2025-07-23 15:19:51', 1),
+(102, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-23 15:21:20', 1);
 
 -- --------------------------------------------------------
 
@@ -379,8 +383,56 @@ INSERT INTO `jurusan` (`jurusan_id`, `nama_jurusan`) VALUES
 (16, 'Geologi Pertambangan'),
 (17, 'Teknik Industri'),
 (18, 'Administrasi Perkantoran'),
-(19, 'Listrik'),
-(20, 'Pemasaran');
+(19, 'Teknik Listrik'),
+(20, 'Pemasaran'),
+(21, 'Teknik Logistik'),
+(22, 'Agribisnis'),
+(23, 'Administrasi Publik'),
+(24, 'Ilmu Komunikasi'),
+(25, 'Pertanian'),
+(26, 'Hukum'),
+(27, 'Bahasa Inggris'),
+(28, 'Hubungan Internasional'),
+(29, 'Teknik Audio Video'),
+(30, 'Arkeologi'),
+(31, 'Fotografi'),
+(32, 'Teknik Komputer Jaringan'),
+(33, 'Perangkat Lunak'),
+(34, 'Teknik Informatika'),
+(35, 'Teknik Komputer'),
+(36, 'Sistem Informasi'),
+(37, 'Teknologi Rekayasa Komputer'),
+(38, 'Meteorologi'),
+(39, 'Tambang'),
+(40, 'Otomotif'),
+(41, 'Alat Berat'),
+(42, 'Geofisika'),
+(43, 'Geografi'),
+(44, 'Geologi'),
+(45, 'Juru Ukur'),
+(46, 'Kehutanan'),
+(47, 'Teknik Kebumian'),
+(48, 'Teknik Geodesi'),
+(49, 'Penginderaan Jauh'),
+(50, 'Sistem Informasi Geografis'),
+(51, 'Keselamatan dan Kesehatan Kerja (K3)'),
+(52, 'Hiperkes'),
+(53, 'Teknik Instalasi Tenaga Listrik'),
+(54, 'Teknik Pendingin dan Tata Udara'),
+(55, 'Teknik Fisika'),
+(56, 'Teknik Sipil'),
+(57, 'Desain Komunikasi Visual'),
+(58, 'Desain Pemodelan dan Informasi Bangunan'),
+(59, 'Kesehatan Masyarakat'),
+(60, 'Biologi'),
+(61, 'Teknik Biosistem'),
+(62, 'Psikologi'),
+(63, 'Perpustakaan'),
+(64, 'Manajemen Keuangan'),
+(65, 'Manajemen Pajak'),
+(66, 'Kearsipan'),
+(67, 'Teknik Kendaraan Ringan'),
+(68, 'Peternakan');
 
 -- --------------------------------------------------------
 
@@ -421,7 +473,234 @@ INSERT INTO `jurusan_unit` (`jurusan_unit_id`, `kuota_unit_id`, `jurusan_id`) VA
 (20, 11, 18),
 (21, 12, 2),
 (22, 12, 20),
-(23, 12, 18);
+(23, 12, 18),
+(24, 13, 2),
+(25, 13, 20),
+(26, 13, 18),
+(27, 14, 2),
+(28, 14, 20),
+(29, 14, 18),
+(30, 15, 2),
+(31, 15, 20),
+(32, 15, 18),
+(33, 16, 2),
+(34, 16, 20),
+(35, 16, 18),
+(36, 17, 2),
+(37, 17, 18),
+(38, 17, 21),
+(39, 18, 2),
+(40, 18, 18),
+(41, 18, 21),
+(42, 19, 2),
+(43, 19, 17),
+(44, 19, 21),
+(45, 19, 22),
+(46, 20, 18),
+(47, 21, 1),
+(48, 21, 2),
+(49, 21, 18),
+(50, 21, 23),
+(51, 21, 24),
+(52, 21, 25),
+(53, 22, 26),
+(54, 23, 2),
+(55, 23, 18),
+(56, 23, 24),
+(57, 23, 29),
+(58, 24, 2),
+(59, 24, 18),
+(60, 24, 23),
+(61, 24, 24),
+(62, 24, 27),
+(63, 24, 28),
+(64, 24, 29),
+(65, 25, 32),
+(66, 25, 33),
+(67, 25, 34),
+(68, 25, 35),
+(69, 25, 36),
+(70, 25, 37),
+(71, 26, 32),
+(72, 26, 33),
+(73, 26, 34),
+(74, 26, 35),
+(75, 26, 36),
+(76, 26, 37),
+(77, 27, 17),
+(78, 28, 4),
+(79, 28, 9),
+(80, 29, 11),
+(81, 29, 38),
+(82, 30, 18),
+(83, 30, 39),
+(84, 30, 40),
+(85, 30, 41),
+(86, 30, 42),
+(87, 30, 43),
+(88, 30, 44),
+(89, 31, 38),
+(90, 31, 39),
+(91, 31, 40),
+(92, 31, 41),
+(93, 31, 42),
+(94, 31, 43),
+(95, 31, 44),
+(96, 31, 45),
+(97, 31, 46),
+(98, 31, 47),
+(99, 31, 48),
+(100, 31, 49),
+(101, 31, 50),
+(102, 32, 11),
+(103, 32, 51),
+(104, 32, 52),
+(105, 33, 17),
+(106, 33, 39),
+(107, 34, 6),
+(108, 34, 19),
+(109, 34, 53),
+(110, 34, 54),
+(111, 35, 6),
+(112, 35, 19),
+(113, 35, 53),
+(114, 36, 3),
+(115, 37, 3),
+(116, 38, 3),
+(117, 39, 6),
+(118, 39, 8),
+(119, 39, 18),
+(120, 40, 6),
+(121, 40, 8),
+(122, 40, 18),
+(123, 41, 8),
+(124, 42, 8),
+(125, 43, 8),
+(126, 44, 8),
+(127, 45, 6),
+(128, 45, 55),
+(129, 46, 6),
+(130, 46, 55),
+(131, 47, 3),
+(132, 47, 6),
+(133, 48, 6),
+(134, 48, 55),
+(135, 49, 6),
+(136, 49, 8),
+(137, 50, 6),
+(138, 50, 8),
+(139, 50, 34),
+(140, 50, 35),
+(141, 51, 18),
+(142, 52, 56),
+(143, 53, 2),
+(144, 53, 18),
+(145, 53, 56),
+(146, 54, 2),
+(147, 54, 18),
+(148, 54, 56),
+(149, 55, 18),
+(150, 56, 2),
+(151, 56, 57),
+(152, 57, 2),
+(153, 57, 17),
+(154, 57, 36),
+(155, 57, 57),
+(156, 58, 2),
+(157, 58, 8),
+(158, 58, 58),
+(159, 59, 6),
+(160, 59, 8),
+(161, 59, 56),
+(162, 60, 4),
+(163, 60, 9),
+(164, 61, 4),
+(165, 61, 9),
+(166, 62, 11),
+(167, 62, 17),
+(168, 62, 38),
+(169, 62, 51),
+(170, 62, 52),
+(171, 62, 59),
+(172, 62, 60),
+(173, 62, 61),
+(174, 63, 2),
+(175, 63, 18),
+(176, 63, 62),
+(177, 64, 2),
+(178, 64, 18),
+(179, 64, 62),
+(180, 65, 2),
+(181, 65, 18),
+(182, 65, 62),
+(183, 65, 63),
+(184, 66, 2),
+(185, 66, 18),
+(186, 66, 62),
+(187, 66, 63),
+(188, 67, 18),
+(189, 67, 56),
+(190, 67, 58),
+(191, 68, 56),
+(192, 68, 58),
+(193, 69, 1),
+(194, 69, 18),
+(195, 69, 64),
+(196, 70, 1),
+(197, 70, 64),
+(198, 71, 1),
+(199, 71, 18),
+(200, 71, 64),
+(201, 72, 1),
+(202, 72, 64),
+(203, 73, 1),
+(204, 73, 18),
+(205, 73, 64),
+(206, 73, 65),
+(207, 74, 1),
+(208, 74, 64),
+(209, 74, 65),
+(210, 75, 2),
+(211, 75, 18),
+(212, 75, 66),
+(213, 76, 2),
+(214, 76, 18),
+(215, 76, 66),
+(216, 77, 2),
+(217, 77, 18),
+(218, 78, 2),
+(219, 78, 18),
+(220, 79, 2),
+(221, 79, 18),
+(222, 80, 2),
+(223, 80, 18),
+(224, 81, 2),
+(225, 81, 18),
+(226, 82, 2),
+(227, 82, 6),
+(228, 82, 8),
+(229, 83, 2),
+(230, 83, 6),
+(231, 83, 8),
+(232, 84, 62),
+(233, 85, 1),
+(234, 86, 2),
+(235, 86, 18),
+(236, 87, 2),
+(237, 87, 18),
+(238, 87, 20),
+(239, 87, 67),
+(240, 88, 1),
+(241, 88, 2),
+(242, 88, 18),
+(243, 88, 20),
+(244, 89, 1),
+(245, 90, 2),
+(246, 90, 18),
+(247, 91, 2),
+(248, 91, 18),
+(249, 91, 68),
+(250, 92, 18);
 
 -- --------------------------------------------------------
 
@@ -627,16 +906,19 @@ CREATE TABLE `penelitian` (
   `status_akhir` varchar(50) NOT NULL,
   `deskripsi` text NOT NULL,
   `dosen_pembimbing` varchar(255) NOT NULL,
-  `bidang` varchar(255) NOT NULL
+  `bidang` varchar(255) NOT NULL,
+  `status_verifikasi` varchar(20) DEFAULT NULL,
+  `tanggal_verifikasi` date DEFAULT NULL,
+  `status_konfirmasi` varchar(20) DEFAULT NULL,
+  `tanggal_konfirmasi` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `penelitian`
 --
 
-INSERT INTO `penelitian` (`penelitian_id`, `user_id`, `unit_id`, `judul_penelitian`, `tanggal_daftar`, `tanggal_masuk`, `tanggal_selesai`, `status_akhir`, `deskripsi`, `dosen_pembimbing`, `bidang`) VALUES
-(11, 4, NULL, 'Penelitian', '2025-07-15 11:42:02', '2025-08-04', NULL, 'pendaftaran', 'Meneliti semen', 'Dani', 'Teknologi Semen'),
-(12, 7, NULL, 'Penelitian', '2025-07-15 11:52:27', '2025-08-11', NULL, 'pendaftaran', 'Deskripsi', 'Danu', 'Lingkungan');
+INSERT INTO `penelitian` (`penelitian_id`, `user_id`, `unit_id`, `judul_penelitian`, `tanggal_daftar`, `tanggal_masuk`, `tanggal_selesai`, `status_akhir`, `deskripsi`, `dosen_pembimbing`, `bidang`, `status_verifikasi`, `tanggal_verifikasi`, `status_konfirmasi`, `tanggal_konfirmasi`) VALUES
+(11, 4, NULL, 'Penelitian', '2025-07-15 11:42:02', '2025-08-04', NULL, 'pengajuan', 'Meneliti semen', 'Dani', 'Teknologi Semen', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -687,7 +969,7 @@ CREATE TABLE `periode_magang` (
 --
 
 INSERT INTO `periode_magang` (`periode_id`, `tanggal_buka`, `tanggal_tutup`, `keterangan`) VALUES
-(1, '2025-07-02', '2025-07-22', '');
+(1, '2025-07-02', '2025-07-24', '');
 
 -- --------------------------------------------------------
 
@@ -1384,7 +1666,7 @@ INSERT INTO `unit_kerja` (`unit_id`, `unit_kerja`, `nama_pimpinan`, `email_pimpi
 (38, 'Unit Perencanaan Suku Cadang', 'Azet Putra', 'azet.putra@sig.id', 1, 1, NULL),
 (39, 'TPM Officer', 'Hernes', 'hernes@sig.id', 0, 1, NULL),
 (40, 'Unit Produksi Mesin & Teknikal Support', 'Rendy Fahlevi', 'rendy.fahlevi@sig.id', 1, 1, NULL),
-(41, 'Unit Produksi BIP & Aplikas', 'Yelmi Arya Putra', 'yelmi.putra@sig.id', 1, 1, '(tidak)manajemen,adm perkantoran'),
+(41, 'Unit Produksi BIP & Aplikasi', 'Yelmi Arya Putra', 'yelmi.putra@sig.id', 1, 1, '(tidak)manajemen,adm perkantoran'),
 (42, 'Unit Quality Assurance', 'Febri Maulana', 'febri.maulana@sig.id', 1, 1, NULL),
 (43, 'Unit SHE', 'Asrining Sari', 'asrining.sari@sig.id', 1, 1, NULL),
 (44, 'Unit Operasional SDM', 'Nur Anita Rahmawati', 'nur.anita@sig.id', 0, 1, NULL),
@@ -1681,7 +1963,7 @@ ALTER TABLE `auth_groups`
 -- AUTO_INCREMENT untuk tabel `auth_logins`
 --
 ALTER TABLE `auth_logins`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT untuk tabel `auth_permissions`
@@ -1717,13 +1999,13 @@ ALTER TABLE `jawaban_safety`
 -- AUTO_INCREMENT untuk tabel `jurusan`
 --
 ALTER TABLE `jurusan`
-  MODIFY `jurusan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `jurusan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT untuk tabel `jurusan_unit`
 --
 ALTER TABLE `jurusan_unit`
-  MODIFY `jurusan_unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `jurusan_unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
 
 --
 -- AUTO_INCREMENT untuk tabel `kuota_unit`

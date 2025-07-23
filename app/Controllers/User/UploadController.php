@@ -163,7 +163,7 @@ class UploadController extends BaseController
         }
 
         // Hapus file dari server
-        $filePath = ROOTPATH . 'public/uploads/surat_permohonan/' . $user->surat_permohonan;
+        $filePath = ROOTPATH . 'public/uploads/surat-permohonan/' . $user->surat_permohonan;
         if (file_exists($filePath)) {
             unlink($filePath);
         }

@@ -1,6 +1,31 @@
 <?= $this->extend('admin/templates/index'); ?>
 <?= $this->section('content'); ?>
+<style>
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {
+    background-color: #4e73df; /* Sesuaikan warna dengan theme SB Admin */
+    border: none;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.85rem;
+    border-radius: 0.35rem;
+    margin-top: 0.3rem;
+}
+/* Hapus border dan ubah warna ikon "x" */
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove {
+    color: #4e73df; /* ubah warna ikon "x" */
+    border: none;
+    margin-right: 4px;
+    font-weight: bold;
+    padding: 0 5px;
+}
 
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove:hover {
+    color: #ffc107; /* saat hover, bisa pakai warna kuning atau lain */
+    background-color: transparent;
+}
+
+
+</style>
 <div class="container-fluid">
 
 <?php $session = \Config\Services::session(); ?>
@@ -46,9 +71,9 @@
                                 <div class="modal-body">
 
                                     <div class="form-group">
-                                        <label for="kuota_unit_id">Pilih Kuota Unit (Unit & Pendidikan)</label>
-                                        <select name="kuota_unit_id" id="kuota_unit_id" class="form-control" required>
-                                            <option value="" hidden selected>Pilih</option>
+                                        <label for="kuota_unit_id">Pilih Kuota Unit (Unit & Tingkat Pendidikan)</label>
+                                        <select name="kuota_unit_id" id="kuota_unit_id" class="form-control select2" required>
+                                            <option value="" disabled selected>Pilih Kuota Unit</option>
                                             <?php foreach ($kuota_units as $ku): ?>
                                                 <?php 
                                                     $unitName = '';
@@ -68,8 +93,7 @@
 
                                     <div class="form-group">
                                         <label for="jurusan_id">Pilih Jurusan</label>
-                                        <select name="jurusan_id" id="jurusan_id" class="form-control" required>
-                                            <option value="" hidden selected>Pilih Jurusan</option>
+                                        <select class="form-control select2" multiple="multiple" name="jurusan_id[]" id="jurusan_id">
                                             <?php foreach ($jurusans as $j): ?>
                                                 <option value="<?= $j['jurusan_id']; ?>"><?= $j['nama_jurusan']; ?></option>
                                             <?php endforeach; ?>
@@ -149,8 +173,7 @@
                                                     <input type="hidden" name="kuota_unit_id" value="<?= $ju['kuota_unit_id']; ?>">
                                                     <div class="form-group">
                                                         <label for="jurusan_id_<?= $ju['kuota_unit_id']; ?>">Pilih Jurusan</label>
-                                                        <select name="jurusan_id" id="jurusan_id_<?= $ju['kuota_unit_id']; ?>" class="form-control" required>
-                                                            <option value="" hidden selected>Pilih Jurusan</option>
+                                                        <select name="jurusan_id[]" id="jurusan_id_<?= $ju['kuota_unit_id']; ?>" class="form-control select2" multiple required>
                                                             <?php foreach ($jurusans as $j): ?>
                                                                 <option value="<?= $j['jurusan_id']; ?>"><?= $j['nama_jurusan']; ?></option>
                                                             <?php endforeach; ?>
@@ -171,5 +194,6 @@
         </div>
     </div>
 </div>
+
 
 <?= $this->endSection(); ?>
