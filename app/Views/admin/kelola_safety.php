@@ -22,11 +22,55 @@
     </div>
 <?php endif; ?>
 
-    <h1 class="h3 mb-2 text-gray-800">Daftar Peserta Tes Safety Induction</h1>
+    
+
+    
+    <h1 class="h3 mb-2 text-gray-800">
+        Daftar Peserta Tes Safety Induction 
+    </h1>
+
 
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="table-responsive">
+
+                <form method="get" class="mb-3 row g-3">
+                    <div class="col-md-3">
+                        <label for="bulan" class="form-label">Pilih Bulan</label>
+                        <select name="bulan" id="bulan" class="form-control">
+                            <?php
+                                $bulanNama = [
+                                    1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+                                    5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+                                    9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+                                ];
+                                foreach ($bulanNama as $num => $nama):
+                            ?>
+                                <option value="<?= $num ?>" <?= ($bulan == $num) ? 'selected' : '' ?>>
+                                    <?= $nama ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="tahun" class="form-label">Pilih Tahun</label>
+                        <select name="tahun" id="tahun" class="form-control">
+                            <?php
+                                $tahunSekarang = date('Y');
+                                for ($i = $tahunSekarang; $i >= $tahunSekarang - 5; $i--):
+                            ?>
+                                <option value="<?= $i ?>" <?= ($tahun == $i) ? 'selected' : '' ?>><?= $i ?></option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 align-self-end">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-filter me-1"></i> Tampilkan
+                        </button>
+                    </div>
+                </form>
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead class="table-dark">
                         <tr>

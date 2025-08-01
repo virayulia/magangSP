@@ -60,11 +60,19 @@ Swal.fire({
         <h1 class="mb-4">Temukan kesempatan magang di berbagai unit di perusahaan <span class="text-primary">PT Semen Padang</span></h1>
         <p class="lead">Bergabung dengan PT Semen Padang Hari Ini dan Temukan Pengalaman yang Paling Sesuai untuk Anda</p>
     </div>
+    
 </section>
 
 <!-- Job Filter Section -->
 <section class="page-section bg-white py-5">
 <div class="container">
+  <?php if (logged_in()): ?>
+  <div class="alert alert-info d-flex align-items-center shadow-sm mt-4" role="alert">
+      <i class="bi bi-info-circle-fill me-2"></i>
+      Setelah login, ketersediaan magang yang ditampilkan akan disesuaikan dengan latar belakang pendidikan Anda. 
+      Jika tidak ada ketersediaan yang muncul, kemungkinan belum tersedia unit yang sesuai untuk saat ini.
+  </div>
+  <?php endif; ?>
 <form method="GET" action="<?= base_url('/magang') ?>">
   <div class="row mb-4">
     <div class="col-md-4 mb-2">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 23 Jul 2025 pada 10.59
+-- Waktu pembuatan: 01 Agu 2025 pada 08.22
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -43,7 +43,9 @@ INSERT INTO `auth_activation_attempts` (`id`, `ip_address`, `user_agent`, `token
 (1, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'e11ed8e23863dbbe6876df46690cec2e', '2025-07-07 03:37:51'),
 (2, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'fe60487fd747d584c1566cb82fb4f620', '2025-07-07 23:20:25'),
 (3, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'ff2a2ea4c99d2670e985e6d2170ea033', '2025-07-08 04:03:19'),
-(4, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'de24688fb7181a3d455e8fe6563e1645', '2025-07-21 10:27:52');
+(4, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'de24688fb7181a3d455e8fe6563e1645', '2025-07-21 10:27:52'),
+(5, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', '5cf4daa13ceccd10c1954521d0f3cf07', '2025-07-31 15:09:29'),
+(6, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', '0d502e55e6be4ccb896a1d08975fd312', '2025-07-31 15:32:01');
 
 -- --------------------------------------------------------
 
@@ -64,7 +66,8 @@ CREATE TABLE `auth_groups` (
 INSERT INTO `auth_groups` (`id`, `name`, `description`) VALUES
 (1, 'admin', 'Administrator'),
 (2, 'user', 'Regular User'),
-(4, 'pembimbing', 'Pembimbing Unit');
+(4, 'pembimbing', 'Pembimbing Unit'),
+(5, 'she', 'Unit SHE');
 
 -- --------------------------------------------------------
 
@@ -94,8 +97,8 @@ CREATE TABLE `auth_groups_users` (
 
 INSERT INTO `auth_groups_users` (`group_id`, `user_id`) VALUES
 (1, 1),
-(2, 4),
 (2, 21),
+(2, 26),
 (4, 23);
 
 -- --------------------------------------------------------
@@ -219,7 +222,16 @@ INSERT INTO `auth_logins` (`id`, `ip_address`, `email`, `user_id`, `date`, `succ
 (99, '::1', 'virayukia1234@gmail.com', 4, '2025-07-23 14:48:29', 1),
 (100, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-23 15:15:09', 1),
 (101, '::1', 'virayukia1234@gmail.com', 4, '2025-07-23 15:19:51', 1),
-(102, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-23 15:21:20', 1);
+(102, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-23 15:21:20', 1),
+(103, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-31 09:33:26', 1),
+(104, '::1', 'bordirmotif@gmail.com', 1, '2025-07-31 09:51:56', 1),
+(105, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-31 11:52:08', 1),
+(106, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-31 12:00:14', 1),
+(107, '::1', 'kuronekochann123@gmail.com', 21, '2025-07-31 14:17:37', 1),
+(108, '::1', 'bordirmotif@gmail.com', 1, '2025-07-31 14:33:54', 1),
+(109, '::1', 'virayukia1234@gmail.com', 25, '2025-07-31 15:09:42', 1),
+(110, '::1', 'virayukia1234@gmail.com', 26, '2025-07-31 15:31:48', 0),
+(111, '::1', 'virayukia1234@gmail.com', 26, '2025-07-31 15:32:13', 1);
 
 -- --------------------------------------------------------
 
@@ -288,6 +300,21 @@ CREATE TABLE `auth_users_permissions` (
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `detail_jawaban_safety`
+--
+
+CREATE TABLE `detail_jawaban_safety` (
+  `detail_jawaban_id` int(11) NOT NULL,
+  `jawaban_safety_id` int(11) NOT NULL,
+  `soal_safety_id` int(11) NOT NULL,
+  `jawaban_user` varchar(255) NOT NULL,
+  `benar` tinyint(1) NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `instansi`
 --
 
@@ -302,27 +329,374 @@ CREATE TABLE `instansi` (
 --
 
 INSERT INTO `instansi` (`instansi_id`, `nama_instansi`, `tingkat`) VALUES
-(1, 'Universitas Putra Indonesia', 'pt'),
-(2, 'Universitas Malikussaleh', 'pt'),
-(3, 'Universitas Negeri Padang', 'pt'),
-(4, 'Universitas Jambi', 'pt'),
-(5, 'Universitas Andalas', 'pt'),
-(6, 'SMK SMTI Padang', 'smk'),
-(7, 'Universitas Bung Hatta', 'pt'),
-(8, 'SMK Negeri 2 Solok', 'smk'),
-(9, 'Universitas  Dharma Andalas', 'pt'),
-(10, 'Universitas Riau', 'pt'),
-(11, 'Politeknik Negeri Padang', 'pt'),
-(12, 'Institut Teknologi  Sumatera', 'pt'),
-(13, 'SMK Negeri 1 Guguk', 'smk'),
-(14, 'Universitas Lancang Kuning', 'pt'),
-(15, 'Universitas Indonesia', 'pt'),
-(16, 'Institut Teknologi Padang', 'pt'),
-(17, 'Politeknik ATI Padang', 'pt'),
-(18, 'Universitas Ahmad Dahlan', 'pt'),
-(19, 'SMK Negeri 1 Padang', 'smk'),
-(20, 'SMK Negeri 3 Padang', 'smk'),
-(21, 'SMK Negeri 2 Sawahlunto', 'smk');
+(1, 'Akademi Akuntansi Indonesia', 'pt'),
+(2, 'Akademi Komunitas Negeri Bengkalis', 'pt'),
+(3, 'Akademi Komunitas Negeri Kota Sawahlunto', 'pt'),
+(4, 'Akademi Komunitas Negeri Pesisir Selatan', 'pt'),
+(5, 'Akademi Komunitas Negeri Tanah Datar', 'pt'),
+(6, 'Binus University', 'pt'),
+(7, 'Hochscule Bremen', 'pt'),
+(8, 'IAIN Batusangkar', 'pt'),
+(9, 'IAIN Imam Bonjol Padang', 'pt'),
+(10, 'Institud Teknologi Nasional', 'pt'),
+(11, 'Institut Agama Islam Negeri Bukittinggi', 'pt'),
+(12, 'Institut Perbanas Jakarta', 'pt'),
+(13, 'Institut Pertanian Bogor', 'pt'),
+(14, 'Institut Seni Indonesia Padang Panjang', 'pt'),
+(15, 'Institut Sepuluh Nopember', 'pt'),
+(16, 'Institut Teknologi  Medan', 'pt'),
+(17, 'Institut Teknologi  Padang', 'pt'),
+(18, 'Institut Teknologi  Sumatera', 'pt'),
+(19, 'Institut Teknologi Bandung', 'pt'),
+(20, 'Institut Teknologi Dan Bisnis Haji Agus Salim', 'pt'),
+(21, 'Institut Teknologi dan Sains Bandung', 'pt'),
+(22, 'Institut Teknologi Del', 'pt'),
+(23, 'Institut Teknologi Dirgantara Adisutjipto', 'pt'),
+(24, 'Institut Teknologi Harapan Bangsa', 'pt'),
+(25, 'Institut Teknologi Medan', 'pt'),
+(26, 'Institut Teknologi Nasional', 'pt'),
+(27, 'Institut Teknologi Nasional Yogyakarta', 'pt'),
+(28, 'Institut Teknologi Padang', 'pt'),
+(29, 'Institut Teknologi Padang', 'smk'),
+(30, 'Institut Teknologi Petroleum Balongan', 'pt'),
+(31, 'Institut Teknologi PLN', 'pt'),
+(32, 'Institut Teknologi Sepuluh November', 'pt'),
+(33, 'Institut Teknologi Sumatera', 'pt'),
+(34, 'International Islamic University Malaysia', 'pt'),
+(35, 'Kolej Universiti Islam Melaka (KUIM)', 'pt'),
+(36, 'Lembaga Ilmu Pengetahuan Islam and Arab (LIPIA) Jakarta', 'pt'),
+(37, 'National University Singapore', 'pt'),
+(38, 'PGRI Sumatera Barat', 'pt'),
+(39, 'PKPU Human Initiative', 'pt'),
+(40, 'Politeknik Aceh', 'pt'),
+(41, 'Politeknik Aisyiyah Sumbar', 'pt'),
+(42, 'Politeknik AKA Bogor', 'pt'),
+(43, 'Politeknik ATI Padang', 'pt'),
+(44, 'Politeknik Caltex Riau', 'pt'),
+(45, 'Politeknik Energi & Mineral Akamigas', 'pt'),
+(46, 'Politeknik Jambi', 'pt'),
+(47, 'Politeknik Kampar', 'pt'),
+(48, 'Politeknik Kelapa Sawit', 'pt'),
+(49, 'Politeknik Kesehatan Kemenkes Padang', 'pt'),
+(50, 'Politeknik Ketenagakerjaan', 'pt'),
+(51, 'Politeknik LP3I', 'pt'),
+(52, 'Politeknik Manufaktur ', 'pt'),
+(53, 'Politeknik Manufaktur Negeri Bangka Belitung', 'pt'),
+(54, 'Politeknik Negeri Bali', 'pt'),
+(55, 'Politeknik Negeri Bandung', 'pt'),
+(56, 'Politeknik Negeri Banjarmasin', 'pt'),
+(57, 'Politeknik Negeri Batam', 'pt'),
+(58, 'Politeknik Negeri Bengkalis', 'pt'),
+(59, 'Politeknik Negeri Jakarta', 'pt'),
+(60, 'Politeknik Negeri Lhokseumawe', 'pt'),
+(61, 'Politeknik Negeri Malang', 'pt'),
+(62, 'Politeknik Negeri Medan', 'pt'),
+(63, 'Politeknik Negeri Padang', 'pt'),
+(64, 'Politeknik Negeri Semarang', 'pt'),
+(65, 'Politeknik Negeri Sriwijaya', 'pt'),
+(66, 'Politeknik Pertanian Negeri Payakumbuh', 'pt'),
+(67, 'Politeknik Pos Indonesia', 'pt'),
+(68, 'Politeknik Sriwijaya Siak', 'pt'),
+(69, 'Politeknik Teknologi Kimia Industri Medan', 'pt'),
+(70, 'Politeknik Teknologi Nuklir Indonesia', 'pt'),
+(71, 'President University', 'pt'),
+(72, 'Rochester University', 'pt'),
+(73, 'Sampoerna University', 'pt'),
+(74, 'Sekolah Menengah Analisis Kimia', 'smk'),
+(75, 'Sekolah Tinggi Ekonomi Syariah', 'pt'),
+(76, 'Sekolah Tinggi Ilmu Ekonomi AKBP', 'pt'),
+(77, 'Sekolah Tinggi Ilmu Ekonomi Haji Agus Salim Bukittinggi', 'pt'),
+(78, 'Sekolah Tinggi Ilmu Ekonomi KBP', 'pt'),
+(79, 'Sekolah Tinggi Ilmu Ekonomi Sumatera Barat', 'pt'),
+(80, 'Sekolah Tinggi Ilmu Ekonomi Sumbar', 'pt'),
+(81, 'Sekolah Tinggi Ilmu Hukum', 'pt'),
+(82, 'Sekolah Tinggi Ilmu Kesehatan Alifah Padang', 'pt'),
+(83, 'Sekolah Tinggi Ilmu Kesehatan Fort De Kock', 'pt'),
+(84, 'Sekolah Tinggi Ilmu Kesehatan Indonesia', 'pt'),
+(85, 'Sekolah Tinggi Ilmu Kesehatan Syedza Saintika Padang', 'pt'),
+(86, 'Sekolah Tinggi Keguruan & Ilmu Pendidikan PGRI Sumbar', 'pt'),
+(87, 'Sekolah Tinggi Manajemen Logistik (STIMLOG) Indonesia', 'pt'),
+(88, 'Sekolah Tinggi Teknologi Dumai', 'pt'),
+(89, 'Sekolah Tinggi Teknologi Industri Padang', 'pt'),
+(90, 'Sekolah Tinggi Teknologi Payakumbuh', 'pt'),
+(91, 'SMK  Kosgoro 2 Payakumbuh', 'smk'),
+(92, 'SMK  Teknologi Lengayang Pesel', 'smk'),
+(93, 'SMK Adi Karya Ranah Pesisir', 'smk'),
+(94, 'SMK Cendana Padang Panjang', 'smk'),
+(95, 'SMK DEK', 'smk'),
+(96, 'SMK Dhuafa Nusantara', 'smk'),
+(97, 'SMK Dhuafa Padang', 'smk'),
+(98, 'SMK Indonesia Raya', 'smk'),
+(99, 'SMK Kartika 1 Padang', 'smk'),
+(100, 'SMK Kartika 2 Padang', 'smk'),
+(101, 'SMK Kosgoro 1 Bukittinggi', 'smk'),
+(102, 'SMK Kosgoro 2 Padang', 'smk'),
+(103, 'SMK LMC Model Industri', 'smk'),
+(104, 'SMK LMC Tapanuli', 'smk'),
+(105, 'SMK Migas Teknologi Riau', 'smk'),
+(106, 'SMK Mitra Payakumbuh', 'smk'),
+(107, 'SMK Muhammadiyah 1 Kota Malang', 'smk'),
+(108, 'SMK Muhammadiyah 1 Padang', 'smk'),
+(109, 'SMK Nasional Kayu Tanam', 'smk'),
+(110, 'SMK Nasional Padang', 'smk'),
+(111, 'SMK Negeri 1 Ampek Angkek', 'smk'),
+(112, 'SMK Negeri 1 Ampek Nagari', 'smk'),
+(113, 'SMK Negeri 1 Anyer', 'smk'),
+(114, 'SMK Negeri 1 Baso', 'smk'),
+(115, 'SMK Negeri 1 Batipuh', 'smk'),
+(116, 'SMK Negeri 1 Batusangkar', 'smk'),
+(117, 'SMK Negeri 1 Bonjol', 'smk'),
+(118, 'SMK Negeri 1 Bukit Sundi', 'smk'),
+(119, 'SMK Negeri 1 Bukittinggi', 'smk'),
+(120, 'SMK Negeri 1 Enam Lingkung', 'smk'),
+(121, 'SMK Negeri 1 Gunung Talang', 'smk'),
+(122, 'SMK Negeri 1 Gunung Tuleh', 'smk'),
+(123, 'SMK Negeri 1 Karimun', 'smk'),
+(124, 'SMK Negeri 1 Kecamatan Guguak', 'smk'),
+(125, 'SMK Negeri 1 Kecamatan Luak', 'smk'),
+(126, 'SMK Negeri 1 Kinali', 'smk'),
+(127, 'SMK Negeri 1 Koto Balingka', 'smk'),
+(128, 'SMK Negeri 1 Koto Besar', 'smk'),
+(129, 'SMK Negeri 1 Kuantan Mudik', 'smk'),
+(130, 'SMK Negeri 1 Lembah Gumanti', 'smk'),
+(131, 'SMK Negeri 1 Lembah Melintang', 'smk'),
+(132, 'SMK Negeri 1 Lintau Buo', 'smk'),
+(133, 'SMK Negeri 1 Luak', 'smk'),
+(134, 'SMK Negeri 1 Lubuk Basung', 'smk'),
+(135, 'SMK Negeri 1 Lubuk sikaping', 'smk'),
+(136, 'SMK Negeri 1 Mandau Duri', 'smk'),
+(137, 'SMK Negeri 1 Matur', 'smk'),
+(138, 'SMK Negeri 1 Merangin', 'smk'),
+(139, 'SMK Negeri 1 Padang', 'smk'),
+(140, 'SMK Negeri 1 Padang Panjang', 'smk'),
+(141, 'SMK Negeri 1 Painan', 'smk'),
+(142, 'SMK Negeri 1 Pancung Soal', 'smk'),
+(143, 'SMK Negeri 1 Pantai Cermin Kab. Solok', 'smk'),
+(144, 'SMK Negeri 1 Pariaman', 'smk'),
+(145, 'SMK Negeri 1 Pasaman', 'smk'),
+(146, 'SMK Negeri 1 Payakumbuh', 'smk'),
+(147, 'SMK Negeri 1 Rao Selatan', 'smk'),
+(148, 'SMK Negeri 1 Sasak Ranah Pasisie', 'smk'),
+(149, 'SMK Negeri 1 Sawahlunto', 'smk'),
+(150, 'SMK Negeri 1 Sintuk Toboh', 'smk'),
+(151, 'SMK Negeri 1 Solok', 'smk'),
+(152, 'SMK Negeri 1 Solok Selatan', 'smk'),
+(153, 'SMK Negeri 1 Sumatera Barat', 'smk'),
+(154, 'SMK Negeri 1 Sungai Limau', 'smk'),
+(155, 'SMK Negeri 1 Sungai Rumbai', 'smk'),
+(156, 'SMK Negeri 1 Sutera', 'smk'),
+(157, 'SMK Negeri 1 Tanjung Baru', 'smk'),
+(158, 'SMK Negeri 1 Tanjung Raya', 'smk'),
+(159, 'SMK Negeri 1 Tebo', 'smk'),
+(160, 'SMK Negeri 1 Tilatang Kamang', 'smk'),
+(161, 'SMK Negeri 1 Timpeh', 'smk'),
+(162, 'SMK Negeri 1 Toboh Gadang', 'smk'),
+(163, 'SMK Negeri 2 Batangtoru', 'smk'),
+(164, 'SMK Negeri 2 Batusangkar', 'smk'),
+(165, 'SMK Negeri 2 Bukittinggi', 'smk'),
+(166, 'SMK Negeri 2 Dumai', 'smk'),
+(167, 'SMK Negeri 2 Gunung Talang', 'smk'),
+(168, 'SMK Negeri 2 Kalianda', 'smk'),
+(169, 'SMK Negeri 2 Kecamatan Guguak', 'smk'),
+(170, 'SMK Negeri 2 Padang', 'smk'),
+(171, 'SMK Negeri 2 Padang Panjang', 'smk'),
+(172, 'SMK Negeri 2 Painan', 'smk'),
+(173, 'SMK Negeri 2 Pariaman', 'smk'),
+(174, 'SMK Negeri 2 Payakumbuh', 'smk'),
+(175, 'SMK Negeri 2 Pekanbaru', 'smk'),
+(176, 'SMK Negeri 2 Sawahlunto', 'smk'),
+(177, 'SMK Negeri 2 Sijunjung', 'smk'),
+(178, 'SMK Negeri 2 Solok', 'smk'),
+(179, 'SMK Negeri 2 Sumatera Barat', 'smk'),
+(180, 'SMK Negeri 2 Sungai Penuh', 'smk'),
+(181, 'SMK Negeri 3 Bungo', 'smk'),
+(182, 'SMK Negeri 3 Mandau', 'smk'),
+(183, 'SMK Negeri 3 Padang', 'smk'),
+(184, 'SMK Negeri 3 Pariaman', 'smk'),
+(185, 'SMK Negeri 3 Payakumbuh', 'smk'),
+(186, 'SMK Negeri 3 Seikayu', 'smk'),
+(187, 'SMK Negeri 3 Solok Selatan', 'smk'),
+(188, 'SMK Negeri 4 Dumai', 'smk'),
+(189, 'SMK Negeri 4 Padang', 'smk'),
+(190, 'SMK Negeri 4 Pariaman', 'smk'),
+(191, 'SMK Negeri 4 Payakumbuh', 'smk'),
+(192, 'SMK Negeri 4 Sijunjung', 'smk'),
+(193, 'SMK Negeri 5 Dumai', 'smk'),
+(194, 'SMK Negeri 5 Padang', 'smk'),
+(195, 'SMK Negeri 5 Solok Selatan', 'smk'),
+(196, 'SMK Negeri 6 Dumai', 'smk'),
+(197, 'SMK Negeri 6 Lingkung', 'smk'),
+(198, 'SMK Negeri 6 Padang', 'smk'),
+(199, 'SMK Negeri 6 Pekanbaru', 'smk'),
+(200, 'SMK Negeri 8 Padang', 'smk'),
+(201, 'SMK Negeri 9 Padang', 'smk'),
+(202, 'SMK Nurussalam Dumai', 'smk'),
+(203, 'SMK Pembangunan Bukittinggi', 'smk'),
+(204, 'SMK Perbankan', 'smk'),
+(205, 'SMK Pertanian Pembangunan', 'smk'),
+(206, 'SMK Semen Padang', 'smk'),
+(207, 'SMK SMAK Bogor', 'smk'),
+(208, 'SMK SMAK Padang', 'smk'),
+(209, 'SMK SMTI Banda Aceh', 'smk'),
+(210, 'SMK SMTI Padang', 'smk'),
+(211, 'SMK Taruna 1 Padang', 'smk'),
+(212, 'SMK Taruna 2 Padang', 'smk'),
+(213, 'SMK Teknologi Lengayang', 'smk'),
+(214, 'SMK Teknologi Muhammadiyah Bukittinggi', 'smk'),
+(215, 'SMK Telkom Pekanbaru', 'smk'),
+(216, 'SMK Tri Dhsrms Kosgoro 2 Padang', 'smk'),
+(217, 'SMK Yamatu Tualang', 'smk'),
+(218, 'SMKF Ikasari Dumai', 'smk'),
+(219, 'SMKS LMC Model Industri', 'smk'),
+(220, 'SMTI Makassar', 'pt'),
+(221, 'SMTI Padang', 'smk'),
+(222, 'STBA', 'pt'),
+(223, 'STEI Tazkia', 'pt'),
+(224, 'STEMIK AMIK Jayanusa', 'pt'),
+(225, 'STI Manajemen Logistik', 'pt'),
+(226, 'STIA Adabiah', 'pt'),
+(227, 'STIA LPPN Padang', 'pt'),
+(228, 'STIM Yogyakarta', 'pt'),
+(229, 'STKIP Nasional', 'pt'),
+(230, 'STKIP PGRI Sumbar', 'pt'),
+(231, 'STMI Bandung', 'pt'),
+(232, 'STMIK Amik Riau', 'pt'),
+(233, 'STMIK Indonesia', 'pt'),
+(234, 'STMM MMTC Yogyakarta', 'pt'),
+(235, 'Teknologi Kebumian & Energi', 'smk'),
+(236, 'Telkom University', 'pt'),
+(237, 'Tu-freiberg', 'pt'),
+(238, 'Universitas Ageng Tirtayasa', 'pt'),
+(239, 'Universitas Ahmad Dahlan', 'pt'),
+(240, 'Universitas Airlangga', 'pt'),
+(241, 'Universitas AKPRIND Indonesia', 'pt'),
+(242, 'Universitas Alifah Padang', 'pt'),
+(243, 'Universitas Andalas', 'pt'),
+(244, 'Universitas Atmajaya Yogyakarta', 'pt'),
+(245, 'Universitas Baiturrahmah', 'pt'),
+(246, 'Universitas Bakrie', 'pt'),
+(247, 'Universitas Bangka Belitung', 'pt'),
+(248, 'Universitas Bengkulu', 'pt'),
+(249, 'Universitas Bina Nusantara', 'pt'),
+(250, 'Universitas Bina Sarana Informatika Jakarta', 'pt'),
+(251, 'Universitas Brawijaya', 'pt'),
+(252, 'Universitas Bung Hatta', 'pt'),
+(253, 'Universitas Davis', 'pt'),
+(254, 'Universitas Dharma Andalas', 'pt'),
+(255, 'Universitas Dharma Indonesia', 'pt'),
+(256, 'Universitas Dian Nusantara', 'pt'),
+(257, 'Universitas Diponegoro', 'pt'),
+(258, 'Universitas Ekasakti', 'pt'),
+(259, 'Universitas Fort De Kock', 'pt'),
+(260, 'Universitas Gadjah Mada', 'pt'),
+(261, 'Universitas Gunadarma', 'pt'),
+(262, 'Universitas Harapan Medan', 'pt'),
+(263, 'Universitas Hasanuddin', 'pt'),
+(264, 'Universitas Indonesia', 'pt'),
+(265, 'Universitas International Semen Indonesia', 'pt'),
+(266, 'Universitas Islam Bandung', 'pt'),
+(267, 'Universitas Islam Indonesia', 'pt'),
+(268, 'Universitas Islam Negeri  Imam Bonjol', 'pt'),
+(269, 'Universitas Islam Negeri Batusangkar', 'pt'),
+(270, 'Universitas Islam Negeri Imam Bonjol', 'pt'),
+(271, 'Universitas Islam Negeri Imam Bonjol Padang', 'pt'),
+(272, 'Universitas Islam Negeri Islam Negeri Mahmud Yunus Batusangkar', 'pt'),
+(273, 'Universitas Islam Negeri Mahmud Yunus Batusangkar', 'pt'),
+(274, 'Universitas Islam Negeri Raden Intan Lampung', 'pt'),
+(275, 'Universitas Islam Negeri Sjech M Djamil Djambek', 'pt'),
+(276, 'Universitas Islam Negeri Sjech M Jamil Djambek', 'pt'),
+(277, 'Universitas Islam Negeri Sultan Syarif Kasim Riau', 'pt'),
+(278, 'Universitas Islam Negeri Sumatera Utara', 'pt'),
+(279, 'Universitas Islam Negeri Sunan Kalijaga', 'pt'),
+(280, 'Universitas Islam Negeri Sunan Kalijaga  Yogyaakarta', 'pt'),
+(281, 'Universitas Islam Negeri Syarif Hidayatullah', 'pt'),
+(282, 'Universitas Islam Negeri Syarif Hidayatullah Jakarta', 'pt'),
+(283, 'Universitas Islam Riau', 'pt'),
+(284, 'Universitas Jambi', 'pt'),
+(285, 'Universitas Jayabaya', 'pt'),
+(286, 'Universitas Jenderal Achmad Yani', 'pt'),
+(287, 'Universitas Jenderal Soedirman', 'pt'),
+(288, 'Universitas Katolik Parahyangan', 'pt'),
+(289, 'Universitas Kebangsaan Malaysia', 'pt'),
+(290, 'Universitas Komputer indonesia (UNIKOM)', 'pt'),
+(291, 'Universitas Kristen Krida Wacana', 'pt'),
+(292, 'Universitas Lambung Mangkurat', 'pt'),
+(293, 'Universitas Lampung', 'pt'),
+(294, 'Universitas Lancang Kuning', 'pt'),
+(295, 'Universitas Logistik dan Bisnis International', 'pt'),
+(296, 'Universitas Mahaputra Muhammad Yamin', 'pt'),
+(297, 'Universitas Malikussaleh', 'pt'),
+(298, 'Universitas Merangin', 'pt'),
+(299, 'Universitas Mercu Buana', 'pt'),
+(300, 'Universitas Mohammad Natsir Bukittinggi', 'pt'),
+(301, 'Universitas Muaro Bungo', 'pt'),
+(302, 'Universitas Muhammadiyah Jakarta', 'pt'),
+(303, 'Universitas Muhammadiyah M Yamin', 'pt'),
+(304, 'Universitas Muhammadiyah Malang', 'pt'),
+(305, 'Universitas Muhammadiyah Prof DR Hamka', 'pt'),
+(306, 'Universitas Muhammadiyah Prof. DR Hamka', 'pt'),
+(307, 'Universitas Muhammadiyah Riau', 'pt'),
+(308, 'Universitas Muhammadiyah Sumabr', 'pt'),
+(309, 'Universitas Muhammadiyah Sumatera Barat', 'pt'),
+(310, 'Universitas Muhammadiyah SUMBAR', 'pt'),
+(311, 'Universitas Muhammadiyah Surakarta', 'pt'),
+(312, 'Universitas Muhammadiyah Yogyakarta', 'pt'),
+(313, 'Universitas Mulawarman', 'pt'),
+(314, 'Universitas Nahdlatul Ulama Sumbar', 'pt'),
+(315, 'Universitas Nasional', 'pt'),
+(316, 'Universitas Negeri Jakarta', 'pt'),
+(317, 'Universitas Negeri Malang', 'pt'),
+(318, 'Universitas Negeri Medan', 'pt'),
+(319, 'Universitas Negeri Padang', 'pt'),
+(320, 'Universitas Negeri Semarang', 'pt'),
+(321, 'Universitas Negeri Surabaya', 'pt'),
+(322, 'Universitas Negeri Syarif Hidayatullah', 'pt'),
+(323, 'Universitas Negeri Yogyakarta', 'pt'),
+(324, 'Universitas Nusa Putra', 'pt'),
+(325, 'Universitas Padjadjaran', 'pt'),
+(326, 'Universitas Palangka Raya', 'pt'),
+(327, 'Universitas Pamulang', 'pt'),
+(328, 'Universitas Pancasila', 'pt'),
+(329, 'Universitas Pasir Pengaraian', 'pt'),
+(330, 'Universitas Pembangunan Nasional', 'pt'),
+(331, 'Universitas Pembangunan Nasional Veteran Jakarta', 'pt'),
+(332, 'Universitas Pembangunan Nasional Veteran Yogyakarta', 'pt'),
+(333, 'Universitas Pembangunan Veteran Jogjakarta', 'pt'),
+(334, 'Universitas Pendidikan Indonesia Bandung', 'pt'),
+(335, 'Universitas Perintis Indonesia', 'pt'),
+(336, 'Universitas Perintis Kemerdekaan', 'pt'),
+(337, 'Universitas Pertahanan RI', 'pt'),
+(338, 'Universitas Pertamina', 'pt'),
+(339, 'Universitas PGRI Sumatera Barat', 'pt'),
+(340, 'Universitas Prof.Dr.Hazairin Bengkulu', 'pt'),
+(341, 'Universitas Putra Indonesia', 'pt'),
+(342, 'Universitas Rerbuka', 'pt'),
+(343, 'Universitas Riau', 'pt'),
+(344, 'Universitas Sampoerna', 'pt'),
+(345, 'Universitas Sebelas Maret', 'pt'),
+(346, 'Universitas Semen Indonesia', 'pt'),
+(347, 'Universitas Serang', 'pt'),
+(348, 'Universitas Singaperbangsa', 'pt'),
+(349, 'Universitas Sriwijaya', 'pt'),
+(350, 'Universitas Sultan Ageng Tiriayasa', 'pt'),
+(351, 'Universitas Sultan Ageng Tirtayasa', 'pt'),
+(352, 'Universitas Sumatera Barat', 'pt'),
+(353, 'Universitas Sumatera Utara', 'pt'),
+(354, 'Universitas Sunan Ampel', 'pt'),
+(355, 'Universitas Syedza Saintika', 'pt'),
+(356, 'Universitas Syiah Kuala', 'pt'),
+(357, 'Universitas Taman Siswa', 'pt'),
+(358, 'Universitas Teknologi Bandung', 'pt'),
+(359, 'Universitas Teknologi Malaysia', 'pt'),
+(360, 'Universitas Teknologi Yogyakarta', 'pt'),
+(361, 'Universitas Telkom', 'pt'),
+(362, 'Universitas Teuku Umar', 'pt'),
+(363, 'Universitas Trisakti', 'pt'),
+(364, 'Universitas Udayana', 'pt'),
+(365, 'Universitas Universal Batam', 'pt'),
+(366, 'Universitas Utara Malaysia', 'pt'),
+(367, 'Unviersitas Ekasakti', 'pt'),
+(368, 'UPI YPTK Padang', 'pt');
 
 -- --------------------------------------------------------
 
@@ -338,16 +712,6 @@ CREATE TABLE `jawaban_safety` (
   `tanggal_ujian` date NOT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `jawaban_safety`
---
-
-INSERT INTO `jawaban_safety` (`jawaban_id`, `magang_id`, `nilai`, `percobaan_ke`, `tanggal_ujian`, `created_at`) VALUES
-(1, 4, 20, 1, '2025-07-22', '2025-07-22 11:59:51'),
-(2, 4, 36, 2, '2025-07-22', '2025-07-22 13:40:47'),
-(3, 4, 92, 3, '2025-07-22', '2025-07-22 13:49:31'),
-(4, 3, 84, 1, '2025-07-22', '2025-07-22 14:39:31');
 
 -- --------------------------------------------------------
 
@@ -365,74 +729,70 @@ CREATE TABLE `jurusan` (
 --
 
 INSERT INTO `jurusan` (`jurusan_id`, `nama_jurusan`) VALUES
-(1, 'Akuntansi'),
-(2, 'Manajemen'),
-(3, 'Teknik Kimia'),
-(4, 'Kimia'),
-(5, 'Teknik Kimia Industri'),
-(6, 'Teknik Elektro'),
-(7, 'Teknik Elekronika Industri'),
-(8, 'Teknik Mesin'),
-(9, 'Fisika'),
-(10, 'Teknik Manufaktur'),
-(11, 'Teknik Lingkungan'),
-(12, 'Statistika'),
-(13, 'Manajemen Logistik Industri'),
-(14, 'Teknologi Industri'),
-(15, 'Teknik Permesinan'),
-(16, 'Geologi Pertambangan'),
-(17, 'Teknik Industri'),
-(18, 'Administrasi Perkantoran'),
-(19, 'Teknik Listrik'),
-(20, 'Pemasaran'),
-(21, 'Teknik Logistik'),
-(22, 'Agribisnis'),
-(23, 'Administrasi Publik'),
-(24, 'Ilmu Komunikasi'),
-(25, 'Pertanian'),
-(26, 'Hukum'),
-(27, 'Bahasa Inggris'),
-(28, 'Hubungan Internasional'),
-(29, 'Teknik Audio Video'),
-(30, 'Arkeologi'),
-(31, 'Fotografi'),
-(32, 'Teknik Komputer Jaringan'),
-(33, 'Perangkat Lunak'),
-(34, 'Teknik Informatika'),
-(35, 'Teknik Komputer'),
-(36, 'Sistem Informasi'),
-(37, 'Teknologi Rekayasa Komputer'),
-(38, 'Meteorologi'),
-(39, 'Tambang'),
-(40, 'Otomotif'),
-(41, 'Alat Berat'),
-(42, 'Geofisika'),
-(43, 'Geografi'),
-(44, 'Geologi'),
-(45, 'Juru Ukur'),
-(46, 'Kehutanan'),
-(47, 'Teknik Kebumian'),
-(48, 'Teknik Geodesi'),
-(49, 'Penginderaan Jauh'),
-(50, 'Sistem Informasi Geografis'),
-(51, 'Keselamatan dan Kesehatan Kerja (K3)'),
-(52, 'Hiperkes'),
-(53, 'Teknik Instalasi Tenaga Listrik'),
-(54, 'Teknik Pendingin dan Tata Udara'),
-(55, 'Teknik Fisika'),
-(56, 'Teknik Sipil'),
-(57, 'Desain Komunikasi Visual'),
-(58, 'Desain Pemodelan dan Informasi Bangunan'),
-(59, 'Kesehatan Masyarakat'),
-(60, 'Biologi'),
-(61, 'Teknik Biosistem'),
-(62, 'Psikologi'),
-(63, 'Perpustakaan'),
-(64, 'Manajemen Keuangan'),
-(65, 'Manajemen Pajak'),
-(66, 'Kearsipan'),
-(67, 'Teknik Kendaraan Ringan'),
-(68, 'Peternakan');
+(1, 'Administrasi Perkantoran'),
+(2, 'Administrasi Publik '),
+(3, 'Akuntansi'),
+(4, 'Alat Berat'),
+(5, 'Biologi '),
+(6, 'Desain Komunikasi Visual'),
+(7, 'Desain Permodelan Informasi Bangunan'),
+(8, 'Fisika'),
+(9, 'Fotografi'),
+(10, 'Geofisika'),
+(11, 'Geologi'),
+(12, 'Hiperkes'),
+(13, 'Hukum'),
+(14, 'Ilmu Komunikasi'),
+(15, 'Juru Ukur '),
+(16, 'K3'),
+(17, 'Kearsipan'),
+(18, 'Kehutanan'),
+(19, 'Kesehatan Masyarakat'),
+(20, 'Kimia'),
+(21, 'Manajemen'),
+(22, 'Manajemen Informatika'),
+(23, 'Manajemen Keuangan'),
+(24, 'Manajemen Pajak'),
+(25, 'Mekatronika'),
+(26, 'Meteorologi'),
+(27, 'Otomatisasi dan Tata Kelola Perkantoran'),
+(28, 'Otomotif'),
+(29, 'Pemasaran'),
+(30, 'Pendidikan Teknik Mesin'),
+(31, 'Penginderaan Jauh dan Sistem Informasi Geografis'),
+(32, 'Perangkat Lunak'),
+(33, 'Perikanan'),
+(34, 'Pertanian'),
+(35, 'Peternakan'),
+(36, 'Psikologi'),
+(37, 'Sistem Informasi'),
+(38, 'Tata Boga'),
+(39, 'Teknik  Industri'),
+(40, 'Teknik  Kimia'),
+(41, 'Teknik  Mesin'),
+(42, 'Teknik  Mesin, Teknik Elektro, Manajemen, ADM Perkantoran, OTKP'),
+(43, 'Teknik Audio Video'),
+(44, 'Teknik Biosistem'),
+(45, 'Teknik Elektro'),
+(46, 'Teknik Fisika'),
+(47, 'Teknik Geodesi'),
+(48, 'Teknik Industri'),
+(49, 'Teknik Informatika'),
+(50, 'Teknik Instalasi Tenaga Listrik'),
+(51, 'Teknik Kebumian'),
+(52, 'Teknik Kendaraan Ringan'),
+(53, 'Teknik Kimia'),
+(54, 'Teknik Komputer '),
+(55, 'Teknik Komputer Jaringan'),
+(56, 'Teknik Lingkungan'),
+(57, 'Teknik Listrik'),
+(58, 'Teknik Logistik'),
+(59, 'Teknik Mesin'),
+(60, 'Teknik Mesin, Teknik Elektro'),
+(61, 'Teknik Pendingan dan Tata Udara'),
+(62, 'Teknik Pertambangan'),
+(63, 'Teknik Sipil'),
+(64, 'Teknologi Rekayasa Komputer');
 
 -- --------------------------------------------------------
 
@@ -451,256 +811,299 @@ CREATE TABLE `jurusan_unit` (
 --
 
 INSERT INTO `jurusan_unit` (`jurusan_unit_id`, `kuota_unit_id`, `jurusan_id`) VALUES
-(1, 1, 17),
-(2, 1, 18),
-(3, 1, 2),
-(4, 2, 17),
-(5, 3, 8),
-(6, 3, 17),
-(7, 4, 8),
-(8, 4, 17),
-(9, 5, 19),
-(10, 6, 19),
-(11, 7, 8),
-(12, 8, 8),
-(13, 9, 2),
-(14, 9, 18),
-(15, 10, 2),
-(16, 10, 18),
-(17, 10, 20),
-(18, 11, 2),
-(19, 11, 20),
-(20, 11, 18),
-(21, 12, 2),
-(22, 12, 20),
-(23, 12, 18),
-(24, 13, 2),
-(25, 13, 20),
-(26, 13, 18),
-(27, 14, 2),
-(28, 14, 20),
-(29, 14, 18),
-(30, 15, 2),
-(31, 15, 20),
-(32, 15, 18),
-(33, 16, 2),
-(34, 16, 20),
-(35, 16, 18),
-(36, 17, 2),
-(37, 17, 18),
-(38, 17, 21),
-(39, 18, 2),
-(40, 18, 18),
+(1, 1, 1),
+(2, 1, 21),
+(3, 2, 48),
+(4, 3, 59),
+(5, 3, 25),
+(6, 4, 59),
+(7, 4, 39),
+(8, 5, 57),
+(9, 5, 25),
+(10, 6, 57),
+(11, 7, 59),
+(12, 7, 25),
+(13, 8, 59),
+(14, 9, 21),
+(15, 9, 1),
+(16, 9, 27),
+(17, 10, 21),
+(18, 10, 1),
+(19, 11, 21),
+(20, 11, 29),
+(21, 11, 1),
+(22, 11, 27),
+(23, 12, 1),
+(24, 12, 21),
+(25, 13, 21),
+(26, 13, 29),
+(27, 13, 1),
+(28, 13, 27),
+(29, 14, 21),
+(30, 14, 29),
+(31, 14, 1),
+(32, 15, 21),
+(33, 15, 29),
+(34, 15, 1),
+(35, 15, 27),
+(36, 16, 21),
+(37, 16, 29),
+(38, 16, 1),
+(39, 17, 21),
+(40, 17, 1),
 (41, 18, 21),
-(42, 19, 2),
-(43, 19, 17),
+(42, 18, 27),
+(43, 18, 1),
 (44, 19, 21),
-(45, 19, 22),
-(46, 20, 18),
-(47, 21, 1),
-(48, 21, 2),
-(49, 21, 18),
-(50, 21, 23),
-(51, 21, 24),
-(52, 21, 25),
-(53, 22, 26),
-(54, 23, 2),
-(55, 23, 18),
-(56, 23, 24),
-(57, 23, 29),
-(58, 24, 2),
-(59, 24, 18),
-(60, 24, 23),
-(61, 24, 24),
-(62, 24, 27),
-(63, 24, 28),
-(64, 24, 29),
-(65, 25, 32),
-(66, 25, 33),
-(67, 25, 34),
-(68, 25, 35),
-(69, 25, 36),
-(70, 25, 37),
-(71, 26, 32),
-(72, 26, 33),
-(73, 26, 34),
-(74, 26, 35),
-(75, 26, 36),
-(76, 26, 37),
-(77, 27, 17),
-(78, 28, 4),
-(79, 28, 9),
-(80, 29, 11),
-(81, 29, 38),
-(82, 30, 18),
-(83, 30, 39),
-(84, 30, 40),
-(85, 30, 41),
-(86, 30, 42),
-(87, 30, 43),
-(88, 30, 44),
-(89, 31, 38),
-(90, 31, 39),
-(91, 31, 40),
-(92, 31, 41),
-(93, 31, 42),
-(94, 31, 43),
-(95, 31, 44),
-(96, 31, 45),
-(97, 31, 46),
-(98, 31, 47),
-(99, 31, 48),
-(100, 31, 49),
-(101, 31, 50),
-(102, 32, 11),
-(103, 32, 51),
-(104, 32, 52),
-(105, 33, 17),
-(106, 33, 39),
-(107, 34, 6),
-(108, 34, 19),
-(109, 34, 53),
-(110, 34, 54),
-(111, 35, 6),
-(112, 35, 19),
-(113, 35, 53),
-(114, 36, 3),
-(115, 37, 3),
-(116, 38, 3),
-(117, 39, 6),
-(118, 39, 8),
-(119, 39, 18),
-(120, 40, 6),
-(121, 40, 8),
-(122, 40, 18),
-(123, 41, 8),
-(124, 42, 8),
-(125, 43, 8),
-(126, 44, 8),
-(127, 45, 6),
-(128, 45, 55),
-(129, 46, 6),
-(130, 46, 55),
-(131, 47, 3),
-(132, 47, 6),
-(133, 48, 6),
-(134, 48, 55),
-(135, 49, 6),
-(136, 49, 8),
-(137, 50, 6),
-(138, 50, 8),
-(139, 50, 34),
-(140, 50, 35),
-(141, 51, 18),
-(142, 52, 56),
-(143, 53, 2),
-(144, 53, 18),
-(145, 53, 56),
-(146, 54, 2),
-(147, 54, 18),
-(148, 54, 56),
-(149, 55, 18),
-(150, 56, 2),
-(151, 56, 57),
-(152, 57, 2),
-(153, 57, 17),
-(154, 57, 36),
-(155, 57, 57),
-(156, 58, 2),
-(157, 58, 8),
-(158, 58, 58),
+(45, 19, 1),
+(46, 19, 58),
+(47, 20, 48),
+(48, 20, 21),
+(49, 20, 58),
+(50, 21, 1),
+(51, 21, 27),
+(52, 22, 21),
+(53, 22, 1),
+(54, 23, 3),
+(55, 23, 1),
+(56, 23, 21),
+(57, 23, 2),
+(58, 23, 14),
+(59, 23, 34),
+(60, 23, 33),
+(61, 24, 13),
+(62, 25, 1),
+(63, 25, 21),
+(64, 25, 43),
+(65, 25, 27),
+(66, 26, 1),
+(67, 26, 21),
+(68, 26, 2),
+(69, 26, 14),
+(70, 26, 43),
+(71, 26, 9),
+(72, 26, 6),
+(73, 26, 38),
+(74, 26, 27),
+(75, 27, 55),
+(76, 27, 32),
+(77, 28, 55),
+(78, 28, 32),
+(79, 28, 49),
+(80, 28, 54),
+(81, 28, 37),
+(82, 28, 64),
+(83, 29, 48),
+(84, 29, 21),
+(85, 29, 53),
+(86, 29, 45),
+(87, 30, 20),
+(88, 30, 8),
+(89, 31, 56),
+(90, 31, 48),
+(91, 32, 48),
+(92, 33, 62),
+(93, 33, 28),
+(94, 33, 4),
+(95, 33, 1),
+(96, 34, 62),
+(97, 34, 28),
+(98, 34, 4),
+(99, 34, 10),
+(100, 34, 11),
+(101, 34, 15),
+(102, 34, 18),
+(103, 34, 51),
+(104, 34, 47),
+(105, 34, 26),
+(106, 34, 31),
+(107, 35, 16),
+(108, 35, 12),
+(109, 35, 56),
+(110, 35, 19),
+(111, 36, 62),
+(112, 37, 50),
+(113, 37, 61),
+(114, 38, 45),
+(115, 38, 57),
+(116, 38, 50),
+(117, 38, 61),
+(118, 39, 40),
+(119, 40, 40),
+(120, 41, 40),
+(121, 42, 59),
+(122, 42, 45),
+(123, 42, 1),
+(124, 42, 25),
+(125, 43, 59),
+(126, 43, 45),
+(127, 43, 1),
+(128, 44, 59),
+(129, 44, 25),
+(130, 45, 59),
+(131, 46, 59),
+(132, 46, 25),
+(133, 47, 59),
+(134, 48, 45),
+(135, 49, 45),
+(136, 49, 46),
+(137, 50, 45),
+(138, 51, 45),
+(139, 51, 46),
+(140, 52, 1),
+(141, 52, 27),
+(142, 53, 7),
+(143, 54, 63),
+(144, 54, 59),
+(145, 54, 45),
+(146, 55, 21),
+(147, 55, 1),
+(148, 55, 27),
+(149, 56, 63),
+(150, 56, 21),
+(151, 56, 1),
+(152, 57, 1),
+(153, 57, 27),
+(154, 58, 21),
+(155, 58, 6),
+(156, 59, 48),
+(157, 59, 37),
+(158, 59, 21),
 (159, 59, 6),
-(160, 59, 8),
-(161, 59, 56),
-(162, 60, 4),
-(163, 60, 9),
-(164, 61, 4),
-(165, 61, 9),
-(166, 62, 11),
-(167, 62, 17),
-(168, 62, 38),
-(169, 62, 51),
-(170, 62, 52),
-(171, 62, 59),
-(172, 62, 60),
-(173, 62, 61),
-(174, 63, 2),
-(175, 63, 18),
-(176, 63, 62),
-(177, 64, 2),
-(178, 64, 18),
-(179, 64, 62),
-(180, 65, 2),
-(181, 65, 18),
-(182, 65, 62),
-(183, 65, 63),
-(184, 66, 2),
-(185, 66, 18),
-(186, 66, 62),
-(187, 66, 63),
-(188, 67, 18),
-(189, 67, 56),
-(190, 67, 58),
-(191, 68, 56),
-(192, 68, 58),
-(193, 69, 1),
-(194, 69, 18),
-(195, 69, 64),
-(196, 70, 1),
-(197, 70, 64),
-(198, 71, 1),
-(199, 71, 18),
-(200, 71, 64),
-(201, 72, 1),
-(202, 72, 64),
-(203, 73, 1),
-(204, 73, 18),
-(205, 73, 64),
-(206, 73, 65),
-(207, 74, 1),
-(208, 74, 64),
-(209, 74, 65),
-(210, 75, 2),
-(211, 75, 18),
-(212, 75, 66),
-(213, 76, 2),
-(214, 76, 18),
-(215, 76, 66),
-(216, 77, 2),
-(217, 77, 18),
-(218, 78, 2),
-(219, 78, 18),
-(220, 79, 2),
-(221, 79, 18),
-(222, 80, 2),
-(223, 80, 18),
-(224, 81, 2),
-(225, 81, 18),
-(226, 82, 2),
-(227, 82, 6),
-(228, 82, 8),
-(229, 83, 2),
-(230, 83, 6),
-(231, 83, 8),
-(232, 84, 62),
-(233, 85, 1),
-(234, 86, 2),
-(235, 86, 18),
-(236, 87, 2),
-(237, 87, 18),
-(238, 87, 20),
-(239, 87, 67),
-(240, 88, 1),
-(241, 88, 2),
-(242, 88, 18),
-(243, 88, 20),
-(244, 89, 1),
-(245, 90, 2),
-(246, 90, 18),
-(247, 91, 2),
-(248, 91, 18),
-(249, 91, 68),
-(250, 92, 18);
+(160, 60, 7),
+(161, 61, 59),
+(162, 61, 21),
+(163, 62, 59),
+(164, 62, 45),
+(165, 62, 63),
+(166, 63, 20),
+(167, 64, 20),
+(168, 64, 8),
+(169, 65, 56),
+(170, 65, 48),
+(171, 65, 16),
+(172, 65, 19),
+(173, 65, 12),
+(174, 65, 5),
+(175, 65, 44),
+(176, 66, 21),
+(177, 66, 1),
+(178, 66, 27),
+(179, 67, 21),
+(180, 67, 1),
+(181, 67, 36),
+(182, 67, 37),
+(183, 68, 21),
+(184, 68, 1),
+(185, 68, 27),
+(186, 69, 21),
+(187, 69, 1),
+(188, 69, 36),
+(189, 69, 37),
+(190, 69, 17),
+(191, 70, 1),
+(192, 70, 7),
+(193, 70, 27),
+(194, 71, 63),
+(195, 71, 1),
+(196, 72, 37),
+(197, 72, 22),
+(198, 73, 3),
+(199, 73, 23),
+(200, 73, 27),
+(201, 73, 1),
+(202, 74, 3),
+(203, 74, 23),
+(204, 75, 3),
+(205, 75, 23),
+(206, 75, 1),
+(207, 75, 27),
+(208, 76, 3),
+(209, 76, 23),
+(210, 77, 3),
+(211, 77, 23),
+(212, 77, 1),
+(213, 77, 27),
+(214, 78, 3),
+(215, 78, 23),
+(216, 78, 24),
+(217, 79, 21),
+(218, 79, 1),
+(219, 79, 27),
+(220, 79, 17),
+(221, 80, 21),
+(222, 80, 1),
+(223, 80, 17),
+(224, 80, 37),
+(225, 81, 21),
+(226, 81, 1),
+(227, 81, 27),
+(228, 82, 21),
+(229, 82, 1),
+(230, 83, 21),
+(231, 83, 1),
+(232, 83, 27),
+(233, 84, 21),
+(234, 84, 1),
+(235, 85, 21),
+(236, 85, 1),
+(237, 85, 27),
+(238, 85, 29),
+(239, 86, 21),
+(240, 86, 29),
+(241, 86, 1),
+(242, 87, 21),
+(243, 87, 1),
+(244, 88, 41),
+(245, 88, 45),
+(246, 88, 21),
+(247, 88, 1),
+(248, 88, 27),
+(249, 89, 41),
+(250, 89, 21),
+(251, 89, 45),
+(252, 90, 21),
+(253, 91, 36),
+(254, 91, 21),
+(255, 91, 30),
+(256, 92, 3),
+(257, 93, 21),
+(258, 93, 1),
+(259, 94, 21),
+(260, 94, 3),
+(261, 94, 1),
+(262, 94, 29),
+(263, 94, 52),
+(264, 94, 27),
+(265, 95, 21),
+(266, 95, 3),
+(267, 95, 1),
+(268, 95, 29),
+(269, 95, 27),
+(270, 95, 52),
+(271, 96, 3),
+(272, 97, 21),
+(273, 97, 1),
+(274, 97, 27),
+(275, 98, 21),
+(276, 98, 1),
+(277, 98, 35),
+(278, 99, 21),
+(279, 99, 1),
+(280, 100, 49),
+(281, 100, 37),
+(282, 100, 48),
+(283, 101, 59),
+(284, 102, 60),
+(285, 102, 45),
+(286, 103, 59),
+(287, 104, 59),
+(288, 104, 45),
+(289, 105, 21),
+(290, 105, 56),
+(291, 106, 1),
+(292, 106, 21),
+(293, 106, 27);
 
 -- --------------------------------------------------------
 
@@ -720,98 +1123,112 @@ CREATE TABLE `kuota_unit` (
 --
 
 INSERT INTO `kuota_unit` (`kuota_unit_id`, `unit_id`, `tingkat_pendidikan`, `kuota`) VALUES
-(1, 1, 'SMK', 2),
-(2, 1, 'Perguruan Tinggi', 3),
-(3, 2, 'SMK', 5),
-(4, 2, 'Perguruan Tinggi', 4),
-(5, 3, 'SMK', 5),
-(6, 3, 'Perguruan Tinggi', 7),
-(7, 4, 'SMK', 5),
-(8, 4, 'Perguruan Tinggi', 7),
+(1, 1, 'SMK', 0),
+(2, 1, 'Perguruan Tinggi', 2),
+(3, 2, 'SMK', 0),
+(4, 2, 'Perguruan Tinggi', 0),
+(5, 3, 'SMK', 0),
+(6, 3, 'Perguruan Tinggi', 0),
+(7, 4, 'SMK', 0),
+(8, 4, 'Perguruan Tinggi', 0),
 (9, 5, 'SMK', 2),
-(10, 7, 'SMK', 2),
-(11, 8, 'SMK', 2),
-(12, 8, 'Perguruan Tinggi', 5),
-(13, 9, 'SMK', 2),
-(14, 9, 'Perguruan Tinggi', 2),
-(15, 10, 'SMK', 2),
-(16, 10, 'Perguruan Tinggi', 3),
-(17, 11, 'SMK', 2),
-(18, 11, 'Perguruan Tinggi', 3),
-(19, 12, 'Perguruan Tinggi', 18),
-(20, 13, 'SMK', 2),
-(21, 14, 'Perguruan Tinggi', 6),
-(22, 15, 'Perguruan Tinggi', 2),
-(23, 16, 'SMK', 5),
-(24, 16, 'Perguruan Tinggi', 4),
-(25, 17, 'SMK', 9),
-(26, 17, 'Perguruan Tinggi', 9),
-(27, 18, 'Perguruan Tinggi', 7),
-(28, 19, 'Perguruan Tinggi', 15),
-(29, 20, 'Perguruan Tinggi', 4),
-(30, 22, 'SMK', 5),
-(31, 22, 'Perguruan Tinggi', 10),
-(32, 23, 'Perguruan Tinggi', 5),
-(33, 24, 'Perguruan Tinggi', 4),
-(34, 25, 'SMK', 8),
-(35, 25, 'Perguruan Tinggi', 7),
-(36, 26, 'Perguruan Tinggi', 10),
-(37, 27, 'Perguruan Tinggi', 10),
-(38, 28, 'Perguruan Tinggi', 10),
-(39, 29, 'SMK', 2),
-(40, 29, 'Perguruan Tinggi', 2),
-(41, 30, 'SMK', 7),
-(42, 30, 'Perguruan Tinggi', 8),
-(43, 31, 'SMK', 7),
-(44, 31, 'Perguruan Tinggi', 8),
-(45, 32, 'SMK', 7),
-(46, 32, 'Perguruan Tinggi', 8),
-(47, 33, 'SMK', 7),
-(48, 33, 'Perguruan Tinggi', 8),
-(49, 34, 'SMK', 6),
-(50, 34, 'Perguruan Tinggi', 8),
-(51, 35, 'SMK', 2),
-(52, 36, 'Perguruan Tinggi', 4),
-(53, 37, 'SMK', 2),
-(54, 37, 'Perguruan Tinggi', 5),
-(55, 38, 'SMK', 3),
-(56, 39, 'SMK', 2),
-(57, 39, 'Perguruan Tinggi', 3),
-(58, 40, 'Perguruan Tinggi', 5),
-(59, 41, 'Perguruan Tinggi', 4),
-(60, 42, 'SMK', 12),
-(61, 42, 'Perguruan Tinggi', 12),
-(62, 43, 'Perguruan Tinggi', 9),
-(63, 44, 'SMK', 2),
-(64, 44, 'Perguruan Tinggi', 3),
-(65, 45, 'SMK', 2),
-(66, 45, 'Perguruan Tinggi', 3),
-(67, 46, 'SMK', 3),
-(68, 46, 'Perguruan Tinggi', 4),
-(69, 48, 'SMK', 5),
-(70, 48, 'Perguruan Tinggi', 3),
-(71, 49, 'SMK', 5),
-(72, 49, 'Perguruan Tinggi', 3),
-(73, 50, 'SMK', 3),
-(74, 50, 'Perguruan Tinggi', 3),
-(75, 51, 'SMK', 2),
-(76, 51, 'Perguruan Tinggi', 3),
-(77, 52, 'SMK', 2),
-(78, 52, 'Perguruan Tinggi', 2),
-(79, 53, 'SMK', 3),
-(80, 53, 'Perguruan Tinggi', 2),
-(81, 54, 'Perguruan Tinggi', 5),
-(82, 55, 'SMK', 2),
-(83, 55, 'Perguruan Tinggi', 3),
-(84, 56, 'Perguruan Tinggi', 2),
-(85, 57, 'Perguruan Tinggi', 1),
-(86, 58, 'Perguruan Tinggi', 1),
-(87, 59, 'SMK', 7),
-(88, 59, 'Perguruan Tinggi', 7),
-(89, 60, 'Perguruan Tinggi', 2),
-(90, 61, 'SMK', 2),
-(91, 61, 'Perguruan Tinggi', 2),
-(92, 62, 'SMK', 2);
+(10, 5, 'Perguruan Tinggi', 0),
+(11, 7, 'SMK', 2),
+(12, 7, 'Perguruan Tinggi', 0),
+(13, 8, 'SMK', 2),
+(14, 8, 'Perguruan Tinggi', 5),
+(15, 9, 'SMK', 2),
+(16, 9, 'Perguruan Tinggi', 2),
+(17, 10, 'Perguruan Tinggi', 0),
+(18, 11, 'SMK', 0),
+(19, 11, 'Perguruan Tinggi', 2),
+(20, 12, 'Perguruan Tinggi', 0),
+(21, 13, 'SMK', 1),
+(22, 13, 'Perguruan Tinggi ', 0),
+(23, 14, 'Perguruan Tinggi ', 0),
+(24, 15, 'Perguruan Tinggi ', 1),
+(25, 16, 'SMK', 0),
+(26, 16, 'Perguruan Tinggi ', 0),
+(27, 17, 'SMK', 0),
+(28, 17, 'Perguruan Tinggi ', 0),
+(29, 18, 'Perguruan Tinggi ', 6),
+(30, 19, 'Perguruan Tinggi ', 12),
+(31, 20, 'Perguruan Tinggi ', 2),
+(32, 21, 'Perguruan Tinggi ', 5),
+(33, 22, 'SMK', 0),
+(34, 22, 'Perguruan Tinggi ', 4),
+(35, 23, 'Perguruan Tinggi ', 0),
+(36, 24, 'Perguruan Tinggi ', 3),
+(37, 25, 'SMK', 0),
+(38, 25, 'Perguruan Tinggi ', 0),
+(39, 26, 'Perguruan Tinggi ', 0),
+(40, 27, 'Perguruan Tinggi ', 0),
+(41, 28, 'Perguruan Tinggi ', 0),
+(42, 29, 'SMK', 2),
+(43, 29, 'Perguruan Tinggi ', 0),
+(44, 30, 'SMK', 1),
+(45, 30, 'Perguruan Tinggi ', 8),
+(46, 31, 'SMK', 1),
+(47, 31, 'Perguruan Tinggi ', 8),
+(48, 32, 'SMK', 0),
+(49, 32, 'Perguruan Tinggi ', 0),
+(50, 33, 'SMK', 0),
+(51, 33, 'Perguruan Tinggi ', 0),
+(52, 34, 'SMK', 2),
+(53, 35, 'SMK', 2),
+(54, 35, 'Perguruan Tinggi ', 4),
+(55, 36, 'SMK', 2),
+(56, 36, 'Perguruan Tinggi ', 5),
+(57, 37, 'SMK', 0),
+(58, 38, 'SMK', 0),
+(59, 38, 'Perguruan Tinggi ', 3),
+(60, 39, 'SMK', 2),
+(61, 39, 'Perguruan Tinggi ', 3),
+(62, 40, 'Perguruan Tinggi ', 4),
+(63, 41, 'SMK', 5),
+(64, 41, 'Perguruan Tinggi ', 7),
+(65, 42, 'Perguruan Tinggi ', 0),
+(66, 43, 'SMK', 0),
+(67, 43, 'Perguruan Tinggi ', 0),
+(68, 44, 'SMK', 0),
+(69, 44, 'Perguruan Tinggi ', 0),
+(70, 45, 'SMK', 0),
+(71, 45, 'Perguruan Tinggi ', 1),
+(72, 46, 'Perguruan Tinggi ', 0),
+(73, 47, 'SMK', 0),
+(74, 47, 'Perguruan Tinggi ', 0),
+(75, 48, 'SMK', 5),
+(76, 48, 'Perguruan Tinggi ', 0),
+(77, 49, 'SMK', 3),
+(78, 49, 'Perguruan Tinggi ', 0),
+(79, 50, 'SMK', 2),
+(80, 50, 'Perguruan Tinggi ', 0),
+(81, 51, 'SMK', 2),
+(82, 51, 'Perguruan Tinggi ', 1),
+(83, 52, 'SMK', 3),
+(84, 52, 'Perguruan Tinggi ', 2),
+(85, 53, 'SMK', 0),
+(86, 53, 'Perguruan Tinggi ', 0),
+(87, 54, 'Perguruan Tinggi ', 5),
+(88, 55, 'SMK', 2),
+(89, 55, 'Perguruan Tinggi ', 1),
+(90, 56, 'Perguruan Tinggi ', 3),
+(91, 57, 'Perguruan Tinggi ', 3),
+(92, 58, 'Perguruan Tinggi ', 1),
+(93, 59, 'Perguruan Tinggi ', 1),
+(94, 60, 'SMK', 3),
+(95, 60, 'Perguruan Tinggi ', 0),
+(96, 61, 'Perguruan Tinggi ', 2),
+(97, 62, 'SMK', 1),
+(98, 62, 'Perguruan Tinggi ', 2),
+(99, 63, 'Perguruan Tinggi ', 0),
+(100, 64, 'Perguruan Tinggi ', 4),
+(101, 65, 'SMK', 6),
+(102, 65, 'Perguruan Tinggi ', 6),
+(103, 66, 'SMK', 0),
+(104, 66, 'Perguruan Tinggi ', 0),
+(105, 67, 'Perguruan Tinggi ', 3),
+(106, 68, 'SMK', 2);
 
 -- --------------------------------------------------------
 
@@ -821,7 +1238,7 @@ INSERT INTO `kuota_unit` (`kuota_unit_id`, `unit_id`, `tingkat_pendidikan`, `kuo
 
 CREATE TABLE `magang` (
   `magang_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) UNSIGNED NOT NULL,
   `unit_id` int(11) NOT NULL,
   `periode_id` int(11) NOT NULL,
   `durasi` int(11) NOT NULL,
@@ -847,8 +1264,7 @@ CREATE TABLE `magang` (
 --
 
 INSERT INTO `magang` (`magang_id`, `user_id`, `unit_id`, `periode_id`, `durasi`, `tanggal_daftar`, `status_seleksi`, `tanggal_seleksi`, `status_konfirmasi`, `tanggal_konfirmasi`, `status_validasi_berkas`, `tanggal_validasi_berkas`, `status_berkas_lengkap`, `tanggal_berkas_lengkap`, `cttn_berkas_lengkap`, `tanggal_setujui_pernyataan`, `alasan_batal`, `tanggal_masuk`, `tanggal_selesai`, `status_akhir`) VALUES
-(3, 4, 1, 1, 2, '2025-07-07 08:47:27', 'Diterima', '2025-07-22 05:35:32', 'Y', '2025-07-14 03:54:58', 'Y', '2025-07-15 03:17:46', 'Y', '2025-07-15 03:18:00', NULL, '2025-07-14', 'Tidak Masuk', '2025-07-22', '2025-07-22', 'batal'),
-(4, 21, 3, 1, 2, '2025-07-22 02:26:52', 'Diterima', '2025-07-22 05:38:10', 'Y', '2025-07-22 05:45:35', 'Y', '2025-07-22 06:13:29', 'Y', '2025-07-22 06:14:00', NULL, '2025-07-22', NULL, '2025-09-01', '2025-07-31', 'magang');
+(6, 26, 39, 1, 2, '2025-07-27 15:50:38', 'Diterima', '2025-07-31 15:52:21', 'Y', '2025-07-31 15:54:04', 'Y', '2025-07-31 16:03:44', 'Y', '2025-07-31 16:43:13', NULL, '2025-07-31', NULL, '2025-09-01', '2025-10-31', 'magang');
 
 -- --------------------------------------------------------
 
@@ -913,13 +1329,6 @@ CREATE TABLE `penelitian` (
   `tanggal_konfirmasi` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data untuk tabel `penelitian`
---
-
-INSERT INTO `penelitian` (`penelitian_id`, `user_id`, `unit_id`, `judul_penelitian`, `tanggal_daftar`, `tanggal_masuk`, `tanggal_selesai`, `status_akhir`, `deskripsi`, `dosen_pembimbing`, `bidang`, `status_verifikasi`, `tanggal_verifikasi`, `status_konfirmasi`, `tanggal_konfirmasi`) VALUES
-(11, 4, NULL, 'Penelitian', '2025-07-15 11:42:02', '2025-08-04', NULL, 'pengajuan', 'Meneliti semen', 'Dani', 'Teknologi Semen', NULL, NULL, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -944,13 +1353,6 @@ CREATE TABLE `penilaian` (
   `approve_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data untuk tabel `penilaian`
---
-
-INSERT INTO `penilaian` (`penilaian_id`, `magang_id`, `nilai_disiplin`, `nilai_kerajinan`, `nilai_tingkahlaku`, `nilai_kerjasama`, `nilai_kreativitas`, `nilai_kemampuankerja`, `nilai_tanggungjawab`, `nilai_penyerapan`, `catatan`, `tgl_penilaian`, `approve_kaunit`, `tgl_disetujui`, `approve_by`) VALUES
-(1, 4, 89, 88, 88, 88, 89, 90, 90, 95, NULL, '2025-07-23 04:43:47', 1, '2025-07-23 05:17:34', 23);
-
 -- --------------------------------------------------------
 
 --
@@ -969,7 +1371,7 @@ CREATE TABLE `periode_magang` (
 --
 
 INSERT INTO `periode_magang` (`periode_id`, `tanggal_buka`, `tanggal_tutup`, `keterangan`) VALUES
-(1, '2025-07-02', '2025-07-24', '');
+(1, '2025-07-02', '2025-07-28', '');
 
 -- --------------------------------------------------------
 
@@ -1628,66 +2030,72 @@ CREATE TABLE `unit_kerja` (
 INSERT INTO `unit_kerja` (`unit_id`, `unit_kerja`, `nama_pimpinan`, `email_pimpinan`, `safety`, `active`, `catatan`) VALUES
 (1, 'Bisnis Inkubasi Non Semen', 'Akhmayanda Nasution', 'akhmayanda.nasution@sig.id', 0, 1, NULL),
 (2, 'Bisnis Inkubasi Non Semen/Workshop', 'Febi Rieldi', 'febi.rieldi@sig.id', 1, 1, NULL),
-(3, 'Bisnis Inkubasi Non Semen/Bengkel', 'Febi Rieldi', 'febi.rieldi@sig.id', 1, 1, NULL),
-(4, 'Bisnis Inkubasi Non Semen/Bengkel', 'Febi Rieldi', 'febi.rieldi@sig.id', 1, 1, NULL),
-(5, 'Staf Internal Audit', 'Nurma Yanti', 'nurma.yanti@sig.id', NULL, 1, NULL),
-(6, 'Staff of Portofolio', 'Athari Adi Putra', NULL, NULL, 1, NULL),
-(7, 'Unit  Penjualan Eksport', 'Nanda Kurniawan', 'nanda.kurniawan@sig.id', 0, 1, NULL),
-(8, 'Unit  Penjualan Sumbar', 'Nanda Kurniawan', 'nanda.kurniawan@sig.id', NULL, 1, NULL),
-(9, 'Unit  Penjualan', 'Nanda Kurniawan', 'nanda.kurniawan@sig.id', 0, 1, NULL),
-(10, 'Unit Oudbound Inventory', 'Suryadi Wizar', 'suryadi.wizar@sig.id', 0, 1, NULL),
-(11, 'Unit  Pengadaan', 'Yogi Khairi H', 'yogi.hasibuan@sig.id', 0, 1, NULL),
-(12, 'Unit SP Inventory', 'Hamdi Ayussa', 'hamdi.ayussa@sig.id', 1, 1, NULL),
-(13, 'Unit Keamanan', 'Wahyudi', NULL, 0, 1, NULL),
-(14, 'Unit CSR', NULL, NULL, 0, 1, NULL),
+(3, 'Bisnis Inkubasi Non Semen/Bengkel Listrik', 'Febi Rieldi', 'febi.rieldi@sig.id', 1, 1, NULL),
+(4, 'Bisnis Inkubasi Non Semen/Bengkel Mesin', 'Febi Rieldi', 'febi.rieldi@sig.id', 1, 1, NULL),
+(5, 'Staf Internal Audit', 'Nurma Yanti', 'nurma.yanti@sig.id', 0, 1, NULL),
+(6, 'Staf of Portofolio', 'Athari Adi Putra', 'athari.putra@sig.id', 0, 1, NULL),
+(7, 'Unit  Penjualan Eksport', 'Henzo Bernando', 'henzo.bernando@sig.id', 0, 1, NULL),
+(8, 'Unit  Penjualan Sumatra Bagian Tengah', 'Nanda Kurniawan', 'nanda.kurniawan@sig.id', 0, 1, NULL),
+(9, 'Unit Harga dan Promosi', 'Sari Rahmadani', 'sari.ramadhani@sig.id', 0, 1, NULL),
+(10, 'Unit Import Managemen', 'Fachrur Roji', 'fachrur.roji@sig.id', 0, 1, NULL),
+(11, 'Unit of Service Procurement', 'Yogi Khairi H', 'yogi.hasibuan@sig.id', 1, 1, NULL),
+(12, 'Unit Pengelolaan Gudang', 'Hamdi Ayussa', 'hamdi.ayussa@sig.id', 1, 1, NULL),
+(13, 'Unit Keamanan', 'Wahyudi', 'wahyudi.8278@sig.id', 0, 1, NULL),
+(14, 'Unit CSR', 'Idris', 'idris@sig.id', 0, 1, NULL),
 (15, 'Unit Hukum', 'Oxivia', 'oxivia@sig.id', 0, 1, NULL),
-(16, 'Unit Humas & Kesekretariatan', 'Ilham Akbar', 'ilham.akbar@sig.id', 0, 1, NULL),
+(16, 'Unit Komunikasi & Kesekretariatan', 'Ilham Akbar', 'ilham.akbar@sig.id', 0, 1, NULL),
 (17, 'Unit ICT', 'Roni Mahmudi', 'roni.mahmudi@sig.id', 0, 1, NULL),
 (18, 'Unit Perencanaan & Evaluasi Produksi', 'Agrian Pebi', 'agrian.pebi@sig.id', 1, 1, NULL),
 (19, 'Unit Quality Control', 'Ike Evi Wiyana', 'ike.wiyana@sig.id', 1, 1, NULL),
 (20, 'Staff AFR', 'Musytaqim Nasra', 'musytaqim.nasra@sig.id', 1, 1, NULL),
-(21, 'Unit Penunjang Produksi', 'Suryat Handoko', 'suryat.handoko@sig.id', NULL, 1, NULL),
-(22, 'Unit Operasi Tambang', 'Hendri Priparis', 'hendri.priparis@sig.id', 1, 1, '(tidak) Adm Perkantoran'),
+(21, 'Unit Penunjang Produksi', 'Suryat Handoko', 'suryat.handoko@sig.id', 1, 1, NULL),
+(22, 'Unit Operasi Tambang', 'Hendri Priparis', 'hendri.priparis@sig.id', 1, 1, 'Administrasi Perkantoran Tidak Pakai Safety'),
 (23, 'Unit Perencanaan dan Pengawasan Tambang', 'Berva Lindo', 'berva.lindo@sig.id', 1, 1, NULL),
 (24, 'Unit Produksi Bahan Baku', 'Ricky Aprinaldo', 'ricky.aprinaldo@sig.id', 1, 1, NULL),
 (25, 'Unit WHRPG & Utilitas', 'Harri Kurniawan', 'harri.kurniawan@sig.id', 1, 1, NULL),
 (26, 'Unit Produksi Terak 1', 'Alfein Rahmad', 'alfein.rahmad@sig.id', 1, 1, NULL),
 (27, 'Unit Produksi Terak 2', 'Ujang Friatna', 'ujang.friatna@sig.id', 1, 1, NULL),
 (28, 'Unit Produksi Semen', 'Titut Eryanto', 'titut.eryanto@sig.id', 1, 1, NULL),
-(29, 'Unit Pabrik Kantong', 'Syafriado', 'syafriado@sig.id', 1, 1, '(tidak) manajemen dan adm perkantoran'),
+(29, 'Unit Pabrik Kantong', 'Syafriado', 'syafriado@sig.id', 1, 1, 'Administrasi Perkantoran Tidak Pakai Safety'),
 (30, 'Unit Pemeliharaan Mesin 1', 'Endi Alta', 'endi.alta@sig.id', 1, 1, NULL),
 (31, 'Unit Pemeliharaan Mesin 2', 'Irwan Kartadi P', 'irwan.putra@sig.id', 1, 1, NULL),
-(32, 'Unit Pemeliharaan Elins 1', 'Zulvawarman', 'zulvawarman@sig.id', 1, 1, NULL),
-(33, 'Unit Pemeliharaan Elins 2', 'Santoro', 'santoro@sig.id', 1, 1, NULL),
-(34, 'Unit of Maint Reliability', 'Dani Darma Putra', 'dani.putra@sig.id', 1, 1, NULL),
-(35, 'Unit  Capex', 'Rausyan Fikri', 'rausyan.fikri@sig.id', 0, 1, NULL),
-(36, 'Unit Site Engineering', 'Andra Novendri', 'andra.novendri@sig.id', 1, 1, NULL),
-(37, 'Unit Project Management', 'Rahman Ikhlas', 'rahman.ikhlas@sig.id', 1, 1, NULL),
-(38, 'Unit Perencanaan Suku Cadang', 'Azet Putra', 'azet.putra@sig.id', 1, 1, NULL),
-(39, 'TPM Officer', 'Hernes', 'hernes@sig.id', 0, 1, NULL),
-(40, 'Unit Produksi Mesin & Teknikal Support', 'Rendy Fahlevi', 'rendy.fahlevi@sig.id', 1, 1, NULL),
-(41, 'Unit Produksi BIP & Aplikasi', 'Yelmi Arya Putra', 'yelmi.putra@sig.id', 1, 1, '(tidak)manajemen,adm perkantoran'),
-(42, 'Unit Quality Assurance', 'Febri Maulana', 'febri.maulana@sig.id', 1, 1, NULL),
-(43, 'Unit SHE', 'Asrining Sari', 'asrining.sari@sig.id', 1, 1, NULL),
-(44, 'Unit Operasional SDM', 'Nur Anita Rahmawati', 'nur.anita@sig.id', 0, 1, NULL),
-(45, 'Unit Operasional SDM/Diklat', 'Siska Ayu Soraya', 'siska.soraya@sig.id', 0, 1, NULL),
-(46, 'Unit Sarana Umum', 'Deni Zen', 'deni.zen@sig.id', 0, 1, NULL),
-(47, 'Unit GRC', 'M Irwan Prasetyo', 'irwan.prasetyo@sig.id', NULL, 1, NULL),
-(48, 'Unit Akuntansi', 'Rahmat Novriyan', 'rahmat.novriyan@sig.id', 0, 1, NULL),
-(49, 'Unit Keuangan', 'Ruky Hendra', 'ruky.hendra@sig.id', 0, 1, NULL),
-(50, 'Unit Kinerja & Anggaran', 'Yulia Hidayati', 'yulia.hidayati@sig.id', 0, 1, NULL),
-(51, 'Unit Sistem Manajemen', 'Nelvi Irawati', 'nelvi.irawati@sig.id', 0, 1, NULL),
-(52, 'Unit Packing Plant', 'Palman', 'palman@sig.id', 0, 1, NULL),
-(53, 'Unit of Operational Transportation', 'Suryadi Wizar', 'suryadi.wizar@sig.id', 0, 1, NULL),
-(54, 'Unit of Operational Logistik', 'Suryadi Wizar', 'suryadi.wizar@sig.id', 0, 1, NULL),
-(55, 'Unit of Port Operation & Maintenance/TL Bayur', 'Very Harjanto', 'very.harjanto@sig.id', 1, 1, '(tidak), manajemen dan adm perkantoran'),
-(56, 'Yayasann Igasar', 'Ridwan Muchtar', 'ridwan.muchtar@sig.id', 0, 1, NULL),
-(57, 'Dana Pensiun SP', 'R Nicko Yuda K', 'nicko.yuda@sig.id', 0, 1, NULL),
-(58, 'PT Polma Sepa', NULL, NULL, 0, 1, NULL),
-(59, 'KKSP', 'Faisal Arif', 'faisal.arif@sig.id', 0, 1, '(pakai) teknik kendaraan Ringan'),
-(60, 'PT Pasoka Sumber Karya', 'Erick Reza Alandri', 'erick.alandri@sig.id', 0, 1, NULL),
-(61, 'LAZ Semen Padang', NULL, NULL, 0, 1, NULL),
-(62, 'FKIK', NULL, NULL, 0, 1, NULL);
+(32, 'Unit Pemeliharaan Listrik & Instrumen 1', 'Zulvawarman', 'zulvawarman@sig.id', 1, 1, NULL),
+(33, 'Unit Pemeliharaan Listrik & Instrumen 2', 'Santoro', 'santoro@sig.id', 1, 1, NULL),
+(34, 'Unit  Capex', 'Rausyan Fikri', 'rausyan.fikri@sig.id', 0, 1, NULL),
+(35, 'Unit Site Engineering', 'Andra Novendri', 'andra.novendri@sig.id', 1, 1, NULL),
+(36, 'Unit Project Management', 'Rahman Ikhlas', 'rahman.ikhlas@sig.id', 0, 1, NULL),
+(37, 'Unit Perencanaan Suku Cadang', 'Azet Putra', 'azet.putra@sig.id', 1, 1, NULL),
+(38, 'TPM Officer', 'Hernes', 'hernes@sig.id', 0, 1, NULL),
+(39, 'Unit Produksi Mesin & Teknikal Support', 'Rendy Fahlevi', 'rendy.fahlevi@sig.id', 1, 1, 'Manajemen Tidak Pakai Safety'),
+(40, 'Unit Produksi BIP & Aplikasi', 'Yelmi Arya Putra', 'yelmi.putra@sig.id', 1, 1, NULL),
+(41, 'Unit Quality Assurance', 'Febri Maulana', 'febri.maulana@sig.id', 1, 1, NULL),
+(42, 'Unit SHE', 'Asrining Sari', 'asrining.sari@sig.id', 1, 1, NULL),
+(43, 'Unit Operasional SDM', 'Nur Anita Rahmawati', 'nur.anita@sig.id', 0, 1, NULL),
+(44, 'Unit Operasional SDM/Diklat', 'Siska Ayu Soraya', 'siska.soraya@sig.id', 0, 1, NULL),
+(45, 'Unit Sarana Umum', 'Deni Zen', 'deni.zen@sig.id', 0, 1, NULL),
+(46, 'Unit GRC & Internal Control', 'M Irwan Prasetyo', 'irwan.prasetyo@sig.id', 0, 1, NULL),
+(47, 'Unit Akuntansi', 'Rahmat Novriyan', 'rahmat.novriyan@sig.id', 0, 1, NULL),
+(48, 'Unit Keuangan', 'Ruky Hendra', 'ruky.hendra@sig.id', 0, 1, NULL),
+(49, 'Unit Kinerja & Anggaran', 'Yulia Hidayati', 'yulia.hidayati@sig.id', 0, 1, NULL),
+(50, 'Unit Sistem Manajemen', 'Nelvi Irawati', 'nelvi.irawati@sig.id', 0, 1, NULL),
+(51, 'Unit Pengantongan Semen', 'Palman', 'palman@sig.id', 0, 1, NULL),
+(52, 'Unit Logistik Distribusi/ Transportasi', 'Suryadi Wizar', 'suryadi.wizar@sig.id', 0, 1, NULL),
+(53, 'Unit Logistik Distribusi/ Pengelolaan Kantong', 'Suryadi Wizar', 'suryadi.wizar@sig.id', 0, 1, NULL),
+(54, 'Unit Operational Logistik/ Silog', 'AM. Reza', 'm.reza@sig.id', 0, 1, NULL),
+(55, 'Unit Operasional & Pemeliharaan Pelabuhan', 'Very Harjanto', 'very.harjanto@sig.id', 0, 1, NULL),
+(56, 'Unit Logistik Antar Pabrik', 'Aldri Sonni', 'aldri.sonni@sig.id', 0, 1, NULL),
+(57, 'Yayasan Igasar', 'Ridwan Muchtar', 'ridwan.muchtar@sig.id', 0, 1, NULL),
+(58, 'Dana Pensiun SP', 'R Nicko Yuda K', 'nicko.yuda@sig.id', 0, 1, NULL),
+(59, 'PT Polma Sepa', 'Andanisep', 'andanisep@gmail.com', 0, 1, NULL),
+(60, 'Koperasi Karyawan SP', 'Faisal Arif', 'faisal.arif@sig.id', 1, 1, 'Pakai untuk Jurusan Teknik Kendaraan Ringan'),
+(61, 'PT Pasoka Sumber Karya', 'Erick Reza Alandri', 'erick.alandri@sig.id', 0, 1, NULL),
+(62, 'UPZ Semen Padang', 'Verdy Gusman', 'verdy.gusman@sig.id', 0, 1, NULL),
+(63, 'PT Sepatim Batamtama', 'Satrio Rian Bhakti', 'satrio.rian@sig.id', 0, 1, NULL),
+(64, 'Unit Maintenance Reliability/ Perencanaan dan Evaluasi Pemeliharaan', 'Yanuardi', 'yanuardi.6615@sig.id', 1, 1, NULL),
+(65, 'Unit Maintenance Reliability/ Inspeksi Pemeliharaan', 'Dani Darma Putra', 'dani.putra@sig.id', 1, 1, NULL),
+(66, 'Unit Maintenance Reliability/ PGO', 'Delviyoldi', 'delviyoldi@sig.id', 1, 1, NULL),
+(67, 'Yasiga Sarana Utama', 'Irf\'ak Izma', 'irfak.izma@sig.id', 0, 1, NULL),
+(68, 'FKIK', NULL, '', 0, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -1697,18 +2105,10 @@ INSERT INTO `unit_kerja` (`unit_id`, `unit_kerja`, `nama_pimpinan`, `email_pimpi
 
 CREATE TABLE `unit_user` (
   `unit_user_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) UNSIGNED NOT NULL,
   `unit_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `unit_user`
---
-
-INSERT INTO `unit_user` (`unit_user_id`, `user_id`, `unit_id`, `created_at`) VALUES
-(3, 22, 2, '2025-07-22 21:57:01'),
-(4, 23, 3, '2025-07-22 21:58:44');
 
 -- --------------------------------------------------------
 
@@ -1770,9 +2170,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `email`, `username`, `fullname`, `eselon`, `user_image`, `nisn_nim`, `no_hp`, `jenis_kelamin`, `alamat`, `province_id`, `city_id`, `domisili`, `provinceDom_id`, `cityDom_id`, `tingkat_pendidikan`, `instansi_id`, `jurusan_id`, `semester`, `nilai_ipk`, `rfid_no`, `cv`, `proposal`, `surat_permohonan`, `tanggal_surat`, `no_surat`, `nama_pimpinan`, `jabatan`, `email_instansi`, `bpjs_kes`, `bpjs_tk`, `buktibpjs_tk`, `ktp_kk`, `password_hash`, `reset_hash`, `reset_at`, `reset_expires`, `activate_hash`, `status`, `status_message`, `active`, `force_pass_reset`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'bordirmotif@gmail.com', 'Admin', 'Admin Master', NULL, 'vira.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$10$bswnrdHFrT0fWw85p0RZseTxnyHxFnQnWDTnci3p0K1NzU3r2RWcm', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-07-03 16:06:28', '2025-07-20 21:54:18', NULL),
-(4, 'virayukia1234@gmail.com', NULL, 'Arisa Maharani', NULL, 'arisa-maharani-user_image-3193.jpg', '1911521003', '08999549000', 'P', 'Jl. Bandes Binuang RT 02/ RW 02, Kelurahan Binuang Kampung Dalam, Binuang Kampung Dalam, Pauh', 13, 1371, NULL, NULL, NULL, 'D4/S1', 1, 1, 6, 3.65, NULL, 'arisamaharani-cv-4638.pdf', 'arisa-maharani-proposal-9966.pdf', 'arisa-maharani-surat-permohonan-6888.pdf', '2025-05-01', '7686218', 'Ahmad', 'Kepala Departemen', 'universitasAndlas@gmail.com', 'arisamaharani-bpjs-kes-5461.pdf', 'arisamaharani-bpjs-tk-2906.pdf', 'arisamaharani-buktibpjs-tk-2806.pdf', 'arisa-maharani-ktp-kk-4096.pdf', '$2y$10$6B1e75ynCaNRnxrh3aOCXO7.niLJ3SljZXBCrvPuWN/ta.To6wg1W', NULL, '2025-07-15 13:41:25', NULL, NULL, NULL, NULL, 1, 0, '2025-07-07 03:37:09', '2025-07-21 08:33:25', NULL),
-(21, 'kuronekochann123@gmail.com', NULL, 'Vira Yulia', NULL, 'virayuliaa-profile.jpg', '19115210033', '0812759960964', 'L', 'Jl. Bandes Binuang RT 02/ RW 02, Kelurahan Binuang Kampung Dalam, Binuang Kampung Dalam, Pauh', 13, 1371, '', NULL, NULL, 'SMK', 5, 4, 12, NULL, NULL, 'vira-yulia-cv-2430.pdf', 'vira-yulia-proposal-8004.pdf', 'vira-yulia-surat-permohonan-4072.pdf', '2025-07-16', '1212/XI/2025', 'Ahmad', 'Kepala Departemen', 'virayukia1234@gmail.com', NULL, 'vira-yulia-bpjs-tk-1056.pdf', 'vira-yulia-buktibpjs-tk-3581.pdf', 'vira-yulia-ktp-kk-9158.pdf', '$2y$10$l4fyCfPv2rUfKU3g168Bs.TRqVUHUVy3tk7qqhj.kKWO12T6kmbsu', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-07-21 10:26:02', '2025-07-22 05:50:10', NULL),
-(23, 'NUR.ANITA@sig.id', 'anita', 'Nur Anita Rahmawati', 2, 'default.svg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$10$TyM/Oe.WO9T8J5kPhEeL6OE.0v5YgFQZzPpGmlipYq4yPL4bFwAci', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-07-22 21:58:44', '2025-07-22 21:58:44', NULL);
+(21, 'kuronekochann123@gmail.com', NULL, 'Vira Yulia', NULL, 'virayuliaa-profile.jpg', '19115210033', '0812759960964', 'L', 'Jl. Bandes Binuang RT 02/ RW 02, Kelurahan Binuang Kampung Dalam, Binuang Kampung Dalam, Pauh', 13, 1371, '', NULL, NULL, 'SMK', 5, 4, 12, NULL, NULL, 'vira-yulia-cv-2430.pdf', 'vira-yulia-proposal-8004.pdf', 'vira-yulia-surat-permohonan-4072.pdf', '2025-07-16', '1212/XI/2025', 'Ahmad', 'Kepala Departemen', 'virayukia1234@gmail.com', NULL, 'vira-yulia-bpjs-tk-1056.pdf', 'vira-yulia-buktibpjs-tk-3581.pdf', 'vira-yulia-ktp-kk-9158.pdf', '$2y$10$l4fyCfPv2rUfKU3g168Bs.TRqVUHUVy3tk7qqhj.kKWO12T6kmbsu', '51aa947ba77b1593f84ab9f04cdd3b34', NULL, '2025-07-31 16:19:55', NULL, NULL, NULL, 1, 0, '2025-07-21 10:26:02', '2025-07-31 15:19:55', NULL),
+(23, 'NUR.ANITA@sig.id', 'anita', 'Nur Anita Rahmawati', 2, 'default.svg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$10$TyM/Oe.WO9T8J5kPhEeL6OE.0v5YgFQZzPpGmlipYq4yPL4bFwAci', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-07-22 21:58:44', '2025-07-22 21:58:44', NULL),
+(26, 'virayukia1234@gmail.com', NULL, 'Arisa Maharani', NULL, 'arisa-maharani-user-image-5280.jpg', '1911521003', '089991232323', 'L', 'Jl. Bandes Binuang RT 02/ RW 02, Kelurahan Binuang Kampung Dalam, Binuang Kampung Dalam, Pauh', 13, 1371, '', NULL, NULL, 'D4/S1', 5, 17, 7, 3.67, NULL, 'arisa-maharani-cv-7477.pdf', 'arisa-maharani-proposal-4390.pdf', 'arisa-maharani-surat-permohonan-7273.pdf', '2025-07-15', '1212/XII/2025', 'Ahmad', 'Kepala Departemen', 'universitasAndlas@gmail.com', 'arisa-maharani-bpjs-kes-8593.pdf', 'arisa-maharani-bpjs-tk-4653.pdf', 'arisa-maharani-buktibpjs-tk-4866.pdf', 'arisa-maharani-ktp-kk-4499.pdf', '$2y$10$YLcvGpPznL05d1owt6HWB.UeIPDagGl6gJ8UrI0Ly0gkhKckdfi6a', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-07-31 15:18:39', '2025-07-31 16:01:42', NULL);
 
 --
 -- Indexes for dumped tables
@@ -1840,6 +2240,14 @@ ALTER TABLE `auth_users_permissions`
   ADD KEY `user_id_permission_id` (`user_id`,`permission_id`);
 
 --
+-- Indeks untuk tabel `detail_jawaban_safety`
+--
+ALTER TABLE `detail_jawaban_safety`
+  ADD PRIMARY KEY (`detail_jawaban_id`),
+  ADD KEY `jawaban_safety_id` (`jawaban_safety_id`),
+  ADD KEY `soal_safety_id` (`soal_safety_id`);
+
+--
 -- Indeks untuk tabel `instansi`
 --
 ALTER TABLE `instansi`
@@ -1849,7 +2257,8 @@ ALTER TABLE `instansi`
 -- Indeks untuk tabel `jawaban_safety`
 --
 ALTER TABLE `jawaban_safety`
-  ADD PRIMARY KEY (`jawaban_id`);
+  ADD PRIMARY KEY (`jawaban_id`),
+  ADD KEY `magang_id` (`magang_id`);
 
 --
 -- Indeks untuk tabel `jurusan`
@@ -1861,19 +2270,25 @@ ALTER TABLE `jurusan`
 -- Indeks untuk tabel `jurusan_unit`
 --
 ALTER TABLE `jurusan_unit`
-  ADD PRIMARY KEY (`jurusan_unit_id`);
+  ADD PRIMARY KEY (`jurusan_unit_id`),
+  ADD KEY `jurusan_id` (`jurusan_id`),
+  ADD KEY `kuota_unit_id` (`kuota_unit_id`);
 
 --
 -- Indeks untuk tabel `kuota_unit`
 --
 ALTER TABLE `kuota_unit`
-  ADD PRIMARY KEY (`kuota_unit_id`);
+  ADD PRIMARY KEY (`kuota_unit_id`),
+  ADD KEY `unit_id` (`unit_id`);
 
 --
 -- Indeks untuk tabel `magang`
 --
 ALTER TABLE `magang`
-  ADD PRIMARY KEY (`magang_id`);
+  ADD PRIMARY KEY (`magang_id`),
+  ADD KEY `periode_id` (`periode_id`),
+  ADD KEY `unit_id` (`unit_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indeks untuk tabel `migrations`
@@ -1885,7 +2300,8 @@ ALTER TABLE `migrations`
 -- Indeks untuk tabel `pembimbing`
 --
 ALTER TABLE `pembimbing`
-  ADD PRIMARY KEY (`pembimbing_id`);
+  ADD PRIMARY KEY (`pembimbing_id`),
+  ADD KEY `unit_id` (`unit_id`);
 
 --
 -- Indeks untuk tabel `penelitian`
@@ -1897,7 +2313,8 @@ ALTER TABLE `penelitian`
 -- Indeks untuk tabel `penilaian`
 --
 ALTER TABLE `penilaian`
-  ADD PRIMARY KEY (`penilaian_id`);
+  ADD PRIMARY KEY (`penilaian_id`),
+  ADD KEY `magang_id` (`magang_id`);
 
 --
 -- Indeks untuk tabel `periode_magang`
@@ -1915,7 +2332,8 @@ ALTER TABLE `provinces`
 -- Indeks untuk tabel `regencies`
 --
 ALTER TABLE `regencies`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `province_id` (`province_id`);
 
 --
 -- Indeks untuk tabel `soal_safety`
@@ -1933,7 +2351,9 @@ ALTER TABLE `unit_kerja`
 -- Indeks untuk tabel `unit_user`
 --
 ALTER TABLE `unit_user`
-  ADD PRIMARY KEY (`unit_user_id`);
+  ADD PRIMARY KEY (`unit_user_id`),
+  ADD KEY `unit_id` (`unit_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indeks untuk tabel `users`
@@ -1951,19 +2371,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `auth_activation_attempts`
 --
 ALTER TABLE `auth_activation_attempts`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `auth_groups`
 --
 ALTER TABLE `auth_groups`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `auth_logins`
 --
 ALTER TABLE `auth_logins`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT untuk tabel `auth_permissions`
@@ -1984,40 +2404,46 @@ ALTER TABLE `auth_tokens`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT untuk tabel `detail_jawaban_safety`
+--
+ALTER TABLE `detail_jawaban_safety`
+  MODIFY `detail_jawaban_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT untuk tabel `instansi`
 --
 ALTER TABLE `instansi`
-  MODIFY `instansi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `instansi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=369;
 
 --
 -- AUTO_INCREMENT untuk tabel `jawaban_safety`
 --
 ALTER TABLE `jawaban_safety`
-  MODIFY `jawaban_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `jawaban_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `jurusan`
 --
 ALTER TABLE `jurusan`
-  MODIFY `jurusan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `jurusan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT untuk tabel `jurusan_unit`
 --
 ALTER TABLE `jurusan_unit`
-  MODIFY `jurusan_unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
+  MODIFY `jurusan_unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=294;
 
 --
 -- AUTO_INCREMENT untuk tabel `kuota_unit`
 --
 ALTER TABLE `kuota_unit`
-  MODIFY `kuota_unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `kuota_unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT untuk tabel `magang`
 --
 ALTER TABLE `magang`
-  MODIFY `magang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `magang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
@@ -2059,7 +2485,7 @@ ALTER TABLE `soal_safety`
 -- AUTO_INCREMENT untuk tabel `unit_kerja`
 --
 ALTER TABLE `unit_kerja`
-  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT untuk tabel `unit_user`
@@ -2071,7 +2497,7 @@ ALTER TABLE `unit_user`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -2103,6 +2529,65 @@ ALTER TABLE `auth_tokens`
 ALTER TABLE `auth_users_permissions`
   ADD CONSTRAINT `auth_users_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `auth_permissions` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `auth_users_permissions_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `detail_jawaban_safety`
+--
+ALTER TABLE `detail_jawaban_safety`
+  ADD CONSTRAINT `detail_jawaban_safety_ibfk_1` FOREIGN KEY (`jawaban_safety_id`) REFERENCES `jawaban_safety` (`jawaban_id`),
+  ADD CONSTRAINT `detail_jawaban_safety_ibfk_2` FOREIGN KEY (`soal_safety_id`) REFERENCES `soal_safety` (`soal_id`);
+
+--
+-- Ketidakleluasaan untuk tabel `jawaban_safety`
+--
+ALTER TABLE `jawaban_safety`
+  ADD CONSTRAINT `jawaban_safety_ibfk_1` FOREIGN KEY (`magang_id`) REFERENCES `magang` (`magang_id`);
+
+--
+-- Ketidakleluasaan untuk tabel `jurusan_unit`
+--
+ALTER TABLE `jurusan_unit`
+  ADD CONSTRAINT `jurusan_unit_ibfk_1` FOREIGN KEY (`jurusan_id`) REFERENCES `jurusan` (`jurusan_id`),
+  ADD CONSTRAINT `jurusan_unit_ibfk_2` FOREIGN KEY (`kuota_unit_id`) REFERENCES `kuota_unit` (`kuota_unit_id`);
+
+--
+-- Ketidakleluasaan untuk tabel `kuota_unit`
+--
+ALTER TABLE `kuota_unit`
+  ADD CONSTRAINT `kuota_unit_ibfk_1` FOREIGN KEY (`unit_id`) REFERENCES `unit_kerja` (`unit_id`);
+
+--
+-- Ketidakleluasaan untuk tabel `magang`
+--
+ALTER TABLE `magang`
+  ADD CONSTRAINT `magang_ibfk_1` FOREIGN KEY (`periode_id`) REFERENCES `periode_magang` (`periode_id`),
+  ADD CONSTRAINT `magang_ibfk_2` FOREIGN KEY (`unit_id`) REFERENCES `unit_kerja` (`unit_id`),
+  ADD CONSTRAINT `magang_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Ketidakleluasaan untuk tabel `pembimbing`
+--
+ALTER TABLE `pembimbing`
+  ADD CONSTRAINT `pembimbing_ibfk_1` FOREIGN KEY (`unit_id`) REFERENCES `unit_kerja` (`unit_id`);
+
+--
+-- Ketidakleluasaan untuk tabel `penilaian`
+--
+ALTER TABLE `penilaian`
+  ADD CONSTRAINT `penilaian_ibfk_1` FOREIGN KEY (`magang_id`) REFERENCES `magang` (`magang_id`);
+
+--
+-- Ketidakleluasaan untuk tabel `regencies`
+--
+ALTER TABLE `regencies`
+  ADD CONSTRAINT `regencies_ibfk_1` FOREIGN KEY (`province_id`) REFERENCES `provinces` (`id`);
+
+--
+-- Ketidakleluasaan untuk tabel `unit_user`
+--
+ALTER TABLE `unit_user`
+  ADD CONSTRAINT `unit_user_ibfk_1` FOREIGN KEY (`unit_id`) REFERENCES `unit_kerja` (`unit_id`),
+  ADD CONSTRAINT `unit_user_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

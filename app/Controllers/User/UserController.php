@@ -44,9 +44,14 @@ class UserController extends BaseController
             ->join('provinces AS province_dom', 'province_dom.id = users.provinceDom_id', 'left')
             ->join('regencies AS city_ktp', 'city_ktp.id = users.city_id', 'left')
             ->join('regencies AS city_dom', 'city_dom.id = users.cityDom_id', 'left')
-            ->select('users.*, 
+            ->select('users.id, users.fullname, users.email, users.user_image,users.nisn_nim, users.no_hp, users.jenis_kelamin, users.alamat,
+            users.province_id, users.city_id, users.domisili, users.provinceDom_id, users.cityDom_id,
+            users.tingkat_pendidikan, users.instansi_id, users.jurusan_id, users.semester, 
+            users.nilai_ipk, users.rfid_no, users.cv, users.proposal, users.surat_permohonan, users.tanggal_surat,
+            users.no_surat, users.nama_pimpinan, users.jabatan, users.email_instansi,users.bpjs_kes, users.bpjs_tk, 
+            users.buktibpjs_tk, users.ktp_kk, users.status,
                         instansi.nama_instansi, 
-                        jurusan.nama_jurusan, 
+                        jurusan.nama_jurusan,  
                         province_ktp.province AS provinsi_ktp,
                         province_dom.province AS provinsi_domisili,
                         city_ktp.regency AS kota_ktp, 
@@ -55,7 +60,30 @@ class UserController extends BaseController
                         city_dom.type AS tipe_kota_domisili')
             ->where('users.id', $userId)
             ->first();
-        return view('user/profile', $data);
+
+        $data['pendaftaran'] = $this->magangModel
+            ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id')
+            ->select('magang.magang_id as magang_id, magang.*, unit_kerja.*')
+            ->where('user_id', $userId)
+            ->whereIn('status_akhir', ['pendaftaran', 'proses', 'magang'])
+            ->orderBy('tanggal_daftar', 'DESC')
+            ->first();
+
+        // Ambil periode aktif
+        $db = \Config\Database::connect();
+        $today = date('Y-m-d');
+        $periode = $db->table('periode_magang')
+            ->where('tanggal_buka <=', $today)
+            ->orderBy('tanggal_buka', 'DESC')
+            ->limit(1)
+            ->get()
+            ->getRow();
+
+        return view('user/profile', [
+            'pendaftaran'         => $data['pendaftaran'],
+            'user_data'           => $data['user_data'],
+            'periode'             => $periode,
+        ]);
     }
 
     public function dataPribadi()
@@ -63,9 +91,23 @@ class UserController extends BaseController
         $userId = user()?->id; ; 
         $data['user_data'] = $this->userModel
             ->join('instansi', 'instansi.instansi_id = users.instansi_id','left')
-            ->select('users.*, instansi.nama_instansi')
+            ->select('users.fullname,users.email, users.user_image,users.nisn_nim, users.no_hp, users.jenis_kelamin, users.alamat,
+            users.province_id, users.city_id, users.domisili, users.provinceDom_id, users.cityDom_id,
+            users.tingkat_pendidikan, users.instansi_id, users.jurusan_id, users.semester, 
+            users.nilai_ipk, users.rfid_no, users.cv, users.proposal, users.surat_permohonan, users.tanggal_surat,
+            users.no_surat, users.nama_pimpinan, users.jabatan, users.email_instansi,users.bpjs_kes, users.bpjs_tk, 
+            users.buktibpjs_tk, users.ktp_kk, users.status, instansi.nama_instansi')
             ->where('users.id', $userId)
             ->first();
+
+        $data['pendaftaran'] = $this->magangModel
+            ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id')
+            ->select('magang.magang_id as magang_id, magang.*, unit_kerja.*')
+            ->where('user_id', $userId)
+            ->whereIn('status_akhir', ['pendaftaran', 'proses', 'magang'])
+            ->orderBy('tanggal_daftar', 'DESC')
+            ->first();
+
         
         $data['instansi'] =$this->instansiModel->findAll();
 
@@ -91,13 +133,26 @@ class UserController extends BaseController
         $userId = user()?->id; ; 
         $data['user_data'] = $this->userModel
             ->join('instansi', 'instansi.instansi_id = users.instansi_id','left')
-            ->select('users.*, instansi.nama_instansi')
+            ->select('users.fullname,users.email, users.user_image,users.nisn_nim, users.no_hp, users.jenis_kelamin, users.alamat,
+            users.province_id, users.city_id, users.domisili, users.provinceDom_id, users.cityDom_id,
+            users.tingkat_pendidikan, users.instansi_id, users.jurusan_id,  users.semester, 
+            users.nilai_ipk, users.rfid_no, users.cv, users.proposal, users.surat_permohonan, users.tanggal_surat,
+            users.no_surat, users.nama_pimpinan, users.jabatan, users.email_instansi,users.bpjs_kes, users.bpjs_tk, 
+            users.buktibpjs_tk, users.ktp_kk, users.status, instansi.nama_instansi')
             ->where('users.id', $userId)
             ->first();
         
         $data['instansi'] =$this->instansiModel->findAll();
 
         $data['jurusan'] =$this->jurusanModel->findAll();
+        $data['pendaftaran'] = $this->magangModel
+            ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id')
+            ->select('magang.magang_id as magang_id, magang.*, unit_kerja.*')
+            ->where('user_id', $userId)
+            ->whereIn('status_akhir', ['pendaftaran', 'proses', 'magang'])
+            ->orderBy('tanggal_daftar', 'DESC')
+            ->first();
+
 
         return view('user/akademik-edit', $data);
     }

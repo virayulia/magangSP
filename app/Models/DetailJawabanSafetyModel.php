@@ -4,17 +4,21 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UnitKerjaModel extends Model
+class DetailJawabanSafetyModel extends Model
 {
-    protected $table            = 'unit_kerja';
-    protected $primaryKey       = 'unit_id';
+    protected $table            = 'detail_jawaban_safety';
+    protected $primaryKey       = 'detail_jawaban_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['unit_kerja','safety','active','nama_pimpinan','email_pimpinan', 'catatan'];
+    protected $allowedFields = ['jawaban_safety_id', 'soal_safety_id', 'jawaban_user', 'benar', 'created_at'];
 
     protected bool $allowEmptyInserts = false;
+    protected bool $updateOnlyChanged = true;
+
+    protected array $casts = [];
+    protected array $castHandlers = [];
 
     // Dates
     protected $useTimestamps = false;

@@ -11,7 +11,7 @@ class CronController extends BaseController
     public function remindUnit($token = null)
     {
         // Amankan dengan token
-        if ($token !== 'rahasia123') {
+        if ($token !== 'semen123') {
             return $this->response->setStatusCode(403)->setJSON(['error' => 'Unauthorized']);
         }
 
@@ -53,8 +53,13 @@ class CronController extends BaseController
         ]);
     }
 
-    public function autoTolakTidakKonfirmasi()
+    public function autoTolakTidakKonfirmasi($token = null)
     {
+        // Amankan dengan token
+        if ($token !== 'semen123') {
+            return $this->response->setStatusCode(403)->setJSON(['error' => 'Unauthorized']);
+        }
+
         $db = \Config\Database::connect();
         $builder = $db->table('magang');
 
@@ -88,9 +93,6 @@ class CronController extends BaseController
                 // Kirim email penolakan
                 $email = \Config\Services::email();
                 $email->setTo($data->email);
-                if (!empty($data->email_instansi)) {
-                    $email->setCC($data->email_instansi);
-                }
 
                 $email->setSubject('Konfirmasi Seleksi Magang Dibatalkan');
                 $email->setMailType('html');
@@ -109,11 +111,81 @@ class CronController extends BaseController
             }
         }
 
-        echo "Otomatis tolak $successCount data, gagal $failCount.\n";
-        if (!empty($messages)) {
-            print_r($messages);
-        }
+        return $this->response->setJSON([
+            'status' => 'ok',
+            'berhasil' => $successCount,
+            'gagal' => $failCount,
+            'pesan' => $messages
+        ]);
     }
+
+    public function autoTolakTidakValidasiBerkas($token = null)
+    {
+        // Amankan dengan token
+        if ($token !== 'semen123') {
+            return $this->response->setStatusCode(403)->setJSON(['error' => 'Unauthorized']);
+        }
+
+        $db = \Config\Database::connect();
+        $builder = $db->table('magang');
+
+        $today = date('Y-m-d');
+        $deadlineDate = date('Y-m-d', strtotime('-7 days'));
+
+        $dataList = $builder
+            ->select('magang.*, users.email, users.email_instansi, users.fullname, unit_kerja.unit_kerja')
+            ->join('users', 'users.id = magang.user_id', 'left')
+            ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id', 'left')
+            ->where('status_konfirmasi', 'Y')
+            ->where('status_validasi_berkas IS NULL', null, false)
+            ->where('tanggal_konfirmasi <=', $deadlineDate)
+            ->get()
+            ->getResult();
+
+        $successCount = 0;
+        $failCount = 0;
+        $messages = [];
+
+        foreach ($dataList as $data) {
+            $update = $builder->where('magang_id', $data->magang_id)->update([
+                'status_validasi_berkas'  => 'N',
+                'tanggal_validasi_berkas' => date('Y-m-d'),
+                'status_akhir'            => 'gagal',
+            ]);
+
+            if ($update) {
+                $successCount++;
+
+                // Kirim email pemberitahuan
+                $email = \Config\Services::email();
+                $email->setTo($data->email); // Hanya ke user
+                $email->setSubject('Status Validasi Berkas Magang Dibatalkan');
+                $email->setMailType('html');
+                $email->setMessage(view('emails/penolakan_validasi_berkas', [
+                    'nama' => $data->fullname ?? 'Saudara',
+                    'unit' => $data->unit_kerja ?? 'Unit Terkait',
+                    'tanggal_konfirmasi' => date('d F Y', strtotime($data->tanggal_konfirmasi))
+                ]));
+
+                if (!$email->send()) {
+                    log_message('error', "Gagal kirim email ke {$data->email}: " . print_r($email->printDebugger(), true));
+                }
+
+
+            } else {
+                $failCount++;
+                $messages[] = "ID {$data->magang_id}: gagal update status validasi berkas.";
+            }
+        }
+
+        return $this->response->setJSON([
+            'status' => 'ok',
+            'berhasil' => $successCount,
+            'gagal' => $failCount,
+            'pesan' => $messages
+        ]);
+    }
+
 
 
 }

@@ -31,6 +31,9 @@ Swal.fire({
         </li>
     </ul>
 
+    <p class="text-muted">Lihat hasil evaluasi magang kamu di sini.</p>
+    <hr>
+
     <?php if (!empty($penilaian)): ?>
         <?php if ($penilaian['approve_kaunit'] == 1): ?>
             <div class="card">
@@ -73,8 +76,8 @@ Swal.fire({
             </div>
         <?php endif; ?>
     <?php else: ?>
-        <div class="alert alert-warning">
-            ⚠️ Kamu belum dinilai oleh pembimbing atau belum menyelesaikan seluruh tahapan magang.
+        <div class="alert alert-info text-center">
+            Belum ada Evaluasi Magang.
         </div>
     <?php endif; ?>
 </div>

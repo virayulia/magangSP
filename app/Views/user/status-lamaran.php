@@ -129,12 +129,12 @@ Swal.fire({
 <div class="tab-content" id="lamaranTabContent">
     <!-- Status Lamaran Tab -->
     <div class="tab-pane fade show active" id="status-lamaran" role="tabpanel">
-    <p class="text-muted">Pantau perkembangan lamaran magang kamu di sini.</p>
+    <p class="text-muted">Pantau perkembangan pendaftaran magang kamu di sini.</p>
     <hr>
 
     <?php if (empty($pendaftaran)) : ?>
         <div class="alert alert-info text-center">
-            Belum ada lamaran.
+            Belum ada Pendaftaran Magang.
         </div>
     <?php else : ?>
     <!-- Progress Bar Pendaftaran -->
@@ -225,6 +225,9 @@ Swal.fire({
 
                                     <?php if ($pendaftaran['safety'] == 1): ?>
                                         <div class="alert alert-warning mt-2">
+                                            <?php if (!empty($pendaftaran['catatan'])): ?>
+                                            <p><strong>Catatan : <?= $pendaftaran['catatan']; ?></strong></p>
+                                            <?php endif; ?>
                                             <strong>Perhatian:</strong> Unit kerja Anda mewajibkan kelengkapan alat pelindung diri (APD). <br>
                                             Silakan menyiapkan perlengkapan berikut secara mandiri:
                                             <ul class="mb-0 mt-1">
@@ -398,22 +401,25 @@ Swal.fire({
                                 <br><br>
                                 Pada hari pertama, kamu diharapkan hadir di <strong>Gedung Diklat PT Semen Padang</strong> pada pukul <strong>08.00 WIB</strong> untuk mengikuti pengarahan awal dan registrasi peserta magang.
                                 <br><br>
-                                Mohon untuk <strong>mencetak tanda pengenal magang</strong> dan <strong>membawanya</strong> saat hari pertama. Kamu bisa mencetaknya melalui tombol berikut:
+                                Untuk melanjutkan proses magang, silakan buka halaman pelaksanaan di bawah ini. Di sana kamu perlu melengkapi beberapa informasi tambahan sebelum mulai magang.
                                 <br><br>
-                                <a href="<?= base_url('/cetak-tanda-pengenal/' . $pendaftaran['magang_id']) ?>" target="_blank" class="btn btn-danger">
-                                    Cetak Tanda Pengenal
+                                <a href="<?= base_url('/pelaksanaan') ?>" style="background-color: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                                    Lihat Pelaksanaan Magang
                                 </a>
 
-                                <?php if ($pendaftaran['safety'] == 1): ?>
-                                        <div class="alert alert-warning mt-2">
-                                            <strong>Perhatian:</strong> Unit kerja Anda mewajibkan kelengkapan alat pelindung diri (APD). <br>
-                                            Silakan menyiapkan perlengkapan berikut secara mandiri:
-                                            <ul class="mb-0 mt-1">
-                                                <li>Rompi safety</li>
-                                                <li>Helm safety warna biru</li>
-                                                <li>Sepatu safety</li>
-                                            </ul>
-                                        </div>
+                                <?php if (!empty($pendaftaran['safety']) && $pendaftaran['safety'] == 1): ?>
+                                    <div class="alert alert-warning mt-3">
+                                        <?php if (!empty($pendaftaran['catatan'])): ?>
+                                        <p><strong>Catatan : <?= $pendaftaran['catatan']; ?></strong></p>
+                                        <?php endif; ?>
+                                        <strong>Perhatian:</strong> Unit kerja Anda mewajibkan kelengkapan alat pelindung diri (APD). <br>
+                                        Silakan menyiapkan perlengkapan berikut secara mandiri:
+                                        <ul class="mb-0 mt-1">
+                                            <li>Rompi safety</li>
+                                            <li>Helm safety warna biru</li>
+                                            <li>Sepatu safety</li>
+                                        </ul>
+                                    </div>
                                 <?php endif; ?>
                             </div>
                         <?php endif; ?>
@@ -431,7 +437,7 @@ Swal.fire({
 <!-- Histori Lamaran Tab -->
 <div class="tab-pane fade" id="histori-lamaran" role="tabpanel">
     <h4 class="fw-bold mb-3">Histori Pendaftaran</h4>
-    <p class="text-muted">Riwayat semua lamaran yang pernah diajukan.</p>
+    <p class="text-muted">Riwayat semua pendaftaran yang pernah diajukan.</p>
 
     <?php if (!empty($histori)) : ?>
         <div class="d-flex flex-column gap-3">

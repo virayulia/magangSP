@@ -11,6 +11,9 @@ use App\Models\MagangModel;
 use App\Models\SoalSafetyModel;
 use App\Models\JawabanSafetyModel;
 use App\Models\PenilaianModel;
+use App\Models\DetailJawabanSafetyModel;
+
+
 
 class MagangController extends BaseController
 {
@@ -21,6 +24,8 @@ class MagangController extends BaseController
     protected $soalSafetyModel;
     protected $jawabanModel;
     protected $penilaianModel;
+    protected $detailJawabanModel;
+
     
     public function __construct()
     {
@@ -31,6 +36,8 @@ class MagangController extends BaseController
         $this->soalSafetyModel = new SoalSafetyModel();
         $this->jawabanModel = new JawabanSafetyModel();
         $this->penilaianModel = new PenilaianModel();
+        $this->detailJawabanModel = new DetailJawabanSafetyModel();
+
 
     }
 
@@ -42,7 +49,12 @@ class MagangController extends BaseController
         $data['user_data'] = $this->userModel
             ->join('instansi', 'instansi.instansi_id = users.instansi_id', 'left')
             ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id', 'left')
-            ->select('users.*, instansi.nama_instansi, jurusan.nama_jurusan')
+            ->select('users.fullname, users.email,users.user_image,users.nisn_nim, users.no_hp, users.jenis_kelamin, users.alamat,
+            users.province_id, users.city_id, users.domisili, users.provinceDom_id, users.cityDom_id,
+            users.tingkat_pendidikan, users.instansi_id, users.jurusan_id, users.semester, 
+            users.nilai_ipk, users.rfid_no, users.cv, users.proposal, users.surat_permohonan, users.tanggal_surat,
+            users.no_surat, users.nama_pimpinan, users.jabatan, users.email_instansi,users.bpjs_kes, users.bpjs_tk, 
+            users.buktibpjs_tk, users.ktp_kk, users.status, instansi.nama_instansi, jurusan.nama_jurusan')
             ->where('users.id', $userId)
             ->first();
 
@@ -137,7 +149,7 @@ class MagangController extends BaseController
             'created_at'    => date('Y-m-d H:i:s'),
         ]);
 
-        return redirect()->to('/lowongan')->with('success', 'Pendaftaran berhasil dikirim. Silakan pantau pendaftaran Anda di Menu Profil - Pendaftaran Magang.');
+        return redirect()->to('/magang')->with('success', 'Pendaftaran berhasil dikirim. Silakan pantau pendaftaran Anda di Menu Profil - Pendaftaran Magang.');
     }
 
     public function konfirmasi()
@@ -204,7 +216,8 @@ class MagangController extends BaseController
     public function cetakTandaPengenal($id)
     {
 
-        $magang = $this->magangModel->find($id);
+        $magang = $this->magangModel->join('unit_kerja','unit_kerja.unit_id = magang.unit_id')
+                                    ->find($id);
 
         if (!$magang) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Data magang tidak ditemukan.');
@@ -213,7 +226,12 @@ class MagangController extends BaseController
         // Ambil data user berdasarkan user_id dari tabel magang
         $user = $this->userModel->join('instansi', 'instansi.instansi_id = users.instansi_id')
                                 ->where('users.id', $magang['user_id'])
-                                ->select('users.*, instansi.nama_instansi as nama_instansi') // jika kamu butuh nama instansi
+                                ->select('users.fullname, users.email,users.user_image,users.nisn_nim, users.no_hp, users.jenis_kelamin, users.alamat,
+            users.province_id, users.city_id, users.domisili, users.provinceDom_id, users.cityDom_id,
+            users.tingkat_pendidikan, users.instansi_id, users.jurusan_id,  users.semester, 
+            users.nilai_ipk, users.rfid_no, users.cv, users.proposal, users.surat_permohonan, users.tanggal_surat,
+            users.no_surat, users.nama_pimpinan, users.jabatan, users.email_instansi,users.bpjs_kes, users.bpjs_tk, 
+            users.buktibpjs_tk, users.ktp_kk, users.status, instansi.nama_instansi as nama_instansi') // jika kamu butuh nama instansi
                                 ->first();
 
         if (!$user) {
@@ -233,7 +251,12 @@ class MagangController extends BaseController
         $userData = $this->userModel
             ->join('instansi', 'instansi.instansi_id = users.instansi_id', 'left')
             ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id', 'left')
-            ->select('users.*, instansi.nama_instansi, jurusan.nama_jurusan')
+            ->select('users.fullname, users.email,users.user_image,users.nisn_nim, users.no_hp, users.jenis_kelamin, users.alamat,
+            users.province_id, users.city_id, users.domisili, users.provinceDom_id, users.cityDom_id,
+            users.tingkat_pendidikan, users.instansi_id, users.jurusan_id, users.semester, 
+            users.nilai_ipk, users.rfid_no, users.cv, users.proposal, users.surat_permohonan, users.tanggal_surat,
+            users.no_surat, users.nama_pimpinan, users.jabatan, users.email_instansi,users.bpjs_kes, users.bpjs_tk, 
+            users.buktibpjs_tk, users.ktp_kk, users.status, instansi.nama_instansi, jurusan.nama_jurusan')
             ->where('users.id', $userId)
             ->first();
 
@@ -251,10 +274,22 @@ class MagangController extends BaseController
             ->where('magang.user_id', $userId)
             ->orderBy('tanggal_ujian', 'desc')
             ->findAll();
+        
+        // Ambil periode aktif
+        $db = \Config\Database::connect();
+        $today = date('Y-m-d');
+
+        $periode = $db->table('periode_magang')
+            ->where('tanggal_buka <=', $today)
+            ->orderBy('tanggal_buka', 'DESC')
+            ->limit(1)
+            ->get()
+            ->getRow();
        
 
         // Kalau sudah lulus, tampilkan view pelaksanaan normal
         return view('user/pelaksanaan', [
+            'periode'   => $periode,
             'user_data' => $userData,
             'pendaftaran' => $pendaftaran,
             'riwayat_safety' => $riwayatSafety
@@ -269,7 +304,12 @@ class MagangController extends BaseController
         $userData = $this->userModel
             ->join('instansi', 'instansi.instansi_id = users.instansi_id', 'left')
             ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id', 'left')
-            ->select('users.*, instansi.nama_instansi, jurusan.nama_jurusan')
+            ->select('users.fullname,users.email, users.user_image,users.nisn_nim, users.no_hp, users.jenis_kelamin, users.alamat,
+            users.province_id, users.city_id, users.domisili, users.provinceDom_id, users.cityDom_id,
+            users.tingkat_pendidikan, users.instansi_id, users.jurusan_id, users.semester, 
+            users.nilai_ipk, users.rfid_no, users.cv, users.proposal, users.surat_permohonan, users.tanggal_surat,
+            users.no_surat, users.nama_pimpinan, users.jabatan, users.email_instansi,users.bpjs_kes, users.bpjs_tk, 
+            users.buktibpjs_tk, users.ktp_kk, users.status, instansi.nama_instansi, jurusan.nama_jurusan')
             ->where('users.id', $userId)
             ->first();
 
@@ -301,7 +341,7 @@ class MagangController extends BaseController
                 'tanggal_setujui_pernyataan' => $tanggal
             ]);
 
-        return redirect()->to(base_url('pelaksanaan'))->with('message', 'Surat pernyataan berhasil disetujui.');
+        return redirect()->to(base_url('pelaksanaan'))->with('success', 'Surat pernyataan berhasil disetujui.');
     }
 
     public function safetyTes()
@@ -337,37 +377,57 @@ class MagangController extends BaseController
             return redirect()->to('/pelaksanaan')->with('error', '❌ Anda telah melebihi batas 3 percobaan.');
         }
 
-        // Hitung skor dari jawaban
         $soalSemua = $this->soalSafetyModel->findAll();
+        $nilaiPerSoal = 100 / count($soalSemua);
         $skor = 0;
-        $nilaiPerSoal = 100 / count($soalSemua); // agar total maksimal 100
 
-        foreach ($soalSemua as $soal) {
-            $id = $soal['soal_id'];
-            $jawabanBenar = strtolower(trim($soal['jawaban_benar']));
-            $jawaban = strtolower(trim($jawabanUser[$id] ?? ''));
+        // Mulai transaksi database
+        $db = \Config\Database::connect();
+        $db->transStart();
 
-            if ($jawaban && $jawaban === $jawabanBenar) {
-                $skor += $nilaiPerSoal;
-            }
-        }
-
-        $skor = round($skor); // bulatkan skor
-
-        // Tentukan status kelulusan
-        $status = $skor >= 70 ? 'lulus' : 'gagal';
-
-        // Simpan ke database
-        $this->jawabanModel->save([
+        // Simpan jawaban utama dulu
+        $this->jawabanModel->insert([
             'magang_id'     => $magangId,
-            'nilai'         => $skor,
+            'nilai'         => 0, // sementara 0, diupdate nanti
             'percobaan_ke'  => $percobaanSebelumnya + 1,
             'tanggal_ujian' => date('Y-m-d'),
             'created_at'    => date('Y-m-d H:i:s'),
         ]);
 
+        $jawabanId = $this->jawabanModel->getInsertID(); // ID jawaban baru
+        
+        // Simpan detail jawaban per soal
+        foreach ($soalSemua as $soal) {
+            $soalId = $soal['soal_id'];
+            $jawabanBenar = strtolower(trim($soal['jawaban_benar']));
+            $jawaban = strtolower(trim($jawabanUser[$soalId] ?? ''));
+
+            $benar = $jawaban === $jawabanBenar;
+
+            if ($benar) {
+                $skor += $nilaiPerSoal;
+            }
+
+            // Simpan ke detail_jawaban_safety
+            $this->detailJawabanModel->insert([
+                'jawaban_safety_id' => $jawabanId,
+                'soal_safety_id'    => $soalId,
+                'jawaban_user'      => $jawaban,
+                'benar'             => $benar ? 1 : 0,
+                'created_at'        => date('Y-m-d H:i:s'),
+            ]);
+        }
+
+        // Bulatkan skor & update jawaban utama
+        $skor = round($skor);
+        $this->jawabanModel->update($jawabanId, ['nilai' => $skor]);
+
+        $db->transComplete();
+
+        $status = $skor >= 70 ? 'lulus' : 'gagal';
         return redirect()->to('/pelaksanaan')->with('success', "Tes selesai. Skor Anda: $skor ($status)");
     }
+
 
 
     public function sertifikatIndex()
@@ -378,7 +438,12 @@ class MagangController extends BaseController
         $userData = $this->userModel
             ->join('instansi', 'instansi.instansi_id = users.instansi_id', 'left')
             ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id', 'left')
-            ->select('users.*, instansi.nama_instansi, jurusan.nama_jurusan')
+            ->select('users.fullname,users.email, users.user_image,users.nisn_nim, users.no_hp, users.jenis_kelamin, users.alamat,
+            users.province_id, users.city_id, users.domisili, users.provinceDom_id, users.cityDom_id,
+            users.tingkat_pendidikan, users.instansi_id, users.jurusan_id,  users.semester, 
+            users.nilai_ipk, users.rfid_no, users.cv, users.proposal, users.surat_permohonan, users.tanggal_surat,
+            users.no_surat, users.nama_pimpinan, users.jabatan, users.email_instansi,users.bpjs_kes, users.bpjs_tk, 
+            users.buktibpjs_tk, users.ktp_kk, users.status, instansi.nama_instansi, jurusan.nama_jurusan')
             ->where('users.id', $userId)
             ->first();
         
@@ -386,11 +451,32 @@ class MagangController extends BaseController
             ->join('penilaian', 'penilaian.magang_id = magang.magang_id')
             ->where('magang.user_id', $userId)
             ->first();
+
+        $pendaftaran = $this->magangModel
+            ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id')
+            ->select('magang.magang_id as magang_id, magang.*, unit_kerja.*')
+            ->where('user_id', $userId)
+            ->whereIn('status_akhir', ['pendaftaran', 'proses', 'magang'])
+            ->orderBy('tanggal_daftar', 'DESC')
+            ->first();
+        
+        // Ambil periode aktif
+        $db = \Config\Database::connect();
+        $today = date('Y-m-d');
+
+        $periode = $db->table('periode_magang')
+            ->where('tanggal_buka <=', $today)
+            ->orderBy('tanggal_buka', 'DESC')
+            ->limit(1)
+            ->get()
+            ->getRow();
             
-         // Kalau sudah lulus, tampilkan view pelaksanaan normal
+        // Kalau sudah lulus, tampilkan view pelaksanaan normal
         return view('user/sertifikat-magang', [
+            'periode'   => $periode,
             'user_data' => $userData,
             'penilaian' => $penilaian,
+            'pendaftaran' => $pendaftaran,  
         ]);
     }
 

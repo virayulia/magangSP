@@ -97,7 +97,6 @@
 
     <!-- Inisialisasi DataTables -->
     <script>
-
         $(document).ready(function () {
              $('.select2').select2({
                 theme: 'bootstrap4',
@@ -125,24 +124,6 @@
             });
         });
     </script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const table = document.getElementById('tableBerkas');
-    if (table) {
-        $(table).DataTable({
-            paging: false,
-            info: false,
-            ordering: false,
-            language: {
-                search: "Cari:",
-                zeroRecords: "Tidak ada data ditemukan",
-                emptyTable: "Belum ada pendaftar.",
-            }
-        });
-    }
-});
-</script>
 
 </body>
 </html>

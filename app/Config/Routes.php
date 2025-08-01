@@ -10,6 +10,8 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'HomeController::index');
 $routes->get('/magang', 'HomeController::lowongan');
 $routes->get('/tentang-kami', 'HomeController::tentang_kami');
+$routes->get('get-images', 'HomeController::getImages');
+
 
 $routes->get('login', 'AuthController::login');
 $routes->post('login', 'AuthController::attemptLogin');
@@ -29,7 +31,9 @@ $routes->post('reset-password', 'AuthController::attemptReset');
 
 
 $routes->get('cron/remind-unit/(:segment)', 'CronController::remindUnit/$1');
-$routes->get('cron/autoTolakTidakKonfirmasi', 'CronController::autoTolakTidakKonfirmasi');
+$routes->get('cron/autoTolakTidakKonfirmasi/(:segment)', 'CronController::autoTolakTidakKonfirmasi/$1');
+$routes->get('cron/autoTolakTidakValidasiBerkas/(:segment)', 'CronController::autoTolakTidakValidasiBerkas/$1');
+
 
 
 

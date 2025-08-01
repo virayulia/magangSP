@@ -272,4 +272,21 @@ class HomeController extends BaseController
         return $missingFields;
     }
 
+    public function getImages()
+    {
+        $folderPath = FCPATH . 'assets/img/masthead/';
+        $urlBase = base_url('assets/img/masthead/');
+        $extensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+        $imageFiles = [];
+
+        foreach ($extensions as $ext) {
+            foreach (glob($folderPath . '*.' . $ext) as $file) {
+                $imageFiles[] = $urlBase . basename($file);
+            }
+        }
+
+        return $this->response->setJSON($imageFiles);
+    }
+
 }

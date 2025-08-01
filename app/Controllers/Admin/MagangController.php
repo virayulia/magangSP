@@ -26,13 +26,25 @@ class MagangController extends BaseController
 
     public function index()
     {
-        $pendaftaran = $this->magangModel->select('magang.*, users.fullname, users.nisn_nim, unit_kerja.unit_kerja')
+        $pendaftaran = $this->magangModel->select('magang.*,unit_kerja.unit_kerja, users.*,jurusan.nama_jurusan, 
+                        instansi.nama_instansi, 
+                        province_ktp.province AS provinsi_ktp,
+                        province_dom.province AS provinsi_domisili, 
+                        city_ktp.regency AS kota_ktp, 
+                        city_ktp.type AS tipe_kota_ktp,
+                        city_dom.regency AS kota_domisili,
+                        city_dom.type AS tipe_kota_domisili')
                                         ->join('users', 'users.id = magang.user_id')
-                                        ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id')
+                                        ->join('instansi', 'instansi.instansi_id = users.instansi_id', 'left')
+                                        ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id','left')
+                                        ->join('provinces AS province_ktp', 'province_ktp.id = users.province_id', 'left')
+                                        ->join('provinces AS province_dom', 'province_dom.id = users.provinceDom_id', 'left')
+                                        ->join('regencies AS city_ktp', 'city_ktp.id = users.city_id', 'left')
+                                        ->join('regencies AS city_dom', 'city_dom.id = users.cityDom_id', 'left')
+                                        ->join('unit_kerja', 'magang.unit_id = unit_kerja.unit_id')
                                         ->whereIn('magang.status_akhir', ['proses', 'pendaftaran'])
                                         ->orderBy('magang.tanggal_daftar', 'asc')
                                         ->findAll();
-
         return view('admin/index', ['pendaftaran' => $pendaftaran]);
     }
 
@@ -109,9 +121,15 @@ class MagangController extends BaseController
                 ->getResult();
         }
 
-        // Ambil sisa kuota semua unit (sesuai implementasimu sebelumnya)
-        $data['kuota_unit'] = $this->magangModel->getSisaKuota();
+         // Filter hanya kuota dengan sisa > 0
+        $allKuota = $this->magangModel->getSisaKuota();
+        $filteredKuota = array_filter($allKuota, fn($k) => $k->sisa_kuota > 0);
+        usort($filteredKuota, function ($a, $b) {
+            return $b->jumlah_pendaftar <=> $a->jumlah_pendaftar;
+        });
 
+        $data['kuota_unit'] = $filteredKuota;
+        
         // Kirim data ke view
         $data['pendaftar'] = $pendaftar;
         $data['periode'] = $periode;
@@ -128,7 +146,7 @@ class MagangController extends BaseController
         $db = \Config\Database::connect();
         $today = date('Y-m-d');
 
-        // Ambil periode aktif terlebih dahulu
+        // Ambil periode aktif atau fallback ke bulan ini
         $periode = $db->table('periode_magang')
             ->where('tanggal_buka <=', $today)
             ->where('tanggal_tutup >=', $today)
@@ -137,33 +155,41 @@ class MagangController extends BaseController
             ->get()
             ->getRow();
 
-        // Jika tidak ada periode, kembalikan error
         if (!$periode) {
-            return view('admin/modal_pendaftar', [
-                'pendaftar' => [],
-                'kuota_tersedia' => 0,
-                'error' => 'Tidak ada periode aktif saat ini.',
-            ]);
+            // Fallback ke periode "bulan ini"
+            $periode = (object)[
+                'periode_id' => null, // tidak ada ID karena tidak ambil dari tabel
+                'tanggal_buka' => date('Y-m-01'),
+                'tanggal_tutup' => date('Y-m-t'),
+            ];
         }
 
-        // Ambil pendaftar sesuai periode aktif
+        // Ambil pendaftar sesuai periode
         $builder = $db->table('magang')
             ->select('magang.magang_id as magang_id, magang.*, users.*, instansi.nama_instansi, jurusan.nama_jurusan as jurusan')
             ->join('users', 'users.id = magang.user_id', 'left')
             ->join('instansi', 'instansi.instansi_id = users.instansi_id', 'left')
             ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id', 'left')
             ->where('magang.unit_id', $unitId)
-            ->where('magang.status_akhir', 'pendaftaran')
-            ->where('magang.periode_id', $periode->periode_id)
-            ->where("
-                CASE 
-                    WHEN users.tingkat_pendidikan = 'SMK' THEN 'SMK'
-                    WHEN users.tingkat_pendidikan IN ('D3', 'D4/S1', 'S2') THEN 'Perguruan Tinggi'
-                    ELSE users.tingkat_pendidikan
-                END = '$pendidikan'
-            ", null, false)
-            ->orderBy('magang.tanggal_daftar', 'asc');
+            ->where('magang.status_akhir', 'pendaftaran');
 
+        if ($periode->periode_id) {
+            $builder->where('magang.periode_id', $periode->periode_id);
+        } else {
+            // Jika tidak ada periode, filter berdasarkan tanggal bulan ini
+            $builder->where('magang.tanggal_daftar >=', $periode->tanggal_buka)
+                    ->where('magang.tanggal_daftar <=', $periode->tanggal_tutup);
+        }
+
+        $builder->where("
+            CASE 
+                WHEN users.tingkat_pendidikan = 'SMK' THEN 'SMK'
+                WHEN users.tingkat_pendidikan IN ('D3', 'D4/S1', 'S2') THEN 'Perguruan Tinggi'
+                ELSE users.tingkat_pendidikan
+            END = '$pendidikan'
+        ", null, false);
+
+        $builder->orderBy('magang.tanggal_daftar', 'asc');
         $pendaftar = $builder->get()->getResult();
 
         // Hitung sisa kuota
@@ -182,6 +208,7 @@ class MagangController extends BaseController
             'error' => null,
         ]);
     }
+
 
     public function terimaBanyak()
     {
@@ -214,19 +241,26 @@ class MagangController extends BaseController
                 continue;
             }
 
-            // Hitung tanggal mulai dan selesai
+           // Ambil tanggal sekarang
             $today = new \DateTime();
+
+            // Ambil tanggal 1 dua bulan ke depan
             $start = new \DateTime($today->format('Y-m-01'));
             $start->modify('+2 month');
+
+            // Jika tanggal masuk adalah Sabtu (6) atau Minggu (7), geser ke hari kerja berikutnya
             while (in_array($start->format('N'), [6, 7])) {
                 $start->modify('+1 day');
             }
 
+            // Durasi magang dalam bulan
             $durasi = (int) $pendaftar->durasi;
-            $end = clone $start;
-            $end->modify("+$durasi month");
 
-            // Update status & tanggal
+            // Tanggal selesai = hari terakhir dari bulan ke-(durasi - 1) setelah bulan masuk
+            $end = clone $start;
+            $end->modify('last day of +' . ($durasi - 1) . ' month');
+
+            // Simpan ke database
             $db->table('magang')->where('magang_id', $id)->update([
                 'status_seleksi'   => 'Diterima',
                 'tanggal_seleksi' => date('Y-m-d H:i:s'),
@@ -372,8 +406,10 @@ class MagangController extends BaseController
 
         $db = \Config\Database::connect();
         $data = $db->table('magang')
-            ->select('magang.*, users.email, users.email_instansi, users.fullname, users.username, unit_kerja.unit_kerja')
+            ->select('magang.*, users.*, unit_kerja.unit_kerja, jurusan.nama_jurusan, instansi.nama_instansi ')
             ->join('users', 'users.id = magang.user_id', 'left')
+            ->join('jurusan', 'users.jurusan_id = jurusan.jurusan_id', 'left')
+            ->join('instansi', 'users.instansi_id = instansi.instansi_id', 'left')
             ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id', 'left')
             ->where('magang.magang_id', $id)
             ->get()
@@ -410,24 +446,16 @@ class MagangController extends BaseController
         $email->setMailType('html');
 
         $email->setMessage(view('emails/berkas_valid', [
-            'nama' => $data->fullname ?? $data->username,
-            'unit' => $data->unit_kerja ?? 'Unit terkait',
+            'nama'            => $data->fullname ?? $data->username,
+            'unit'            => $data->unit_kerja ?? 'Unit terkait',
+            'user_data'       => $data,
+            'tanggal_surat'   => $data->tanggal_surat, 
+            'tanggal_masuk'   => $data->tanggal_masuk,
+            'tanggal_selesai' => $data->tanggal_selesai,
         ]));
-
-        // Generate PDF
-        $generatePDF = new \App\Controllers\GeneratePDF();
-        $pdfPath = $generatePDF->suratPenerimaan($id, true);
-
-        if ($pdfPath && file_exists($pdfPath)) {
-            $email->attach($pdfPath);
-        }
 
         if (!$email->send()) {
             log_message('error', "Gagal kirim email validasi berkas ID $id: " . print_r($email->printDebugger(), true));
-        }
-
-        if (!empty($pdfPath) && file_exists($pdfPath)) {
-            unlink($pdfPath);
         }
 
         return redirect()->back()->with('success', 'Validasi berhasil disimpan dan email telah dikirim.');
@@ -493,6 +521,16 @@ class MagangController extends BaseController
     public function safety()
     {
         $db = \Config\Database::connect();
+        $request = \Config\Services::request();
+
+        $bulan = $request->getGet('bulan');
+        $tahun = $request->getGet('tahun');
+
+        if (!$bulan || !$tahun) {
+            // Default: bulan dan tahun ini
+            $bulan = date('m');
+            $tahun = date('Y');
+        }
 
         $hasil = $db->table('jawaban_safety')
             ->select('
@@ -508,33 +546,51 @@ class MagangController extends BaseController
             ->join('magang', 'magang.magang_id = jawaban_safety.magang_id')
             ->join('users', 'users.id = magang.user_id')
             ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id')
+            ->where('magang.status_akhir','magang')
+            ->where("MONTH(jawaban_safety.created_at)", $bulan)
+            ->where("YEAR(jawaban_safety.created_at)", $tahun)
             ->groupBy('jawaban_safety.magang_id')
             ->get()->getResult();
 
-        return view('admin/kelola_safety', ['hasil' => $hasil]);
+        return view('admin/kelola_safety', [
+            'hasil' => $hasil,
+            'bulan' => $bulan,
+            'tahun' => $tahun
+        ]);
     }
-
-
 
     public function pesertaMagang()
     {
-        
-        $data = $this->magangModel->select('magang.*,unit_kerja.unit_kerja, users.*,jurusan.nama_jurusan, instansi.nama_instansi,province_ktp.province AS provinsi_ktp,
-                        province_dom.province AS provinsi_domisili,
-                        city_ktp.regency AS kota_ktp, 
-                        city_ktp.type AS tipe_kota_ktp,
-                        city_dom.regency AS kota_domisili,
-                        city_dom.type AS tipe_kota_domisili')
-                                        ->join('users', 'users.id = magang.user_id')
-                                        ->join('instansi', 'instansi.instansi_id = users.instansi_id')
-                                        ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id')
-                                        ->join('provinces AS province_ktp', 'province_ktp.id = users.province_id', 'left')
-                                        ->join('provinces AS province_dom', 'province_dom.id = users.provinceDom_id', 'left')
-                                        ->join('regencies AS city_ktp', 'city_ktp.id = users.city_id', 'left')
-                                        ->join('regencies AS city_dom', 'city_dom.id = users.cityDom_id', 'left')
-                                        ->join('unit_kerja', 'magang.unit_id = unit_kerja.unit_id')
-                                        ->where('magang.status_akhir', 'magang')
-                                        ->findAll();
+        $bulan = $this->request->getGet('bulan');
+        $tahun = $this->request->getGet('tahun');
+
+        $builder = $this->magangModel->select('magang.*, unit_kerja.unit_kerja, users.*, jurusan.nama_jurusan, 
+                            instansi.nama_instansi,
+                            province_ktp.province AS provinsi_ktp,
+                            province_dom.province AS provinsi_domisili,
+                            city_ktp.regency AS kota_ktp, 
+                            city_ktp.type AS tipe_kota_ktp,
+                            city_dom.regency AS kota_domisili,
+                            city_dom.type AS tipe_kota_domisili')
+            ->join('users', 'users.id = magang.user_id')
+            ->join('instansi', 'instansi.instansi_id = users.instansi_id')
+            ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id')
+            ->join('provinces AS province_ktp', 'province_ktp.id = users.province_id', 'left')
+            ->join('provinces AS province_dom', 'province_dom.id = users.provinceDom_id', 'left')
+            ->join('regencies AS city_ktp', 'city_ktp.id = users.city_id', 'left')
+            ->join('regencies AS city_dom', 'city_dom.id = users.cityDom_id', 'left')
+            ->join('unit_kerja', 'magang.unit_id = unit_kerja.unit_id')
+            ->where('magang.status_akhir', 'magang');
+
+        if (!empty($bulan)) {
+            $builder->where('MONTH(magang.tanggal_masuk)', $bulan);
+        }
+
+        if (!empty($tahun)) {
+            $builder->where('YEAR(magang.tanggal_masuk)', $tahun);
+        }
+
+        $data = $builder->findAll();
         $unitList = $this->unitKerjaModel->findAll();
 
         return view('admin/kelola_magang', ['data' => $data, 'unitList' => $unitList]);

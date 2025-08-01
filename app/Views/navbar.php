@@ -20,12 +20,9 @@
         <li class="nav-item"><a class="nav-link" href="/">Beranda</a></li>
         <li class="nav-item"><a class="nav-link" href="/magang">Magang</a></li>
         <li class="nav-item"><a class="nav-link" href="/tentang-kami">Tentang Kami</a></li>
-        <?php if (!logged_in()) : ?>
-            <li class="nav-item">
-                <a class="nav-link btn btn-danger rounded-pill ms-2 py-1 px-4" href="<?= site_url('login'); ?>">Sign In</a>
-            </li>
-        <?php else : ?>
-            <li class="nav-item dropdown">
+        <?php if (logged_in()) : ?>
+            <!-- Tampil hanya saat layar besar (lg ke atas) -->
+            <li class="nav-item dropdown d-none d-lg-block">
                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="<?= base_url('uploads/user-image/' . (user()->user_image ?? 'default.svg')); ?>" class="rounded-circle" width="30" height="30" alt="Profile">
                     <span class="ms-2"><?= esc(user()->fullname); ?></span>
@@ -35,7 +32,20 @@
                     <li><a class="dropdown-item" href="<?= url_to('logout'); ?>">Logout</a></li>
                 </ul>
             </li>
+
+            <!-- Tampil saat layar kecil atau jendela dikecilkan (bukan lg ke atas) -->
+            <li class="nav-item d-block d-lg-none">
+                <a class="nav-link" href="<?= site_url('profile'); ?>">Lihat Profil</a>
+            </li>
+            <li class="nav-item d-block d-lg-none">
+                <a class="nav-link" href="<?= url_to('logout'); ?>">Logout</a>
+            </li>
+        <?php else : ?>
+            <li class="nav-item">
+                <a class="nav-link btn btn-danger rounded-pill ms-2 py-1 px-4" href="<?= site_url('login'); ?>">Sign In</a>
+            </li>
         <?php endif; ?>
+
 
       </ul>
     </div>
