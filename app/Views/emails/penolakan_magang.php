@@ -14,7 +14,8 @@
     <p>Semoga sukses dalam kesempatan berikutnya. Terima kasih telah mendaftar!</p>
 
     <br>
-    <p>Salam hormat,</p>
-    <p><strong>Tim Rekrutmen Magang<br>PT Semen Padang</strong></p>
+    <p>Hormat kami,</p>
+    <p><strong>Training & Knowledge Management<br>PT Semen Padang</strong></p>
+    <p>Siska Ayu Soraya<br><strong>Kepala</strong><br>Zamriz</p>
 </body>
 </html>

@@ -38,7 +38,8 @@
     <p>Terima kasih atas perhatian dan kerja sama Anda.</p>
 
     <p>Hormat kami,</p>
-    <p><strong>Tim Rekrutmen Magang<br>PT Semen Padang</strong></p>
+    <p><strong>Training & Knowledge Management<br>PT Semen Padang</strong></p>
+    <p>Siska Ayu Soraya<br><strong>Kepala</strong><br>Zamriz</p>
 
 </body>
 </html>

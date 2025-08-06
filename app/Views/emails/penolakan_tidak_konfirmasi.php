@@ -16,7 +16,8 @@
     <p>Kami menghargai ketertarikan dan usaha Anda dalam mengikuti proses ini. Semoga sukses dalam kesempatan selanjutnya.</p>
 
     <br>
-    <p>Salam hormat,</p>
-    <p><strong>Tim Rekrutmen Magang<br>PT Semen Padang</strong></p>
+    <p>Hormat kami,</p>
+    <p><strong>Training & Knowledge Management<br>PT Semen Padang</strong></p>
+    <p>Siska Ayu Soraya<br><strong>Kepala</strong><br>Zamriz</p>
 </body>
 </html>
