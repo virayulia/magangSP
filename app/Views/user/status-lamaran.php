@@ -172,7 +172,7 @@ Swal.fire({
                         <?php if($step <= 1): ?>
                             <div class="info-card mt-3">
                                 ✅ Pendaftaran berhasil! <br>
-                                Kamu telah mendaftar ke unit <strong><?= esc($pendaftaran['unit_kerja']) ?></strong> pada tanggal <strong><?= format_tanggal_indonesia (date('d F Y', strtotime($pendaftaran['tanggal_daftar']))) ?></strong>. <br><br>
+                                Kamu telah mendaftar ke <strong><?= esc($pendaftaran['unit_kerja']) ?></strong> pada tanggal <strong><?= format_tanggal_indonesia (date('d F Y', strtotime($pendaftaran['tanggal_daftar']))) ?></strong>. <br><br>
                                 
                                 📢 Silakan cek website ini secara berkala untuk melihat status pendaftaranmu. <br>
                                 📧 Kamu juga akan menerima pemberitahuan melalui email jika ada informasi terbaru terkait proses seleksi magang.
@@ -217,7 +217,7 @@ Swal.fire({
                                 <br><br>
                                 <div class="info-card success">
                                     <strong>Selamat!</strong> <br>
-                                    Anda telah diterima sebagai peserta magang di <strong>Unit <?= esc($pendaftaran['unit_kerja']) ?></strong>. <br>
+                                    Anda telah diterima sebagai peserta magang di <strong><?= esc($pendaftaran['unit_kerja']) ?></strong>. <br>
                                     Silakan lakukan konfirmasi penerimaan dalam waktu <strong>maksimal 3 hari</strong> sejak pengumuman ini. <br>   
                                     Jika tidak ada konfirmasi hingga batas waktu tersebut, maka kesempatan ini akan dianggap <strong>gugur</strong>. <br>
                                     Kami tunggu konfirmasi Anda, dan selamat bergabung! <br><br>
@@ -396,7 +396,7 @@ Swal.fire({
                             <br><br>
                             <div class="info-card">
                                 🎉 Selamat! <br>
-                                Kamu telah <strong>diterima magang di PT. Semen Padang</strong> pada <strong>Unit <?= esc($pendaftaran['unit_kerja']) ?></strong>. Selamat bergabung dan semangat menjalani pengalaman barumu! <br>
+                                Kamu telah <strong>diterima magang di PT. Semen Padang</strong> pada <strong><?= esc($pendaftaran['unit_kerja']) ?></strong>. Selamat bergabung dan semangat menjalani pengalaman barumu! <br>
                                 Tanggal pelaksanaan magang dimulai dari <strong><?= format_tanggal_indonesia(date('d F Y', strtotime($pendaftaran['tanggal_masuk']))) ?></strong> hingga <strong><?= format_tanggal_indonesia(date('d F Y', strtotime($pendaftaran['tanggal_selesai']))) ?></strong>.
                                 <br><br>
                                 Pada hari pertama, kamu diharapkan hadir di <strong>Gedung Diklat PT Semen Padang</strong> pada pukul <strong>08.00 WIB</strong> untuk mengikuti pengarahan awal dan registrasi peserta magang.
