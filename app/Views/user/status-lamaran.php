@@ -300,14 +300,23 @@ Swal.fire({
                                 <br><br>
                                 <div class="info-card">
                                     Mohon segera melengkapi dokumen persyaratan Anda melalui menu <strong><a href="/profile?tab=dokumen">Profil</a></strong> selambat-lambatnya pada tanggal <strong><?= format_tanggal_indonesia(date('d M Y', strtotime('+7 days', strtotime($pendaftaran['tanggal_konfirmasi'])))) ?></strong>.<br><br>
-                                    Dokumen yang wajib dilengkapi:
+
+                                    Dokumen yang <strong>wajib</strong> dilengkapi:
                                     <ul class="mb-2 mt-1">
                                         <li>BPJS Ketenagakerjaan</li>
                                         <li>Bukti Pembayaran BPJS Ketenagakerjaan</li>
                                     </ul>
+
+                                    Dokumen <strong>opsional</strong> (jika ada):
+                                    <ul class="mb-2 mt-1">
+                                        <li>BPJS Kesehatan <small>(tidak wajib, tetapi disarankan untuk dilampirkan jika ada)</small></li>
+                                    </ul>
+
                                     Setelah melengkapi seluruh dokumen, jangan lupa untuk menekan tombol <strong>Validasi Berkas Lengkap</strong> agar dokumen Anda dapat diverifikasi oleh tim kami.<br><br>
+
                                     Apabila dokumen tidak dilengkapi hingga batas waktu yang ditentukan, maka kesempatan Anda akan dianggap <strong>gugur</strong>.
                                 </div>
+
                             <?php endif; ?>
                             <?php 
                                 $isBpjsFilled = !empty($user_data->bpjs_tk) && !empty($user_data->buktibpjs_tk);
