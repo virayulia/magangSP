@@ -7,7 +7,7 @@
 <body>
     <p>Yth. <?= esc($nama) ?>,</p>
 
-    <p>Terima kasih atas minat Anda untuk mengikuti program magang di PT Semen Padang, khususnya di unit <strong><?= esc($unit) ?></strong>.</p>
+    <p>Terima kasih atas minat Anda untuk mengikuti program magang di PT Semen Padang, khususnya di <strong><?= esc($unit) ?></strong>.</p>
 
     <p>Berdasarkan hasil seleksi, Anda dinyatakan <strong>diterima</strong> untuk mengikuti program magang. Namun, hingga batas waktu yang ditentukan (3 hari sejak pengumuman seleksi), kami tidak menerima konfirmasi dari Anda.</p>
 

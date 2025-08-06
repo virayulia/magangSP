@@ -7,7 +7,7 @@
 <body>
     <p>Yth. <?= esc($nama) ?>,</p>
 
-    <p>Terima kasih atas minat Anda untuk mengikuti program magang di PT Semen Padang, khususnya di unit <strong><?= esc($unit) ?></strong>.</p>
+    <p>Terima kasih atas minat Anda untuk mengikuti program magang di PT Semen Padang, khususnya di <strong><?= esc($unit) ?></strong>.</p>
 
     <p>Namun, kami sampaikan bahwa Anda belum memenuhi kriteria pada tahap seleksi kali ini. Kami menghargai waktu dan usaha Anda dalam mengikuti proses pendaftaran.</p>
 

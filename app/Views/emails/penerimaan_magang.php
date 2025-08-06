@@ -9,7 +9,7 @@
 
     <p>Dengan hormat,</p>
 
-    <p>Melalui email ini, kami sampaikan bahwa Anda telah <strong>LOLOS SELEKSI</strong> sebagai peserta <strong>Program Magang</strong> di <strong>PT Semen Padang</strong>, dan akan ditempatkan di unit kerja <strong><?= esc($unit) ?></strong>.</p>
+    <p>Melalui email ini, kami sampaikan bahwa Anda telah <strong>LOLOS SELEKSI</strong> sebagai peserta <strong>Program Magang</strong> di <strong>PT Semen Padang</strong>, dan akan ditempatkan di <strong><?= esc($unit) ?></strong>.</p>
 
     <p>Adapun periode magang Anda dijadwalkan berlangsung dari tanggal <strong><?= format_tanggal_indonesia(esc($tanggal_masuk)) ?></strong> hingga <strong><?= format_tanggal_indonesia(esc($tanggal_selesai)) ?></strong>.</p>
 

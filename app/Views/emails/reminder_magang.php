@@ -5,7 +5,7 @@
     <title>Pengingat Magang</title>
 </head>
 <body>
-    <p>Yth. Kepala Unit <?= esc($unit); ?>,</p>
+    <p>Yth. Kepala <?= esc($unit); ?>,</p>
 
     <p>Ini adalah pengingat bahwa peserta magang akan masuk pada tanggal <strong><?= esc(format_tanggal_indonesia($tanggalMasuk)); ?></strong>.</p>
 
