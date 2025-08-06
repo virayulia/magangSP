@@ -43,7 +43,7 @@
                     <!-- Asal Instansi -->
                     <div class="mb-3">
                         <label for="instansi" class="form-label" id="labelInstansi">Asal Instansi<span class="text-danger">*</span></label>
-                        <select name="instansi" id="instansi" class="form-select" required>
+                        <select name="instansi" id="instansi" class="form-control" required>
                             <option value="" disabled selected>Pilih Instansi</option>
                             <?php foreach ($instansi as $item): ?>
                                 <option value="<?= $item['instansi_id'] ?>" <?= $item['instansi_id'] == $user_data->instansi_id ? 'selected' : '' ?>>
@@ -56,7 +56,7 @@
                     <!-- Jurusan -->
                     <div class="mb-3">
                         <label for="jurusan" class="form-label">Jurusan<span class="text-danger">*</span></label>
-                        <select name="jurusan" id="jurusan" class="form-select" required>
+                        <select name="jurusan" id="jurusan" class="form-control" required>
                             <option value="" disabled selected>Pilih Jurusan</option>
                             <?php foreach ($jurusan as $item): ?>
                                 <option value="<?= $item['jurusan_id'] ?>" <?= $item['jurusan_id'] == $user_data->jurusan_id ? 'selected' : '' ?>>
@@ -95,43 +95,35 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+
+<!-- Script logika dinamis -->
 <script>
-$(document).ready(function() {
-    $('#instansi, #jurusan').select2({
+$('#instansi, #jurusan').select2({
         theme: 'bootstrap4',
         width: '100%',
         placeholder: function(){
             $(this).data('placeholder');
         },
         allowClear: true
-    });
-
 });
-</script>
-<!-- Script logika dinamis -->
-<script>
 document.addEventListener('DOMContentLoaded', () => {
-    const jenjangSelect   = document.getElementById('jenjang-pendidikan');
-    const labelInstansi   = document.getElementById('labelInstansi');
-    const instansiSelect  = document.getElementById('instansi');
-    const semesterSelect  = document.getElementById('semester');
-    const semesterLabel   = document.getElementById('labelSemester');
-    const nilaiGroup      = document.getElementById('group-nilai');
-    const nilaiInput      = document.getElementById('nilai-ipk');
+    const jenjangSelect     = document.getElementById('jenjang-pendidikan');
+    const labelInstansi     = document.getElementById('labelInstansi');
+    const instansiSelect    = document.getElementById('instansi');
+    const semesterSelect    = document.getElementById('semester');
+    const semesterLabel     = document.getElementById('labelSemester');
+    const nilaiGroup        = document.getElementById('group-nilai');
+    const nilaiInput        = document.getElementById('nilai-ipk');
 
-    const userJenjang     = jenjangSelect.value;
-    const selectedInstansi= "<?= $user_data->instansi_id ?? '' ?>";
-    const selectedSemester= "<?= $user_data->semester ?? '' ?>";
+    const selectedJenjang   = jenjangSelect.value;
+    const selectedInstansi  = "<?= $user_data->instansi_id ?? '' ?>";
+    const selectedSemester  = "<?= $user_data->semester ?? '' ?>";
 
-    function updateByJenjang() {
+    function updateByJenjang({ reloadInstansiData = true } = {}) {
         const jenjang = jenjangSelect.value;
 
-        // Ganti label instansi
-        if (jenjang === 'SMK') {
-            labelInstansi.textContent = 'Asal Sekolah';
-        } else {
-            labelInstansi.textContent = 'Asal Perguruan Tinggi';
-        }
+        // Label instansi
+        labelInstansi.textContent = (jenjang === 'SMK') ? 'Asal Sekolah' : 'Asal Perguruan Tinggi';
 
         // Update Semester/Kelas
         semesterSelect.innerHTML = '';
@@ -146,7 +138,8 @@ document.addEventListener('DOMContentLoaded', () => {
             semesterLabel.textContent = 'Semester';
             semesterSelect.innerHTML = `<option value="" disabled selected>Pilih Semester</option>`;
             for (let i = 4; i <= 13; i++) {
-                semesterSelect.innerHTML += `<option value="${i}" ${selectedSemester == i ? 'selected' : ''}>Semester ${i}</option>`;
+                const selected = selectedSemester == i ? 'selected' : '';
+                semesterSelect.innerHTML += `<option value="${i}" ${selected}>Semester ${i}</option>`;
             }
         }
 
@@ -159,28 +152,49 @@ document.addEventListener('DOMContentLoaded', () => {
             nilaiInput.setAttribute('required', 'required');
         }
 
-        // Load instansi sesuai jenjang
-        reloadInstansi(jenjang);
+        // Reload instansi hanya jika diminta (saat jenjang berubah)
+        if (reloadInstansiData) {
+            fetchInstansi(jenjang);
+        }
     }
 
-    function reloadInstansi(jenjang) {
+    function fetchInstansi(jenjang) {
         const kelompok = jenjang === 'SMK' ? 'smk' : 'pt';
         const placeholder = jenjang === 'SMK' ? 'Pilih Sekolah' : 'Pilih Perguruan Tinggi';
 
-        instansiSelect.innerHTML = `<option value="" disabled>Loading...</option>`;
+        // Hapus Select2 dulu jika ada
+        if ($.fn.select2 && $('#instansi').hasClass("select2-hidden-accessible")) {
+            $('#instansi').select2('destroy');
+        }
+
+        instansiSelect.innerHTML = `<option value="" disabled>Memuat...</option>`;
 
         $.get('/get-instansi', { kelompok }).done(res => {
-            instansiSelect.innerHTML = `<option value="" disabled selected>${placeholder}</option>`;
+            instansiSelect.innerHTML = `<option value="" disabled>${placeholder}</option>`;
             res.forEach(item => {
-                const selected = item.instansi_id == selectedInstansi ? 'selected' : '';
-                instansiSelect.innerHTML += `<option value="${item.instansi_id}" ${selected}>${item.nama_instansi}</option>`;
+                const option = document.createElement('option');
+                option.value = item.instansi_id;
+                option.textContent = item.nama_instansi;
+                if (item.instansi_id == selectedInstansi) {
+                    option.selected = true;
+                }
+                instansiSelect.appendChild(option);
             });
+
+            // Inisialisasi ulang Select2 dan set nilai kembali
+            $('#instansi').select2({
+                theme: 'bootstrap4',
+                width: '100%',
+                placeholder: placeholder,
+                allowClear: true
+            }).val(selectedInstansi).trigger('change');
+
         }).fail(() => {
             instansiSelect.innerHTML = `<option value="" disabled selected>Gagal memuat data</option>`;
         });
     }
 
-    // Format IPK agar hanya 2 digit desimal
+    // Format IPK agar maksimal 2 digit desimal
     nilaiInput.addEventListener('input', e => {
         const val = e.target.value;
         if (val.includes('.') && val.split('.')[1].length > 2) {
@@ -188,10 +202,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    jenjangSelect.addEventListener('change', updateByJenjang);
-    updateByJenjang(); // ← jalankan saat load halaman, karena ini edit
+    // Saat jenjang berubah, update dan reload instansi
+    jenjangSelect.addEventListener('change', () => {
+        updateByJenjang({ reloadInstansiData: true });
+    });
+
+    // Pertama kali jalankan TANPA reload instansi
+    updateByJenjang({ reloadInstansiData: false });
+
+    // Inisialisasi Select2 jurusan (instansi jangan dulu)
+    $('#jurusan').select2({
+        theme: 'bootstrap4',
+        width: '100%',
+        placeholder: 'Pilih Jurusan',
+        allowClear: true
+    });
 });
 </script>
+
 
 
 

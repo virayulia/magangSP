@@ -102,10 +102,6 @@
                                     <td><?= format_tanggal_indonesia_dengan_jam(date('d M Y, H:i', strtotime($row->tanggal_terakhir))) ?></td>
                                 </tr>
                             <?php endforeach ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="8" class="text-center">Belum ada peserta yang mengikuti tes.</td>
-                            </tr>
                         <?php endif ?>
                     </tbody>
                 </table>

@@ -7,6 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 
+$routes->get('/test-email', 'HomeController::testemail');
 $routes->get('/', 'HomeController::index');
 $routes->get('/magang', 'HomeController::lowongan');
 $routes->get('/tentang-kami', 'HomeController::tentang_kami');

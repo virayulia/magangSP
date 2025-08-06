@@ -154,7 +154,7 @@
               </div>
               <div class="mb-2">
                 <label class="required-star">Provinsi</label>
-                <select name="provinsi" id="provinsi" class="form-select" required>
+                <select name="provinsi" id="provinsi" class="form-control" required>
                     <option value="" disabled <?= old('provinsi') === null ? 'selected' : '' ?>>Pilih Provinsi</option>
                     <?php foreach ($provinsi as $p) : ?>
                         <option value="<?= $p['id']; ?>" <?= old('provinsi') == $p['id'] ? 'selected' : '' ?>>

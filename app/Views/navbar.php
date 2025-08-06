@@ -18,7 +18,7 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto my-2 my-lg-0 d-flex align-items-center">
         <li class="nav-item"><a class="nav-link" href="/">Beranda</a></li>
-        <li class="nav-item"><a class="nav-link" href="/magang">Magang</a></li>
+        <li class="nav-item"><a class="nav-link" href="/magang">Ketersediaan</a></li>
         <li class="nav-item"><a class="nav-link" href="/tentang-kami">Tentang Kami</a></li>
         <?php if (logged_in()) : ?>
             <!-- Tampil hanya saat layar besar (lg ke atas) -->
@@ -42,7 +42,7 @@
             </li>
         <?php else : ?>
             <li class="nav-item">
-                <a class="nav-link btn btn-danger rounded-pill ms-2 py-1 px-4" href="<?= site_url('login'); ?>">Sign In</a>
+                <a class="nav-link btn btn-danger rounded-pill ms-2 py-1 px-4" href="<?= site_url('login'); ?>">Login</a>
             </li>
         <?php endif; ?>
 

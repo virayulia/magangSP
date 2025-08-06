@@ -94,18 +94,18 @@ Swal.fire({
 <header class="masthead">
   <div class="container px-4 px-lg-5 h-100">
     <div class="row gx-4 gx-lg-5 h-100 align-items-start justify-content-start text-start" style="padding-top: 15rem;">
-      <div class="col-lg-8" style="margin-left: -13px;" data-aos="fade-down" data-aos-delay="200">
+      <div class="col-lg-12" style="margin-left: -13px;" data-aos="fade-down" data-aos-delay="200">
         <h1 class="text-white font-weight-bold">
           Magang <br>PT Semen Padang
         </h1>
         <a class="btn btn-danger btn-xl mt-2" href="/register" data-aos="zoom-in" data-aos-delay="600">
           Daftar Sekarang
         </a>
-        <a class="btn btn-danger btn-xl mt-2" href="#program" data-aos="zoom-in" data-aos-delay="600">
-          Lihat Program
+        <a class="btn btn-danger btn-xl mt-2" href="/magang" data-aos="zoom-in" data-aos-delay="600">
+          Lihat Ketersediaan
         </a>
         <a class="btn btn-danger btn-xl mt-2" href="#alur" data-aos="zoom-in" data-aos-delay="600">
-          Lihat Alur Pendaftaran
+          Lihat Program dan Alur Pendaftaran
         </a>
       </div>
     </div>
@@ -113,7 +113,7 @@ Swal.fire({
 </header>
 
 <!-- Program -->
-<section class="page-section bg-primary" id="program">
+<!-- <section class="page-section bg-primary" id="program">
   <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center" data-aos="fade-up">
       <div class="col-lg-8 text-center">
@@ -122,68 +122,208 @@ Swal.fire({
       </div>
     </div>
     <div class="row gx-4 gx-lg-5 mt-5 justify-content-center">
-<!-- Card Magang -->
-<div class="col-md-5 mb-4" data-aos="fade-right" data-aos-delay="300">
-  <div class="card h-100 text-center shadow-lg rounded-5">
-    <div class="card-body p-5">
-      <i class="bi bi-briefcase-fill fs-1 text-primary mb-3"></i>
-      <h5 class="h4 mb-2">Magang</h5>
-      <p class="text-muted text-justify mb-2">
-        Program Magang di PT Semen Padang dirancang sebagai sarana pembelajaran langsung bagi pelajar dan mahasiswa untuk mengaplikasikan pengetahuan yang telah diperoleh selama studi ke dunia kerja nyata.
-        <br><br>Melalui program ini, peserta magang akan mendapatkan pengalaman praktis di lingkungan industri, serta pemahaman yang lebih mendalam tentang proses kerja di perusahaan manufaktur terkemuka. 
-        <br><br>Program ini juga menjadi jembatan untuk mengembangkan keterampilan profesional serta memperluas wawasan karier peserta.
-      </p>
-      <div class="text-start text-muted small mb-3">
-        <strong>Berkas yang perlu disiapkan:</strong>
-        <ul class="mb-0">
-          <li><strong>SMK:</strong> Surat permohonan dari sekolah, KTP/KK</li>
-          <li><strong>Perguruan Tinggi:</strong> CV, Proposal, Surat permohonan kampus (minimal ttd Kaprodi), KTP/KK</li>
-        </ul>
+     Card Magang 
+    <div class="col-md-5 mb-4" data-aos="fade-right" data-aos-delay="300">
+      <div class="card h-100 text-center shadow-lg rounded-5">
+        <div class="card-body p-5">
+          <i class="bi bi-briefcase-fill fs-1 text-primary mb-3"></i>
+          <h5 class="h4 mb-2">Magang</h5>
+          <p class="text-muted text-justify mb-2">
+            Program Magang di PT Semen Padang dirancang sebagai sarana pembelajaran langsung bagi pelajar dan mahasiswa untuk mengaplikasikan pengetahuan yang telah diperoleh selama studi ke dunia kerja nyata.
+            <br><br>Melalui program ini, peserta magang akan mendapatkan pengalaman praktis di lingkungan industri, serta pemahaman yang lebih mendalam tentang proses kerja di perusahaan manufaktur terkemuka. 
+            <br><br>Program ini juga menjadi jembatan untuk mengembangkan keterampilan profesional serta memperluas wawasan karier peserta.
+          </p>
+          <div class="text-start text-muted small mb-3">
+            <strong>Berkas yang perlu disiapkan:</strong>
+            <ul class="mb-0">
+              <li><strong>SMK:</strong> Surat permohonan dari sekolah, KTP/KK</li>
+              <li><strong>Perguruan Tinggi:</strong> CV, Proposal, Surat permohonan kampus (minimal ttd Kaprodi), KTP/KK</li>
+            </ul>
+          </div>
+          <a href="/magang" class="btn btn-danger w-100 btn-daftar">Daftar Magang</a>
+        </div>
       </div>
-      <a href="/magang" class="btn btn-danger w-100 btn-daftar">Daftar Magang</a>
+    </div>
+
+    Card Penelitian
+    <div class="col-md-5 mb-4" data-aos="fade-left" data-aos-delay="300">
+      <div class="card h-100 text-center shadow-lg rounded-5">
+        <div class="card-body p-5">
+          <i class="bi bi-journal-bookmark-fill fs-1 text-primary mb-3"></i>
+          <h5 class="h4 mb-2">Penelitian</h5>
+          <p class="text-muted text-justify mb-2">
+            Program Penelitian PT Semen Padang ditujukan bagi mahasiswa dan dosen yang ingin melakukan penelitian akademik di lingkungan perusahaan.
+            <br><br>Program ini mendukung penyusunan karya ilmiah seperti skripsi, tesis, maupun penelitian lainnya yang relevan dengan bidang industri semen dan operasional perusahaan. 
+            <br><br>Dengan membuka akses terhadap data dan informasi yang diperlukan, PT Semen Padang memberikan kontribusi nyata dalam mendukung pengembangan ilmu pengetahuan dan teknologi di tingkat perguruan tinggi.
+          </p>
+          <div class="text-start text-muted small mb-3"> <br>
+            <strong>Berkas yang perlu disiapkan:</strong>
+            <ul class="mb-0">
+              <li>CV</li>
+              <li>Proposal</li>
+              <li>Surat permohonan kampus (minimal ttd Kaprodi)</li>
+              <li>KTP/KK</li>
+            </ul>
+          </div>
+
+          <?php if (logged_in()) : ?>
+              <button class="btn btn-danger w-100 btn-daftar" data-bs-toggle="modal" data-bs-target="#modalPenelitianComingSoon">
+                  Daftar Penelitian
+              </button>
+          <?php else : ?>
+              <button class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#modalPenelitianComingSoon">
+                  Daftar Penelitian
+              </button>
+          <?php endif; ?>
+
+
+        </div>
+      </div>
+    </div>
+
     </div>
   </div>
-</div>
+</section> -->
 
-<!-- Card Penelitian -->
-<div class="col-md-5 mb-4" data-aos="fade-left" data-aos-delay="300">
-  <div class="card h-100 text-center shadow-lg rounded-5">
-    <div class="card-body p-5">
-      <i class="bi bi-journal-bookmark-fill fs-1 text-primary mb-3"></i>
-      <h5 class="h4 mb-2">Penelitian</h5>
-      <p class="text-muted text-justify mb-2">
-        Program Penelitian PT Semen Padang ditujukan bagi mahasiswa dan dosen yang ingin melakukan penelitian akademik di lingkungan perusahaan.
-        <br><br>Program ini mendukung penyusunan karya ilmiah seperti skripsi, tesis, maupun penelitian lainnya yang relevan dengan bidang industri semen dan operasional perusahaan. 
-        <br><br>Dengan membuka akses terhadap data dan informasi yang diperlukan, PT Semen Padang memberikan kontribusi nyata dalam mendukung pengembangan ilmu pengetahuan dan teknologi di tingkat perguruan tinggi.
-      </p>
-      <div class="text-start text-muted small mb-3"> <br>
-        <strong>Berkas yang perlu disiapkan:</strong>
-        <ul class="mb-0">
-          <li>CV</li>
-          <li>Proposal</li>
-          <li>Surat permohonan kampus (minimal ttd Kaprodi)</li>
-          <li>KTP/KK</li>
-        </ul>
+<!-- Masthead -->
+<!-- <header class="masthead text-white">
+  <div class="container px-4 px-lg-5 h-100">
+    <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-start text-start" style="padding-top: 15rem;">
+      <div class="col-lg-8" data-aos="fade-down" data-aos-delay="200">
+        <h1 class="font-weight-bold mb-4">
+          Magang & Penelitian <br>PT Semen Padang
+        </h1>
+        <div class="d-flex flex-wrap gap-3">
+          <a class="btn btn-danger btn-lg" href="/register" data-aos="zoom-in" data-aos-delay="600">Daftar Sekarang</a>
+          <a class="btn btn-outline-light btn-lg" href="/magang" data-aos="zoom-in" data-aos-delay="600">Lihat Kuota</a>
+          <a class="btn btn-outline-light btn-lg" href="#program-alur" data-aos="zoom-in" data-aos-delay="600">Program & Alur</a>
+        </div>
       </div>
-
-      <?php if (logged_in()) : ?>
-          <button class="btn btn-danger w-100 btn-daftar" data-bs-toggle="modal" data-bs-target="#modalPenelitianComingSoon">
-              Daftar Penelitian
-          </button>
-      <?php else : ?>
-          <button class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#modalPenelitianComingSoon">
-              Daftar Penelitian
-          </button>
-      <?php endif; ?>
-
-
     </div>
   </div>
-</div>
+</header> -->
 
+<section class="page-section bg-white text-dark" id="program-alur">
+  <div class="container px-4 px-lg-5">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="mt-0">Program & Alur Pendaftaran</h2>
+      <hr class="divider" />
+    </div>
+
+    <div class="row align-items-start">
+      <!-- Program Card Section -->
+      <div class="col-md-5 mb-4" data-aos="fade-right">
+        <h4 class="mb-3 fw-bold">Program yang Tersedia</h4>
+
+        <div class="d-flex align-items-center">
+          <!-- Card Wrapper -->
+          <div id="programCard" class="card p-4 shadow-lg rounded-4 w-100 transition">
+            <!-- Isi card akan diubah via JS -->
+            <div id="cardContent">
+              <!-- Magang default -->
+              <div>
+                <div class="text-center mb-3">
+                  <i class="bi bi-briefcase-fill fs-1 text-danger"></i>
+                  <h5 class="fw-bold mt-2">Magang</h5>
+                </div>
+                <p class="text-muted text-justify">
+                 Program Magang di PT Semen Padang dirancang sebagai sarana pembelajaran langsung bagi pelajar dan mahasiswa untuk mengaplikasikan pengetahuan yang telah diperoleh selama studi ke dunia kerja nyata.
+                <br><br>Melalui program ini, peserta magang akan mendapatkan pengalaman praktis di lingkungan industri, serta pemahaman yang lebih mendalam tentang proses kerja di perusahaan manufaktur terkemuka. 
+                <br><br>Program ini juga menjadi jembatan untuk mengembangkan keterampilan profesional serta memperluas wawasan karier peserta.
+                </p>
+                <div class="small text-muted">
+                  <strong>Berkas yang perlu disiapkan:</strong>
+                  <ul class="mb-0">
+                    <li><strong>SMK:</strong> Surat permohonan dari sekolah, KTP/KK</li>
+                    <li><strong>Perguruan Tinggi:</strong> CV, Proposal, Surat permohonan kampus (minimal ttd Kaprodi), KTP/KK</li>
+                  </ul>
+                </div>
+                <a href="/magang" class="btn btn-danger w-100 mt-3">Daftar Magang</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tombol navigasi kanan -->
+          <button class="btn btn-outline-danger ms-3" id="nextCardBtn">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Alur Section -->
+      <div class="col-md-7 text-center" data-aos="fade-left">
+        <h4 class="mb-3 fw-bold">Alur Pendaftaran Magang</h4>
+        <img src="<?= base_url('assets/img/alur-pendaftaran-magang2.png') ?>" 
+             alt="Alur Pendaftaran Magang"
+             class="img-fluid shadow rounded"
+             style="width: 100%; object-fit: contain;">
+        <p class="text-muted mt-2 small">Ikuti tahapan sesuai diagram di atas.</p>
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  const cardContent = document.getElementById('cardContent');
+  const btn = document.getElementById('nextCardBtn');
+  let isMagang = true;
+
+  btn.addEventListener('click', () => {
+    if (isMagang) {
+      cardContent.innerHTML = `
+        <div>
+          <div class="text-center mb-3">
+            <i class="bi bi-journal-bookmark-fill fs-1 text-danger"></i>
+            <h5 class="fw-bold mt-2">Penelitian</h5>
+          </div>
+          <p class="text-muted text-justify">
+             Program Penelitian PT Semen Padang ditujukan bagi mahasiswa dan dosen yang ingin melakukan penelitian akademik di lingkungan perusahaan.
+            <br><br>Program ini mendukung penyusunan karya ilmiah seperti skripsi, tesis, maupun penelitian lainnya yang relevan dengan bidang industri semen dan operasional perusahaan. 
+            <br><br>Dengan membuka akses terhadap data dan informasi yang diperlukan, PT Semen Padang memberikan kontribusi nyata dalam mendukung pengembangan ilmu pengetahuan dan teknologi di tingkat perguruan tinggi.
+          </p>
+          <div class="small text-muted">
+            <strong>Berkas yang perlu disiapkan:</strong>
+            <ul class="mb-0">
+              <li>CV</li>
+              <li>Proposal</li>
+              <li>Surat permohonan kampus (minimal ttd Kaprodi)</li>
+              <li>KTP/KK</li>
+            </ul>
+          </div>
+          <button class="btn btn-danger w-100 mt-3" data-bs-toggle="modal" data-bs-target="#modalPenelitianComingSoon">Daftar Penelitian</button>
+        </div>
+      `;
+      btn.innerHTML = `<i class="bi bi-chevron-left"></i>`;
+    } else {
+      cardContent.innerHTML = `
+        <div>
+          <div class="text-center mb-3">
+            <i class="bi bi-briefcase-fill fs-1 text-danger"></i>
+            <h5 class="fw-bold mt-2">Magang</h5>
+          </div>
+          <p class="text-muted text-justify">
+            Program Magang di PT Semen Padang dirancang sebagai sarana pembelajaran langsung bagi pelajar dan mahasiswa untuk mengaplikasikan pengetahuan yang telah diperoleh selama studi ke dunia kerja nyata.
+            <br><br>Melalui program ini, peserta magang akan mendapatkan pengalaman praktis di lingkungan industri, serta pemahaman yang lebih mendalam tentang proses kerja di perusahaan manufaktur terkemuka. 
+            <br><br>Program ini juga menjadi jembatan untuk mengembangkan keterampilan profesional serta memperluas wawasan karier peserta.
+          </p>
+          <div class="small text-muted">
+            <strong>Berkas yang perlu disiapkan:</strong>
+            <ul class="mb-0">
+              <li><strong>SMK:</strong> Surat permohonan dari sekolah, KTP/KK</li>
+              <li><strong>Perguruan Tinggi:</strong> CV, Proposal, Surat permohonan kampus (minimal ttd Kaprodi), KTP/KK</li>
+            </ul>
+          </div>
+          <a href="/magang" class="btn btn-danger w-100 mt-3">Daftar Magang</a>
+        </div>
+      `;
+      btn.innerHTML = `<i class="bi bi-chevron-right"></i>`;
+    }
+    isMagang = !isMagang;
+  });
+</script>
+
+
+
 <!-- Modal Pemberitahuan -->
 <div class="modal fade" id="modalPenelitianComingSoon" tabindex="-1" aria-labelledby="modalPenelitianLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -263,41 +403,6 @@ Swal.fire({
     </div>
   </div>
 </div>
-
-
-<!-- Services -->
-<section class="page-section" id="alur">
-  <div class="container-fluid px-0">
-    <h2 class="text-center mt-0" data-aos="fade-up">Alur Pendaftaran Magang</h2>
-    <hr class="divider" data-aos="fade-up" />
-    <div class="d-flex justify-content-center" data-aos="zoom-in">
-      <img src="<?= base_url('assets/img/alur-pendaftaran-magang.png') ?>" 
-           alt="Alur Pendaftaran Magang" 
-           class="shadow rounded"
-           style="width: 100%; max-width: 1200px; height: auto;">
-    </div>
-    <p class="text-center mt-3 text-muted">Ikuti setiap tahapan pendaftaran dengan cermat sesuai alur di atas.</p>
-  </div>
-</section>
-
-
-<!-- Portfolio -->
-<!-- <div id="portfolio" data-aos="fade-up" data-aos-delay="200">
-  <div class="container-fluid p-0">
-    <div class="row g-2"> 
-      <?php for ($i = 1; $i <= 6; $i++) : ?>
-        <div class="col-lg-4 col-md-6 col-12" data-aos="zoom-in" data-aos-delay="<?= 100 * $i ?>">
-          <a class="portfolio-box d-block position-relative overflow-hidden" href="assets/img/portfolio/fullsize/<?= $i ?>.jpg" title="Dokumentasi">
-            <div class="portfolio-img-wrapper">
-              <img class="img-fluid" src="assets/img/portfolio/thumbnails/<?= $i ?>.jpg" alt="..." />
-            </div>
-          </a>
-        </div>
-      <?php endfor; ?>
-    </div>
-  </div>
-</div> -->
-
 
 <!-- FAQ -->
 <section class="page-section bg-dark text-white" id="faq">

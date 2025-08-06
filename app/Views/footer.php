@@ -10,11 +10,11 @@
 
         <!-- Social media -->
         <div class="col-lg-4 text-center">
-        <a href="#" class="text-dark fs-4 me-3"><i class="bi bi-youtube"></i></a>
-        <a href="#" class="text-dark fs-4 me-3"><i class="bi bi-instagram"></i></a>
-        <a href="#" class="text-dark fs-4 me-3"><i class="bi bi-facebook"></i></a>
-        <a href="#" class="text-dark fs-4 me-3"><i class="bi bi-twitter-x"></i></a>
-        <a href="#" class="text-dark fs-4 me-3"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.youtube.com/channel/UCIi9Yy9jRMlB8k9_8djAJcA/feed" class="text-dark fs-4 me-3"><i class="bi bi-youtube"></i></a>
+        <a href="https://www.instagram.com/semenpadang/" class="text-dark fs-4 me-3"><i class="bi bi-instagram"></i></a>
+        <a href="https://web.facebook.com/PTsemenpadang1910/" class="text-dark fs-4 me-3"><i class="bi bi-facebook"></i></a>
+        <a href="https://twitter.com/semenpadang1910" class="text-dark fs-4 me-3"><i class="bi bi-twitter-x"></i></a>
+        <a href="https://www.tiktok.com/@semenpadang1910?_t=8hadknUhwFF&amp;_r=1" class="text-dark fs-4 me-3"><i class="fab fa-tiktok"></i></a>
         </div>
     </div>
 
@@ -25,7 +25,7 @@
         <p class="small mb-1">Jalan Raya Indarung, Padang 25237 Sumatera Barat.</p>
         <p class="small mb-1">Telp. (0751) 815-250 | Fax. (0751) 815-590</p>
         <p class="small mb-1"><a href="https://www.semenpadang.co.id/" class="text-decoration-none text-dark" target="_blank">www.semenpadang.co.id</a></p>
-        <p class="small mb-0">Email: <a href="mailto:hrd@namaperusahaan.co.id" class="text-decoration-none text-dark">hrd@namaperusahaan.co.id</a></p>
+        <p class="small mb-0">Email: <a href="mailto:magang.sp@sig.id" class="text-decoration-none text-dark">magang.sp@sig.id</a></p>
         </div>
 
         <!-- Peserta -->

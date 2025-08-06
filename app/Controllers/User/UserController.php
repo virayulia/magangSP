@@ -91,12 +91,13 @@ class UserController extends BaseController
         $userId = user()?->id; ; 
         $data['user_data'] = $this->userModel
             ->join('instansi', 'instansi.instansi_id = users.instansi_id','left')
+            ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id','left')
             ->select('users.fullname,users.email, users.user_image,users.nisn_nim, users.no_hp, users.jenis_kelamin, users.alamat,
             users.province_id, users.city_id, users.domisili, users.provinceDom_id, users.cityDom_id,
             users.tingkat_pendidikan, users.instansi_id, users.jurusan_id, users.semester, 
             users.nilai_ipk, users.rfid_no, users.cv, users.proposal, users.surat_permohonan, users.tanggal_surat,
             users.no_surat, users.nama_pimpinan, users.jabatan, users.email_instansi,users.bpjs_kes, users.bpjs_tk, 
-            users.buktibpjs_tk, users.ktp_kk, users.status, instansi.nama_instansi')
+            users.buktibpjs_tk, users.ktp_kk, users.status, instansi.nama_instansi, jurusan.nama_jurusan')
             ->where('users.id', $userId)
             ->first();
 
@@ -133,12 +134,13 @@ class UserController extends BaseController
         $userId = user()?->id; ; 
         $data['user_data'] = $this->userModel
             ->join('instansi', 'instansi.instansi_id = users.instansi_id','left')
+            ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id','left')
             ->select('users.fullname,users.email, users.user_image,users.nisn_nim, users.no_hp, users.jenis_kelamin, users.alamat,
             users.province_id, users.city_id, users.domisili, users.provinceDom_id, users.cityDom_id,
             users.tingkat_pendidikan, users.instansi_id, users.jurusan_id,  users.semester, 
             users.nilai_ipk, users.rfid_no, users.cv, users.proposal, users.surat_permohonan, users.tanggal_surat,
             users.no_surat, users.nama_pimpinan, users.jabatan, users.email_instansi,users.bpjs_kes, users.bpjs_tk, 
-            users.buktibpjs_tk, users.ktp_kk, users.status, instansi.nama_instansi')
+            users.buktibpjs_tk, users.ktp_kk, users.status, instansi.nama_instansi, jurusan.nama_jurusan')
             ->where('users.id', $userId)
             ->first();
         

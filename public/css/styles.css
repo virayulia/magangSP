@@ -11525,42 +11525,8 @@ header.masthead > * {
     transform: translateY(-5px);
   }
 }
-/* CSS Select 2 */
-.form-control,
-.form-select,
-.select2-container--bootstrap4 .select2-selection {
-  border: 1px solid #dee2e6 !important;
-  height: calc(2.875rem + 2px) !important;
-  padding: 0.75rem 1rem !important;
-  font-size: 1rem !important;
-  line-height: 1.5 !important;
-  border-radius: 0.5rem !important;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  background-color: #fff !important;
-}
 
-.form-control:focus,
-.form-select:focus,
-.select2-container--bootstrap4 .select2-selection {
-  border: 1px solid #dee2e6 !important;
-  height: calc(2.875rem + 2px) !important;
-  padding: 0 1rem !important;
-  font-size: 1rem !important;
-  line-height: 1.5 !important;
-  border-radius: 0.5rem !important;
-  display: flex !important;
-  align-items: center !important; /* supaya teks rata tengah vertikal */
-}
-
-.select2-container--bootstrap4 .select2-selection__rendered {
-  padding: 0 !important;
-  line-height: normal !important;
-}
-
-.select2-container--bootstrap4 .select2-selection__arrow {
-  height: 100% !important;
-  top: 0 !important;
-}
-.select2-container--bootstrap4 .select2-selection--single.is-invalid {
-  border-color: #dc3545;
+img.shadow.rounded:hover {
+  transform: scale(1.02);
+  transition: all 0.3s ease;
 }

@@ -6,7 +6,7 @@ use CodeIgniter\Config\BaseConfig;
 
 class Email extends BaseConfig
 {
-    public string $fromEmail  = 'bordirmotif@gmail.com';
+    public string $fromEmail  = 'magang.sp@sig.id';
     public string $fromName   = 'Pusdiklat PT. Semen Padang';
     public string $recipients = '';
 
@@ -28,22 +28,22 @@ class Email extends BaseConfig
     /**
      * SMTP Server Hostname
      */
-    public string $SMTPHost = 'smtp.gmail.com';
+    public string $SMTPHost = 'smtp-mail.outlook.com';
 
     /**
      * SMTP Username
      */
-    public string $SMTPUser = 'bordirmotif@gmail.com';
+    public string $SMTPUser = 'magang.sp@sig.id';
 
     /**
      * SMTP Password
      */
-    public string $SMTPPass = 'lkhpeuspapcjbmtm';
+    public string $SMTPPass = 'xxtzmsmrxqktrfns';
 
     /**
      * SMTP Port
      */
-    public int $SMTPPort = 465;
+    public int $SMTPPort = 587;
 
     /**
      * SMTP Timeout (in seconds)
@@ -62,7 +62,7 @@ class Email extends BaseConfig
      *             to the server. 'ssl' means implicit SSL. Connection on port
      *             465 should set this to ''.
      */
-    public string $SMTPCrypto = 'ssl';
+    public string $SMTPCrypto = 'tls';
 
     /**
      * Enable word-wrap
@@ -83,7 +83,6 @@ class Email extends BaseConfig
      * Character set (utf-8, iso-8859-1, etc.)
      */
     public string $charset = 'UTF-8';
-
     /**
      * Whether to validate the email address
      */

@@ -2,7 +2,9 @@
 
 namespace Config;
 
+use App\Auth\Activators\EmailActivator;
 use CodeIgniter\Config\BaseService;
+use App\Auth\Resetters\EmailResetter;
 
 /**
  * Services Configuration file.
@@ -29,4 +31,26 @@ class Services extends BaseService
      *     return new \CodeIgniter\Example();
      * }
      */
+
+    public static function activator(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('activator');
+        }
+
+        $config = config('Auth');
+
+        return new EmailActivator($config);
+    }
+
+    public static function resetter(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('resetter');
+        }
+
+        $config = config('Auth');
+        return new EmailResetter($config);
+    }
+
 }

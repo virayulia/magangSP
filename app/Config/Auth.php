@@ -2,6 +2,9 @@
 
 namespace Config;
 
+use App\Auth\Resetters\EmailResetter;
+use App\Auth\Activators\EmailActivator;
+
 
 class Auth extends \Myth\Auth\Config\Auth
 {
@@ -184,8 +187,8 @@ class Auth extends \Myth\Auth\Config\Auth
      *
      * @var string|null Name of the ActivatorInterface class
      */
-    public $requireActivation = 'Myth\Auth\Authentication\Activators\EmailActivator';
-
+    // public $requireActivation = 'Myth\Auth\Authentication\Activators\EmailActivator';
+    public $requireActivation = EmailActivator::class;
     /**
      * --------------------------------------------------------------------
      * Allow Password Reset via Email
@@ -196,7 +199,9 @@ class Auth extends \Myth\Auth\Config\Auth
      *
      * @var string|null Name of the ResetterInterface class
      */
-    public $activeResetter = 'Myth\Auth\Authentication\Resetters\EmailResetter';
+    // public $activeResetter = 'Myth\Auth\Authentication\Resetters\EmailResetter';
+    public $activeResetter   = EmailResetter::class;
+
 
     /**
      * --------------------------------------------------------------------
@@ -344,9 +349,9 @@ class Auth extends \Myth\Auth\Config\Auth
      * @var array
      */
     public $userActivators = [
-        'Myth\Auth\Authentication\Activators\EmailActivator' => [
-            'fromEmail' => null,
-            'fromName'  => null,
+        EmailActivator::class => [
+            'fromEmail' => 'magang.sp@sig.id',
+            'fromName'  => 'Pusdiklat PT. Semen Padang',
         ],
     ];
 
@@ -360,9 +365,9 @@ class Auth extends \Myth\Auth\Config\Auth
      * @var array
      */
     public $userResetters = [
-        'Myth\Auth\Authentication\Resetters\EmailResetter' => [
-            'fromEmail' => null,
-            'fromName'  => null,
+         EmailResetter::class => [
+            'fromEmail' => 'magang.sp@sig.id',
+            'fromName'  => 'Pusdiklat PT. Semen Padang',
         ],
     ];
 

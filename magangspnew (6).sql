@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 01 Agu 2025 pada 08.22
+-- Waktu pembuatan: 06 Agu 2025 pada 03.47
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -45,7 +45,8 @@ INSERT INTO `auth_activation_attempts` (`id`, `ip_address`, `user_agent`, `token
 (3, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36', 'ff2a2ea4c99d2670e985e6d2170ea033', '2025-07-08 04:03:19'),
 (4, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'de24688fb7181a3d455e8fe6563e1645', '2025-07-21 10:27:52'),
 (5, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', '5cf4daa13ceccd10c1954521d0f3cf07', '2025-07-31 15:09:29'),
-(6, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', '0d502e55e6be4ccb896a1d08975fd312', '2025-07-31 15:32:01');
+(6, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', '0d502e55e6be4ccb896a1d08975fd312', '2025-07-31 15:32:01'),
+(7, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36', 'fe75e7cf257cfb30858d93abd00ce21b', '2025-08-04 11:22:12');
 
 -- --------------------------------------------------------
 
@@ -97,7 +98,6 @@ CREATE TABLE `auth_groups_users` (
 
 INSERT INTO `auth_groups_users` (`group_id`, `user_id`) VALUES
 (1, 1),
-(2, 21),
 (2, 26),
 (4, 23);
 
@@ -231,7 +231,15 @@ INSERT INTO `auth_logins` (`id`, `ip_address`, `email`, `user_id`, `date`, `succ
 (108, '::1', 'bordirmotif@gmail.com', 1, '2025-07-31 14:33:54', 1),
 (109, '::1', 'virayukia1234@gmail.com', 25, '2025-07-31 15:09:42', 1),
 (110, '::1', 'virayukia1234@gmail.com', 26, '2025-07-31 15:31:48', 0),
-(111, '::1', 'virayukia1234@gmail.com', 26, '2025-07-31 15:32:13', 1);
+(111, '::1', 'virayukia1234@gmail.com', 26, '2025-07-31 15:32:13', 1),
+(112, '::1', 'bordirmotif@gmail.com', 1, '2025-08-04 08:33:20', 1),
+(113, '::1', 'iqda.maulana@gmail.com', 29, '2025-08-04 11:22:24', 1),
+(114, '::1', 'kuronekochann123@gmail.com', 21, '2025-08-04 15:02:07', 1),
+(115, '::1', 'bordirmotif@gmail.com', 1, '2025-08-05 08:59:29', 1),
+(116, '::1', 'bordirmotif@gmail.com', 1, '2025-08-05 13:28:06', 1),
+(117, '::1', 'bordirmotif@gmail.com', 1, '2025-08-06 08:36:34', 1),
+(118, '::1', 'bordirmotif@gmail.com', 1, '2025-08-06 08:36:36', 1),
+(119, '::1', 'virayukia1234@gmail.com', 26, '2025-08-06 08:39:47', 1);
 
 -- --------------------------------------------------------
 
@@ -770,29 +778,27 @@ INSERT INTO `jurusan` (`jurusan_id`, `nama_jurusan`) VALUES
 (39, 'Teknik  Industri'),
 (40, 'Teknik  Kimia'),
 (41, 'Teknik  Mesin'),
-(42, 'Teknik  Mesin, Teknik Elektro, Manajemen, ADM Perkantoran, OTKP'),
-(43, 'Teknik Audio Video'),
-(44, 'Teknik Biosistem'),
-(45, 'Teknik Elektro'),
-(46, 'Teknik Fisika'),
-(47, 'Teknik Geodesi'),
-(48, 'Teknik Industri'),
-(49, 'Teknik Informatika'),
-(50, 'Teknik Instalasi Tenaga Listrik'),
-(51, 'Teknik Kebumian'),
-(52, 'Teknik Kendaraan Ringan'),
-(53, 'Teknik Kimia'),
-(54, 'Teknik Komputer '),
-(55, 'Teknik Komputer Jaringan'),
-(56, 'Teknik Lingkungan'),
-(57, 'Teknik Listrik'),
-(58, 'Teknik Logistik'),
-(59, 'Teknik Mesin'),
-(60, 'Teknik Mesin, Teknik Elektro'),
-(61, 'Teknik Pendingan dan Tata Udara'),
-(62, 'Teknik Pertambangan'),
-(63, 'Teknik Sipil'),
-(64, 'Teknologi Rekayasa Komputer');
+(42, 'Teknik Audio Video'),
+(43, 'Teknik Biosistem'),
+(44, 'Teknik Elektro'),
+(45, 'Teknik Fisika'),
+(46, 'Teknik Geodesi'),
+(47, 'Teknik Industri'),
+(48, 'Teknik Informatika'),
+(49, 'Teknik Instalasi Tenaga Listrik'),
+(50, 'Teknik Kebumian'),
+(51, 'Teknik Kendaraan Ringan'),
+(52, 'Teknik Kimia'),
+(53, 'Teknik Komputer '),
+(54, 'Teknik Komputer Jaringan'),
+(55, 'Teknik Lingkungan'),
+(56, 'Teknik Listrik'),
+(57, 'Teknik Logistik'),
+(58, 'Teknik Mesin'),
+(59, 'Teknik Pendingan dan Tata Udara'),
+(60, 'Teknik Pertambangan'),
+(61, 'Teknik Sipil'),
+(62, 'Teknologi Rekayasa Komputer');
 
 -- --------------------------------------------------------
 
@@ -813,17 +819,17 @@ CREATE TABLE `jurusan_unit` (
 INSERT INTO `jurusan_unit` (`jurusan_unit_id`, `kuota_unit_id`, `jurusan_id`) VALUES
 (1, 1, 1),
 (2, 1, 21),
-(3, 2, 48),
-(4, 3, 59),
+(3, 2, 47),
+(4, 3, 58),
 (5, 3, 25),
-(6, 4, 59),
+(6, 4, 58),
 (7, 4, 39),
-(8, 5, 57),
+(8, 5, 56),
 (9, 5, 25),
-(10, 6, 57),
-(11, 7, 59),
+(10, 6, 56),
+(11, 7, 58),
 (12, 7, 25),
-(13, 8, 59),
+(13, 8, 58),
 (14, 9, 21),
 (15, 9, 1),
 (16, 9, 27),
@@ -856,10 +862,10 @@ INSERT INTO `jurusan_unit` (`jurusan_unit_id`, `kuota_unit_id`, `jurusan_id`) VA
 (43, 18, 1),
 (44, 19, 21),
 (45, 19, 1),
-(46, 19, 58),
-(47, 20, 48),
+(46, 19, 57),
+(47, 20, 47),
 (48, 20, 21),
-(49, 20, 58),
+(49, 20, 57),
 (50, 21, 1),
 (51, 21, 27),
 (52, 22, 21),
@@ -874,118 +880,118 @@ INSERT INTO `jurusan_unit` (`jurusan_unit_id`, `kuota_unit_id`, `jurusan_id`) VA
 (61, 24, 13),
 (62, 25, 1),
 (63, 25, 21),
-(64, 25, 43),
+(64, 25, 42),
 (65, 25, 27),
 (66, 26, 1),
 (67, 26, 21),
 (68, 26, 2),
 (69, 26, 14),
-(70, 26, 43),
+(70, 26, 42),
 (71, 26, 9),
 (72, 26, 6),
 (73, 26, 38),
 (74, 26, 27),
-(75, 27, 55),
+(75, 27, 54),
 (76, 27, 32),
-(77, 28, 55),
+(77, 28, 54),
 (78, 28, 32),
-(79, 28, 49),
-(80, 28, 54),
+(79, 28, 48),
+(80, 28, 53),
 (81, 28, 37),
-(82, 28, 64),
-(83, 29, 48),
+(82, 28, 62),
+(83, 29, 47),
 (84, 29, 21),
-(85, 29, 53),
-(86, 29, 45),
+(85, 29, 52),
+(86, 29, 44),
 (87, 30, 20),
 (88, 30, 8),
-(89, 31, 56),
-(90, 31, 48),
-(91, 32, 48),
-(92, 33, 62),
+(89, 31, 55),
+(90, 31, 47),
+(91, 32, 47),
+(92, 33, 60),
 (93, 33, 28),
 (94, 33, 4),
 (95, 33, 1),
-(96, 34, 62),
+(96, 34, 60),
 (97, 34, 28),
 (98, 34, 4),
 (99, 34, 10),
 (100, 34, 11),
 (101, 34, 15),
 (102, 34, 18),
-(103, 34, 51),
-(104, 34, 47),
+(103, 34, 50),
+(104, 34, 46),
 (105, 34, 26),
 (106, 34, 31),
 (107, 35, 16),
 (108, 35, 12),
-(109, 35, 56),
+(109, 35, 55),
 (110, 35, 19),
-(111, 36, 62),
-(112, 37, 50),
-(113, 37, 61),
-(114, 38, 45),
-(115, 38, 57),
-(116, 38, 50),
-(117, 38, 61),
+(111, 36, 60),
+(112, 37, 49),
+(113, 37, 59),
+(114, 38, 44),
+(115, 38, 56),
+(116, 38, 49),
+(117, 38, 59),
 (118, 39, 40),
 (119, 40, 40),
 (120, 41, 40),
-(121, 42, 59),
-(122, 42, 45),
+(121, 42, 58),
+(122, 42, 44),
 (123, 42, 1),
 (124, 42, 25),
-(125, 43, 59),
-(126, 43, 45),
+(125, 43, 58),
+(126, 43, 44),
 (127, 43, 1),
-(128, 44, 59),
+(128, 44, 58),
 (129, 44, 25),
-(130, 45, 59),
-(131, 46, 59),
+(130, 45, 58),
+(131, 46, 58),
 (132, 46, 25),
-(133, 47, 59),
-(134, 48, 45),
-(135, 49, 45),
-(136, 49, 46),
-(137, 50, 45),
-(138, 51, 45),
-(139, 51, 46),
+(133, 47, 58),
+(134, 48, 44),
+(135, 49, 44),
+(136, 49, 45),
+(137, 50, 44),
+(138, 51, 44),
+(139, 51, 45),
 (140, 52, 1),
 (141, 52, 27),
 (142, 53, 7),
-(143, 54, 63),
-(144, 54, 59),
-(145, 54, 45),
+(143, 54, 61),
+(144, 54, 58),
+(145, 54, 44),
 (146, 55, 21),
 (147, 55, 1),
 (148, 55, 27),
-(149, 56, 63),
+(149, 56, 61),
 (150, 56, 21),
 (151, 56, 1),
 (152, 57, 1),
 (153, 57, 27),
 (154, 58, 21),
 (155, 58, 6),
-(156, 59, 48),
+(156, 59, 47),
 (157, 59, 37),
 (158, 59, 21),
 (159, 59, 6),
 (160, 60, 7),
-(161, 61, 59),
+(161, 61, 58),
 (162, 61, 21),
-(163, 62, 59),
-(164, 62, 45),
-(165, 62, 63),
+(163, 62, 58),
+(164, 62, 44),
+(165, 62, 61),
 (166, 63, 20),
 (167, 64, 20),
 (168, 64, 8),
-(169, 65, 56),
-(170, 65, 48),
+(169, 65, 55),
+(170, 65, 47),
 (171, 65, 16),
 (172, 65, 19),
 (173, 65, 12),
 (174, 65, 5),
-(175, 65, 44),
+(175, 65, 43),
 (176, 66, 21),
 (177, 66, 1),
 (178, 66, 27),
@@ -1004,7 +1010,7 @@ INSERT INTO `jurusan_unit` (`jurusan_unit_id`, `kuota_unit_id`, `jurusan_id`) VA
 (191, 70, 1),
 (192, 70, 7),
 (193, 70, 27),
-(194, 71, 63),
+(194, 71, 61),
 (195, 71, 1),
 (196, 72, 37),
 (197, 72, 22),
@@ -1055,13 +1061,9 @@ INSERT INTO `jurusan_unit` (`jurusan_unit_id`, `kuota_unit_id`, `jurusan_id`) VA
 (242, 87, 21),
 (243, 87, 1),
 (244, 88, 41),
-(245, 88, 45),
-(246, 88, 21),
-(247, 88, 1),
-(248, 88, 27),
+(245, 88, 44),
 (249, 89, 41),
-(250, 89, 21),
-(251, 89, 45),
+(251, 89, 44),
 (252, 90, 21),
 (253, 91, 36),
 (254, 91, 21),
@@ -1073,14 +1075,14 @@ INSERT INTO `jurusan_unit` (`jurusan_unit_id`, `kuota_unit_id`, `jurusan_id`) VA
 (260, 94, 3),
 (261, 94, 1),
 (262, 94, 29),
-(263, 94, 52),
+(263, 94, 51),
 (264, 94, 27),
 (265, 95, 21),
 (266, 95, 3),
 (267, 95, 1),
 (268, 95, 29),
 (269, 95, 27),
-(270, 95, 52),
+(270, 95, 51),
 (271, 96, 3),
 (272, 97, 21),
 (273, 97, 1),
@@ -1090,17 +1092,17 @@ INSERT INTO `jurusan_unit` (`jurusan_unit_id`, `kuota_unit_id`, `jurusan_id`) VA
 (277, 98, 35),
 (278, 99, 21),
 (279, 99, 1),
-(280, 100, 49),
+(280, 100, 48),
 (281, 100, 37),
-(282, 100, 48),
-(283, 101, 59),
-(284, 102, 60),
-(285, 102, 45),
-(286, 103, 59),
-(287, 104, 59),
-(288, 104, 45),
+(282, 100, 47),
+(283, 101, 58),
+(284, 102, 58),
+(285, 102, 44),
+(286, 103, 58),
+(287, 104, 58),
+(288, 104, 44),
 (289, 105, 21),
-(290, 105, 56),
+(290, 105, 55),
 (291, 106, 1),
 (292, 106, 21),
 (293, 106, 27);
@@ -1136,9 +1138,9 @@ INSERT INTO `kuota_unit` (`kuota_unit_id`, `unit_id`, `tingkat_pendidikan`, `kuo
 (11, 7, 'SMK', 2),
 (12, 7, 'Perguruan Tinggi', 0),
 (13, 8, 'SMK', 2),
-(14, 8, 'Perguruan Tinggi', 5),
-(15, 9, 'SMK', 2),
-(16, 9, 'Perguruan Tinggi', 2),
+(14, 8, 'Perguruan Tinggi', 4),
+(15, 9, 'SMK', 0),
+(16, 9, 'Perguruan Tinggi', 1),
 (17, 10, 'Perguruan Tinggi', 0),
 (18, 11, 'SMK', 0),
 (19, 11, 'Perguruan Tinggi', 2),
@@ -1169,7 +1171,7 @@ INSERT INTO `kuota_unit` (`kuota_unit_id`, `unit_id`, `tingkat_pendidikan`, `kuo
 (44, 30, 'SMK', 1),
 (45, 30, 'Perguruan Tinggi ', 8),
 (46, 31, 'SMK', 1),
-(47, 31, 'Perguruan Tinggi ', 8),
+(47, 31, 'SMK', 13),
 (48, 32, 'SMK', 0),
 (49, 32, 'Perguruan Tinggi ', 0),
 (50, 33, 'SMK', 0),
@@ -1210,8 +1212,8 @@ INSERT INTO `kuota_unit` (`kuota_unit_id`, `unit_id`, `tingkat_pendidikan`, `kuo
 (85, 53, 'SMK', 0),
 (86, 53, 'Perguruan Tinggi ', 0),
 (87, 54, 'Perguruan Tinggi ', 5),
-(88, 55, 'SMK', 2),
-(89, 55, 'Perguruan Tinggi ', 1),
+(88, 55, 'SMK', 12),
+(89, 55, 'Perguruan Tinggi', 0),
 (90, 56, 'Perguruan Tinggi ', 3),
 (91, 57, 'Perguruan Tinggi ', 3),
 (92, 58, 'Perguruan Tinggi ', 1),
@@ -1264,7 +1266,7 @@ CREATE TABLE `magang` (
 --
 
 INSERT INTO `magang` (`magang_id`, `user_id`, `unit_id`, `periode_id`, `durasi`, `tanggal_daftar`, `status_seleksi`, `tanggal_seleksi`, `status_konfirmasi`, `tanggal_konfirmasi`, `status_validasi_berkas`, `tanggal_validasi_berkas`, `status_berkas_lengkap`, `tanggal_berkas_lengkap`, `cttn_berkas_lengkap`, `tanggal_setujui_pernyataan`, `alasan_batal`, `tanggal_masuk`, `tanggal_selesai`, `status_akhir`) VALUES
-(6, 26, 39, 1, 2, '2025-07-27 15:50:38', 'Diterima', '2025-07-31 15:52:21', 'Y', '2025-07-31 15:54:04', 'Y', '2025-07-31 16:03:44', 'Y', '2025-07-31 16:43:13', NULL, '2025-07-31', NULL, '2025-09-01', '2025-10-31', 'magang');
+(6, 26, 39, 1, 2, '2025-07-27 15:50:38', 'Diterima', '2025-07-31 15:52:21', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-09-01', '2025-10-31', 'proses');
 
 -- --------------------------------------------------------
 
@@ -1371,7 +1373,8 @@ CREATE TABLE `periode_magang` (
 --
 
 INSERT INTO `periode_magang` (`periode_id`, `tanggal_buka`, `tanggal_tutup`, `keterangan`) VALUES
-(1, '2025-07-02', '2025-07-28', '');
+(1, '2025-07-02', '2025-07-28', ''),
+(3, '2025-08-04', '2025-08-11', '');
 
 -- --------------------------------------------------------
 
@@ -2049,14 +2052,14 @@ INSERT INTO `unit_kerja` (`unit_id`, `unit_kerja`, `nama_pimpinan`, `email_pimpi
 (19, 'Unit Quality Control', 'Ike Evi Wiyana', 'ike.wiyana@sig.id', 1, 1, NULL),
 (20, 'Staff AFR', 'Musytaqim Nasra', 'musytaqim.nasra@sig.id', 1, 1, NULL),
 (21, 'Unit Penunjang Produksi', 'Suryat Handoko', 'suryat.handoko@sig.id', 1, 1, NULL),
-(22, 'Unit Operasi Tambang', 'Hendri Priparis', 'hendri.priparis@sig.id', 1, 1, 'Administrasi Perkantoran Tidak Pakai Safety'),
+(22, 'Unit Operasi Tambang', 'Hendri Priparis', 'hendri.priparis@sig.id', 1, 1, 'Administrasi Perkantoran Tidak Pakai APD'),
 (23, 'Unit Perencanaan dan Pengawasan Tambang', 'Berva Lindo', 'berva.lindo@sig.id', 1, 1, NULL),
 (24, 'Unit Produksi Bahan Baku', 'Ricky Aprinaldo', 'ricky.aprinaldo@sig.id', 1, 1, NULL),
 (25, 'Unit WHRPG & Utilitas', 'Harri Kurniawan', 'harri.kurniawan@sig.id', 1, 1, NULL),
 (26, 'Unit Produksi Terak 1', 'Alfein Rahmad', 'alfein.rahmad@sig.id', 1, 1, NULL),
 (27, 'Unit Produksi Terak 2', 'Ujang Friatna', 'ujang.friatna@sig.id', 1, 1, NULL),
 (28, 'Unit Produksi Semen', 'Titut Eryanto', 'titut.eryanto@sig.id', 1, 1, NULL),
-(29, 'Unit Pabrik Kantong', 'Syafriado', 'syafriado@sig.id', 1, 1, 'Administrasi Perkantoran Tidak Pakai Safety'),
+(29, 'Unit Pabrik Kantong', 'Syafriado', 'syafriado@sig.id', 1, 1, 'Administrasi Perkantoran Tidak Pakai APD'),
 (30, 'Unit Pemeliharaan Mesin 1', 'Endi Alta', 'endi.alta@sig.id', 1, 1, NULL),
 (31, 'Unit Pemeliharaan Mesin 2', 'Irwan Kartadi P', 'irwan.putra@sig.id', 1, 1, NULL),
 (32, 'Unit Pemeliharaan Listrik & Instrumen 1', 'Zulvawarman', 'zulvawarman@sig.id', 1, 1, NULL),
@@ -2066,7 +2069,7 @@ INSERT INTO `unit_kerja` (`unit_id`, `unit_kerja`, `nama_pimpinan`, `email_pimpi
 (36, 'Unit Project Management', 'Rahman Ikhlas', 'rahman.ikhlas@sig.id', 0, 1, NULL),
 (37, 'Unit Perencanaan Suku Cadang', 'Azet Putra', 'azet.putra@sig.id', 1, 1, NULL),
 (38, 'TPM Officer', 'Hernes', 'hernes@sig.id', 0, 1, NULL),
-(39, 'Unit Produksi Mesin & Teknikal Support', 'Rendy Fahlevi', 'rendy.fahlevi@sig.id', 1, 1, 'Manajemen Tidak Pakai Safety'),
+(39, 'Unit Produksi Mesin & Teknikal Support', 'Rendy Fahlevi', 'rendy.fahlevi@sig.id', 1, 1, 'Manajemen Tidak Pakai APD'),
 (40, 'Unit Produksi BIP & Aplikasi', 'Yelmi Arya Putra', 'yelmi.putra@sig.id', 1, 1, NULL),
 (41, 'Unit Quality Assurance', 'Febri Maulana', 'febri.maulana@sig.id', 1, 1, NULL),
 (42, 'Unit SHE', 'Asrining Sari', 'asrining.sari@sig.id', 1, 1, NULL),
@@ -2082,20 +2085,20 @@ INSERT INTO `unit_kerja` (`unit_id`, `unit_kerja`, `nama_pimpinan`, `email_pimpi
 (52, 'Unit Logistik Distribusi/ Transportasi', 'Suryadi Wizar', 'suryadi.wizar@sig.id', 0, 1, NULL),
 (53, 'Unit Logistik Distribusi/ Pengelolaan Kantong', 'Suryadi Wizar', 'suryadi.wizar@sig.id', 0, 1, NULL),
 (54, 'Unit Operational Logistik/ Silog', 'AM. Reza', 'm.reza@sig.id', 0, 1, NULL),
-(55, 'Unit Operasional & Pemeliharaan Pelabuhan', 'Very Harjanto', 'very.harjanto@sig.id', 0, 1, NULL),
+(55, 'Unit Pabrik Dumai', 'Teguh Soviyanto', 'teguh.soviyanto@sig.id', 1, 1, NULL),
 (56, 'Unit Logistik Antar Pabrik', 'Aldri Sonni', 'aldri.sonni@sig.id', 0, 1, NULL),
 (57, 'Yayasan Igasar', 'Ridwan Muchtar', 'ridwan.muchtar@sig.id', 0, 1, NULL),
 (58, 'Dana Pensiun SP', 'R Nicko Yuda K', 'nicko.yuda@sig.id', 0, 1, NULL),
 (59, 'PT Polma Sepa', 'Andanisep', 'andanisep@gmail.com', 0, 1, NULL),
-(60, 'Koperasi Karyawan SP', 'Faisal Arif', 'faisal.arif@sig.id', 1, 1, 'Pakai untuk Jurusan Teknik Kendaraan Ringan'),
+(60, 'Koperasi Karyawan SP', 'Faisal Arif', 'faisal.arif@sig.id', 1, 1, 'Pakai APD untuk Jurusan Teknik Kendaraan Ringan'),
 (61, 'PT Pasoka Sumber Karya', 'Erick Reza Alandri', 'erick.alandri@sig.id', 0, 1, NULL),
-(62, 'UPZ Semen Padang', 'Verdy Gusman', 'verdy.gusman@sig.id', 0, 1, NULL),
+(62, 'UPZ Semen Padang', 'Akmal', 'akmal.socialentrepreneure@gmail.com', 0, 1, NULL),
 (63, 'PT Sepatim Batamtama', 'Satrio Rian Bhakti', 'satrio.rian@sig.id', 0, 1, NULL),
 (64, 'Unit Maintenance Reliability/ Perencanaan dan Evaluasi Pemeliharaan', 'Yanuardi', 'yanuardi.6615@sig.id', 1, 1, NULL),
 (65, 'Unit Maintenance Reliability/ Inspeksi Pemeliharaan', 'Dani Darma Putra', 'dani.putra@sig.id', 1, 1, NULL),
 (66, 'Unit Maintenance Reliability/ PGO', 'Delviyoldi', 'delviyoldi@sig.id', 1, 1, NULL),
 (67, 'Yasiga Sarana Utama', 'Irf\'ak Izma', 'irfak.izma@sig.id', 0, 1, NULL),
-(68, 'FKIK', NULL, '', 0, 1, NULL);
+(68, 'FKIK', NULL, NULL, 0, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -2170,9 +2173,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `email`, `username`, `fullname`, `eselon`, `user_image`, `nisn_nim`, `no_hp`, `jenis_kelamin`, `alamat`, `province_id`, `city_id`, `domisili`, `provinceDom_id`, `cityDom_id`, `tingkat_pendidikan`, `instansi_id`, `jurusan_id`, `semester`, `nilai_ipk`, `rfid_no`, `cv`, `proposal`, `surat_permohonan`, `tanggal_surat`, `no_surat`, `nama_pimpinan`, `jabatan`, `email_instansi`, `bpjs_kes`, `bpjs_tk`, `buktibpjs_tk`, `ktp_kk`, `password_hash`, `reset_hash`, `reset_at`, `reset_expires`, `activate_hash`, `status`, `status_message`, `active`, `force_pass_reset`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'bordirmotif@gmail.com', 'Admin', 'Admin Master', NULL, 'vira.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$10$bswnrdHFrT0fWw85p0RZseTxnyHxFnQnWDTnci3p0K1NzU3r2RWcm', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-07-03 16:06:28', '2025-07-20 21:54:18', NULL),
-(21, 'kuronekochann123@gmail.com', NULL, 'Vira Yulia', NULL, 'virayuliaa-profile.jpg', '19115210033', '0812759960964', 'L', 'Jl. Bandes Binuang RT 02/ RW 02, Kelurahan Binuang Kampung Dalam, Binuang Kampung Dalam, Pauh', 13, 1371, '', NULL, NULL, 'SMK', 5, 4, 12, NULL, NULL, 'vira-yulia-cv-2430.pdf', 'vira-yulia-proposal-8004.pdf', 'vira-yulia-surat-permohonan-4072.pdf', '2025-07-16', '1212/XI/2025', 'Ahmad', 'Kepala Departemen', 'virayukia1234@gmail.com', NULL, 'vira-yulia-bpjs-tk-1056.pdf', 'vira-yulia-buktibpjs-tk-3581.pdf', 'vira-yulia-ktp-kk-9158.pdf', '$2y$10$l4fyCfPv2rUfKU3g168Bs.TRqVUHUVy3tk7qqhj.kKWO12T6kmbsu', '51aa947ba77b1593f84ab9f04cdd3b34', NULL, '2025-07-31 16:19:55', NULL, NULL, NULL, 1, 0, '2025-07-21 10:26:02', '2025-07-31 15:19:55', NULL),
 (23, 'NUR.ANITA@sig.id', 'anita', 'Nur Anita Rahmawati', 2, 'default.svg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$10$TyM/Oe.WO9T8J5kPhEeL6OE.0v5YgFQZzPpGmlipYq4yPL4bFwAci', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-07-22 21:58:44', '2025-07-22 21:58:44', NULL),
-(26, 'virayukia1234@gmail.com', NULL, 'Arisa Maharani', NULL, 'arisa-maharani-user-image-5280.jpg', '1911521003', '089991232323', 'L', 'Jl. Bandes Binuang RT 02/ RW 02, Kelurahan Binuang Kampung Dalam, Binuang Kampung Dalam, Pauh', 13, 1371, '', NULL, NULL, 'D4/S1', 5, 17, 7, 3.67, NULL, 'arisa-maharani-cv-7477.pdf', 'arisa-maharani-proposal-4390.pdf', 'arisa-maharani-surat-permohonan-7273.pdf', '2025-07-15', '1212/XII/2025', 'Ahmad', 'Kepala Departemen', 'universitasAndlas@gmail.com', 'arisa-maharani-bpjs-kes-8593.pdf', 'arisa-maharani-bpjs-tk-4653.pdf', 'arisa-maharani-buktibpjs-tk-4866.pdf', 'arisa-maharani-ktp-kk-4499.pdf', '$2y$10$YLcvGpPznL05d1owt6HWB.UeIPDagGl6gJ8UrI0Ly0gkhKckdfi6a', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2025-07-31 15:18:39', '2025-07-31 16:01:42', NULL);
+(26, 'virayukia1234@gmail.com', NULL, 'Arisa Maharani', NULL, 'arisa-maharani-user-image-5280.jpg', '1911521003', '089991232323', 'L', 'Jl. Bandes Binuang RT 02/ RW 02, Kelurahan Binuang Kampung Dalam, Binuang Kampung Dalam, Pauh', 13, 1371, '', NULL, NULL, 'D4/S1', 5, 17, 7, 3.67, NULL, 'arisa-maharani-cv-7477.pdf', 'arisa-maharani-proposal-4390.pdf', 'arisa-maharani-surat-permohonan-7273.pdf', '2025-07-15', '1212/XII/2025', 'Ahmad', 'Kepala Departemen', 'universitasAndlas@gmail.com', 'arisa-maharani-bpjs-kes-8593.pdf', 'arisa-maharani-bpjs-tk-4653.pdf', 'arisa-maharani-buktibpjs-tk-4866.pdf', 'arisa-maharani-ktp-kk-4499.pdf', '$2y$10$YLcvGpPznL05d1owt6HWB.UeIPDagGl6gJ8UrI0Ly0gkhKckdfi6a', '4be182a4796bada985aabdb4005c7d3d', NULL, '2025-08-06 09:35:20', NULL, NULL, NULL, 1, 0, '2025-07-31 15:18:39', '2025-08-06 08:35:20', NULL);
 
 --
 -- Indexes for dumped tables
@@ -2371,7 +2373,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `auth_activation_attempts`
 --
 ALTER TABLE `auth_activation_attempts`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `auth_groups`
@@ -2383,7 +2385,7 @@ ALTER TABLE `auth_groups`
 -- AUTO_INCREMENT untuk tabel `auth_logins`
 --
 ALTER TABLE `auth_logins`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT untuk tabel `auth_permissions`
@@ -2425,7 +2427,7 @@ ALTER TABLE `jawaban_safety`
 -- AUTO_INCREMENT untuk tabel `jurusan`
 --
 ALTER TABLE `jurusan`
-  MODIFY `jurusan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `jurusan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT untuk tabel `jurusan_unit`
@@ -2473,7 +2475,7 @@ ALTER TABLE `penilaian`
 -- AUTO_INCREMENT untuk tabel `periode_magang`
 --
 ALTER TABLE `periode_magang`
-  MODIFY `periode_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `periode_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `soal_safety`
@@ -2497,7 +2499,7 @@ ALTER TABLE `unit_user`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

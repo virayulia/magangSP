@@ -43,8 +43,10 @@
     <!-- Backstretch -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.1.18/jquery.backstretch.min.js"></script>
 
-    <!-- Select2 CSS -->
+     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Select2 Bootstrap 4 theme -->
+    <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css" rel="stylesheet" />
 
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -54,13 +56,48 @@
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+    .wa-float {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 20px;
+        right: 20px;
+        background-color: #25d366;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        box-shadow: 2px 2px 3px #999;
+        z-index: 100;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .wa-float img {
+        width: 38px;
+        height: 38px;
+    }
+    </style>
 
   </head>
   <body id="page-top">
-    <!-- Tombol WhatsApp Mengambang -->
-    <a href="https://wa.me/628999549000" class="wa-float" target="_blank" title="Hubungi via WhatsApp">
-    <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp">
-    </a>
+  <?php
+  $phone = '6281779045716';
+  if (logged_in()) {
+      $nama  = user()->fullname ?? user()->username ?? '';
+      $email = user()->email ?? '';
+      $pesan = "Halo, saya ingin bertanya.\nNama: $nama\nEmail: $email\nPesan: ";
+  } else {
+      $pesan = "Halo, saya ingin bertanya.\nNama:\nEmail:\nPesan:";
+  }
+  $text = rawurlencode($pesan);
+  $waLink = "https://web.whatsapp.com/send?phone=$phone&text=$text";
+  ?>
+  <a href="<?= $waLink ?>" class="wa-float" target="_blank" title="Hubungi via WhatsApp">
+      <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp">
+  </a>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Navigation-->

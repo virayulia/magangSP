@@ -40,6 +40,12 @@
     "sort-packages": true
   },
   "scripts": {
-    "test": "phpunit"
+    "test": "phpunit",
+    "post-install-cmd": [
+      "patch -p1 < patches/remove-resetter.patch"
+    ],
+    "post-update-cmd": [
+      "patch -p1 < patches/remove-resetter.patch"
+    ]
   }
 }

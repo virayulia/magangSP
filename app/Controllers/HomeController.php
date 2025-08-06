@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\UnitKerjaModel;
 use App\Models\MagangModel;
 use App\Models\JurusanModel;
+use Config\Services;
 
 class HomeController extends BaseController
 {
@@ -20,6 +21,24 @@ class HomeController extends BaseController
         $this->jurusanModel = new JurusanModel();
         $this->unitKerjaModel = new UnitKerjaModel();
 
+    }
+
+    public function testemail()
+    {
+        $email = Services::email();
+
+        $email->setFrom('magang.sp@sig.id', 'Admin SIG');
+        $email->setTo('virayukia1234@gmail.com'); // Ganti dengan alamat tujuanmu
+
+        $email->setSubject('Tes Email dari CodeIgniter');
+        $email->setMessage('Ini adalah email percobaan yang dikirim dari aplikasi CodeIgniter 4 menggunakan SMTP Office365 + App Password.');
+
+        if ($email->send()) {
+            return 'Email berhasil dikirim ✅';
+        } else {
+            // Jika gagal, tampilkan debugging info
+            return $email->printDebugger(['headers']);
+        }
     }
 
     //menampilkan halaman index+filter tingkat pendidikan dan jurusan saat login

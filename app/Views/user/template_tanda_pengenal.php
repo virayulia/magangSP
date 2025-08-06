@@ -72,7 +72,7 @@
             margin: 6px 0;
             line-height: 1.3;
             color: #e30613;
-            padding-top: 8px;
+            padding-top: 5px;
         }
 
         .foto {
@@ -130,7 +130,7 @@
     <div class="card">
         <div class="logo-container">
             <img src="<?= base_url('assets/img/SP_logo.png') ?>" alt="SP Logo" class="logo">
-            <img src="<?= base_url('assets/img/sig_logo.png') ?>" alt="SIG Logo" class="logo">
+            <img src="<?= base_url('assets/img/SIG_Logo.png') ?>" alt="SIG Logo" class="logo">
         </div>
 
         <div class="header">TANDA PENGENAL<br>PKL / PENELITIAN</div>

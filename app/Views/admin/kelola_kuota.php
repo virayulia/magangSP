@@ -44,7 +44,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="unit_kerja">Unit Kerja</label>
-                                    <select class="form-control" id="unit_kerja" name="unit_id" required>
+                                    <select class="form-control select2" id="unit_kerja" name="unit_id" required>
                                         <option value="" disabled selected>-- Pilih Unit Kerja --</option>
                                         <?php foreach ($unit_kerja as $unit): ?>
                                             <option value="<?= esc($unit['unit_id']); ?>">

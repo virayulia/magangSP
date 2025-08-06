@@ -108,7 +108,7 @@
                         <?php $province_id = $user_data->province_id ?? ''; ?>
                         <div class="mb-3">
                             <label for="state_id" class="form-label">Provinsi sesuai KTP<span class="text-danger">*</span></label>
-                            <select id="state_id" name="state_id" class="form-select" required>
+                            <select id="state_id" name="state_id" class="form-control select2" required>
                                 <option value="" disabled selected>Pilih Provinsi</option>
                                 <?php foreach ($listState as $item): ?>
                                     <option value="<?= $item['id'] ?>" <?= $item['id'] == $province_id ? 'selected' : '' ?>>
@@ -122,7 +122,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="city_id" class="form-label">Kota/Kabupaten Sesuai KTP<span class="text-danger">*</span></label>
-                            <select id="city_id" name="city_id" class="form-select select2" required>
+                            <select id="city_id" name="city_id" class="form-control select2" required>
                                 <option value="" disabled selected>Pilih Kota</option>
                                 <?php if (!empty($listCity)): ?>
                                     <?php foreach ($listCity as $city): ?>
@@ -147,7 +147,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="stateDom_id" class="form-label">Provinsi Domisili</label>
-                            <select id="stateDom_id" name="stateDom_id" class="form-select select2">
+                            <select id="stateDom_id" name="stateDom_id" class="form-control select2">
                                 <option value="" disabled selected>Pilih Provinsi</option>
                                 <?php foreach ($listState as $item): ?>
                                     <option value="<?= $item['id'] ?>" <?= $item['id'] == ($user_data->provinceDom_id ?? '') ? 'selected' : '' ?>>
@@ -160,7 +160,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="cityDom_id" class="form-label">Kota/Kabupaten Domisili</label>
-                            <select id="cityDom_id" name="cityDom_id" class="form-select select2">
+                            <select id="cityDom_id" name="cityDom_id" class="form-control select2">
                                 <option value="" disabled selected>Pilih Kota</option>
                                 <?php if (!empty($listCityDom)): ?>
                                     <?php foreach ($listCityDom as $city): ?>

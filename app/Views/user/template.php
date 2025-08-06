@@ -171,19 +171,20 @@ $uri = service('uri');
           </div>
           <!-- Sidebar -->
           <div class="sidebar mt-4">
-            <a href="profile" class="<?= ($uri->getSegment(1) === 'profile') ? 'active' : '' ?>">
+            <a href="<?= base_url('profile'); ?>" class="<?= ($uri->getSegment(1) === 'profile') ? 'active' : '' ?>">
+              
               <i class="bi bi-file-earmark-text me-2"></i>
               <span>Profil</span>
             </a>
-            <a href="status-lamaran" class="<?= ($uri->getSegment(1) === 'status-lamaran') ? 'active' : '' ?>">
+            <a href="<?= base_url('status-lamaran'); ?>" class="<?= ($uri->getSegment(1) === 'status-lamaran') ? 'active' : '' ?>">
               <i class="bi bi-list-check me-2"></i>
               <span>Pendaftaran Magang</span>
             </a>
-            <a href="pelaksanaan" class="<?= ($uri->getSegment(1) === 'pelaksanaan') ? 'active' : '' ?>">
+            <a href="<?= base_url('pelaksanaan'); ?>" class="<?= ($uri->getSegment(1) === 'pelaksanaan') ? 'active' : '' ?>">
               <i class="bi bi-calendar-check me-2"></i>
               <span>Pelaksanaan Magang</span>
             </a>
-            <a href="sertifikat-magang" class="<?= ($uri->getSegment(1) === 'sertifikat-magang') ? 'active' : '' ?>">
+            <a href="<?= base_url('sertifikat-magang'); ?>" class="<?= ($uri->getSegment(1) === 'sertifikat-magang') ? 'active' : '' ?>">
               <i class="bi bi-award me-2"></i>
               <span>Evaluasi Magang</span>
             </a>
