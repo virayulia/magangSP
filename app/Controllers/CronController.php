@@ -22,7 +22,7 @@ class CronController extends BaseController
         $targetDate = date('Y-m-d', strtotime('+7 days'));
 
         $pendaftar = $db->table('magang')
-            ->select('magang.*, unit_kerja.email as email_unit, unit_kerja.unit_kerja')
+            ->select('magang.*, unit_kerja.email_pimpinan as email_unit, unit_kerja.unit_kerja')
             ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id', 'left')
             ->where('magang.tanggal_masuk', $targetDate)
             ->where('magang.status_akhir', 'proses')
