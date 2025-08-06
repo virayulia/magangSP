@@ -14,7 +14,7 @@
 
 <br>
 
-<p>Hormat kami,  
-<br>Pusat Pendidikan dan Pelatihan  
-<br>PT Semen Padang</p>
+<p>Hormat kami,</p>
+<p><strong>Training & Knowledge Management<br>PT Semen Padang</strong></p>
+<p>Siska Ayu Soraya<br><strong>Kepala</strong><br>Zamriz</p>
 
