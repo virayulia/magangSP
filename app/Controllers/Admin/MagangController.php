@@ -283,9 +283,6 @@ class MagangController extends BaseController
             // Kirim Email
             $email->clear(); // Reset sebelum mengirim email baru
             $email->setTo($emailPeserta);
-            if ($emailInstansi) {
-                $email->setCC($emailInstansi);
-            }
 
             $email->setSubject('Penerimaan Magang di PT Semen Padang');
             $email->setMailType('html');
@@ -358,9 +355,6 @@ class MagangController extends BaseController
                 // ===== Kirim Email Penolakan =====
                 $email = \Config\Services::email();
                 $email->setTo($data->email);
-                if (!empty($data->email_instansi)) {
-                    $email->setCC($data->email_instansi);
-                }
 
                 $email->setSubject('Hasil Seleksi Pendaftaran Magang di PT Semen Padang');
                 $email->setMailType('html');

@@ -66,6 +66,13 @@ Swal.fire({
 <!-- Job Filter Section -->
 <section class="page-section bg-white py-5">
 <div class="container">
+  <?php
+  $bulanPenempatan = date('F Y', strtotime('+2 months'));
+  ?>
+  <div class="alert alert-info d-flex align-items-center shadow-sm mt-4" role="alert">
+      <i class="bi bi-info-circle-fill me-2"></i>
+      Ketersediaan yang ditampilkan berlaku untuk penempatan pada bulan <?= format_bulan_indonesia($bulanPenempatan); ?>.
+  </div>
   <?php if (logged_in()): ?>
   <div class="alert alert-info d-flex align-items-center shadow-sm mt-4" role="alert">
       <i class="bi bi-info-circle-fill me-2"></i>

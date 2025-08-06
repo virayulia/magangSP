@@ -44,6 +44,7 @@ class Filters extends BaseFilters
         'admin'         => AdminFilter::class,
         'user'          => UserFilter::class,
         'pembimbing'    => PembimbingFilter::class,
+        'roleRedirect' => \App\Filters\RoleRedirect::class,
     ];
 
     /**

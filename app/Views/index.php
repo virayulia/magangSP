@@ -104,7 +104,7 @@ Swal.fire({
         <a class="btn btn-danger btn-xl mt-2" href="/magang" data-aos="zoom-in" data-aos-delay="600">
           Lihat Ketersediaan
         </a>
-        <a class="btn btn-danger btn-xl mt-2" href="#alur" data-aos="zoom-in" data-aos-delay="600">
+        <a class="btn btn-danger btn-xl mt-2" href="#program-alur" data-aos="zoom-in" data-aos-delay="600">
           Lihat Program dan Alur Pendaftaran
         </a>
       </div>

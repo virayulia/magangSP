@@ -83,20 +83,20 @@
   </head>
   <body id="page-top">
   <?php
-  $phone = '6285381676020';
-  if (logged_in()) {
-      $nama  = user()->fullname ?? user()->username ?? '';
-      $email = user()->email ?? '';
-      $pesan = "Halo, saya ingin bertanya.\nNama: $nama\nEmail: $email\nPesan: ";
-  } else {
-      $pesan = "Halo, saya ingin bertanya.\nNama:\nEmail:\nPesan:";
-  }
-  $text = rawurlencode($pesan);
-  $waLink = "https://web.whatsapp.com/send?phone=$phone&text=$text";
-  ?>
-  <a href="<?= $waLink ?>" class="wa-float" target="_blank" title="Hubungi via WhatsApp">
-      <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp">
-  </a>
+    $phone = '6285381676020';
+    if (logged_in()) {
+        $nama  = user()->fullname ?? user()->username ?? '';
+        $email = user()->email ?? '';
+        $pesan = "Halo, saya ingin bertanya.\nNama: $nama\nEmail: $email\nPesan: ";
+    } else {
+        $pesan = "Halo, saya ingin bertanya.\nNama:\nEmail:\nPesan:";
+    }
+    $text = rawurlencode($pesan);
+    $waLink = "https://api.whatsapp.com/send?phone=$phone&text=$text";
+    ?>
+    <a href="<?= $waLink ?>" class="wa-float" target="_blank" title="Hubungi via WhatsApp">
+        <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp">
+    </a>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

@@ -50,3 +50,19 @@ if (!function_exists('format_tanggal_indonesia_dengan_jam')) {
         return $tanggal_angka . ' ' . $bulan[$bulan_angka] . ' ' . $tahun . ', ' . $jam;
     }
 }
+
+if (!function_exists('format_bulan_indonesia')) {
+    function format_bulan_indonesia($tanggal)
+    {
+        $bulan = [
+            1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+            'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
+
+        $tanggal_angka = date('d', strtotime($tanggal));
+        $bulan_angka = (int)date('m', strtotime($tanggal));
+        $tahun = date('Y', strtotime($tanggal));
+
+        return $bulan[$bulan_angka] . ' ' . $tahun;
+    }
+}
