@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Validasi Berkas Magang</title>
+    <title>Kelengkapan Berkas Magang</title>
 </head>
 <body style="font-family: Arial, sans-serif; color: #333;">
     <p>Yth. <?= esc($nama); ?>,</p>
@@ -10,14 +10,14 @@
     <p>Dengan hormat,</p>
 
     <p>
-    Bersama email ini kami informasikan bahwa berkas pendaftaran magang Anda <strong>belum memenuhi kelengkapan atau validitas yang disyaratkan</strong>.
+    Bersama email ini kami informasikan bahwa pendaftaran magang Anda <strong>belum memenuhi kelengkapan atau validitas yang disyaratkan</strong>.
     </p>
 
     <p><strong>Catatan dari tim validasi:</strong><br>
     <?= nl2br(esc($catatan)); ?></p>
 
     <p>
-    Mohon untuk segera memperbaiki dan melengkapi berkas Anda agar dapat melanjutkan ke tahap selanjutnya dalam proses pendaftaran magang.
+    Mohon untuk segera memperbaiki dan melengkapi data Anda agar dapat melanjutkan ke tahap selanjutnya dalam proses pendaftaran magang.
     </p>
 
     <p>

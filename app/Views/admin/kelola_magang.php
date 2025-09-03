@@ -48,7 +48,7 @@
                         <option value="">-- Pilih Tahun --</option>
                         <?php
                         $tahunSekarang = date('Y');
-                        for ($i = 2020; $i <= $tahunSekarang + 2; $i++): ?>
+                        for ($i = 2025; $i <= $tahunSekarang + 2; $i++): ?>
                             <option value="<?= $i ?>" <?= ($i == @$_GET['tahun']) ? 'selected' : '' ?>><?= $i ?></option>
                         <?php endfor; ?>
                     </select>
@@ -68,26 +68,55 @@
                         <th>Unit Kerja</th>
                         <th>Tanggal Mulai</th>
                         <th>Tanggal Selesai</th>
+                        <th>Validasi Berkas</th>
                         <th>Setuju Pernyataan</th>
+                        <th>Nilai Tes</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if (!empty($data)): ?>
                         <?php $no = 1; foreach ($data as $item): ?>
-                        <tr>
                             <td><?= $no++; ?></td>
                             <td><?= esc($item['fullname']) ?></td>
                             <td><?= esc($item['nisn_nim']) ?></td>
                             <td><?= esc($item['unit_kerja']) ?></td>
                             <td><?= format_tanggal_indonesia($item['tanggal_masuk']) ?></td>
                             <td><?= format_tanggal_indonesia($item['tanggal_selesai']) ?></td>                                                 
+                            <td><?php if(!empty($item['status_berkas_lengkap']) && $item['status_berkas_lengkap'] === 'Y'): ?>
+                                    <span class="badge bg-success text-light">Valid</span>
+                                                                
+                                <?php else: ?>
+                                <a href="<?= base_url('admin/manage-kelengkapan-berkas/' . $item['magang_id']) ?>">
+                                <span class="badge bg-danger text-light">Tidak Valid</span>
+                                </a>
+                                <?php endif; ?>
+                                
+                            </td>
                             <td><?php if(!empty($item['tanggal_setujui_pernyataan'])): ?>
                                 <p class="btn btn-success btn-sm">Disetujui</p>
                                 <?php else: ?>
                                 <p class="btn- btn-danger btn-sm">Belum Setuju</p>
                                 <?php endif; ?>
-                            </td>                                                 
+                            </td>  
+                            <td>
+                                <?php
+                                    $badgeClass = 'bg-danger text-light'; // default merah
+                                    if ($item['status_tes'] === 'Lulus') {
+                                        $badgeClass = 'bg-success text-light'; // hijau
+                                    } elseif ($item['status_tes'] === 'Belum Lulus') {
+                                        $badgeClass = 'bg-warning text-light'; // kuning dengan teks gelap agar kontras
+                                    }
+                                ?>
+
+                                <?php if(!empty($item['nilai_maksimal'])): ?>
+                                    <span class="badge <?= $badgeClass ?>"><?= $item['nilai_maksimal'] ?></span>
+                                <?php else : ?>
+                                    <span class="badge <?= $badgeClass ?>">
+                                        <?= $item['status_tes'] ?>
+                                    </span>
+                                <?php endif; ?>
+                            </td>                                               
                             <td>
                                 <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#detailModal<?= $item['magang_id'] ?>">Detail</button>
                             </td>                          
@@ -110,34 +139,66 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
         </div>
         <div class="modal-body">
+            <!-- Infomasi Mahasiswa -->
             <h6 class="text-primary">📌 Informasi Mahasiswa</h6>
             <table class="table table-sm table-bordered">
-                <tr><th>Nama Lengkap</th><td><?= esc($item['fullname']) ?></td></tr>
-                <tr><th>NIM/NISN</th><td><?= esc($item['nisn_nim']) ?></td></tr>
-                <tr><th>Email</th><td><?= esc($item['email']) ?></td></tr>
-                <tr><th>No HP</th><td><?= esc($item['no_hp']) ?></td></tr>
-                <tr><th>Jenis Kelamin</th><?php if($item['jenis_kelamin'] === 'L'):?>
-                                            <td>Laki-Laki</td>
-                                          <?php elseif($item['jenis_kelamin'] === 'P'):?>
-                                            <td>Perempuan</td>
-                                        <?php endif;?>
-                                          </tr>
-                <tr><th>Alamat</th><td><?php
-                        $alamat = $item['alamat'] ?? '';
-                        $kota = trim(($item['tipe_kota_ktp'] ?? '') . ' ' . ($item['kota_ktp'] ?? ''));
-                        $prov = $item['provinsi_ktp'] ?? '';
-                        $parts = array_filter([$alamat, $kota, $prov]);
-                        echo esc(implode(', ', $parts)) ?: 'Data belum diisi';
-                    ?></td></tr>
-                <tr><th>Domisili</th><td><?php
-                          $alamat = $item['domisili'] ?? '';
-                          $kota = trim(($item['tipe_kota_domisili'] ?? '') . ' ' . ($item['kota_domisili'] ?? ''));
-                          $prov = $item['provinsi_domisili'] ?? '';
-                          $parts = array_filter([$alamat, $kota, $prov]);
-                          echo esc(implode(', ', $parts)) ?: 'Data belum diisi';
-                      ?></td></tr>
+                <tr>
+                    <th>Nama Lengkap</th>
+                    <td><?= esc($item['fullname']) ?></td>
+                    <!-- gambar ditaruh di sini dengan rowspan -->
+                    <td rowspan="4" class="text-center align-middle" style="width: 180px;">
+                        <?php if (!empty($item['user_image'])): ?>
+                        <img src="<?= base_url('uploads/user-image/' . ($item['user_image'] ?? 'default.png')) ?>" 
+                            alt="Foto <?= esc($item['fullname']) ?>" 
+                            class="img-thumbnail" style="max-width: 150px;">
+                        <?php else: ?>
+                            <span class="text-muted">Tidak ada foto</span>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th>NIM/NISN</th>
+                    <td><?= esc($item['nisn_nim']) ?></td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td><?= esc($item['email']) ?></td>
+                </tr>
+                <tr>
+                    <th>Jenis Kelamin</th>
+                    <?php if ($item['jenis_kelamin'] === 'L'): ?>
+                        <td>Laki-Laki</td>
+                    <?php elseif ($item['jenis_kelamin'] === 'P'): ?>
+                        <td>Perempuan</td>
+                    <?php else: ?>
+                        <td>-</td>
+                    <?php endif; ?>
+                </tr>
+                <tr>
+                    <th>Alamat</th>
+                    <td colspan="2">
+                        <?php
+                            $alamat = $item['alamat'] ?? '';
+                            $kota = trim(($item['tipe_kota_ktp'] ?? '') . ' ' . ($item['kota_ktp'] ?? ''));
+                            $prov = $item['provinsi_ktp'] ?? '';
+                            $parts = array_filter([$alamat, $kota, $prov]);
+                            echo esc(implode(', ', $parts)) ?: 'Data belum diisi';
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Domisili</th>
+                    <td colspan="2">
+                        <?php
+                            $alamat = $item['domisili'] ?? '';
+                            $kota = trim(($item['tipe_kota_domisili'] ?? '') . ' ' . ($item['kota_domisili'] ?? ''));
+                            $prov = $item['provinsi_domisili'] ?? '';
+                            $parts = array_filter([$alamat, $kota, $prov]);
+                            echo esc(implode(', ', $parts)) ?: 'Data belum diisi';
+                        ?>
+                    </td>
+                </tr>
             </table>
-
             <!-- Pendidikan -->
             <h6 class="text-primary mt-4">🎓 Pendidikan</h6>
             <table class="table table-sm table-bordered">
@@ -193,12 +254,16 @@
                 <tr><th>Tanggal Seleksi</th><td><?= esc(format_tanggal_indonesia_dengan_jam($item['tanggal_seleksi']) ?? '-') ?></td></tr>
                 <tr><th>Status Konfirmasi</th><td><?= esc($item['status_konfirmasi'] === 'Y' ? 'Dikonfirmasi' : ($item['status_konfirmasi'] === 'N' ? 'Tidak Konfirmasi' : 'Belum Dikonfirmasi')) ?></td></tr>
                 <tr><th>Tanggal Konfirmasi</th><td><?= esc(format_tanggal_indonesia_dengan_jam($item['tanggal_konfirmasi']) ?? '-') ?></td></tr>
-                <tr><th>Status Validasi Berkas</th>
-                    <td><?= $item['status_validasi_berkas'] === 'Y' ? 'Valid' : ($item['status_validasi_berkas'] === 'N' ? 'Tidak Valid' : 'Belum Divalidasi') ?></td>
+                <tr><th>Status Approval Konfirmasi</th>
+                    <td><?= $item['status_validasi_berkas'] === 'Y' ? 'Approved' : ($item['status_validasi_berkas'] === 'N' ? 'Tidak Approved' : 'Belum Approved') ?></td>
                 </tr>
-                <tr><th>Tanggal Validasi Berkas</th><td><?= $item['tanggal_validasi_berkas'] ? format_tanggal_indonesia_dengan_jam($item['tanggal_validasi_berkas']) : '-' ?></td></tr>
+                <tr><th>Tanggal Approval Konfirmasi</th><td><?= $item['tanggal_validasi_berkas'] ? format_tanggal_indonesia_dengan_jam($item['tanggal_validasi_berkas']) : '-' ?></td></tr>
+                <tr><th>Status Berkas Lengkap</th>
+                    <td><?= $item['status_berkas_lengkap'] === 'Y' ? 'Valid' : ($item['status_berkas_lengkap'] === 'N' ? 'Tidak Valid' : 'Belum Divalidasi') ?></td>
+                </tr>
+                <tr><th>Tanggal Berkas Lengkap</th><td><?= $item['tanggal_berkas_lengkap'] ? format_tanggal_indonesia_dengan_jam($item['tanggal_berkas_lengkap']) : '-' ?></td></tr>
                 <tr><th>Catatan Validasi Berkas</th><td><?= esc($item['cttn_berkas_lengkap'] ?? '-') ?></td></tr>
-                <tr><th>Tanggal Setujui Pernyataan</th><td><?= esc(format_tanggal_indonesia($item['tanggal_setujui_pernyataan']) ?? '-') ?></td></tr>
+                <tr><th>Tanggal Setujui Pernyataan</th><td><?= $item['tanggal_setujui_pernyataan'] ? format_tanggal_indonesia($item['tanggal_setujui_pernyataan']) : '-' ?></td></tr>
                 <tr><th>Status Akhir</th><td><span class="badge badge-info"><?= esc($item['status_akhir']) ?></span></td></tr>
             </table>
         </div>
@@ -233,7 +298,7 @@
                 </div>
                 <div class="form-group">
                     <label>Unit Kerja</label>
-                    <select name="unit_id" class="form-control">
+                    <select name="unit_id" class="form-control select2">
                         <?php foreach ($unitList as $unit): ?>
                             <option value="<?= $unit['unit_id'] ?>" <?= $unit['unit_id'] == $item['unit_id'] ? 'selected' : '' ?>>
                                 <?= esc($unit['unit_kerja']) ?>
@@ -268,7 +333,7 @@
                 'aria-label': 'Tulis alasan pembatalan'
             },
             showCancelButton: true,
-            confirmButtonText: 'Batalkan',
+            confirmButtonText: 'Kirim',
             cancelButtonText: 'Batal',
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',

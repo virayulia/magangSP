@@ -67,6 +67,10 @@ Swal.fire({
                         <p class="text-muted"><?= esc($user_data->fullname ?? 'Data belum diisi'); ?></p>
                         <p class="mb-1 fw-semibold">NISN/NIM</p>
                         <p class="text-muted"><?= esc($user_data->nisn_nim ?? 'Data belum diisi'); ?></p>
+                        <p class="mb-1 fw-semibold">Instagram</p>
+                        <p class="text-muted"><?= esc($user_data->instagram ?? 'Data belum diisi'); ?></p>
+                        <p class="mb-1 fw-semibold">Tiktok</p>
+                        <p class="text-muted"><?= esc($user_data->tiktok ?? 'Data belum diisi'); ?></p>
                         <p class="mb-1 fw-semibold">Email</p>
                         <p class="text-muted"><?= esc($user_data->email ?? 'Data belum diisi'); ?></p>
                     </div>
@@ -83,6 +87,10 @@ Swal.fire({
                         </p>
                         <p class="mb-1 fw-semibold">No Handphone</p>
                         <p class="text-muted"><?= esc($user_data->no_hp ?? 'Data belum diisi'); ?></p>
+                        <p class="mb-1 fw-semibold">Jumlah Follower Instagram</p>
+                        <p class="text-muted"><?= esc($user_data->instagram_followers ?? 'Data belum diisi'); ?></p>
+                        <p class="mb-1 fw-semibold">Jumlah Follower Tiktok</p>
+                        <p class="text-muted"><?= esc($user_data->tiktok_followers ?? 'Data belum diisi'); ?></p>
                     </div>
                 </div>
 
@@ -324,7 +332,12 @@ Swal.fire({
 
                     <!-- Bukti BPJS TK -->
                     <div class="border rounded p-3 mb-3 shadow-sm">
-                        <h6 class="fw-semibold mb-2">Bukti Pembayaran BPJS Ketenagakerjaan</h6>
+                        <h6 class="fw-semibold mb-2">Bukti Pembayaran/Masa Berlaku BPJS Ketenagakerjaan</h6>
+                        <?php if(!empty($pendaftaran['tanggal_selesai'])): ?>
+                            <small class="text-danger">*pastikan masa berlaku BPJS Ketenagakerjaan aktif sampai <?= format_tanggal_indonesia($pendaftaran['tanggal_selesai']);?>.</small>
+                        <?php else: ?>
+                            <small class="text-danger">*pastikan masa berlaku BPJS Ketenagakerjaan aktif sampai habis masa magang.</small>
+                        <?php endif; ?>
                         <div class="d-flex justify-content-between align-items-center">
                             <?php if (!empty($user_data->buktibpjs_tk)): ?>
                                 <div>
@@ -343,53 +356,6 @@ Swal.fire({
                         </div>
                         <input type="file" name="buktibpjs_tk" id="buktibpjs_tkFile" style="display:none;" onchange="uploadBuktiBPJSTK(this)">
                     </div>
-                    <!-- Tombol validasi Berkas Lengkap -->
-                    <?php if($pendaftaran): ?>
-                        <?php if(!empty($pendaftaran['tanggal_konfirmasi']) && $pendaftaran['status_konfirmasi'] === 'Y' && $pendaftaran['status_validasi_berkas'] != 'Y'):?>
-                        <button class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#validasiBerkasModal">Validasi Berkas Lengkap</button>
-
-                        <!-- Modal Validasi Berkas -->
-                        <div class="modal fade" id="validasiBerkasModal" tabindex="-1" aria-labelledby="validasiBerkasModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content border-0 rounded-4">
-                                    <div class="modal-header bg-primary text-white rounded-top-4">
-                                        <h5 class="modal-title fw-bold" id="validasiBerkasModalLabel">Pernyataan Validasi Berkas</h5>
-                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                                    </div>
-                                    <form action="<?= base_url('magang/validasi-berkas') ?>" method="post">
-                                        <div class="modal-body">
-                                            <p>
-                                                Dengan ini, saya menyatakan bahwa seluruh dokumen yang saya unggah sebagai syarat administrasi magang adalah benar, sah, dan sesuai dengan keadaan sebenarnya.
-                                            </p>
-                                            <p>
-                                                Apabila di kemudian hari ditemukan ketidaksesuaian atau ketidakbenaran atas dokumen yang saya berikan, saya bersedia menerima segala konsekuensi sesuai ketentuan yang berlaku.
-                                            </p>
-                                            <p>
-                                                Saya juga menyatakan memberikan persetujuan penuh kepada PT Semen Padang untuk menggunakan, menyimpan, dan memproses data pribadi serta dokumen yang saya serahkan, termasuk namun tidak terbatas pada data identitas, riwayat pendidikan, serta dokumen pendukung lainnya, untuk keperluan administrasi, evaluasi, dan kegiatan lain yang berkaitan dengan proses magang.
-                                            </p>
-                                            <p>
-                                                Pernyataan ini saya buat dengan sebenar-benarnya dan saya memahami bahwa data pribadi saya akan dikelola sesuai dengan ketentuan yang berlaku, termasuk Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi.
-                                            </p>
-
-                                            <div class="form-check mt-3">
-                                                <input class="form-check-input" type="checkbox" name="setuju_berkas" id="setuju_berkas" required>
-                                                <label class="form-check-label" for="setuju_berkas">
-                                                    Saya menyetujui seluruh pernyataan di atas dan menyatakan bahwa berkas saya telah lengkap.
-                                                </label>
-                                            </div>
-
-                                            <input type="hidden" name="magang_id" value="<?= $pendaftaran['magang_id'] ?>">
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-success">Validasi Sekarang</button>
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                    <?php endif; ?>
 
                     <!-- Modal Upload Surat Permohonan -->
                     <div class="modal fade" id="uploadSuratModal" tabindex="-1" aria-labelledby="uploadSuratModalLabel" aria-hidden="true">

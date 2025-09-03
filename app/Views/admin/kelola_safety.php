@@ -58,7 +58,7 @@
                         <select name="tahun" id="tahun" class="form-control">
                             <?php
                                 $tahunSekarang = date('Y');
-                                for ($i = $tahunSekarang; $i >= $tahunSekarang - 5; $i--):
+                                for ($i = $tahunSekarang; $i >= $tahunSekarang - 2; $i--):
                             ?>
                                 <option value="<?= $i ?>" <?= ($tahun == $i) ? 'selected' : '' ?>><?= $i ?></option>
                             <?php endfor; ?>
@@ -94,7 +94,7 @@
                                     <td><?= esc($row->unit_kerja) ?></td>
                                     <td><?= esc($row->nilai_maksimal) ?></td>
                                     <td>
-                                        <span class="badge <?= $row->status === 'Lulus' ? 'bg-success' : 'bg-danger' ?>">
+                                        <span class="badge <?= $row->status === 'Lulus' ? 'bg-success' : 'bg-danger' ?> text-light">
                                             <?= $row->status ?>
                                         </span>
                                     </td>

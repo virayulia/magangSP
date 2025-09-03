@@ -14,6 +14,7 @@ class MagangModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = ['user_id','unit_id','periode_id','durasi','tanggal_daftar',
                                     'status_seleksi', 'tanggal_seleksi','status_konfirmasi','tanggal_konfirmasi',
+                                    // 'status_approval', 'tanggal_approval',
                                     'status_validasi_berkas','tanggal_validasi_berkas','status_berkas_lengkap',
                                     'tanggal_berkas_lengkap','pembimbing_id', 'tanggal_masuk','tanggal_selesai',
                                     'status_akhir', 'tanggal_setujui_pernyataan', 'cttn_berkas_lengkap', 'alasan_batal'

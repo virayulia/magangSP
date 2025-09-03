@@ -71,7 +71,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Unit Kerja</label>
-                                    <select name="unit_id" class="form-control">
+                                    <select name="unit_id" class="form-control select2">
+                                        <option value="" disabled selected>-- Pilih Unit Kerja --</option>
                                         <?php foreach ($units as $unit): ?>
                                             <option value="<?= $unit['unit_id'] ?>"><?= esc($unit['unit_kerja']) ?></option>
                                         <?php endforeach; ?>

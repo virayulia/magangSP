@@ -52,6 +52,11 @@
                               <?php endif; ?>
                             </td>
                             <td>
+                            <?php if ($user->active == 0): ?>
+                                <a href="<?= base_url('admin/manage-user/activate/'.$user->id) ?>" class="btn btn-sm btn-success" onclick="return confirm('Aktifkan akun ini?')">
+                                    <i class="fas fa-check"></i> Aktivasi
+                                </a>
+                            <?php endif; ?>
                               <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editUserModal<?= $user->id ?>">
                                 <i class="fas fa-edit"></i> Edit
                               </button>
@@ -116,12 +121,6 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                    <label>Status Akun</label>
-                                    <select name="active" class="form-control">
-                                        <option value="1" <?= $user->active ? 'selected' : '' ?>>Aktif</option>
-                                        <option value="0" <?= !$user->active ? 'selected' : '' ?>>Nonaktif</option>
-                                    </select>
-                                    </div>
                                 </div>
                                 </div>
                                 <div class="modal-footer">

@@ -1,19 +1,4 @@
 window.addEventListener("DOMContentLoaded", (event) => {
-  // Backstretch masthead
-  $(".masthead").backstretch(
-    [
-      "../assets/img/bg-masthead2.jpeg",
-      "../assets/img/img-3.jpg",
-      "../assets/img/img-4.jpg",
-      "../assets/img/img-5.jpg",
-      "../assets/img/img-6.jpg",
-    ],
-    {
-      duration: 3000,
-      fade: 1000,
-    }
-  );
-
   // Variabel force_scrolled (diisi dari PHP)
   const forceScrolled = window.forceScrolled === true;
 

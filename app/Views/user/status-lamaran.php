@@ -145,9 +145,7 @@ Swal.fire({
             $step = 1;
             $today = date('Y-m-d');
 
-            if (!empty($pendaftaran['status_berkas_lengkap']) && $pendaftaran['status_berkas_lengkap']=== 'Y')  {
-                $step = 6;
-            } elseif (!empty($pendaftaran['status_validasi_berkas']) && !empty($pendaftaran['tanggal_validasi_berkas'])) {
+            if (!empty($pendaftaran['status_validasi_berkas']) && $pendaftaran['status_validasi_berkas']=== 'Y')  {
                 $step = 5;
             } elseif (!empty($pendaftaran['status_konfirmasi']) && !empty($pendaftaran['tanggal_konfirmasi'])) {
                 $step = 4;
@@ -242,166 +240,95 @@ Swal.fire({
                                         Konfirmasi Penerimaan
                                     </button>
                                 </div>
-                                <!-- Modal Konfirmasi-->
-                                <div class="modal fade" id="modalKonfirmasi" tabindex="-1" aria-labelledby="modalKonfirmasiLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content border-0 rounded-4">
-                                        <div class="modal-header bg-primary text-white rounded-top-4">
-                                            <h5 class="modal-title fw-bold" id="modalKonfirmasiLabel">Konfirmasi Kesediaan Magang</h5>
-                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                        <form action="<?= base_url('magang/konfirmasi') ?>" method="post">
+                                <!-- Modal Konfirmasi & Validasi Berkas -->
+<div class="modal fade" id="modalKonfirmasi" tabindex="-1" aria-labelledby="modalKonfirmasiLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4">
+            <div class="modal-header bg-primary text-white rounded-top-4">
+                <h5 class="modal-title fw-bold" id="modalKonfirmasiLabel">Konfirmasi Kesediaan</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="<?= base_url('magang/konfirmasi') ?>" method="post">
+                <div class="modal-body">
 
-                                        <p>Dengan ini, saya menyatakan bersedia untuk mengikuti program magang yang akan dimulai pada <strong><?= format_tanggal_indonesia(date('d M Y', strtotime($pendaftaran['tanggal_masuk']))) ?></strong>.</p>
-                                        <p>Saya berkomitmen untuk menjalankan seluruh kegiatan magang dengan penuh tanggung jawab dan disiplin sesuai ketentuan yang berlaku.</p>
+                    <p>
+                        Dengan ini saya menyatakan bersedia mengikuti program magang yang akan dimulai pada 
+                        <strong><?= format_tanggal_indonesia(date('d M Y', strtotime($pendaftaran['tanggal_masuk']))) ?></strong>, 
+                        serta berkomitmen menjalankan seluruh kegiatan magang dengan penuh tanggung jawab dan disiplin sesuai ketentuan yang berlaku.
+                    </p>
 
-                                    
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input" type="checkbox" value="" id="setuju" required>
-                                            <label class="form-check-label" for="setuju">
-                                                Saya menyetujui pernyataan di atas dan bersedia mengikuti program magang.
-                                            </label>
-                                        </div>
-                                        <input type="hidden" name="magang_id" value="<?= $pendaftaran['magang_id'] ?>">
+                    <p>
+                        Saya menyatakan bahwa seluruh dokumen yang saya unggah sebagai persyaratan administrasi magang adalah benar, sah, dan sesuai dengan keadaan sebenarnya. 
+                        Apabila di kemudian hari ditemukan ketidaksesuaian atau ketidakbenaran, saya bersedia menerima segala konsekuensi sesuai ketentuan yang berlaku.
+                    </p>
 
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-success">Konfirmasi</button>
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                        </div>
-                                    </form>
-                                        </div>
-                                    </div>
-                                </div>
+                    <p>
+                        Saya juga memberikan persetujuan kepada PT Semen Padang untuk menggunakan, menyimpan, dan memproses data pribadi serta dokumen yang saya serahkan, 
+                        termasuk namun tidak terbatas pada data identitas, riwayat pendidikan, serta dokumen pendukung lainnya, 
+                        untuk keperluan administrasi, evaluasi, dan kegiatan lain yang berkaitan dengan proses magang.
+                    </p>
+
+                    <p>
+                        Pernyataan ini saya buat dengan sebenar-benarnya. Saya memahami bahwa data pribadi saya akan dikelola sesuai dengan ketentuan yang berlaku, 
+                        termasuk Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi.
+                    </p>
+
+                    <!-- Checkbox Persetujuan -->
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="setuju" name="setuju" required>
+                        <label class="form-check-label" for="setuju">
+                            Saya menyetujui seluruh pernyataan di atas dan bersedia mengikuti program magang.
+                        </label>
+                    </div>
+
+                    <input type="hidden" name="magang_id" value="<?= $pendaftaran['magang_id'] ?>">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Konfirmasi</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
                             <?php endif; ?>
                         <?php endif; ?>
                     </div>
                 </div>     
                                 
-                <!-- Step 4: Pengumpulan Berkas -->
+
+                <!-- Step 4: Validasi Konfirmasi--> 
                 <div class="timeline-step">
                     <div class="circle <?= $step >= 4 ? ($step > 4 ? 'completed' : 'active') : '' ?>"></div>
                     <div class="timeline-content">
-                        <h6>Kelengkapan Berkas</h6>
-
-                        <?php if($step < 4) : ?>
-                            <small>Melengkapi persyaratan sebelum H-3 magang</small>        
-
-                        <?php elseif ($step == 4): ?>
-                            <?php if ($pendaftaran['status_berkas_lengkap'] === 'N'): ?>
-                                <div class="alert alert-warning">
-                                    ❌ Berkas yang Anda lampirkan sebelumnya <strong>belum lengkap atau tidak sesuai</strong>.<br>
-                                    Mohon lengkapi dokumen Anda melalui menu <strong><a href="/profile?tab=dokumen">Profil</a></strong> dan lakukan validasi ulang.<br><br>
-                                    Setelah melengkapi dokumen, silakan klik tombol <strong>Validasi Berkas Lengkap</strong> di bawah untuk mengajukan kembali.<br><br>
-                                    Jika tidak dilengkapi sebelum <strong><?= format_tanggal_indonesia(date('d M Y', strtotime('+7 days', strtotime($pendaftaran['tanggal_konfirmasi'])))) ?></strong>, maka kesempatan ini akan dianggap <strong>gugur</strong>.
-                                </div>
-                            <?php else: ?>
-                                <br><br>
-                                <div class="info-card">
-                                    Mohon segera melengkapi dokumen persyaratan Anda melalui menu <strong><a href="/profile?tab=dokumen">Profil</a></strong> selambat-lambatnya pada tanggal <strong><?= format_tanggal_indonesia(date('d M Y', strtotime('+7 days', strtotime($pendaftaran['tanggal_konfirmasi'])))) ?></strong>.<br><br>
-
-                                    Dokumen yang <strong>wajib</strong> dilengkapi:
-                                    <ul class="mb-2 mt-1">
-                                        <li>BPJS Ketenagakerjaan</li>
-                                        <li>Bukti Pembayaran BPJS Ketenagakerjaan</li>
-                                    </ul>
-
-                                    Dokumen <strong>opsional</strong> (jika ada):
-                                    <ul class="mb-2 mt-1">
-                                        <li>BPJS Kesehatan <small>(tidak wajib, tetapi disarankan untuk dilampirkan jika ada)</small></li>
-                                    </ul>
-
-                                    Setelah melengkapi seluruh dokumen, jangan lupa untuk menekan tombol <strong>Validasi Berkas Lengkap</strong> agar dokumen Anda dapat diverifikasi oleh tim kami.<br><br>
-
-                                    Apabila dokumen tidak dilengkapi hingga batas waktu yang ditentukan, maka kesempatan Anda akan dianggap <strong>gugur</strong>.
-                                </div>
-
-                            <?php endif; ?>
-                            <?php 
-                                $isBpjsFilled = !empty($user_data->bpjs_tk) && !empty($user_data->buktibpjs_tk);
-                                $btnClass = $isBpjsFilled ? 'btn-danger' : 'btn-secondary'; // abu-abu jika tidak lengkap
-                                ?>
-                                <button class="btn <?= $btnClass ?> mt-3" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="<?= $isBpjsFilled ? '#validasiBerkasModal' : '' ?>" 
-                                        <?= $isBpjsFilled ? '' : 'disabled' ?>>
-                                    Validasi Berkas Lengkap
-                                </button>
-                            
-                            <!-- Modal Validasi Berkas -->
-                            <div class="modal fade" id="validasiBerkasModal" tabindex="-1" aria-labelledby="validasiBerkasModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content border-0 rounded-4">
-                                        <div class="modal-header bg-primary text-white rounded-top-4">
-                                            <h5 class="modal-title fw-bold" id="validasiBerkasModalLabel">Pernyataan Validasi Berkas</h5>
-                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                                        </div>
-                                        <form action="<?= base_url('magang/validasi-berkas') ?>" method="post">
-                                            <div class="modal-body">
-                                                <p>
-                                                    Dengan ini, saya menyatakan bahwa seluruh dokumen yang saya unggah sebagai syarat administrasi magang adalah benar, sah, dan sesuai dengan keadaan sebenarnya.
-                                                </p>
-                                                <p>
-                                                    Apabila di kemudian hari ditemukan ketidaksesuaian atau ketidakbenaran atas dokumen yang saya berikan, saya bersedia menerima segala konsekuensi sesuai ketentuan yang berlaku.
-                                                </p>
-                                                <p>
-                                                    Saya juga menyatakan memberikan persetujuan penuh kepada PT Semen Padang untuk menggunakan, menyimpan, dan memproses data pribadi serta dokumen yang saya serahkan, termasuk namun tidak terbatas pada data identitas, riwayat pendidikan, serta dokumen pendukung lainnya, untuk keperluan administrasi, evaluasi, dan kegiatan lain yang berkaitan dengan proses magang.
-                                                </p>
-                                                <p>
-                                                    Pernyataan ini saya buat dengan sebenar-benarnya dan saya memahami bahwa data pribadi saya akan dikelola sesuai dengan ketentuan yang berlaku, termasuk Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi.
-                                                </p>
-
-                                                <div class="form-check mt-3">
-                                                    <input class="form-check-input" type="checkbox" name="setuju_berkas" id="setuju_berkas" required>
-                                                    <label class="form-check-label" for="setuju_berkas">
-                                                        Saya menyetujui seluruh pernyataan di atas dan menyatakan bahwa berkas saya telah lengkap.
-                                                    </label>
-                                                </div>
-
-                                                <input type="hidden" name="magang_id" value="<?= $pendaftaran['magang_id'] ?>">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-success">Validasi Sekarang</button>
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        <?php endif; ?>
-                    </div>
-                </div>
-
-                <!-- Step 5: Validasi Berkas -->
-                <div class="timeline-step">
-                    <div class="circle <?= $step >= 5 ? ($step > 5 ? 'completed' : 'active') : '' ?>"></div>
-                    <div class="timeline-content">
-                        <h6>Validasi Berkas</h6>
-                        <?php if ($step == 5): ?>
+                        <h6>Validasi Konfirmasi</h6>
+                        <?php if ($step == 4): ?>
                             <br><br>
                             <div class="info-card">
-                                📁 <strong>Kamu telah mengonfirmasi kelengkapan berkas</strong> pada
+                                📁 <strong>Kamu telah mengonfirmasi kesediaan mengikuti magang</strong> pada
                                     <strong><?= format_tanggal_indonesia(date('d F Y', strtotime($pendaftaran['tanggal_konfirmasi']))) ?></strong>. <br>
-                                    ⏳ Saat ini kamu sedang <strong>menunggu verifikasi dokumen oleh admin</strong>. <br>
-                                    📧 Mohon cek email dan website ini secara berkala untuk mengetahui hasil verifikasi.
+                                    ⏳ Saat ini <strong>admin sedang memvalidasi konfirmasi tersebut</strong>. <br>
+                                    📧 Silakan cek email atau halaman ini secara berkala untuk melihat hasil validasi.
                             </div>
                         <?php elseif ($step < 5): ?>
-                        <small>Menunggu verifikasi dokumen oleh admin</small>
+                            <small>Menunggu validasi konfirmasi kesediaan oleh admin</small>
                         <?php endif; ?>
                     </div>
                 </div>
 
-                <!-- Step 6: Pelaksanaan -->
+
+                <!-- Step 5: Pelaksanaan -->
                 <div class="timeline-step">
-                    <div class="circle <?= $step >= 6 ? 'completed' : '' ?>"></div>
+                    <div class="circle <?= $step >= 5 ? 'completed' : '' ?>"></div>
                     <div class="timeline-content">
                         <h6>Pelaksanaan</h6>
-                        <?php if($step < 6): ?>
+                        <?php if($step < 5): ?>
                             <small>Mulai kegiatan magang</small>
-                        <?php elseif ($step == 6): ?>
+                        <?php elseif ($step == 5): ?>
                             <br><br>
                             <div class="info-card">
                                 🎉 Selamat! <br>

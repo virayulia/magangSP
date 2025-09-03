@@ -23,6 +23,11 @@
             <span>Seleksi Pendaftar</span></a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="<?= base_url('admin/manage-validasi-konfirmasi'); ?>">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Approval Konfirmasi</span></a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="<?= base_url('admin/manage-kelengkapan-berkas'); ?>">
             <i class="fas fa-fw fa-table"></i>
             <span>Kelengkapan Berkas</span></a>

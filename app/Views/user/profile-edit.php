@@ -79,6 +79,14 @@
                             <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                             <input type="email" class="form-control" name="email" id="email" value="<?= esc($user_data->email ?? '') ?>" placeholder="Masukkan Email" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="instagram" class="form-label">Instagram</label>
+                            <input type="text" class="form-control" name="instagram" id="instagram" value="<?= esc($user_data->instagram ?? '') ?>" placeholder="@username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tiktok" class="form-label">Tiktok</label>
+                            <input type="text" class="form-control" name="tiktok" id="tiktok" value="<?= esc($user_data->tiktok ?? '') ?>" placeholder="@username" required>
+                        </div>
                     </div>
 
                     <div class="col-md-6">
@@ -98,6 +106,15 @@
                         <div class="mb-3">
                             <label for="no_hp" class="form-label">Nomor Telepon <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="no_hp" id="no_hp" value="<?= esc($user_data->no_hp ?? '') ?>" placeholder="Masukkan Nomor Telepon" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="instagram_follower" class="form-label">Jumlah Followers Instagram <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" name="instagram_followers" id="instagram_follower" value="<?= esc($user_data->instagram_followers ?? '') ?>" placeholder="Masukkan Jumlah Followers Instagram" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tiktok_followers" class="form-label">Jumlah Followers Tiktok <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="tiktok_followers" id="tiktok_followers" value="<?= esc($user_data->tiktok_followers ?? '') ?>" placeholder="Masukkan Jumlah Followers Tiktok" required>
                         </div>
                     </div>
                 </div>

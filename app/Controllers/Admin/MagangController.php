@@ -45,7 +45,8 @@ class MagangController extends BaseController
                                         ->whereIn('magang.status_akhir', ['proses', 'pendaftaran'])
                                         ->orderBy('magang.tanggal_daftar', 'asc')
                                         ->findAll();
-        return view('admin/index', ['pendaftaran' => $pendaftaran]);
+        $unitList = $this->unitKerjaModel->findAll();
+        return view('admin/index', ['pendaftaran' => $pendaftaran, 'unitList' => $unitList]);
     }
 
     public function detail($id)
@@ -381,18 +382,136 @@ class MagangController extends BaseController
         ]);
     }
 
-    public function berkas()
+    public function validasi()
     {
         
         $data = $this->magangModel->select('magang.*, users.fullname, users.nisn_nim, users.bpjs_kes, users.bpjs_tk, users.buktibpjs_tk')
                                         ->join('users', 'users.id = magang.user_id')
-                                        ->where('magang.status_validasi_berkas', 'Y')
-                                        ->where('magang.status_berkas_lengkap =', null)
-                                        ->orderBy('tanggal_validasi_berkas')
+                                        ->where('magang.status_konfirmasi', 'Y')
+                                        ->where('magang.status_akhir', 'proses')
+                                        ->orderBy('tanggal_konfirmasi')
                                         ->findAll();
+
+        return view('admin/kelola_validasi', ['data' => $data]);
+    }
+
+    public function bulkValidasi()
+    {
+        $ids     = $this->request->getPost('ids'); 
+        $action  = $this->request->getPost('action'); 
+        $catatan = $this->request->getPost('catatan_bulk');
+
+        if (empty($ids) || !in_array($action, ['approve', 'reject'])) {
+            return redirect()->back()->with('error', 'Tidak ada peserta yang dipilih atau aksi tidak valid.');
+        }
+
+        $db      = \Config\Database::connect();
+        $email   = \Config\Services::email();
+        $tanggal = date('Y-m-d H:i:s');
+
+        $pesertaList = $db->table('magang')
+            ->select('magang.*, users.*, unit_kerja.unit_kerja, jurusan.nama_jurusan, instansi.nama_instansi')
+            ->join('users', 'users.id = magang.user_id', 'left')
+            ->join('jurusan', 'users.jurusan_id = jurusan.jurusan_id', 'left')
+            ->join('instansi', 'users.instansi_id = instansi.instansi_id', 'left')
+            ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id', 'left')
+            ->whereIn('magang.magang_id', $ids)
+            ->get()
+            ->getResult();
+
+        foreach ($pesertaList as $data) {
+            $updateData = [
+                'status_validasi_berkas'  => ($action === 'approve') ? 'Y' : 'N',
+                'tanggal_validasi_berkas' => $tanggal,
+            ];
+
+            if ($action === 'approve') {
+                $updateData['status_akhir'] = 'magang';
+            }
+
+            $this->magangModel->update($data->magang_id, $updateData);
+
+            // Kirim email
+            $toEmail = $data->email;
+            $ccEmail = $data->email_instansi;
+
+            if (!empty($toEmail)) {
+                $email->clear(true); // reset email sebelum kirim berikutnya
+                $email->setTo($toEmail);
+
+                if (!empty($ccEmail) && filter_var($ccEmail, FILTER_VALIDATE_EMAIL)) {
+                    $email->setCC($ccEmail);
+                }
+
+                $email->setSubject('Hasil Validasi Magang di PT Semen Padang');
+                $email->setMailType('html');
+
+                if ($action === 'approve') {
+                    $email->setMessage(view('emails/approve', [
+                        'nama'            => $data->fullname ?? $data->username,
+                        'unit'            => $data->unit_kerja ?? 'Unit terkait',
+                        'user_data'       => $data,
+                        'tanggal_surat'   => $data->tanggal_surat,
+                        'tanggal_masuk'   => $data->tanggal_masuk,
+                        'tanggal_selesai' => $data->tanggal_selesai,
+                    ]));
+                } else {
+                    $email->setMessage(view('emails/tidak_approve', [
+                        'nama'    => $data->fullname ?? $data->username,
+                        'unit'    => $data->unit_kerja ?? 'Unit terkait',
+                        'catatan' => $catatan
+                    ]));
+                }
+
+                if (!$email->send()) {
+                    log_message('error', "Gagal kirim email validasi ID {$data->magang_id}: " . print_r($email->printDebugger(), true));
+                }
+            }
+        }
+
+        return redirect()->back()->with('success', 
+            $action === 'approve' 
+                ? 'Peserta terpilih berhasil divalidasi dan email penerimaan telah dikirim.'
+                : 'Peserta terpilih telah ditandai tidak valid dan email penolakan telah dikirim.'
+        );
+    }
+
+
+    // public function berkas()
+    // {
+        
+    //     $data = $this->magangModel->select('magang.*, users.fullname, users.nisn_nim, users.bpjs_kes, users.bpjs_tk, users.buktibpjs_tk')
+    //                                     ->join('users', 'users.id = magang.user_id')
+    //                                     ->where('magang.status_validasi_berkas', 'Y')
+    //                                     ->where('magang.status_berkas_lengkap =', null)
+    //                                     ->orderBy('tanggal_validasi_berkas')
+    //                                     ->findAll();
+
+    //     return view('admin/kelola_kelengkapan', ['data' => $data]);
+    // }
+
+    public function berkas($id = null)
+    {
+        $builder = $this->magangModel->select(
+            'magang.*, users.fullname, users.nisn_nim, users.bpjs_kes, users.bpjs_tk, users.buktibpjs_tk'
+        )->join('users', 'users.id = magang.user_id')
+        ->where('magang.status_validasi_berkas', 'Y')
+        ->groupStart()
+            ->where('magang.status_berkas_lengkap !=', 'Y')
+            ->orWhere('magang.status_berkas_lengkap IS NULL')
+        ->groupEnd()
+        ->orderBy('tanggal_validasi_berkas');
+
+        if (!empty($id)) {
+            // kalau ada id, filter sesuai id
+            $builder->where('magang.magang_id', $id);
+        }
+
+        $data = $builder->findAll();
 
         return view('admin/kelola_kelengkapan', ['data' => $data]);
     }
+
 
     public function valid($id)
     {
@@ -477,8 +596,6 @@ class MagangController extends BaseController
             'status_berkas_lengkap'      => 'N',
             'tanggal_berkas_lengkap'     => date('Y-m-d H:i:s'),
             'cttn_berkas_lengkap'        => $catatan,
-            'status_validasi_berkas'     => NULL,
-            'tanggal_validasi_berkas'    => NULL
         ];
 
         $this->magangModel->update($id, $updateData);
@@ -558,23 +675,38 @@ class MagangController extends BaseController
         $bulan = $this->request->getGet('bulan');
         $tahun = $this->request->getGet('tahun');
 
-        $builder = $this->magangModel->select('magang.*, unit_kerja.unit_kerja, users.*, jurusan.nama_jurusan, 
-                            instansi.nama_instansi,
-                            province_ktp.province AS provinsi_ktp,
-                            province_dom.province AS provinsi_domisili,
-                            city_ktp.regency AS kota_ktp, 
-                            city_ktp.type AS tipe_kota_ktp,
-                            city_dom.regency AS kota_domisili,
-                            city_dom.type AS tipe_kota_domisili')
-            ->join('users', 'users.id = magang.user_id')
-            ->join('instansi', 'instansi.instansi_id = users.instansi_id')
-            ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id')
-            ->join('provinces AS province_ktp', 'province_ktp.id = users.province_id', 'left')
-            ->join('provinces AS province_dom', 'province_dom.id = users.provinceDom_id', 'left')
-            ->join('regencies AS city_ktp', 'city_ktp.id = users.city_id', 'left')
-            ->join('regencies AS city_dom', 'city_dom.id = users.cityDom_id', 'left')
-            ->join('unit_kerja', 'magang.unit_id = unit_kerja.unit_id')
-            ->where('magang.status_akhir', 'magang');
+        $builder = $this->magangModel->select('
+                                    magang.*,
+                                    unit_kerja.unit_kerja,
+                                    users.*,
+                                    jurusan.nama_jurusan,
+                                    instansi.nama_instansi,
+                                    province_ktp.province AS provinsi_ktp,
+                                    province_dom.province AS provinsi_domisili,
+                                    city_ktp.regency AS kota_ktp, 
+                                    city_ktp.type AS tipe_kota_ktp,
+                                    city_dom.regency AS kota_domisili,
+                                    city_dom.type AS tipe_kota_domisili,
+                                    MAX(jawaban_safety.nilai) as nilai_maksimal,
+                                    MAX(jawaban_safety.created_at) as tanggal_terakhir,
+                                    MAX(jawaban_safety.percobaan_ke) as percobaan_terakhir,
+                                    CASE 
+                                        WHEN MAX(jawaban_safety.nilai) IS NULL THEN "Belum Tes"
+                                        WHEN MAX(jawaban_safety.nilai) >= 70 THEN "Lulus"
+                                        ELSE "Belum Lulus"
+                                    END as status_tes
+                                ')
+                                ->join('users', 'users.id = magang.user_id')
+                                ->join('instansi', 'instansi.instansi_id = users.instansi_id')
+                                ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id')
+                                ->join('provinces AS province_ktp', 'province_ktp.id = users.province_id', 'left')
+                                ->join('provinces AS province_dom', 'province_dom.id = users.provinceDom_id', 'left')
+                                ->join('regencies AS city_ktp', 'city_ktp.id = users.city_id', 'left')
+                                ->join('regencies AS city_dom', 'city_dom.id = users.cityDom_id', 'left')
+                                ->join('unit_kerja', 'magang.unit_id = unit_kerja.unit_id')
+                                ->join('jawaban_safety', 'magang.magang_id = jawaban_safety.magang_id', 'left')
+                                ->where('magang.status_akhir', 'magang')
+                                ->groupBy('magang.magang_id');
 
         if (!empty($bulan)) {
             $builder->where('MONTH(magang.tanggal_masuk)', $bulan);

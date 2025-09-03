@@ -268,49 +268,114 @@ class AuthController extends Controller
         // Validate passwords
         $validationRules = [
             'nama' => 'required|min_length[3]|max_length[100]',
-            'email' => 'required|valid_email|is_unique[users.email]',
+            'email' => [
+                'rules'  => 'required|valid_email|is_unique[users.email]',
+                'errors' => [
+                    'required'   => 'Email wajib diisi.',
+                    'valid_email'=> 'Format email tidak valid.',
+                    'is_unique'  => 'Email sudah terdaftar. Gunakan email lain.',
+                ]
+            ],
             'password' => [
                 'label' => 'Password',
                 'rules' => 'required|min_length[8]|regex_match[/(?=.*[A-Z])(?=.*[a-z])(?=.*[\d\W])/]',
                 'errors' => [
-                    'regex_match' => 'Password harus mengandung huruf besar, kecil, dan angka/simbol.'
+                    'required'   => 'Password wajib diisi.',
+                    'min_length' => 'Password minimal 8 karakter.',
+                    'regex_match'=> 'Password harus mengandung huruf besar, kecil, dan angka/simbol.'
                 ]
             ],
             'pass_confirm' => 'required|matches[password]',
             'no_hp' => 'required|numeric|min_length[10]|max_length[15]',
             'jenis_kelamin' => 'required|in_list[L,P]',
-            'nisn_nim' => 'required|min_length[5]|max_length[20]',
+            'nisn_nim' => [
+                'rules' => 'required|min_length[5]|max_length[20]|is_unique[users.nisn_nim]',
+                'errors' => [
+                    'required'   => 'NISN/NIM wajib diisi.',
+                    'is_unique'  => 'NISN/NIM sudah terdaftar. Gunakan NISN/NIM lain.',
+                ]
+            ],
             'alamat' => 'required|min_length[5]',
             'provinsi' => 'required',
             'kota' => 'required',
-            'user_image' => 'uploaded[user_image]|is_image[user_image]|max_size[user_image,2048]|mime_in[user_image,image/jpg,image/jpeg,image/png]',
-            
+            'user_image' => [
+                'rules' => 'uploaded[user_image]|is_image[user_image]|max_size[user_image,2048]|mime_in[user_image,image/jpg,image/jpeg,image/png]',
+                'errors' => [
+                    'uploaded'  => 'Foto profil wajib diupload.',
+                    'is_image'  => 'File harus berupa gambar.',
+                    'max_size'  => 'Ukuran foto maksimal 2MB.',
+                    'mime_in'   => 'Format foto harus JPG, JPEG, atau PNG.'
+                ]
+            ],
             'jenjang_pendidikan' => 'required|in_list[SMK,D3,D4/S1,S2]',
             'instansi' => 'required',
             'jurusan' => 'required',
             'semester' => 'required|numeric',
 
-            'surat_permohonan' => 'uploaded[surat_permohonan]|max_size[surat_permohonan,2048]|ext_in[surat_permohonan,pdf]',
+            'surat_permohonan' => [
+                'rules' => 'uploaded[surat_permohonan]|max_size[surat_permohonan,2048]|ext_in[surat_permohonan,pdf]',
+                'errors' => [
+                    'uploaded'  => 'Surat permohonan wajib diupload.',
+                    'max_size'  => 'Ukuran surat permohonan maksimal 2MB.',
+                    'ext_in'    => 'Surat permohonan hanya boleh dalam format PDF.'
+                ]
+            ],
             'no_surat' => 'required',
             'tanggal_surat' => 'required|valid_date[Y-m-d]',
             'nama_pimpinan' => 'required',
             'jabatan' => 'required',
             'email_instansi' => 'required|valid_email',
-            'ktp_kk' => 'uploaded[ktp_kk]|max_size[ktp_kk,2048]|ext_in[ktp_kk,jpg,jpeg,png,pdf]',
+            'ktp_kk' => [
+                'rules' => 'uploaded[ktp_kk]|max_size[ktp_kk,2048]|ext_in[ktp_kk,jpg,jpeg,png,pdf]',
+                'errors' => [
+                    'uploaded'  => 'KTP/KK wajib diupload.',
+                    'max_size'  => 'Ukuran KTP/KK maksimal 2MB.',
+                    'ext_in'    => 'KTP/KK hanya boleh JPG, JPEG, PNG, atau PDF.'
+                ]
+            ],
         ];
 
         // Tambahkan nilai_ipk hanya jika jenjang D3 ke atas
         $jenjang = $this->request->getPost('jenjang_pendidikan');
         if (in_array($jenjang, ['D3', 'D4/S1', 'S2'])) {
-            $validationRules['nilai_ipk'] = 'required|decimal|greater_than_equal_to[1]|less_than_equal_to[4]';
-            $validationRules['cv'] = 'uploaded[cv]|max_size[cv,2048]|ext_in[cv,pdf]';
-            $validationRules['proposal'] = 'uploaded[proposal]|max_size[proposal,2048]|ext_in[proposal,pdf]';
+            $validationRules['nilai_ipk'] = [
+                'rules'  => 'required|decimal|greater_than_equal_to[1]|less_than_equal_to[4]',
+                'errors' => [
+                    'required'               => 'Nilai IPK wajib diisi.',
+                    'decimal'                => 'Nilai IPK harus berupa angka desimal.',
+                    'greater_than_equal_to'  => 'Nilai IPK minimal 1.00.',
+                    'less_than_equal_to'     => 'Nilai IPK maksimal 4.00.'
+                ]
+            ];
+
+            $validationRules['cv'] = [
+                'rules'  => 'uploaded[cv]|max_size[cv,2048]|ext_in[cv,pdf]',
+                'errors' => [
+                    'uploaded' => 'CV wajib diupload.',
+                    'max_size' => 'Ukuran file CV maksimal 2MB.',
+                    'ext_in'   => 'Format CV harus PDF.'
+                ]
+            ];
+
+            $validationRules['proposal'] = [
+                'rules'  => 'uploaded[proposal]|max_size[proposal,2048]|ext_in[proposal,pdf]',
+                'errors' => [
+                    'uploaded' => 'Proposal wajib diupload.',
+                    'max_size' => 'Ukuran file Proposal maksimal 2MB.',
+                    'ext_in'   => 'Format Proposal harus PDF.'
+                ]
+            ];
         }
+
 
         // Tambahkan field opsional domisili
         $validationRules['domisili'] = 'permit_empty';
         $validationRules['provinsiDom'] = 'permit_empty|numeric';
         $validationRules['kotaDom'] = 'permit_empty|numeric';
+        $validationRules['instagram'] = 'permit_empty';
+        $validationRules['instagram_followers'] = 'permit_empty|numeric';
+        $validationRules['tiktok'] = 'permit_empty';
+        $validationRules['tiktok_followers'] = 'permit_empty|numeric';
 
         if (! $this->validate($validationRules)) {
             return redirect()
@@ -345,6 +410,10 @@ class AuthController extends Controller
             'domisili' => $this->request->getPost('domisili'),
             'provinceDom_id' => $this->request->getPost('provinsiDom'),
             'cityDom_id' => $this->request->getPost('kotaDom'),
+            'instagram' => $this->request->getPost('instagram'),
+            'instagram_followers' => $this->request->getPost('instagram_followers'),
+            'tiktok' => $this->request->getPost('tiktok'),
+            'tiktok_followers' => $this->request->getPost('tiktok_followers'),
             'instansi_id' => $this->request->getPost('instansi'),
             'jurusan_id' => $this->request->getPost('jurusan'),
             'tingkat_pendidikan' => $this->request->getPost('jenjang_pendidikan'),

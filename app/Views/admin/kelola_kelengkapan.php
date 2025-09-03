@@ -40,6 +40,7 @@
                         <tr>
                             <th>Nama</th>
                             <th>NIM</th>
+                            <th>Tanggal Selesai</th>
                             <th>BPJS Kes</th>
                             <th>BPJS TK</th>
                             <th>Bukti Pembayaran</th>
@@ -53,6 +54,7 @@
                                 <tr>
                                     <td><?= esc($item['fullname']) ?></td>
                                     <td><?= esc($item['nisn_nim']) ?></td>
+                                    <td><?= esc(format_tanggal_indonesia($item['tanggal_selesai'])) ?></td>
 
                                     <!-- BPJS Kes -->
                                     <td>

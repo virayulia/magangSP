@@ -174,7 +174,7 @@ class MagangController extends BaseController
         // Update data pendaftaran
         if ($this->magangModel->update($id, $data)) {
             // Jika berhasil, redirect dengan pesan sukses
-            return redirect()->to('/status-lamaran')->with('success', 'Pendaftaran berhasil dikonfirmasi! Selanjutnya, mohon lengkapi berkas Anda dan lakukan validasi untuk melanjutkan proses.');
+            return redirect()->to('/status-lamaran')->with('success', 'Konfirmasi pendaftaran berhasil! Silakan menunggu validasi dari admin sebelum masuk ke tahap berikutnya.');
         } else {
             // Jika gagal, tampilkan pesan error
             return redirect()->back()->with('error', 'Terjadi kesalahan saat mengkonfirmasi pendaftaran.');
@@ -367,14 +367,17 @@ class MagangController extends BaseController
         }
 
         $magangId = $magang['magang_id'];
+        $tanggalHariIni = date('Y-m-d');
 
-        // Hitung jumlah percobaan sebelumnya
-        $percobaanSebelumnya = $this->jawabanModel
+        // Hitung jumlah percobaan HARI INI
+        $percobaanHariIni = $this->jawabanModel
             ->where('magang_id', $magangId)
+            ->where('tanggal_ujian', $tanggalHariIni)
             ->countAllResults();
 
-        if ($percobaanSebelumnya >= 3) {
-            return redirect()->to('/pelaksanaan')->with('error', '❌ Anda telah melebihi batas 3 percobaan.');
+        if ($percobaanHariIni >= 3) {
+            return redirect()->to('/pelaksanaan')
+                ->with('error', '❌ Anda sudah 3 kali tes hari ini. Silakan coba lagi besok.');
         }
 
         $soalSemua = $this->soalSafetyModel->findAll();
@@ -388,9 +391,9 @@ class MagangController extends BaseController
         // Simpan jawaban utama dulu
         $this->jawabanModel->insert([
             'magang_id'     => $magangId,
-            'nilai'         => 0, // sementara 0, diupdate nanti
-            'percobaan_ke'  => $percobaanSebelumnya + 1,
-            'tanggal_ujian' => date('Y-m-d'),
+            'nilai'         => 0,
+            'percobaan_ke'  => $percobaanHariIni + 1, 
+            'tanggal_ujian' => $tanggalHariIni,
             'created_at'    => date('Y-m-d H:i:s'),
         ]);
 
@@ -427,6 +430,7 @@ class MagangController extends BaseController
         $status = $skor >= 70 ? 'lulus' : 'gagal';
         return redirect()->to('/pelaksanaan')->with('success', "Tes selesai. Skor Anda: $skor ($status)");
     }
+
 
 
 

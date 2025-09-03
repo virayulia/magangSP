@@ -295,17 +295,18 @@ class HomeController extends BaseController
     {
         $folderPath = FCPATH . 'assets/img/masthead/';
         $urlBase = base_url('assets/img/masthead/');
-        $extensions = ['jpg', 'jpeg', 'png', 'gif'];
+        $allowed = ['jpg', 'jpeg', 'png', 'gif'];
 
         $imageFiles = [];
 
-        foreach ($extensions as $ext) {
-            foreach (glob($folderPath . '*.' . $ext) as $file) {
-                $imageFiles[] = $urlBase . basename($file);
+        foreach (scandir($folderPath) as $file) {
+            if (in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), $allowed)) {
+                $imageFiles[] = $urlBase . $file;
             }
         }
 
         return $this->response->setJSON($imageFiles);
     }
+
 
 }

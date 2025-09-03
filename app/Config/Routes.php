@@ -29,10 +29,11 @@ $routes->post('forgot', 'AuthController::attemptForgot');
 $routes->get('reset-password', 'AuthController::resetPassword');
 $routes->post('reset-password', 'AuthController::attemptReset');
 
-
+//Cronjob
 $routes->get('cron/remind-unit/(:segment)', 'CronController::remindUnit/$1');
 $routes->get('cron/autoTolakTidakKonfirmasi/(:segment)', 'CronController::autoTolakTidakKonfirmasi/$1');
 $routes->get('cron/autoTolakTidakValidasiBerkas/(:segment)', 'CronController::autoTolakTidakValidasiBerkas/$1');
+$routes->get('cron/reminderLengkapiBerkas/(:segment)', 'CronController::reminderLengkapiBerkas/$1');
 
 
 
@@ -65,6 +66,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin','filter' => 'adm
     // Kelola Users
     $routes->get('manage-user', 'UserController::index');
     $routes->post('manage-user/update/(:num)', 'UserController::update/$1');
+    $routes->get('manage-user/activate/(:num)', 'UserController::activate/$1');
     $routes->get('manage-user/delete/(:num)', 'UserController::delete/$1');
 
     //Kelola Admin
@@ -124,7 +126,12 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin','filter' => 'adm
     $routes->get('manage-seleksi/pendaftar', 'MagangController::pendaftar');
     $routes->post('manage-seleksi/terima-banyak', 'MagangController::terimaBanyak');
     $routes->post('manage-seleksi/tolak-banyak', 'MagangController::tolakBanyak');
+    $routes->get('manage-validasi-konfirmasi', 'MagangController::validasi');
+    $routes->post('manage-validasi-konfirmasi/bulk', 'MagangController::bulkValidasi');
+    
+    $routes->post('manage-validasi-konfirmasi/valid/(:num)', 'MagangController::validKonfirmasi/$1');
     $routes->get('manage-kelengkapan-berkas', 'MagangController::berkas');
+    $routes->get('manage-kelengkapan-berkas/(:num)', 'MagangController::berkas/$1');
     $routes->post('manage-kelengkapan-berkas/valid/(:num)', 'MagangController::valid/$1');
     $routes->post('manage-kelengkapan-berkas/tidakValid/(:num)', 'MagangController::tidakValid/$1');
 

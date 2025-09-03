@@ -19,11 +19,12 @@ class UserModel extends MythUserModel
     protected $useSoftDeletes = true;
     protected $allowedFields  = [
         'email', 'username', 'fullname','user_image','nisn_nim', 'no_hp','jenis_kelamin',
-        'alamat','province_id','city_id','domisili','provinceDom_id','cityDom_id', 'tingkat_pendidikan',
-        'instansi_id','jurusan_id','semester','nilai_ipk', 'rfid', 'cv','proposal','surat_permohonan',
+        'alamat','province_id','city_id','domisili','provinceDom_id','cityDom_id', 
+        'instagram', 'instagram_followers', 'tiktok','tiktok_followers',
+        'tingkat_pendidikan', 'instansi_id','jurusan_id','semester','nilai_ipk', 'rfid', 'cv','proposal','surat_permohonan',
         'tanggal_surat','no_surat','nama_pimpinan','jabatan','email_instansi','bpjs_kes','bpjs_tk',
         'buktibpjs_tk','ktp_kk',
-        'password_hash', 'reset_hash', 'reset_at', 'reset_expires', 'activate_hash',
+        'password_hash', 'reset_hash', 'reset_at', 'reset_expires', 'activate_hash', 
         'status', 'status_message', 'active', 'force_pass_reset', 'permissions', 'deleted_at', 'eselon'
     ];
     protected $useTimestamps   = true;

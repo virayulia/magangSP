@@ -44,19 +44,13 @@
                                         <?php 
                                         if (!is_null($data['tanggal_validasi_berkas'])) {
                                             if ($data['status_validasi_berkas'] === 'Y') {
-                                                echo "Berkas Valid";
+                                                echo "Proses Validasi";
                                             } else {
                                                 echo "Berkas Tidak Valid";
                                             }
-                                        } elseif(!is_null($data['status_validasi_berkas'])){
-                                            if($data['status_validasi_berkas'] === 'Y'){
-                                                echo "Divalidasi";
-                                            }else{
-                                                echo "Tidak Divalidasi";
-                                            }
                                         } elseif(!is_null($data['status_konfirmasi'])){
                                             if($data['status_konfirmasi'] === 'Y'){
-                                                echo "Dikonfirmasi";
+                                                echo "Terkonfirmasi";
                                             }else{
                                                 echo "Tidak Konfirmasi";
                                             }
@@ -94,35 +88,61 @@
             <!-- Informasi Pendaftar -->
             <h6 class="text-primary">📌 Informasi Pendaftar</h6>
             <table class="table table-sm table-bordered">
-                <tr><th>Nama Lengkap</th><td><?= esc($data['fullname']) ?></td></tr>
-                <tr><th>NIM/NISN</th><td><?= esc($data['nisn_nim'] ?? '-') ?></td></tr>
-                <tr><th>Email</th><td><?= esc($data['email'] ?? '-') ?></td></tr>
-                <tr><th>No HP</th><td><?= esc($data['no_hp'] ?? '-') ?></td></tr>
                 <tr>
-                <th>Jenis Kelamin</th>
-                <td>
-                    <?= $data['jenis_kelamin'] === 'L' ? 'Laki-laki' : ($data['jenis_kelamin'] === 'P' ? 'Perempuan' : '-') ?>
-                </td>
+                    <th>Nama Lengkap</th>
+                    <td><?= esc($item['fullname']) ?></td>
+                    <!-- gambar ditaruh di sini dengan rowspan -->
+                    <td rowspan="4" class="text-center align-middle" style="width: 180px;">
+                        <?php if (!empty($item['user_image'])): ?>
+                        <img src="<?= base_url('uploads/user-image/' . ($item['user_image'] ?? 'default.png')) ?>" 
+                            alt="Foto <?= esc($item['fullname']) ?>" 
+                            class="img-thumbnail" style="max-width: 150px;">
+                        <?php else: ?>
+                            <span class="text-muted">Tidak ada foto</span>
+                        <?php endif; ?>
+                    </td>
                 </tr>
                 <tr>
-                <th>Alamat</th>
-                <td><?php
-                    $alamat = $data['alamat'] ?? '';
-                    $kota = trim(($data['tipe_kota_ktp'] ?? '') . ' ' . ($data['kota_ktp'] ?? ''));
-                    $prov = $data['provinsi_ktp'] ?? '';
-                    $parts = array_filter([$alamat, $kota, $prov]);
-                    echo esc(implode(', ', $parts)) ?: 'Data belum diisi';
-                ?></td>
+                    <th>NIM/NISN</th>
+                    <td><?= esc($item['nisn_nim']) ?></td>
                 </tr>
                 <tr>
-                <th>Domisili</th>
-                <td><?php
-                    $alamat = $data['domisili'] ?? '';
-                    $kota = trim(($data['tipe_kota_domisili'] ?? '') . ' ' . ($data['kota_domisili'] ?? ''));
-                    $prov = $data['provinsi_domisili'] ?? '';
-                    $parts = array_filter([$alamat, $kota, $prov]);
-                    echo esc(implode(', ', $parts)) ?: 'Data belum diisi';
-                ?></td>
+                    <th>Email</th>
+                    <td><?= esc($item['email']) ?></td>
+                </tr>
+                <tr>
+                    <th>Jenis Kelamin</th>
+                    <?php if ($item['jenis_kelamin'] === 'L'): ?>
+                        <td>Laki-Laki</td>
+                    <?php elseif ($item['jenis_kelamin'] === 'P'): ?>
+                        <td>Perempuan</td>
+                    <?php else: ?>
+                        <td>-</td>
+                    <?php endif; ?>
+                </tr>
+                <tr>
+                    <th>Alamat</th>
+                    <td colspan="2">
+                        <?php
+                            $alamat = $item['alamat'] ?? '';
+                            $kota = trim(($item['tipe_kota_ktp'] ?? '') . ' ' . ($item['kota_ktp'] ?? ''));
+                            $prov = $item['provinsi_ktp'] ?? '';
+                            $parts = array_filter([$alamat, $kota, $prov]);
+                            echo esc(implode(', ', $parts)) ?: 'Data belum diisi';
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Domisili</th>
+                    <td colspan="2">
+                        <?php
+                            $alamat = $item['domisili'] ?? '';
+                            $kota = trim(($item['tipe_kota_domisili'] ?? '') . ' ' . ($item['kota_domisili'] ?? ''));
+                            $prov = $item['provinsi_domisili'] ?? '';
+                            $parts = array_filter([$alamat, $kota, $prov]);
+                            echo esc(implode(', ', $parts)) ?: 'Data belum diisi';
+                        ?>
+                    </td>
                 </tr>
             </table>
 
@@ -185,18 +205,65 @@
                 <tr><th>Tanggal Seleksi</th><td><?= esc($data['tanggal_seleksi'] ?? '-') ?></td></tr>
                 <tr><th>Status Konfirmasi</th><td><?= esc($data['status_konfirmasi'] === 'Y' ? 'Dikonfirmasi' : ($data['status_konfirmasi'] === 'N' ? 'Tidak Konfirmasi' : 'Belum Dikonfirmasi')) ?></td></tr>
                 <tr><th>Tanggal Konfirmasi</th><td><?= esc($data['tanggal_konfirmasi'] ?? '-') ?></td></tr>
-                <tr><th>Status Validasi Berkas</th>
-                    <td><?= $data['status_validasi_berkas'] === 'Y' ? 'Valid' : ($data['status_validasi_berkas'] === 'N' ? 'Tidak Valid' : 'Belum Divalidasi') ?></td>
+                <tr><th>Status Approval Konfirmasi</th>
+                    <td><?= $data['status_validasi_berkas'] === 'Y' ? 'Approved' : ($data['status_validasi_berkas'] === 'N' ? 'Tidak Approved' : 'Belum Approved') ?></td>
                 </tr>
-                <tr><th>Tanggal Validasi Berkas</th><td><?= $data['tanggal_validasi_berkas'] ? date('d-m-Y H:i', strtotime($data['tanggal_validasi_berkas'])) : '-' ?></td></tr>
+                <tr><th>Tanggal Approval Konfirmasi</th><td><?= $data['tanggal_validasi_berkas'] ? format_tanggal_indonesia_dengan_jam($data['tanggal_validasi_berkas']) : '-' ?></td></tr>
+                <tr><th>Status Berkas Lengkap</th>
+                    <td><?= $data['status_berkas_lengkap'] === 'Y' ? 'Valid' : ($data['status_berkas_lengkap'] === 'N' ? 'Tidak Valid' : 'Belum Divalidasi') ?></td>
+                </tr>
+                <tr><th>Tanggal Berkas Lengkap</th><td><?= $data['tanggal_berkas_lengkap'] ? format_tanggal_indonesia_dengan_jam($data['tanggal_berkas_lengkap']) : '-' ?></td></tr>
+                <tr><th>Catatan Validasi Berkas</th><td><?= esc($data['cttn_berkas_lengkap'] ?? '-') ?></td></tr>
+                <tr><th>Tanggal Setujui Pernyataan</th><td><?= $data['tanggal_setujui_pernyataan'] ? format_tanggal_indonesia($data['tanggal_setujui_pernyataan']) : '-' ?></td></tr>
                 <tr><th>Catatan Validasi Berkas</th><td><?= esc($data['cttn_berkas_lengkap'] ?? '-') ?></td></tr>
 
             </table>
         </div>
         <div class="modal-footer">
+            <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editModal<?= $data['magang_id'] ?>">Edit</button>
             <button class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         </div>
         </div>
+    </div>
+    </div>
+    <?php endforeach; ?>
+
+    <!-- Modal Edit -->
+    <?php foreach ($pendaftaran as $item): ?>
+    <div class="modal fade" id="editModal<?= $item['magang_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<?= $item['magang_id'] ?>" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form action="<?= base_url('admin/updateMagang/'.$item['magang_id']) ?>" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Data Magang - <?= esc($item['fullname']) ?></h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Tanggal Masuk</label>
+                        <input type="date" name="tanggal_masuk" class="form-control" value="<?= $item['tanggal_masuk'] ?>">
+                    </div>
+                    <div class="form-group">
+                        <label>Tanggal Selesai</label>
+                        <input type="date" name="tanggal_selesai" class="form-control" value="<?= $item['tanggal_selesai'] ?>">
+                    </div>
+                    <div class="form-group">
+                        <label>Unit Kerja</label>
+                        <select name="unit_id" class="form-control select2">
+                            <?php foreach ($unitList as $unit): ?>
+                                <option value="<?= $unit['unit_id'] ?>" <?= $unit['unit_id'] == $item['unit_id'] ? 'selected' : '' ?>>
+                                    <?= esc($unit['unit_kerja']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                </div>
+            </div>
+        </form>
     </div>
     </div>
     <?php endforeach; ?>

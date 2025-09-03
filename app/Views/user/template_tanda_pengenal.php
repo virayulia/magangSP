@@ -53,7 +53,7 @@
         }
 
         .logo {
-            width: 32px;
+            width: 27px;
             height: auto;
         }
 
@@ -66,33 +66,36 @@
         }
 
         .header {
-            font-size: 11px;
+            font-size: 15px;
             font-weight: bold;
             text-transform: uppercase;
-            margin: 6px 0;
-            line-height: 1.3;
+            margin: 3px 0;  /* lebih kecil supaya naik */
+            line-height: 1.2;
             color: #e30613;
-            padding-top: 5px;
         }
 
         .foto {
-            width: 75px;
-            height: 75px;
+            width: 125px;
+            height: 125px;
             object-fit: cover;
             border-radius: 6px;
             border: 2px solid #e30613;
-            margin: 10px auto 6px;
+            margin: 2px auto 3px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .info {
-            font-size: 9.5px;
-            padding: 0 15px;
+            font-size: 10px;
             text-align: center;
         }
 
+        .info h3 {
+            margin: 1px 0 2px; /* rapatkan ke bawah */
+            font-size: 13px;
+        }
+
         .info p {
-            margin: 5px 0;
+            margin: 0;
             line-height: 1.3;
         }
 
@@ -106,7 +109,7 @@
             position: absolute;
             bottom: 6px;
             width: 100%;
-            font-size: 8.5px;
+            font-size: 8px;
             color: #666;
         }
 
@@ -129,27 +132,20 @@
 
     <div class="card">
         <div class="logo-container">
-            <img src="<?= base_url('assets/img/SP_logo.png') ?>" alt="SP Logo" class="logo">
             <img src="<?= base_url('assets/img/SIG_Logo.png') ?>" alt="SIG Logo" class="logo">
+            <img src="<?= base_url('assets/img/SP_logo2.png') ?>" alt="SP Logo" class="logo">
         </div>
 
-        <div class="header">TANDA PENGENAL<br>PKL / PENELITIAN</div>
+        <div class="header">Magang</div>
 
         <img src="<?= base_url('/uploads/user-image/' . $user->user_image) ?>" alt="Foto" class="foto">
 
-        <!-- <div class="info">
-            <p><b>Nama</b>: <?= esc($user->fullname) ?></p>
-            <p><b>NIM/NISN</b>: <?= esc($user->nisn_nim) ?></p>
-            <p><b>Instansi</b>: <?= esc($user->nama_instansi) ?></p>
-            <p><b>Unit Kerja</b>: <?= esc($magang['unit_kerja']) ?></p>
-            <p><b>Jadwal</b>: <?= format_tanggal_singkat($magang['tanggal_masuk']) ?> - <?= format_tanggal_singkat($magang['tanggal_selesai']) ?></p>
-        </div> -->
         <div class="info">
-            <p><?= esc($user->fullname) ?></p>
-            <p><?= esc($user->nisn_nim) ?></p>
-            <p><?= esc($user->nama_instansi) ?></p>
-            <p><?= esc($magang['unit_kerja']) ?></p>
-            <p><?= format_tanggal_singkat($magang['tanggal_masuk']) ?> - <?= format_tanggal_singkat($magang['tanggal_selesai']) ?></p>
+            <h3><strong><?= esc($user->fullname) ?></strong></h3>
+            <p><?= esc($user->nisn_nim) ?>
+            <br><?= esc($user->nama_instansi) ?>
+            <br><?= esc($magang['unit_kerja']) ?>
+            <br><?= format_tanggal_singkat($magang['tanggal_masuk']) ?> - <?= format_tanggal_singkat($magang['tanggal_selesai']) ?></p>
         </div>
 
         <div class="footer">© PT. Semen Padang</div>

@@ -77,7 +77,7 @@
                     <!-- Nilai IPK  -->
                     <div class="mb-3" id="group-nilai">
                         <label for="nilai-ipk" class="form-label">IPK<span class="text-danger">*</span></label>
-                        <input type="number" step="0.01" min="0" max="4" class="form-control" name="ipk" id="nilai-ipk" placeholder="Contoh: 3.75" value="<?= esc($user_data->ipk ?? '') ?>">
+                        <input type="number" step="0.01" min="0" max="4" class="form-control" name="ipk" id="nilai-ipk" placeholder="Contoh: 3.75" value="<?= esc($user_data->nilai_ipk ?? '') ?>">
                     </div>
 
                     <button type="submit" class="btn btn-primary ">Simpan Data</button>

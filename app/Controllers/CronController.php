@@ -18,8 +18,8 @@ class CronController extends BaseController
         $db = \Config\Database::connect();
         $today = date('Y-m-d');
 
-        // Ambil pendaftar dengan tanggal masuk 7 hari lagi
-        $targetDate = date('Y-m-d', strtotime('+7 days'));
+        // Ambil pendaftar dengan tanggal masuk 2 hari lagi
+        $targetDate = date('Y-m-d', strtotime('+2 days'));
 
         $pendaftar = $db->table('magang')
             ->select('magang.*, unit_kerja.email_pimpinan as email_unit, unit_kerja.unit_kerja')
@@ -39,7 +39,7 @@ class CronController extends BaseController
             $email->setSubject('Pengingat Penerimaan Peserta Magang');
             $email->setMailType('html');
 
-            $email->setMessage(view('emails/reminder_unit', [
+            $email->setMessage(view('emails/reminder_magang', [
                 'unit' => $data->unit_kerja,
                 'tanggal_masuk' => date('d F Y', strtotime($data->tanggal_masuk)),
             ]));
@@ -119,9 +119,76 @@ class CronController extends BaseController
         ]);
     }
 
-    public function autoTolakTidakValidasiBerkas($token = null)
+    // public function autoTolakTidakValidasiBerkas($token = null)
+    // {
+    //     // Amankan dengan token
+    //     if ($token !== 'semen123') {
+    //         return $this->response->setStatusCode(403)->setJSON(['error' => 'Unauthorized']);
+    //     }
+
+    //     $db = \Config\Database::connect();
+    //     $builder = $db->table('magang');
+
+    //     $today = date('Y-m-d');
+    //     $deadlineDate = date('Y-m-d', strtotime('-7 days'));
+
+    //     $dataList = $builder
+    //         ->select('magang.*, users.email, users.email_instansi, users.fullname, unit_kerja.unit_kerja')
+    //         ->join('users', 'users.id = magang.user_id', 'left')
+    //         ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id', 'left')
+    //         ->where('status_konfirmasi', 'Y')
+    //         ->where('status_validasi_berkas IS NULL', null, false)
+    //         ->where('tanggal_konfirmasi <=', $deadlineDate)
+    //         ->get()
+    //         ->getResult();
+
+    //     $successCount = 0;
+    //     $failCount = 0;
+    //     $messages = [];
+
+    //     foreach ($dataList as $data) {
+    //         $update = $builder->where('magang_id', $data->magang_id)->update([
+    //             'status_validasi_berkas'  => 'N',
+    //             'tanggal_validasi_berkas' => date('Y-m-d'),
+    //             'status_akhir'            => 'gagal',
+    //         ]);
+
+    //         if ($update) {
+    //             $successCount++;
+
+    //             // Kirim email pemberitahuan
+    //             $email = \Config\Services::email();
+    //             $email->setTo($data->email); // Hanya ke user
+    //             $email->setSubject('Status Validasi Berkas Magang Dibatalkan');
+    //             $email->setMailType('html');
+    //             $email->setMessage(view('emails/penolakan_validasi_berkas', [
+    //                 'nama' => $data->fullname ?? 'Saudara',
+    //                 'unit' => $data->unit_kerja ?? 'Unit Terkait',
+    //                 'tanggal_konfirmasi' => date('d F Y', strtotime($data->tanggal_konfirmasi))
+    //             ]));
+
+    //             if (!$email->send()) {
+    //                 log_message('error', "Gagal kirim email ke {$data->email}: " . print_r($email->printDebugger(), true));
+    //             }
+
+
+    //         } else {
+    //             $failCount++;
+    //             $messages[] = "ID {$data->magang_id}: gagal update status validasi berkas.";
+    //         }
+    //     }
+
+    //     return $this->response->setJSON([
+    //         'status' => 'ok',
+    //         'berhasil' => $successCount,
+    //         'gagal' => $failCount,
+    //         'pesan' => $messages
+    //     ]);
+    // }
+
+    public function reminderLengkapiBerkas($token = null)
     {
-        // Amankan dengan token
+        // Token untuk keamanan
         if ($token !== 'semen123') {
             return $this->response->setStatusCode(403)->setJSON(['error' => 'Unauthorized']);
         }
@@ -130,51 +197,54 @@ class CronController extends BaseController
         $builder = $db->table('magang');
 
         $today = date('Y-m-d');
-        $deadlineDate = date('Y-m-d', strtotime('-7 days'));
 
+        // Ambil data yang tanggal masuknya H-7 sampai H-4 dan belum lengkap dokumen
         $dataList = $builder
-            ->select('magang.*, users.email, users.email_instansi, users.fullname, unit_kerja.unit_kerja')
-            ->join('users', 'users.id = magang.user_id', 'left')
-            ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id', 'left')
-            ->where('status_konfirmasi', 'Y')
-            ->where('status_validasi_berkas IS NULL', null, false)
-            ->where('tanggal_konfirmasi <=', $deadlineDate)
-            ->get()
-            ->getResult();
+                ->select('magang.*, users.email, users.fullname, unit_kerja.unit_kerja, users.bpjs_tk, users.buktibpjs_tk')
+                ->join('users', 'users.id = magang.user_id', 'left')
+                ->join('unit_kerja', 'unit_kerja.unit_id = magang.unit_id', 'left')
+                ->where('magang.status_akhir', 'magang')
+                ->whereIn('DATEDIFF(magang.tanggal_masuk, CURDATE())', [7, 6, 5, 4])
+                ->groupStart() // buka group kondisi dokumen
+                    ->where('users.bpjs_tk IS NULL')
+                    ->orWhere('users.buktibpjs_tk IS NULL')
+                    ->orWhere('users.bpjs_tk', '')
+                    ->orWhere('users.buktibpjs_tk', '')
+                ->groupEnd()
+                ->get()
+                ->getResult();
 
         $successCount = 0;
         $failCount = 0;
         $messages = [];
 
         foreach ($dataList as $data) {
-            $update = $builder->where('magang_id', $data->magang_id)->update([
-                'status_validasi_berkas'  => 'N',
-                'tanggal_validasi_berkas' => date('Y-m-d'),
-                'status_akhir'            => 'gagal',
-            ]);
+            $email = \Config\Services::email();
+            $email->setTo($data->email);
+            $email->setSubject('Reminder: Segera Lengkapi Berkas Magang Anda');
+            $email->setMailType('html');
 
-            if ($update) {
+            $kosong = [];
+            if (empty($data->bpjs_tk)) {
+                $kosong[] = 'Kartu BPJS Ketenagakerjaan';
+            }
+            if (empty($data->buktibpjs_tk)) {
+                $kosong[] = 'Bukti Pembayaran/Masa Berlaku BPJS Ketenagakerjaan';
+            }
+
+            $email->setMessage(view('emails/reminder_lengkapi_berkas', [
+                'nama' => $data->fullname ?? 'Saudara',
+                'unit' => $data->unit_kerja ?? 'Unit terkait',
+                'tanggal_masuk' => date('d-m-Y', strtotime($data->tanggal_masuk)),
+                'dokumenKosong' => $kosong,
+            ]));
+
+            if ($email->send()) {
                 $successCount++;
-
-                // Kirim email pemberitahuan
-                $email = \Config\Services::email();
-                $email->setTo($data->email); // Hanya ke user
-                $email->setSubject('Status Validasi Berkas Magang Dibatalkan');
-                $email->setMailType('html');
-                $email->setMessage(view('emails/penolakan_validasi_berkas', [
-                    'nama' => $data->fullname ?? 'Saudara',
-                    'unit' => $data->unit_kerja ?? 'Unit Terkait',
-                    'tanggal_konfirmasi' => date('d F Y', strtotime($data->tanggal_konfirmasi))
-                ]));
-
-                if (!$email->send()) {
-                    log_message('error', "Gagal kirim email ke {$data->email}: " . print_r($email->printDebugger(), true));
-                }
-
-
             } else {
                 $failCount++;
-                $messages[] = "ID {$data->magang_id}: gagal update status validasi berkas.";
+                $messages[] = "Gagal kirim email ke {$data->email}: " . print_r($email->printDebugger(), true);
+                log_message('error', "Reminder gagal ke {$data->email}");
             }
         }
 
@@ -185,6 +255,7 @@ class CronController extends BaseController
             'pesan' => $messages
         ]);
     }
+
 
 
 

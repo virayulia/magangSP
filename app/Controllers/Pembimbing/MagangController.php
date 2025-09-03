@@ -42,7 +42,12 @@ class MagangController extends BaseController
 
         // Ambil peserta magang dari semua unit tersebut
         $builder = $db->table('magang')
-            ->select('magang.*, users.fullname, users.nisn_nim, instansi.nama_instansi, penilaian.*')
+            ->select('magang.magang_id, magang.tanggal_masuk, magang.tanggal_selesai,
+                    users.fullname, users.nisn_nim, instansi.nama_instansi, 
+                    penilaian.penilaian_id, penilaian.nilai_disiplin, penilaian.nilai_kerajinan, penilaian.nilai_tingkahlaku,
+                    penilaian.nilai_kerjasama, penilaian.nilai_kreativitas, penilaian.nilai_kemampuankerja, 
+                    penilaian.nilai_tanggungjawab, penilaian.nilai_penyerapan, penilaian.catatan, penilaian.tgl_penilaian,
+                    penilaian.approve_kaunit, penilaian.tgl_disetujui, penilaian.approve_by')
             ->join('users', 'users.id = magang.user_id')
             ->join('instansi', 'instansi.instansi_id = users.instansi_id')
             ->join('penilaian', 'penilaian.magang_id = magang.magang_id', 'left')
@@ -56,34 +61,77 @@ class MagangController extends BaseController
 
     public function save()
     {
+        helper(['form']);
+
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'magang_id'        => 'required|is_natural_no_zero',
+            'disiplin'         => 'required|integer|greater_than_equal_to[1]|less_than_equal_to[100]',
+            'kerajinan'        => 'required|integer|greater_than_equal_to[1]|less_than_equal_to[100]',
+            'tingkahlaku'      => 'required|integer|greater_than_equal_to[1]|less_than_equal_to[100]',
+            'kerjasama'        => 'required|integer|greater_than_equal_to[1]|less_than_equal_to[100]',
+            'kreativitas'      => 'required|integer|greater_than_equal_to[1]|less_than_equal_to[100]',
+            'kemampuankerja'   => 'required|integer|greater_than_equal_to[1]|less_than_equal_to[100]',
+            'tanggungjawab'    => 'required|integer|greater_than_equal_to[1]|less_than_equal_to[100]',
+            'penyerapan'       => 'required|integer|greater_than_equal_to[1]|less_than_equal_to[100]',
+            'catatan'          => 'permit_empty|string|max_length[1000]'
+        ]);
+
+        // Jalankan validasi
+        if (! $validation->withRequest($this->request)->run()) {
+            return redirect()->back()
+                ->with('error', implode('<br>', $validation->getErrors()))
+                ->withInput();
+        }
+
+        // Pastikan pembimbing login
+        $pembimbingId = user_id();
+        if (! $pembimbingId) {
+            return redirect()->back()->with('error', 'Anda belum login sebagai pembimbing.');
+        }
+
+        // Ambil data dari form
         $data = [
-            'magang_id' => $this->request->getPost('magang_id'),
-            'pembimbing_id' => user_id(),
-            'nilai_disiplin' => $this->request->getPost('disiplin'),
-            'nilai_kerajinan' => $this->request->getPost('kerajinan'),
-            'nilai_tingkahlaku' => $this->request->getPost('tingkahlaku'),
-            'nilai_kerjasama' => $this->request->getPost('kerjasama'),
-            'nilai_kreativitas' => $this->request->getPost('kreativitas'),
-            'nilai_kemampuankerja' => $this->request->getPost('kemampuankerja'),
-            'nilai_tanggungjawab' => $this->request->getPost('tanggungjawab'),
-            'nilai_penyerapan' => $this->request->getPost('penyerapan'),
-            'catatan' => $this->request->getPost('catatan'),
+            'magang_id'            => (int) $this->request->getPost('magang_id'),
+            'pembimbing_id'        => $pembimbingId,
+            'nilai_disiplin'       => (int) $this->request->getPost('disiplin'),
+            'nilai_kerajinan'      => (int) $this->request->getPost('kerajinan'),
+            'nilai_tingkahlaku'    => (int) $this->request->getPost('tingkahlaku'),
+            'nilai_kerjasama'      => (int) $this->request->getPost('kerjasama'),
+            'nilai_kreativitas'    => (int) $this->request->getPost('kreativitas'),
+            'nilai_kemampuankerja' => (int) $this->request->getPost('kemampuankerja'),
+            'nilai_tanggungjawab'  => (int) $this->request->getPost('tanggungjawab'),
+            'nilai_penyerapan'     => (int) $this->request->getPost('penyerapan'),
+            'catatan'              => $this->request->getPost('catatan'),
         ];
 
-        // Jika sudah ada nilai sebelumnya, update
+        $db = \Config\Database::connect();
+        $db->transStart();
+
+        // Cek apakah sudah ada penilaian untuk magang ini
         $penilaian = $this->penilaianModel
             ->where('magang_id', $data['magang_id'])
             ->first();
 
         if ($penilaian) {
+            // Update penilaian
             $this->penilaianModel->update($penilaian['penilaian_id'], $data);
         } else {
+            // Insert penilaian baru
             $data['tgl_penilaian'] = date('Y-m-d H:i:s');
             $this->penilaianModel->insert($data);
         }
 
+        $db->transComplete();
+
+        if ($db->transStatus() === false) {
+            return redirect()->back()->with('error', 'Gagal menyimpan penilaian.');
+        }
+
         return redirect()->back()->with('success', 'Penilaian berhasil disimpan.');
     }
+
+
 
     public function approve()
     {

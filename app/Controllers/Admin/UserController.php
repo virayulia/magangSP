@@ -83,10 +83,25 @@ class UserController extends BaseController
             'nilai_ipk'     => $data['nilai_ipk'],
             'instansi_id'   => $data['instansi_id'],
             'jurusan_id'    => $data['jurusan_id'],
-            'active'        => $data['active'],
         ]);
 
         return redirect()->back()->with('success', 'Data user berhasil diperbarui.');
+    }
+
+    public function activate($id)
+    {
+
+        $user = $this->userModel->find($id);
+        if (!$user) {
+            return redirect()->back()->with('error', 'User tidak ditemukan');
+        }
+
+        $this->userModel->update($id, [
+            'active' => 1,
+            'activate_hash' => null,
+        ]);
+
+        return redirect()->back()->with('message', 'Akun berhasil diaktifkan');
     }
 
     public function delete($id)

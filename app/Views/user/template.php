@@ -134,9 +134,7 @@ $uri = service('uri');
                   $step = 1;
                   $today = date('Y-m-d');
 
-                    if (!empty($pendaftaran['status_berkas_lengkap']) && $pendaftaran['status_berkas_lengkap'] === 'Y') {
-                      $step = 6;
-                  } elseif (!empty($pendaftaran['status_validasi_berkas']) && !empty($pendaftaran['tanggal_validasi_berkas'])) {
+                   if (!empty($pendaftaran['status_validasi_berkas']) && $pendaftaran['status_validasi_berkas']=== 'Y')  {
                       $step = 5;
                   } elseif (!empty($pendaftaran['status_konfirmasi']) && !empty($pendaftaran['tanggal_konfirmasi'])) {
                       $step = 4;
@@ -155,9 +153,8 @@ $uri = service('uri');
                       1 => 'Pendaftaran',
                       2 => 'Seleksi',
                       3 => 'Konfirmasi Penerima',
-                      4 => 'Kelengkapan Berkas',
-                      5 => 'Validasi Berkas',
-                      6 => 'Pelaksanaan'
+                      4 => 'Validasi Konfirmasi',
+                      5 => 'Pelaksanaan'
                   ];
                 ?>
                 <!-- Tampilkan Status -->

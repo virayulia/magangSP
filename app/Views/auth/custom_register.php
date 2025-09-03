@@ -115,7 +115,7 @@
                 <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Lengkap" value="<?= old('nama') ?>" required>
               </div>
               <div class="mb-2">
-                <label class="required-star">Email</label>
+                <label class="required-star">Email Aktif</label>
                 <input type="email" name="email" class="form-control" placeholder="Masukkan Email" value="<?= old('email') ?>" required>
               </div>
               <div class="mb-2">
@@ -191,8 +191,25 @@
                 </select>
               </div>
               <div class="mb-2">
-                <label class="required-star">Foto Profil<small class="text-muted">(format: jpg, jpeg, png, maksimal 2 MB)</small></label>
+                <label class="required-star">Foto Profil <small class="text-danger">(format: jpg, jpeg, png, maksimal 2 MB)</small></label>
                 <input type="file" name="user_image" class="form-control" accept=".jpg,.jpeg,.png" required>
+              </div>
+              <div class="mb-2">
+                <label>Instagram</label>
+                <input type="text" name="instagram" class="form-control" placeholder="@username" value="<?= old('instagram') ?>">
+              </div>
+              <div class="mb-2">
+                <label>Jumlah Follower Instagram</label>
+                <input type="number" name="instagram_followers" class="form-control" placeholder="Masukkan jumlah follower" value="<?= old('instagram_followers') ?>">
+              </div>
+
+              <div class="mb-2">
+                <label>TikTok</label>
+                <input type="text" name="tiktok" class="form-control" placeholder="@username" value="<?= old('tiktok') ?>">
+              </div>
+              <div class="mb-2">
+                <label>Jumlah Follower TikTok</label>
+                <input type="number" name="tiktok_followers" class="form-control" placeholder="Masukkan jumlah follower" value="<?= old('tiktok_followers') ?>">
               </div>
               <button type="button" class="btn btn-danger w-100" onclick="nextStep(1)">Lanjut</button>
             </div>
@@ -229,14 +246,14 @@
                         </select>
                     </div>
                     <div class="mb-3" id="group-kelas-semester">
-                        <label class="required-star" id="labelSemester">Semester</label>
+                        <label class="required-star" id="labelSemester">Semester Saat Ini</label>
                         <select name="semester" id="semester" class="form-select" required>
                             <!-- Options akan diganti lewat JS -->
                         </select>
                     </div>
                     <!-- Nilai/IPK -->
                     <div class="mb-3" id="group-nilai">
-                        <label class="required-star">IPK</label>
+                        <label class="required-star">IPK Terakhir</label>
                         <input type="number" name="nilai_ipk" id="nilai-ipk" class="form-control" step="0.01" min="1" max="4" value="<?= old('nilai_ipk') ?>" placeholder="Masukkan IPK" required>
                         <small class="text-muted" id="help-nilai">Gunakan titik (.) sebagai pemisah desimal, contoh: 3.50</small>
                     </div>
@@ -252,17 +269,17 @@
 
               <div id="pt-fields">
                   <div class="mb-3">
-                      <label class="required-star">CV <small class="text-muted">(format : pdf, maksimal 2mb)</small></label>
+                      <label class="required-star">CV <small class="text-danger">(format : pdf, maksimal 2mb)</small></label>
                       <input type="file" name="cv" class="form-control" accept=".pdf" required>
                   </div>
                   <div class="mb-3">
-                      <label class="required-star">Proposal <small class="text-muted">(format : pdf, maksimal 2mb)</small></label>
+                      <label class="required-star">Proposal <small class="text-danger">(format : pdf, maksimal 2mb)</small></label>
                       <input type="file" name="proposal" class="form-control" accept=".pdf"required>
                   </div>
               </div>
 
               <div class="mb-3">
-                  <label class="required-star">Surat Permohonan <small class="text-muted">(format : pdf, maksimal 2mb)</small></label>
+                  <label class="required-star">Surat Permohonan dari Kampus/Sekolah <small class="text-danger">(format : pdf, maksimal 2mb)</small></label>
                   <input type="file" name="surat_permohonan" class="form-control" accept=".pdf" required>
               </div>
               <div class="row">
@@ -275,11 +292,11 @@
                       <input type="date" name="tanggal_surat" class="form-control" required>
                   </div>
                   <div class="col-md-6 mb-3">
-                      <label class="required-star">Nama Pimpinan <small class="text-muted">(yang menandatangani Surat Permohonan)</small></label>
+                      <label class="required-star">Nama Pimpinan <small class="text-danger">(yang menandatangani Surat Permohonan)</small></label>
                       <input type="text" name="nama_pimpinan" class="form-control" placeholder="Masukkan Nama Pimpinan" required>
                   </div>
                   <div class="col-md-6 mb-3">
-                      <label class="required-star">Jabatan Pimpinan <small class="text-muted">(yang menandatangani Surat Permohonan)</small></label>
+                      <label class="required-star">Jabatan Pimpinan <small class="text-danger">(yang menandatangani Surat Permohonan)</small></label>
                       <input type="text" name="jabatan" class="form-control" placeholder="Masukkan Jabatan Pimpinan" required>
                   </div>
                   <div class="col-12 mb-3">
@@ -288,7 +305,7 @@
                   </div>
               </div>
               <div class="mb-3">
-                  <label class="required-star">KTP/KK <small class="text-muted">(format : jpg, jpeg, png, pdf, maksimal 2mb)</small></label>
+                  <label class="required-star">KTP/KK <small class="text-danger">(format : jpg, jpeg, png, pdf, maksimal 2mb)</small></label>
                   <input type="file" name="ktp_kk" class="form-control" accept=".jpg,.jpeg,.png,.pdf" required>
               </div>
               <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep(3)">Kembali</button>
@@ -343,7 +360,7 @@ document.addEventListener('DOMContentLoaded', function () {
           instansiSelect.options[0].textContent = 'Pilih Sekolah';
 
           // Kelas: select kelas 11 dan 12
-          labelSemester.textContent = 'Kelas';
+          labelSemester.textContent = 'Kelas Saat Ini';
           semesterSelect.innerHTML = `
               <option value="" disabled selected>Pilih Kelas</option>
               <option value="11">Kelas 11</option>
@@ -367,7 +384,7 @@ document.addEventListener('DOMContentLoaded', function () {
           instansiSelect.options[0].textContent = 'Pilih Perguruan Tinggi';
 
           // Semester: select dari semester 4–13
-          labelSemester.textContent = 'Semester';
+          labelSemester.textContent = 'Semester Saat Ini';
           semesterSelect.innerHTML = '<option value="" disabled selected>Pilih Semester</option>';
           for (let i = 4; i <= 13; i++) {
               const opt = document.createElement('option');

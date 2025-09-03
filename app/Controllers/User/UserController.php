@@ -46,6 +46,7 @@ class UserController extends BaseController
             ->join('regencies AS city_dom', 'city_dom.id = users.cityDom_id', 'left')
             ->select('users.id, users.fullname, users.email, users.user_image,users.nisn_nim, users.no_hp, users.jenis_kelamin, users.alamat,
             users.province_id, users.city_id, users.domisili, users.provinceDom_id, users.cityDom_id,
+            users.instagram, users.instagram_followers, users.tiktok, users.tiktok_followers,
             users.tingkat_pendidikan, users.instansi_id, users.jurusan_id, users.semester, 
             users.nilai_ipk, users.rfid_no, users.cv, users.proposal, users.surat_permohonan, users.tanggal_surat,
             users.no_surat, users.nama_pimpinan, users.jabatan, users.email_instansi,users.bpjs_kes, users.bpjs_tk, 
@@ -94,6 +95,7 @@ class UserController extends BaseController
             ->join('jurusan', 'jurusan.jurusan_id = users.jurusan_id','left')
             ->select('users.fullname,users.email, users.user_image,users.nisn_nim, users.no_hp, users.jenis_kelamin, users.alamat,
             users.province_id, users.city_id, users.domisili, users.provinceDom_id, users.cityDom_id,
+            users.instagram, users.instagram_followers, users.tiktok, users.tiktok_followers,
             users.tingkat_pendidikan, users.instansi_id, users.jurusan_id, users.semester, 
             users.nilai_ipk, users.rfid_no, users.cv, users.proposal, users.surat_permohonan, users.tanggal_surat,
             users.no_surat, users.nama_pimpinan, users.jabatan, users.email_instansi,users.bpjs_kes, users.bpjs_tk, 
@@ -227,6 +229,10 @@ class UserController extends BaseController
             'domisili'      => $this->request->getPost('domisili'),
             'provinceDom_id'=> $this->request->getPost('stateDom_id'),
             'cityDom_id'    => $this->request->getPost('cityDom_id'),
+            'instagram'     => $this->request->getPost('instagram'),
+            'instagram_followers'  => $this->request->getPost('instagram_followers'),
+            'tiktok'        => $this->request->getPost('tiktok'),
+            'tiktok_followers'    => $this->request->getPost('tiktok_followers'),
         ];
 
         // Tangani upload foto
