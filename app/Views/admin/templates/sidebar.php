@@ -42,6 +42,11 @@
             <i class="fas fa-fw fa-table"></i>
             <span> Peserta Magang</span></a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="<?= base_url('admin/manage-alumni'); ?>">
+            <i class="fas fa-fw fa-table"></i>
+            <span> Alumni Magang</span></a>
+    </li>
     <div class="sidebar-heading">
         Penelitian
     </div>
@@ -109,6 +114,7 @@
                 <a class="collapse-item" href="<?= base_url('admin/kelola-unit'); ?>">Unit Kerja</a>
                 <a class="collapse-item" href="<?= base_url('admin/kelola-instansi'); ?>">Perguruan Tinggi/Sekolah</a>
                 <a class="collapse-item" href="<?= base_url('admin/kelola-jurusan'); ?>">Jurusan</a>
+                <a class="collapse-item" href="<?= base_url('admin/kelola-rfid'); ?>">RFID</a>
             </div>
         </div>
     </li>
@@ -117,6 +123,22 @@
     <hr class="sidebar-divider d-none d-md-block">
 
 <?php elseif(in_groups('pembimbing')): ?>
+    <?php 
+    $unitIds = array_column($unitPembimbing, 'unit_id'); 
+    if (in_array(44, $unitIds) && user() && user()->eselon === '2'): ?>
+        <li class="nav-item">
+            <a class="nav-link" href="<?= base_url('pembimbing/approve-magang'); ?>">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Approve Magang</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?= base_url('pembimbing/manage-alumni'); ?>">
+                <i class="fas fa-fw fa-table"></i>
+                <span> Alumni Magang</span></a>
+        </li>
+    <?php endif; ?>
+
     <div class="sidebar-heading">
         Penilaian
     </div>

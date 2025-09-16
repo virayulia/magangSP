@@ -49,4 +49,15 @@ class LowonganController extends BaseController
 
         return redirect()->back()->with('success', 'Periode berhasil diperbarui.');
     }
+
+    public function delete($id)
+    {
+        // Hapus user
+        $this->periodemagangModel->where('periode_id', $id)->delete();
+
+        // Set flash message
+        session()->setFlashdata('success', 'User berhasil dihapus.');
+
+        return redirect()->back()->with('success', 'Periode berhasil dihapus.');
+    }
 }

@@ -17,7 +17,8 @@ class MagangModel extends Model
                                     // 'status_approval', 'tanggal_approval',
                                     'status_validasi_berkas','tanggal_validasi_berkas','status_berkas_lengkap',
                                     'tanggal_berkas_lengkap','pembimbing_id', 'tanggal_masuk','tanggal_selesai',
-                                    'status_akhir', 'tanggal_setujui_pernyataan', 'cttn_berkas_lengkap', 'alasan_batal'
+                                    'status_akhir', 'tanggal_setujui_pernyataan', 'cttn_berkas_lengkap', 'alasan_batal',
+                                    'laporan','absensi', 'finalisasi', 'ka_unit_approve', 'tanggal_approve'
                                     ];
 
     protected bool $allowEmptyInserts = false;

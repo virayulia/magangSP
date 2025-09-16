@@ -14,7 +14,7 @@ class PenilaianModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = ['magang_id', 'nilai_disiplin','nilai_kerajinan','nilai_tingkahlaku','nilai_kerjasama',
                                     'nilai_kreativitas','nilai_kemampuankerja','nilai_tanggungjawab','nilai_penyerapan','tgl_penilaian',
-                                'approve_kaunit','tgl_disetujui','approve_by','catatan'];
+                                'approve_kaunit','tgl_disetujui','approve_by','catatan', 'catatan_approval'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

@@ -68,9 +68,15 @@
                         <th>Unit Kerja</th>
                         <th>Tanggal Mulai</th>
                         <th>Tanggal Selesai</th>
+                        <th>No. RFID</th>
                         <th>Validasi Berkas</th>
                         <th>Setuju Pernyataan</th>
                         <th>Nilai Tes</th>
+                        <th>Laporan</th>
+                        <th>Absensi</th>
+                        <th>Nilai Magang</th>
+                        <th>Status RFID</th>
+                        <th>Feedback</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -82,7 +88,8 @@
                             <td><?= esc($item['nisn_nim']) ?></td>
                             <td><?= esc($item['unit_kerja']) ?></td>
                             <td><?= format_tanggal_indonesia($item['tanggal_masuk']) ?></td>
-                            <td><?= format_tanggal_indonesia($item['tanggal_selesai']) ?></td>                                                 
+                            <td><?= format_tanggal_indonesia($item['tanggal_selesai']) ?></td>   
+                            <td><?= esc($item['rfid_no']) ?: '-' ?></td>
                             <td><?php if(!empty($item['status_berkas_lengkap']) && $item['status_berkas_lengkap'] === 'Y'): ?>
                                     <span class="badge bg-success text-light">Valid</span>
                                                                 
@@ -116,10 +123,290 @@
                                         <?= $item['status_tes'] ?>
                                     </span>
                                 <?php endif; ?>
-                            </td>                                               
+                            </td>
                             <td>
+                                <?php if (!empty($item['laporan'])): ?>
+                                    <a href="<?= base_url('uploads/laporan/' . $item['laporan']) ?>" target="_blank">
+                                        Lihat Laporan
+                                    </a>
+                                <?php else: ?>
+                                    <span class="text-muted">Belum ada</span>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <?php if (!empty($item['absensi'])): ?>
+                                    <a href="<?= base_url('uploads/absensi/' . $item['absensi']) ?>" target="_blank">
+                                        Lihat Absensi
+                                    </a>
+                                <?php else: ?>
+                                    <span class="text-muted">Belum ada</span>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <?php 
+                                    $total = $item['nilai_disiplin'] + $item['nilai_kerajinan'] + $item['nilai_tingkahlaku'] +
+                                            $item['nilai_kerjasama'] + $item['nilai_kreativitas'] + $item['nilai_kemampuankerja'] +
+                                            $item['nilai_tanggungjawab'] + $item['nilai_penyerapan'];
+                                    $rata = round($total / 8, 2);
+                                ?>
+                                <!-- Tombol detail nilai -->
+                                <button type="button" 
+                                        class="btn btn-sm btn-info mt-1" 
+                                        title="Klik Untuk Lihat Detail"
+                                        data-toggle="modal" 
+                                        data-target="#modalDetail-<?= $item['magang_id'] ?>">
+                                    <strong><?= $rata ?></strong>
+                                </button>
+                                    <!-- Modal detail -->
+                                    <div class="modal fade" id="modalDetail-<?= $item['magang_id'] ?>" tabindex="-1" aria-labelledby="modalDetailLabel-<?= $item['magang_id'] ?>" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg"><!-- modal-lg biar lebar -->
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-primary text-white">
+                                                    <h5 class="modal-title" id="modalDetailLabel-<?= $item['magang_id'] ?>">
+                                                        Detail Penilaian: <?= esc($item['fullname']) ?>
+                                                    </h5>
+                                                    <button type="button" class="close text-white" data-dismiss="modal">
+                                                        <span>&times;</span>
+                                                    </button>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <?php 
+                                                        $fields = [
+                                                            'disiplin'       => 'Disiplin',
+                                                            'kerajinan'      => 'Kerajinan',
+                                                            'tingkahlaku'    => 'Tingkah Laku',
+                                                            'kerjasama'      => 'Kerja Sama',
+                                                            'kreativitas'    => 'Kreativitas',
+                                                            'kemampuankerja' => 'Kemampuan Kerja',
+                                                            'tanggungjawab'  => 'Tanggung Jawab',
+                                                            'penyerapan'     => 'Penyerapan'
+                                                        ];
+                                                        $totalNilai = 0;
+                                                        $jumlahField = count($fields);
+                                                        foreach ($fields as $name => $label): 
+                                                            $nilai = (int) $item['nilai_' . $name];
+                                                            $stars = ($nilai - 50) / 10; // 60=1, 70=2, ... 100=5
+                                                            $totalNilai += $nilai; // ✅ jumlahkan nilai tiap field
+                                                        ?>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label class="font-weight-bold"><?= $label ?></label><br>
+                                                                <?php for ($i=1; $i<=5; $i++): ?>
+                                                                    <?php if ($i <= $stars): ?>
+                                                                        <i class="fas fa-star text-warning"></i>
+                                                                    <?php else: ?>
+                                                                        <i class="far fa-star text-muted"></i>
+                                                                    <?php endif; ?>
+                                                                <?php endfor; ?>
+                                                                <span class="ml-2">(<?= $nilai ?>)</span>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                    </div>
+
+                                                    <?php 
+                                                    $rataRata = $jumlahField > 0 ? $totalNilai / $jumlahField : 0;
+                                                    if ($rataRata >= 60 && $rataRata <= 69) {
+                                                        $kategori = "Kurang";
+                                                    } elseif ($rataRata >= 70 && $rataRata <= 79) {
+                                                        $kategori = "Cukup";
+                                                    } elseif ($rataRata >= 80 && $rataRata <= 89) {
+                                                        $kategori = "Baik";
+                                                    } elseif ($rataRata >= 90 && $rataRata <= 100) {
+                                                        $kategori = "Baik Sekali";
+                                                    } else {
+                                                        $kategori = "-";
+                                                    }
+                                                    ?>
+
+                                                    <!-- Rata-rata & Kategori -->
+                                                    <div class="alert alert-info mt-3">
+                                                        <strong>Rata-rata Nilai:</strong> <?= number_format($rataRata, 2) ?><br>
+                                                        <strong>Kategori:</strong> <?= $kategori ?><br>
+                                                        <strong>Tanggal Approve:</strong> <?= format_tanggal_indonesia_dengan_jam($item['tgl_disetujui']) ?>
+                                                    </div>
+
+                                                    <div class="form-group mt-3">
+                                                        <label class="font-weight-bold">Catatan atau Komentar</label>
+                                                        <textarea class="form-control" rows="3" readonly><?= esc($item['catatan']) ?></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            </td>  
+                            <td><?php if($item['status_rfid'] === 'returned'): ?>
+                                <span class="badge bg-success text-light">Dikembalikan</span>
+                                <?php elseif($item['status_rfid'] === 'lost') : ?>
+                                <span class="badge bg-danger text-light">Denda</span>
+                                <?php elseif($item['status_rfid'] === 'aktif') :?>
+                                <span class="badge bg-primary text-light">Digunakan</span>
+                                <?php else : ?>
+                                -
+                                <?php endif; ?>
+                            </td>
+                            <td>           
+                                <?php if (!empty($item['feedback_id'])): ?>
+                                    <i class="bi bi-check-circle-fill text-success" title="Sudah isi feedback"></i>
+                                <?php else: ?>
+                                    <i class="bi bi-x-circle-fill text-danger" title="Belum isi feedback"></i>
+                                <?php endif; ?>
+                            </td>                                          
+                            <td>
+                                <?php
+                                $hariTerakhir = date('Y-m-d') >= $item['tanggal_selesai']; 
+                                $laporanAda   = !empty($item['laporan']);
+                                $absensiAda   = !empty($item['absensi']);
+                                $nilaiAda     = ($rata > 0);
+                                $rfidOk       = in_array($item['status_rfid'], ['returned','lost']);
+                                $feedbackAda  = !empty($item['feedback_id']);
+                                ?>
+
+                                <?php if ($hariTerakhir && $laporanAda && $absensiAda && $nilaiAda && $rfidOk && $feedbackAda ): ?>
+                                    <?php if ($item['finalisasi'] == null): ?>
+                                        <form action="<?= base_url('admin/finalisasi/'.$item['magang_id']) ?>" 
+                                            method="post" class="finalisasi-form" style="display:inline;">
+                                            <?= csrf_field() ?>
+                                            <button type="submit" class="btn btn-success btn-sm finalisasi-btn">
+                                                <i class="fas fa-check-circle"></i> Finalisasi
+                                            </button>
+                                        </form>
+                                    <?php else: ?>
+                                        <button class="btn btn-secondary btn-sm" disabled title="Menunggu Approve Pusdiklat">
+                                            <i class="fas fa-hourglass-half"></i> Menunggu Approve
+                                        </button>
+                                    <?php endif; ?>
+
+                                <?php endif; ?>                                
                                 <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#detailModal<?= $item['magang_id'] ?>">Detail</button>
-                            </td>                          
+                                <?php if (!empty($item['rfid_no']) && $item['status_rfid'] != 'returned'): ?>
+                                    <!-- Tombol Kembalikan RFID -->
+                                    <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#returnRfidModal<?= $item['magang_id'] ?>">
+                                        Kembalikan RFID
+                                    </button>
+
+                                    <!-- Modal Kembalikan RFID -->
+                                    <div class="modal fade" id="returnRfidModal<?= $item['magang_id'] ?>" tabindex="-1" aria-labelledby="returnRfidLabel<?= $item['magang_id'] ?>" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <form action="<?= base_url('admin/returnRFID') ?>" method="post">
+                                                <?= csrf_field(); ?>
+                                                <input type="hidden" name="assignment_id" value="<?= $item['assignment_id'] ?>"> 
+                                                <input type="hidden" name="magang_id" value="<?= $item['magang_id'] ?>">
+                                                <input type="hidden" name="id_rfid" value="<?= $item['id_rfid'] ?>">
+
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-danger text-white">
+                                                        <h5 class="modal-title" id="returnRfidLabel<?= $item['magang_id'] ?>">Kembalikan RFID</h5>
+                                                        <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
+                                                    </div>
+
+                                                    <div class="modal-body">
+                                                        <p>Pilih status pengembalian RFID:</p>
+
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="status" id="normal<?= $item['magang_id'] ?>" value="returned" checked>
+                                                            <label class="form-check-label" for="normal<?= $item['magang_id'] ?>">
+                                                                Dikembalikan dengan benar
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="form-check mt-2">
+                                                            <input class="form-check-input" type="radio" name="status" id="hilang<?= $item['magang_id'] ?>" value="lost">
+                                                            <label class="form-check-label text-danger" for="hilang<?= $item['magang_id'] ?>">
+                                                                Hilang (wajib bayar denda, boleh diganti RFID baru jika masih aktif magang)
+                                                            </label>
+                                                        </div>
+
+                                                        <div id="gantiRfid<?= $item['magang_id'] ?>" class="mt-3" style="display: none;">
+                                                            <label for="rfidBaru<?= $item['magang_id'] ?>">Pilih RFID Pengganti (Opsional)</label>
+                                                            <select name="new_rfid_id" id="rfidBaru<?= $item['magang_id'] ?>" class="form-control select2">
+                                                                <option value="">-- Tidak Diganti --</option>
+                                                                <?php foreach ($rfidList as $rfid): ?>
+                                                                    <?php if ($rfid['status'] === 'available'): ?>
+                                                                        <option value="<?= $rfid['id_rfid'] ?>"><?= esc($rfid['rfid_no']) ?></option>
+                                                                    <?php endif; ?>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <script>
+                                                    document.addEventListener("DOMContentLoaded", function() {
+                                                        let hilangRadio = document.getElementById("hilang<?= $item['magang_id'] ?>");
+                                                        let normalRadio = document.getElementById("normal<?= $item['magang_id'] ?>");
+                                                        let gantiRfid = document.getElementById("gantiRfid<?= $item['magang_id'] ?>");
+
+                                                        hilangRadio.addEventListener("change", function() {
+                                                            if (this.checked) gantiRfid.style.display = "block";
+                                                        });
+                                                        normalRadio.addEventListener("change", function() {
+                                                            if (this.checked) gantiRfid.style.display = "none";
+                                                        });
+                                                    });
+                                                    </script>
+
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                        <button type="submit" class="btn btn-danger">Simpan</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                <?php else: ?>
+                                    <!-- Tombol Tambah RFID -->
+                                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#rfidModal<?= $item['magang_id'] ?>">
+                                        Tambah RFID
+                                    </button> 
+                                    <!-- Modal Tambah RFID -->
+                                <div class="modal fade" id="rfidModal<?= $item['magang_id'] ?>" tabindex="-1" aria-labelledby="rfidModalLabel<?= $item['magang_id'] ?>" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <form action="<?= base_url('admin/setRFID') ?>" method="post">
+                                            <?= csrf_field(); ?>
+                                            <input type="hidden" name="magang_id" value="<?= $item['magang_id'] ?>">
+
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-success text-white">
+                                                    <h5 class="modal-title" id="rfidModalLabel<?= $item['magang_id'] ?>">Atur Nomor RFID</h5>
+                                                    <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label for="rfid-<?= $item['magang_id'] ?>">Pilih Nomor RFID</label>
+                                                        <select name="rfid_id" id="rfid-<?= $item['magang_id'] ?>" class="form-control select2" required>
+                                                            <option value="">-- Pilih RFID --</option>
+                                                            <?php foreach ($rfidList as $rfid): ?>
+                                                                <option value="<?= $rfid['id_rfid'] ?>" 
+                                                                    <?= $rfid['id_rfid'] == $item['rfid_no'] ? 'selected' : '' ?>>
+                                                                    <?= esc($rfid['rfid_no']) ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                    <button type="submit" class="btn btn-success">Simpan</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+                                
+
+                            </td>
+                                                    
                         </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
@@ -370,6 +657,30 @@
 }
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.querySelectorAll('.finalisasi-form').forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); // stop dulu submitnya
+
+        Swal.fire({
+            title: 'Finalisasi Magang?',
+            text: "Setelah difinalisasi, data tidak bisa diubah lagi. Yakin ingin melanjutkan?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, Finalisasi!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit(); // kirim form kalau setuju
+            }
+        });
+    });
+});
+</script>
+
 
 
 </div>

@@ -181,9 +181,13 @@ $uri = service('uri');
               <i class="bi bi-calendar-check me-2"></i>
               <span>Pelaksanaan Magang</span>
             </a>
+            <a href="<?= base_url('unggah-laporan'); ?>" class="<?= ($uri->getSegment(1) === 'unggah-laporan') ? 'active' : '' ?>">
+              <i class="bi bi-file-earmark-arrow-up me-2"></i>
+              <span>Unggah Laporan Magang</span>
+            </a>
             <a href="<?= base_url('sertifikat-magang'); ?>" class="<?= ($uri->getSegment(1) === 'sertifikat-magang') ? 'active' : '' ?>">
               <i class="bi bi-award me-2"></i>
-              <span>Evaluasi Magang</span>
+              <span>Sertifikat Magang</span>
             </a>
             <!-- <a href="penelitian" class="<?= ($uri->getSegment(1) === 'penelitian') ? 'active' : '' ?>">
               <i class="bi bi-list-check me-2"></i>

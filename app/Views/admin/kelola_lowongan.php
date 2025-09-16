@@ -93,6 +93,9 @@
                                     <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal<?= $data['periode_id']; ?>">
                                         Edit
                                     </button>
+                                    <a href="<?= base_url('admin/periode/delete/'.$data['periode_id']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus user ini?')">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </a>
                                 </td>
                             </tr>
                             <!-- Modal Edit Periode -->

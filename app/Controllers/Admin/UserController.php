@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use App\Models\UserModel;
 use App\Models\GroupModel;
 use App\Models\GroupsUsersModel;
@@ -330,6 +331,65 @@ class UserController extends BaseController
 
         session()->setFlashdata('success', 'Pembimbing baru berhasil ditambahkan.');
         return redirect()->to(base_url('admin/manage-user-pembimbing'));
+    }
+
+    public function importExcel()
+    {
+        $file = $this->request->getFile('file_excel');
+
+        if (!$file->isValid()) {
+            return redirect()->back()->with('error', 'File tidak valid.');
+        }
+
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        $spreadsheet = $reader->load($file->getTempName());
+        $sheet = $spreadsheet->getActiveSheet()->toArray();
+
+        // Lewati baris header (mulai baris 2)
+        foreach (array_slice($sheet, 1) as $row) {
+            [$fullname, $username, $email, $password, $eselon, $unit_id] = $row;
+
+            // Skip jika email kosong
+            if (empty($email)) continue;
+
+            // Simpan ke tabel users
+            $userData = [
+                'fullname' => $fullname,
+                'username' => $username,
+                'email'    => $email,
+                'password' => $password,
+                'eselon'   => $eselon,
+                'active'   => 1,
+            ];
+
+            $user = new \App\Entities\User($userData);
+            $user->activate();
+
+            if ($this->userModel->save($user)) {
+                $userId = $this->userModel->getInsertID();
+
+                // Masukkan ke grup pembimbing
+                $group = $this->groupModel->where('name', 'pembimbing')->first();
+                if ($group) {
+                    $this->groupsUsersModel->insert([
+                        'user_id'  => $userId,
+                        'group_id' => $group['id'],
+                    ]);
+                }
+
+                // Simpan unit kerja
+                if (!empty($unit_id)) {
+                    $this->unitUserModel->insert([
+                        'user_id'    => $userId,
+                        'unit_id'    => $unit_id,
+                        'created_at' => date('Y-m-d H:i:s')
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->to(base_url('admin/manage-user-pembimbing'))
+            ->with('success', 'Import pembimbing selesai.');
     }
 
     public function updatePembimbing($id)

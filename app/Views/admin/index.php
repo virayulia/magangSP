@@ -90,12 +90,12 @@
             <table class="table table-sm table-bordered">
                 <tr>
                     <th>Nama Lengkap</th>
-                    <td><?= esc($item['fullname']) ?></td>
+                    <td><?= esc($data['fullname']) ?></td>
                     <!-- gambar ditaruh di sini dengan rowspan -->
                     <td rowspan="4" class="text-center align-middle" style="width: 180px;">
-                        <?php if (!empty($item['user_image'])): ?>
-                        <img src="<?= base_url('uploads/user-image/' . ($item['user_image'] ?? 'default.png')) ?>" 
-                            alt="Foto <?= esc($item['fullname']) ?>" 
+                        <?php if (!empty($data['user_image'])): ?>
+                        <img src="<?= base_url('uploads/user-image/' . ($data['user_image'] ?? 'default.png')) ?>" 
+                            alt="Foto <?= esc($data['fullname']) ?>" 
                             class="img-thumbnail" style="max-width: 150px;">
                         <?php else: ?>
                             <span class="text-muted">Tidak ada foto</span>
@@ -104,17 +104,17 @@
                 </tr>
                 <tr>
                     <th>NIM/NISN</th>
-                    <td><?= esc($item['nisn_nim']) ?></td>
+                    <td><?= esc($data['nisn_nim']) ?></td>
                 </tr>
                 <tr>
                     <th>Email</th>
-                    <td><?= esc($item['email']) ?></td>
+                    <td><?= esc($data['email']) ?></td>
                 </tr>
                 <tr>
                     <th>Jenis Kelamin</th>
-                    <?php if ($item['jenis_kelamin'] === 'L'): ?>
+                    <?php if ($data['jenis_kelamin'] === 'L'): ?>
                         <td>Laki-Laki</td>
-                    <?php elseif ($item['jenis_kelamin'] === 'P'): ?>
+                    <?php elseif ($data['jenis_kelamin'] === 'P'): ?>
                         <td>Perempuan</td>
                     <?php else: ?>
                         <td>-</td>
@@ -124,9 +124,9 @@
                     <th>Alamat</th>
                     <td colspan="2">
                         <?php
-                            $alamat = $item['alamat'] ?? '';
-                            $kota = trim(($item['tipe_kota_ktp'] ?? '') . ' ' . ($item['kota_ktp'] ?? ''));
-                            $prov = $item['provinsi_ktp'] ?? '';
+                            $alamat = $data['alamat'] ?? '';
+                            $kota = trim(($data['tipe_kota_ktp'] ?? '') . ' ' . ($data['kota_ktp'] ?? ''));
+                            $prov = $data['provinsi_ktp'] ?? '';
                             $parts = array_filter([$alamat, $kota, $prov]);
                             echo esc(implode(', ', $parts)) ?: 'Data belum diisi';
                         ?>
@@ -136,9 +136,9 @@
                     <th>Domisili</th>
                     <td colspan="2">
                         <?php
-                            $alamat = $item['domisili'] ?? '';
-                            $kota = trim(($item['tipe_kota_domisili'] ?? '') . ' ' . ($item['kota_domisili'] ?? ''));
-                            $prov = $item['provinsi_domisili'] ?? '';
+                            $alamat = $data['domisili'] ?? '';
+                            $kota = trim(($data['tipe_kota_domisili'] ?? '') . ' ' . ($data['kota_domisili'] ?? ''));
+                            $prov = $data['provinsi_domisili'] ?? '';
                             $parts = array_filter([$alamat, $kota, $prov]);
                             echo esc(implode(', ', $parts)) ?: 'Data belum diisi';
                         ?>

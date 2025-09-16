@@ -80,6 +80,8 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin','filter' => 'adm
     $routes->post('manage-user-pembimbing/save', 'UserController::savePembimbing');
     $routes->post('manage-user-pembimbing/update/(:num)', 'UserController::updatePembimbing/$1');
     $routes->get('manage-user-pembimbing/delete/(:num)', 'UserController::deletePembimbing/$1');
+    $routes->post('manage-user-pembimbing/import', 'UserController::importExcel');
+
 
     //Kelola Unit Kerja
     $routes->get('kelola-unit', 'UnitKerjaController::index');
@@ -98,6 +100,12 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin','filter' => 'adm
     $routes->post('jurusan/update/(:num)', 'JurusanController::update/$1');
     $routes->post('jurusan/delete/(:num)', 'JurusanController::delete/$1');
 
+    // Kelola RFID
+    $routes->get('kelola-rfid', 'RfidController::index');
+    $routes->post('rfid/save', 'RfidController::save');
+    $routes->post('rfid/update/(:num)', 'RfidController::update/$1');
+    $routes->post('rfid/delete/(:num)', 'RfidController::delete/$1');
+
     //Kelola Jurusan Unit
     $routes->get('jurusan-unit', 'JurusanUnitController::index');
     $routes->post('jurusan-unit/save', 'JurusanUnitController::save');
@@ -115,6 +123,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin','filter' => 'adm
     $routes->get('kelola-lowongan', 'LowonganController::index');
     $routes->post('periode/save', 'LowonganController::periodesave');
     $routes->post('periode/update/(:num)', 'LowonganController::update/$1');
+    $routes->get('periode/delete/(:num)', 'LowonganController::delete/$1');
     
     //Kelola Penelitian
     $routes->get('manage-penelitian', 'PenelitianController::index');
@@ -139,7 +148,13 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin','filter' => 'adm
     $routes->get('manage-magang', 'MagangController::pesertaMagang');
     $routes->post('updateMagang/(:num)', 'MagangController::updateMagang/$1');
     $routes->post('batalkanMagang', 'MagangController::batalkanMagang');
+    $routes->post('setRFID', 'MagangController::setRFID');
+    $routes->post('returnRFID', 'MagangController::returnRFID');
+    $routes->post('finalisasi/(:num)', 'MagangController::finalisasi/$1');
     
+    //Alumni
+    $routes->get('manage-alumni', 'MagangController::alumniMagang');
+
 
     //Kelola Hasil Tes Safety
     $routes->get('manage-hasil-tes', 'MagangController::safety');
@@ -160,9 +175,22 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin','filter' => 'adm
 // ==========================
 $routes->group('pembimbing', ['namespace' => 'App\Controllers\Pembimbing'], function($routes) {
     $routes->get('penilaian', 'MagangController::penilaian');
+    $routes->post('assignPembimbing/(:num)', 'MagangController::assignPembimbing/$1');
+    $routes->post('updatePembimbing/(:num)', 'MagangController::updatePembimbing/$1');
+
     $routes->post('penilaian/save', 'MagangController::save');
+    $routes->post('penilaian/update/(:num)', 'MagangController::update/$1');
     $routes->get('approve', 'MagangController::approve');
     $routes->post('approve/save', 'MagangController::saveApprove');
+    $routes->post('approve/bulk', 'MagangController::bulkApprove');
+    $routes->get('approve-magang', 'MagangController::approveMagang');
+    $routes->post('setApproveMagang', 'MagangController::setApproveMagang');
+
+    $routes->get('manage-alumni', 'MagangController::alumniMagang');
+
+
+
+
 
 });
 
@@ -206,6 +234,10 @@ $routes->group('', ['namespace' => 'App\Controllers\User','filter' => 'user'], f
     $routes->get('safety-tes', 'MagangController::safetyTes');
     $routes->post('safety/submit', 'MagangController::submitTes');
     $routes->get('sertifikat-magang', 'MagangController::sertifikatIndex');
+    $routes->get('unggah-laporan', 'MagangController::unggahIndex');
+    $routes->post('unggah-laporan/(:num)', 'MagangController::uploadLaporanAbsensi/$1');
+    $routes->post('sertifikat/saveFeedback', 'MagangController::saveFeedback');
+
     $routes->get('cetak-sertifikat', 'MagangController::cetakSertifikat');
 
     //Penelitian

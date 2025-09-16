@@ -21,7 +21,7 @@ class UserModel extends MythUserModel
         'email', 'username', 'fullname','user_image','nisn_nim', 'no_hp','jenis_kelamin',
         'alamat','province_id','city_id','domisili','provinceDom_id','cityDom_id', 
         'instagram', 'instagram_followers', 'tiktok','tiktok_followers',
-        'tingkat_pendidikan', 'instansi_id','jurusan_id','semester','nilai_ipk', 'rfid', 'cv','proposal','surat_permohonan',
+        'tingkat_pendidikan', 'instansi_id','jurusan_id','semester','nilai_ipk', 'rfid_no', 'cv','proposal','surat_permohonan',
         'tanggal_surat','no_surat','nama_pimpinan','jabatan','email_instansi','bpjs_kes','bpjs_tk',
         'buktibpjs_tk','ktp_kk',
         'password_hash', 'reset_hash', 'reset_at', 'reset_expires', 'activate_hash', 

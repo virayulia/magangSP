@@ -1,69 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Sertifikat Magang</title>
+    <title>Form Pendaftaran Magang - Halaman 1</title>
     <style>
         body {
-            font-family: 'times';
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
+            background: url('assets/img/page1.png');
+            background-size: cover;
         }
 
         .container {
-            padding-top: 80px; /* Naikkan untuk mengatur posisi vertikal seluruh isi */
-            width: 80%;
-            margin: 0 auto;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(99, 67, 67, 0.2);
         }
 
-        .judul {
-            font-size: 28px;
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
             font-weight: bold;
-            margin-bottom: 40px;
-            text-align: center;
         }
 
-        .nama {
-            font-size: 14px;
-            margin: 10px 0;
-            text-align: left;
+        input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
 
-        .konten {
+        button {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: #fff;
             font-size: 16px;
-            margin-top: 30px;
-            text-align: center;
-            font-style: italic;
+            cursor: pointer;
         }
-        .footer {
-            margin-top: 100px;
-            font-size: 14px;
-            text-align: right;
-            margin-right: 50px;
+
+        button:hover {
+            background: #0056b3;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="judul">SERTIFIKAT</div>
+        <h2>Form Pendaftaran Magang - Halaman 1</h2>
+        <form action="page2.php" method="post">
+            <div class="form-group">
+                <label>Nama Lengkap</label>
+                <input type="text" name="nama" required>
+            </div>
 
-        <div class="konten">Diberikan Kepada:</div>
-        <div class="nama"><strong>NAMA:</strong> <?= esc($user->fullname ?? "Data tidak ada") ?></div>
-        <div class="nama"><strong>No. NISN/BP:</strong> <?= esc($user->nisn_nim ?? "Data tidak ada") ?></div>
-        <div class="nama"><strong>JURUSAN:</strong> <?= esc($user->jurusan ?? "Data tidak ada") ?></div>
-        <div class="nama"><strong>PERGURUAN TINGGI:</strong> <?= esc($user->asal_sekolah ?? "Data tidak ada") ?></div>
+            <div class="form-group">
+                <label>NIM / NIS</label>
+                <input type="text" name="nim" required>
+            </div>
 
-        <div class="konten">
-            Telah selesai melakukan Kerja Praktek di PT Semen Padang<br>
-            dari tanggal <strong><?= date('d M Y', strtotime($magang['tanggal_masuk'])) ?></strong> s/d <strong><?= date('d M Y', strtotime($magang['tanggal_selesai'])) ?></strong><br>
-            dengan hasil:<br><br><strong>BAIK SEKALI</strong>
-        </div>
+            <div class="form-group">
+                <label>Asal Universitas / Sekolah</label>
+                <input type="text" name="asal" required>
+            </div>
 
-        <div class="footer">
-            Padang, <br><br><br>
-            Pembimbing Magang<br><br><br>
-            ( ................................................... )
-        </div>
+            <button type="submit">Lanjut ke Halaman 2</button>
+        </form>
     </div>
 </body>
 </html>

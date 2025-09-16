@@ -122,30 +122,47 @@ function loadPendaftar(unitId, pendidikan, unitKerja) {
 
 function initKuotaHandler() {
     const sisaKuotaEl = document.getElementById('sisaKuota');
+    const btnTerima = document.querySelector('button[onclick="terimaBeberapa()"]');
     if (!sisaKuotaEl) return;
 
     let sisaKuota = parseInt(sisaKuotaEl.innerText);
+    let mode = 'terima'; // default mode
+
+    // Kalau kuota habis → otomatis ke mode "tolak" dan disable tombol
+    if (sisaKuota === 0) {
+        mode = 'tolak';
+        if (btnTerima) {
+            btnTerima.disabled = true;
+            btnTerima.title = "Kuota penuh, tidak bisa menerima pendaftar baru";
+        }
+    }
 
     function updateKuotaDisplay() {
-        const selectedCount = document.querySelectorAll('.checkbox-pendaftar:checked').length;
-        sisaKuotaEl.innerText = sisaKuota - selectedCount;
+        if (mode === 'terima') {
+            const selectedCount = document.querySelectorAll('.checkbox-pendaftar:checked').length;
+            sisaKuotaEl.innerText = sisaKuota - selectedCount;
+        } else {
+            // kalau mode tolak → tampilkan kuota asli, tidak dihitung ulang
+            sisaKuotaEl.innerText = sisaKuota;
+        }
     }
 
     // Event checkbox individu
     document.querySelectorAll('.checkbox-pendaftar').forEach(cb => {
         cb.addEventListener('change', function () {
-            const totalChecked = document.querySelectorAll('.checkbox-pendaftar:checked').length;
-
-            if (totalChecked > sisaKuota) {
-                alert('Melebihi kuota yang tersedia!');
-                this.checked = false;
+            if (mode === 'terima') {
+                const totalChecked = document.querySelectorAll('.checkbox-pendaftar:checked').length;
+                if (totalChecked > sisaKuota) {
+                    alert('Melebihi kuota yang tersedia!');
+                    this.checked = false;
+                }
             }
 
             // Update selectAll checkbox
             const total = document.querySelectorAll('.checkbox-pendaftar').length;
             const selectAll = document.getElementById('selectAll');
             if (selectAll) {
-                selectAll.checked = totalChecked === total;
+                selectAll.checked = document.querySelectorAll('.checkbox-pendaftar:checked').length === total;
             }
 
             updateKuotaDisplay();
@@ -161,9 +178,17 @@ function initKuotaHandler() {
             let count = 0;
 
             allCheckboxes.forEach(cb => {
-                if (checked && count < sisaKuota) {
-                    cb.checked = true;
-                    count++;
+                if (checked) {
+                    if (mode === 'terima') {
+                        if (count < sisaKuota) {
+                            cb.checked = true;
+                            count++;
+                        } else {
+                            cb.checked = false;
+                        }
+                    } else {
+                        cb.checked = true; // mode tolak → semua boleh
+                    }
                 } else {
                     cb.checked = false;
                 }
@@ -173,11 +198,29 @@ function initKuotaHandler() {
         });
     }
 
-    updateKuotaDisplay(); // Kuota awal
+    updateKuotaDisplay();
+
+    // Fungsi global untuk ubah mode secara manual
+    window.setModeKuota = function(newMode) {
+        mode = newMode;
+
+        // Kalau user paksa ke mode terima padahal kuota 0 → tetap disable
+        if (sisaKuota === 0 && newMode === 'terima' && btnTerima) {
+            btnTerima.disabled = true;
+        } else if (btnTerima) {
+            btnTerima.disabled = false;
+        }
+
+        updateKuotaDisplay();
+    };
 }
+
+
 
 // Fungsi terima banyak
 function terimaBeberapa() {
+    setModeKuota('terima'); // aktifkan mode terima
+
     const form = document.getElementById('formTerimaPendaftar');
     if (!form) return alert('Form tidak ditemukan!');
 
@@ -205,6 +248,8 @@ function terimaBeberapa() {
 
 // Fungsi tolak banyak
 function tolakBeberapa() {
+    setModeKuota('tolak'); // aktifkan mode tolak
+
     const form = document.getElementById('formTerimaPendaftar');
     if (!form) return alert('Form tidak ditemukan!');
 
@@ -229,6 +274,7 @@ function tolakBeberapa() {
         location.reload();
     });
 }
+
 </script>
 
 

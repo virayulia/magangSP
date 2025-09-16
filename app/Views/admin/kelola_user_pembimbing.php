@@ -89,6 +89,49 @@
                 </div>
             </div>
 
+            <!-- Tombol Import Excel -->
+            <button class="btn btn-success mb-3" data-toggle="modal" data-target="#modalImportPembimbing">
+                <i class="fas fa-file-excel"></i> Import Excel
+            </button>
+
+            <!-- Modal Import Pembimbing -->
+            <div class="modal fade" id="modalImportPembimbing" tabindex="-1" role="dialog" aria-labelledby="modalImportPembimbingLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <form action="<?= base_url('admin/manage-user-pembimbing/import') ?>" method="post" enctype="multipart/form-data">
+                        <?= csrf_field(); ?>
+                        <div class="modal-content">
+                            <div class="modal-header bg-success text-white">
+                                <h5 class="modal-title" id="modalImportPembimbingLabel">
+                                    <i class="fas fa-file-excel"></i> Import Pembimbing dari Excel
+                                </h5>
+                                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Upload File Excel (.xlsx)</label>
+                                    <input type="file" name="file_excel" class="form-control" accept=".xlsx,.xls" required>
+                                    <small class="text-muted">
+                                        Gunakan template dengan kolom: 
+                                        <code>fullname, username, email, password, eselon, unit_id</code>.
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-upload"></i> Import
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
             <!-- Tabel Pembimbing -->
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead class="thead-dark">

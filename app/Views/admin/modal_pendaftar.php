@@ -25,6 +25,7 @@
                         <th>NISN/NIM</th>
                         <th>Jurusan</th>
                         <th>Perguruan Tinggi/Sekolah</th>
+                        <th>Tgl Daftar</th>
                         <th>Durasi</th>
                         <th>CV</th>
                         <th>Proposal</th>
@@ -43,6 +44,7 @@
                             <td><?= esc($p->nisn_nim); ?></td>
                             <td><?= esc($p->jurusan); ?></td>
                             <td><?= esc($p->nama_instansi); ?></td>
+                            <td><?= format_tanggal_indonesia_dengan_jam(esc($p->tanggal_daftar)); ?></td>
                             <td><?= esc($p->durasi); ?> bulan</td>
                             <td><?= $p->cv ? '<a href="'.base_url('uploads/cv/'.$p->cv).'" target="_blank">Lihat</a>' : '<span class="text-muted">-</span>'; ?></td>
                             <td><?= $p->proposal ? '<a href="'.base_url('uploads/proposal/'.$p->proposal).'" target="_blank">Lihat</a>' : '<span class="text-muted">-</span>'; ?></td>
