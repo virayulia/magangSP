@@ -783,9 +783,10 @@ public function cetakSertifikat($saveToFile = false)
     $pdf->Cell(0, 8, "Unit Operasional SDM", 0, 1, 'L');
 
     // Tambahkan tanda tangan (PNG/JPG transparan lebih bagus)
-    $ttdPath = FCPATH . 'assets/img/ttd-siska.png'; // ganti dengan path tanda tanganmu
+    $ttdPath = FCPATH . 'assets/img/ttd.png'; // ganti dengan path tanda tanganmu
     if (file_exists($ttdPath)) {
-        $pdf->Image($ttdPath, 25, 210, 40, 20, '', '', '', false, 300);
+        $pdf->Image($ttdPath, 35, 205, 40, 0, '', '', '', false, 300);
+
     }
 
     // Nama pejabat

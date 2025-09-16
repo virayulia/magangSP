@@ -1075,7 +1075,7 @@ class MagangController extends BaseController
                             END as status_tes,
                             rfid.rfid_no, rfid.id_rfid, 
                             ra.assignment_id, ra.status as status_rfid, ra.tanggal_kembali, ra.tanggal_bayar, 
-                            feedback.feedback_id, feedback.rating, feedback.komentar
+                            feedback.feedback_id,
                         ')
                         ->join('users', 'users.id = magang.user_id')
                         ->join('instansi', 'instansi.instansi_id = users.instansi_id')
