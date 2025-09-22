@@ -316,7 +316,7 @@
             <!-- Modal Penilaian -->
             <div class="modal fade" id="modalNilai-<?= $item['magang_id'] ?>" tabindex="-1" aria-labelledby="modalNilaiLabel-<?= $item['magang_id'] ?>" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
-                    <form action="<?= base_url('pembimbing/penilaian/save') ?>" method="post">
+                    <form action="<?= base_url('pembimbing/penilaian/save') ?>" method="post"  onsubmit="return validatePenilaian(this)">
                         <?= csrf_field(); ?>
                         <input type="hidden" name="magang_id" value="<?= $item['magang_id'] ?>">
                         <div class="modal-content">
@@ -349,7 +349,7 @@
                                                 <?php for ($j = 1; $j <= 5; $j++): ?>
                                                     <i class="fa fa-star star" data-value="<?= $j ?>"></i>
                                                 <?php endfor; ?>
-                                                <input type="hidden" name="<?= $name ?>" required>
+                                                <input type="hidden" name="<?= $name ?>">
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
@@ -524,8 +524,36 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.querySelector('[id^="kategori-"]').textContent = kategori;
         }
     }
+
 });
 </script>
+
+<script>
+function validatePenilaian(form) {
+    let valid = true;
+    let pesan = [];
+
+    form.querySelectorAll('.rating').forEach(rating => {
+        const input = rating.querySelector('input[type="hidden"]');
+        const label = rating.previousElementSibling?.textContent || 'Aspek';
+
+        if (!input.value) {
+            valid = false;
+            pesan.push(`- ${label} wajib diisi`);
+            rating.classList.add('border', 'border-danger', 'p-2', 'rounded'); // highlight merah
+        } else {
+            rating.classList.remove('border', 'border-danger', 'p-2', 'rounded');
+        }
+    });
+
+    if (!valid) {
+        alert("Harap isi semua penilaian:\n\n" + pesan.join("\n"));
+    }
+
+    return valid; // kalau false -> form tidak jadi submit
+}
+</script>
+
 
 
 

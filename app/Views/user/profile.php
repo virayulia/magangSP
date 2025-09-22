@@ -351,10 +351,27 @@ Swal.fire({
                                 <div class="text-muted">Dokumen belum diupload</div>
                                 <div>
                                     <button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById('buktibpjs_tkFile').click();">Upload file</button>
+                                    <!-- Tombol lihat contoh -->
+                                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#contohBPJSTKModal">Lihat Contoh</button>
                                 </div>
                             <?php endif; ?>
                         </div>
                         <input type="file" name="buktibpjs_tk" id="buktibpjs_tkFile" style="display:none;" onchange="uploadBuktiBPJSTK(this)">
+                    </div>
+
+                    <!-- Modal Contoh Bukti BPJS -->
+                    <div class="modal fade" id="contohBPJSTKModal" tabindex="-1" aria-labelledby="contohBPJSTKModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="contohBPJSTKModalLabel">Contoh Bukti Pembayaran BPJS TK</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <img src="<?= base_url('assets/img/contoh-bpjs-tk.jpg') ?>" class="img-fluid rounded shadow w-50" alt="Contoh Bukti BPJS TK">
+                        </div>
+                        </div>
+                    </div>
                     </div>
 
                     <!-- Modal Upload Surat Permohonan -->

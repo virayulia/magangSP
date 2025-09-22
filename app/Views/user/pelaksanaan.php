@@ -84,6 +84,9 @@ Swal.fire({
                                 </a>
                             </div>
                         <?php else: ?>
+                            <?php if(!empty($pendaftaran['cttn_berkas_lengkap'])): ?>
+                                <div class="alert alert-danger mt-2"> Catatan : <?= esc($pendaftaran['cttn_berkas_lengkap']); ?></div>
+                            <?php endif; ?>
                             <p>Silakan unggah berkas berikut sebelum memulai magang:</p>
                             <ul>
                                 <li>Kartu BPJS Ketenagakerjaan</li>

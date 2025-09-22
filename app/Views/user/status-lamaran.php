@@ -241,57 +241,57 @@ Swal.fire({
                                     </button>
                                 </div>
                                 <!-- Modal Konfirmasi & Validasi Berkas -->
-<div class="modal fade" id="modalKonfirmasi" tabindex="-1" aria-labelledby="modalKonfirmasiLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 rounded-4">
-            <div class="modal-header bg-primary text-white rounded-top-4">
-                <h5 class="modal-title fw-bold" id="modalKonfirmasiLabel">Konfirmasi Kesediaan</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <form action="<?= base_url('magang/konfirmasi') ?>" method="post">
-                <div class="modal-body">
+                                <div class="modal fade" id="modalKonfirmasi" tabindex="-1" aria-labelledby="modalKonfirmasiLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content border-0 rounded-4">
+                                            <div class="modal-header bg-primary text-white rounded-top-4">
+                                                <h5 class="modal-title fw-bold" id="modalKonfirmasiLabel">Konfirmasi Kesediaan</h5>
+                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <form action="<?= base_url('magang/konfirmasi') ?>" method="post">
+                                                <div class="modal-body">
 
-                    <p>
-                        Dengan ini saya menyatakan bersedia mengikuti program magang yang akan dimulai pada 
-                        <strong><?= format_tanggal_indonesia(date('d M Y', strtotime($pendaftaran['tanggal_masuk']))) ?></strong>, 
-                        serta berkomitmen menjalankan seluruh kegiatan magang dengan penuh tanggung jawab dan disiplin sesuai ketentuan yang berlaku.
-                    </p>
+                                                    <p>
+                                                        Dengan ini saya menyatakan bersedia mengikuti program magang yang akan dilaksanakan pada tanggal
+                                                        <strong><?= format_tanggal_indonesia(date('d M Y', strtotime($pendaftaran['tanggal_masuk']))) ?></strong> s/d <strong><?= format_tanggal_indonesia(date('d M Y', strtotime($pendaftaran['tanggal_selesai']))) ?>, 
+                                                        serta berkomitmen menjalankan seluruh kegiatan magang dengan penuh tanggung jawab dan disiplin sesuai ketentuan yang berlaku.
+                                                    </p>
 
-                    <p>
-                        Saya menyatakan bahwa seluruh dokumen yang saya unggah sebagai persyaratan administrasi magang adalah benar, sah, dan sesuai dengan keadaan sebenarnya. 
-                        Apabila di kemudian hari ditemukan ketidaksesuaian atau ketidakbenaran, saya bersedia menerima segala konsekuensi sesuai ketentuan yang berlaku.
-                    </p>
+                                                    <p>
+                                                        Saya menyatakan bahwa seluruh dokumen yang saya unggah sebagai persyaratan administrasi magang adalah benar, sah, dan sesuai dengan keadaan sebenarnya. 
+                                                        Apabila di kemudian hari ditemukan ketidaksesuaian atau ketidakbenaran, saya bersedia menerima segala konsekuensi sesuai ketentuan yang berlaku.
+                                                    </p>
 
-                    <p>
-                        Saya juga memberikan persetujuan kepada PT Semen Padang untuk menggunakan, menyimpan, dan memproses data pribadi serta dokumen yang saya serahkan, 
-                        termasuk namun tidak terbatas pada data identitas, riwayat pendidikan, serta dokumen pendukung lainnya, 
-                        untuk keperluan administrasi, evaluasi, dan kegiatan lain yang berkaitan dengan proses magang.
-                    </p>
+                                                    <p>
+                                                        Saya juga memberikan persetujuan kepada PT Semen Padang untuk menggunakan, menyimpan, dan memproses data pribadi serta dokumen yang saya serahkan, 
+                                                        termasuk namun tidak terbatas pada data identitas, riwayat pendidikan, serta dokumen pendukung lainnya, 
+                                                        untuk keperluan administrasi, evaluasi, dan kegiatan lain yang berkaitan dengan proses magang.
+                                                    </p>
 
-                    <p>
-                        Pernyataan ini saya buat dengan sebenar-benarnya. Saya memahami bahwa data pribadi saya akan dikelola sesuai dengan ketentuan yang berlaku, 
-                        termasuk Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi.
-                    </p>
+                                                    <p>
+                                                        Pernyataan ini saya buat dengan sebenar-benarnya. Saya memahami bahwa data pribadi saya akan dikelola sesuai dengan ketentuan yang berlaku, 
+                                                        termasuk Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi.
+                                                    </p>
 
-                    <!-- Checkbox Persetujuan -->
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" id="setuju" name="setuju" required>
-                        <label class="form-check-label" for="setuju">
-                            Saya menyetujui seluruh pernyataan di atas dan bersedia mengikuti program magang.
-                        </label>
-                    </div>
+                                                    <!-- Checkbox Persetujuan -->
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="setuju" name="setuju" required>
+                                                        <label class="form-check-label" for="setuju">
+                                                            Saya menyetujui seluruh pernyataan di atas dan bersedia mengikuti program magang.
+                                                        </label>
+                                                    </div>
 
-                    <input type="hidden" name="magang_id" value="<?= $pendaftaran['magang_id'] ?>">
+                                                    <input type="hidden" name="magang_id" value="<?= $pendaftaran['magang_id'] ?>">
 
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Konfirmasi</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-success">Konfirmasi</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
 
 
 
@@ -309,10 +309,10 @@ Swal.fire({
                         <?php if ($step == 4): ?>
                             <br><br>
                             <div class="info-card">
-                                📁 <strong>Kamu telah mengonfirmasi kesediaan mengikuti magang</strong> pada
-                                    <strong><?= format_tanggal_indonesia(date('d F Y', strtotime($pendaftaran['tanggal_konfirmasi']))) ?></strong>. <br>
-                                    ⏳ Saat ini <strong>admin sedang memvalidasi konfirmasi tersebut</strong>. <br>
-                                    📧 Silakan cek email atau halaman ini secara berkala untuk melihat hasil validasi.
+                                📁 Pada tanggal <strong><?= format_tanggal_indonesia(date('d F Y', strtotime($pendaftaran['tanggal_konfirmasi']))) ?></strong> 
+                                    konfirmasi magang telah dilakukan.<br>
+                                ⏳ Saat ini <strong>admin sedang memvalidasi konfirmasi tersebut</strong>. <br>
+                                📧 Silakan cek email atau halaman ini secara berkala untuk melihat hasil validasi.
                             </div>
                         <?php elseif ($step < 5): ?>
                             <small>Menunggu validasi konfirmasi kesediaan oleh admin</small>

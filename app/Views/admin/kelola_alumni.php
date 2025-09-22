@@ -82,7 +82,11 @@
                             <td><?= format_tanggal_indonesia($item['tanggal_selesai']) ?></td>                                       
                             <td>                               
                                 <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#detailModal<?= $item['magang_id'] ?>">Detail</button>
-                                
+                                <a href="<?= base_url('admin/cetak-sertifikat/' . $item['magang_id']) ?>" 
+                                    target="_blank" 
+                                    class="btn btn-success btn-sm">
+                                        <i class="fas fa-file-pdf"></i> Sertifikat
+                                    </a>
                             </td>
                                                     
                         </tr>

@@ -150,10 +150,15 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin','filter' => 'adm
     $routes->post('batalkanMagang', 'MagangController::batalkanMagang');
     $routes->post('setRFID', 'MagangController::setRFID');
     $routes->post('returnRFID', 'MagangController::returnRFID');
+    $routes->post('tolakLaporan', 'MagangController::tolakLaporan');
+    $routes->post('tolakAbsensi', 'MagangController::tolakAbsensi');
+
     $routes->post('finalisasi/(:num)', 'MagangController::finalisasi/$1');
     
     //Alumni
     $routes->get('manage-alumni', 'MagangController::alumniMagang');
+    $routes->get('cetak-sertifikat/(:num)', 'MagangController::cetakSertifikat/$1');
+
 
 
     //Kelola Hasil Tes Safety

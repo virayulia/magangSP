@@ -29,7 +29,7 @@
         <div class="table-responsive">
             <form method="get" class="row g-2 mb-3">
                 <div class="col-md-3">
-                    <select name="bulan" class="form-control">
+                    <select name="bulan_masuk" class="form-control">
                         <option value="">-- Pilih Bulan Masuk --</option>
                         <?php 
                         $bulanList = [
@@ -38,7 +38,16 @@
                             '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'
                         ];
                         foreach ($bulanList as $key => $nama): ?>
-                            <option value="<?= $key ?>" <?= ($key == @$_GET['bulan']) ? 'selected' : '' ?>><?= $nama ?></option>
+                            <option value="<?= $key ?>" <?= ($key == @$_GET['bulan_masuk']) ? 'selected' : '' ?>><?= $nama ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <select name="bulan_keluar" class="form-control">
+                        <option value="">-- Pilih Bulan Keluar --</option>
+                        <?php foreach ($bulanList as $key => $nama): ?>
+                            <option value="<?= $key ?>" <?= ($key == @$_GET['bulan_keluar']) ? 'selected' : '' ?>><?= $nama ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -48,8 +57,8 @@
                         <option value="">-- Pilih Tahun --</option>
                         <?php
                         $tahunSekarang = date('Y');
-                        for ($i = 2025; $i <= $tahunSekarang + 2; $i++): ?>
-                            <option value="<?= $i ?>" <?= ($i == @$_GET['tahun']) ? 'selected' : '' ?>><?= $i ?></option>
+                        for ($i = $tahunSekarang - 2; $i <= $tahunSekarang+1; $i++): ?>
+                            <option value="<?= $i ?>" <?= ($i == (@$_GET['tahun'] ?: $tahunSekarang)) ? 'selected' : '' ?>><?= $i ?></option>
                         <?php endfor; ?>
                     </select>
                 </div>
@@ -58,6 +67,7 @@
                     <button type="submit" class="btn btn-primary">Filter</button>
                 </div>
             </form>
+
 
             <table class="table table-bordered" width="100%" cellspacing="0" id="dataTable">
                 <thead class="table-dark">
@@ -126,22 +136,87 @@
                             </td>
                             <td>
                                 <?php if (!empty($item['laporan'])): ?>
-                                    <a href="<?= base_url('uploads/laporan/' . $item['laporan']) ?>" target="_blank">
-                                        Lihat Laporan
+                                    <a href="<?= base_url('uploads/laporan/' . $item['laporan']) ?>" target="_blank" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-eye"></i>
                                     </a>
+                                    <button type="button" class="btn btn-danger btn-sm" 
+                                        title="Tolak Laporan"
+                                        data-toggle="modal" 
+                                        data-target="#tolakLaporanModal<?= $item['magang_id'] ?>">
+                                        <i class="bi bi-x-circle"></i>
+                                    </button>
                                 <?php else: ?>
                                     <span class="text-muted">Belum ada</span>
                                 <?php endif; ?>
                             </td>
+
                             <td>
                                 <?php if (!empty($item['absensi'])): ?>
-                                    <a href="<?= base_url('uploads/absensi/' . $item['absensi']) ?>" target="_blank">
-                                        Lihat Absensi
+                                    <a href="<?= base_url('uploads/absensi/' . $item['absensi']) ?>" target="_blank" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-eye"></i>
                                     </a>
+                                    <button type="button" class="btn btn-danger btn-sm" 
+                                        title="Tolak Absensi"
+                                        data-toggle="modal" 
+                                        data-target="#tolakAbsensiModal<?= $item['magang_id'] ?>">
+                                        <i class="bi bi-x-circle"></i>
+                                    </button>
                                 <?php else: ?>
                                     <span class="text-muted">Belum ada</span>
                                 <?php endif; ?>
                             </td>
+                            <!-- Modal Tolak Laporan -->
+                            <div class="modal fade" id="tolakLaporanModal<?= $item['magang_id'] ?>" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <form action="<?= base_url('admin/tolakLaporan') ?>" method="post">
+                                    <?= csrf_field() ?>
+                                    <input type="hidden" name="magang_id" value="<?= $item['magang_id'] ?>">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Tolak Laporan</h5>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                        <label>Alasan Penolakan</label>
+                                        <textarea name="catatan" class="form-control" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-danger">Tolak</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                    </div>
+                                    </div>
+                                </form>
+                            </div>
+                            </div>
+
+                            <!-- Modal Tolak Absensi -->
+                            <div class="modal fade" id="tolakAbsensiModal<?= $item['magang_id'] ?>" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <form action="<?= base_url('admin/tolakAbsensi') ?>" method="post">
+                                    <?= csrf_field() ?>
+                                    <input type="hidden" name="magang_id" value="<?= $item['magang_id'] ?>">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Tolak Absensi</h5>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                        <label>Alasan Penolakan</label>
+                                        <textarea name="catatan" class="form-control" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-danger">Tolak</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                    </div>
+                                    </div>
+                                </form>
+                            </div>
+                            </div>
+
                             <td>
                                 <?php 
                                     $total = $item['nilai_disiplin'] + $item['nilai_kerajinan'] + $item['nilai_tingkahlaku'] +
@@ -263,7 +338,7 @@
                                 $laporanAda   = !empty($item['laporan']);
                                 $absensiAda   = !empty($item['absensi']);
                                 $nilaiAda     = ($rata > 0);
-                                $rfidOk       = in_array($item['status_rfid'], ['returned','lost']);
+                                $rfidOk       = empty($item['status_rfid']) || in_array($item['status_rfid'], ['returned','lost']);
                                 $feedbackAda  = !empty($item['feedback_id']);
                                 ?>
 

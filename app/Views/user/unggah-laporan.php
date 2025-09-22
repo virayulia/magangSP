@@ -38,54 +38,60 @@ Swal.fire({
             <div class="tab-pane fade show active" id="pelaksanaan" role="tabpanel">
 
                 <!-- Unggah Laporan & Absensi Magang -->
-<div class="card shadow-sm mb-4">
-    <div class="card-body">
-        <h5 class="card-title"><i class="bi bi-file-earmark-arrow-up me-2"></i> Unggah Laporan & Absensi Magang</h5>
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-file-earmark-arrow-up me-2"></i> Unggah Laporan & Absensi Magang</h5>
 
-        <form action="<?= base_url('unggah-laporan/'. $pendaftaran['magang_id']) ?>" method="post" enctype="multipart/form-data">
-            <?= csrf_field() ?>
+                        <form action="<?= base_url('unggah-laporan/'. $pendaftaran['magang_id']) ?>" method="post" enctype="multipart/form-data">
+                            <?= csrf_field() ?>
 
-            <div class="mb-3">
-                <label for="laporan" class="form-label">📄 Laporan Magang (PDF, max 10 MB)</label>
-                <input type="file" name="laporan" id="laporan" class="form-control" 
-                    accept="application/pdf">
-                
-                <?php if (!empty($pendaftaran['laporan'])): ?>
-                    <div class="mt-2">
-                        <a href="<?= base_url('uploads/laporan/' . $pendaftaran['laporan']) ?>" 
-                           target="_blank" class="btn btn-sm btn-success">
-                           <i class="bi bi-eye me-1"></i> Lihat Laporan
-                        </a>
+                            <div class="mb-3">
+                                <label for="laporan" class="form-label">📄 Laporan Magang (PDF, max 10 MB)</label>
+                                <br><small class="text-danger">*Laporan yang diunggah wajib dilengkapi tanda tangan pembimbing, minimal setingkat Band 3.</small>
+                                <input type="file" name="laporan" id="laporan" class="form-control" 
+                                    accept="application/pdf">
+                                
+                                <?php if (!empty($pendaftaran['laporan'])): ?>
+                                    <div class="mt-2">
+                                        <a href="<?= base_url('uploads/laporan/' . $pendaftaran['laporan']) ?>" 
+                                        target="_blank" class="btn btn-sm btn-success">
+                                        <i class="bi bi-eye me-1"></i> Lihat Laporan
+                                        </a>
+                                    </div>
+                                <?php else: ?>
+                                    <?php if(!empty($pendaftaran['catatan_laporan'])): ?>
+                                        <div class="alert alert-danger mt-2"> Catatan : <?= esc($pendaftaran['catatan_laporan']); ?></div>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="absensi" class="form-label">🗒️ Absensi Magang (PDF, max 2 MB)</label>
+                                <input type="file" name="absensi" id="absensi" class="form-control" 
+                                    accept="application/pdf">
+
+                                <?php if (!empty($pendaftaran['absensi'])): ?>
+                                    <div class="mt-2">
+                                        <a href="<?= base_url('uploads/absensi/' . $pendaftaran['absensi']) ?>" 
+                                        target="_blank" class="btn btn-sm btn-success">
+                                        <i class="bi bi-eye me-1"></i> Lihat Absensi
+                                        </a>
+                                    </div>
+                                <?php else: ?>
+                                    <?php if(!empty($pendaftaran['catatan_absensi'])): ?>
+                                        <div class="alert alert-danger mt-2"> Catatan : <?= esc($pendaftaran['catatan_absensi']); ?></div>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </div>
+
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-upload me-1"></i> Unggah Berkas
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                <?php endif; ?>
-            </div>
-
-            <div class="mb-3">
-                <label for="absensi" class="form-label">🗒️ Absensi Magang (PDF, max 2 MB)</label>
-                <input type="file" name="absensi" id="absensi" class="form-control" 
-                    accept="application/pdf">
-
-                <?php if (!empty($pendaftaran['absensi'])): ?>
-                    <div class="mt-2">
-                        <a href="<?= base_url('uploads/absensi/' . $pendaftaran['absensi']) ?>" 
-                           target="_blank" class="btn btn-sm btn-success">
-                           <i class="bi bi-eye me-1"></i> Lihat Absensi
-                        </a>
-                    </div>
-                <?php endif; ?>
-            </div>
-
-            <div class="text-end">
-                <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-upload me-1"></i> Unggah Berkas
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-
-
+                </div>
 
             </div>
         </div>
